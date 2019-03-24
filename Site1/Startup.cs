@@ -34,7 +34,11 @@ namespace Site1
                 .UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
                 {
                     // адрес сервера аутентификации
-                    Authority = "https://localhost:44301/identity",
+                    // Для пользователей из базы данных (пока мнимой)
+                    //Authority = "https://localhost:44301/identity",
+
+                    // Для windows пользователей
+                    Authority = "https://localhost:44384/identity",
 
                     // идентификатор данного клиента, можно найти в IS.Clients
                     ClientId = "site1",

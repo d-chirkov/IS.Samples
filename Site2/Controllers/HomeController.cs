@@ -26,7 +26,7 @@ namespace Site2.Controllers
 
             // Получение логина пользователя, его мы отдельно указывали в Claim-ах пользователя 
             // по ключу given_name
-            string userName = (user as ClaimsPrincipal).FindFirst(Constants.ClaimTypes.GivenName).Value;
+            string userName = (user as ClaimsPrincipal).FindFirst(Constants.ClaimTypes.Name).Value;
             return View();
         }
 
