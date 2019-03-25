@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IdentityModel, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityModel.2.6.0\lib\net45\IdentityModel.dll</HintPath>
+    </Reference>
     <Reference Include="IdentityServer3, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\IdentityServer3.2.6.3\lib\net45\IdentityServer3.dll</HintPath>
     </Reference>

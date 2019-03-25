@@ -27,7 +27,7 @@ namespace Site1.Controllers
             // Получение логина пользователя, его мы отдельно указывали в Claim-ах пользователя 
             // по ключу given_name
             // Но при использовании секрета клиента надо дополнительно запрашивать его у IdentityServer, скоро сделаю
-            // string userName = (user as ClaimsPrincipal).FindFirst(Constants.ClaimTypes.GivenName).Value;
+            string userName = (user as ClaimsPrincipal).FindFirst(Constants.ClaimTypes.Name).Value;
             return View();
         }
 

@@ -28,7 +28,7 @@ namespace IS.Models
                     // ID пользователя, оно автоматически добавляется как Claim.
                     Claims = new[]
                     {
-                        new Claim(Constants.ClaimTypes.GivenName, "bob"),
+                        new Claim(Constants.ClaimTypes.Name, "bob"),
                     }
                 }
             };
