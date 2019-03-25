@@ -35,7 +35,7 @@ namespace IS.Models
                     // Для того, чтобы сервер аутентификации "забывал" логин и пароль пользователя, 
                     // надо также выставить время жизни cookie сессии сервера аутентификации, см.
                     // класс Startup.
-                    IdentityTokenLifetime = 30,
+                    IdentityTokenLifetime = 5 * 60,
 
                     // При входе на сайте через сервер аутентификации в первый раз у пользователя
                     // спрашивают, какие данные сайт может использовать (например, может ли сайт просматривать
@@ -68,7 +68,7 @@ namespace IS.Models
                     ClientId = "site2",
                     Flow = Flows.Implicit,
 
-                    IdentityTokenLifetime = 30,
+                    IdentityTokenLifetime = 5 * 60,
 
                     RequireConsent = false,
 
@@ -92,7 +92,7 @@ namespace IS.Models
                     ClientId = "site3",
                     Flow = Flows.Implicit,
 
-                    IdentityTokenLifetime = 30,
+                    IdentityTokenLifetime = 5 * 60,
 
                     RequireConsent = false,
 

@@ -47,7 +47,7 @@ namespace IS
                         CookieOptions = new IdentityServer3.Core.Configuration.CookieOptions
                         {
                             // Время жизни сессий клиентов
-                            ExpireTimeSpan = TimeSpan.FromSeconds(300)
+                            ExpireTimeSpan = TimeSpan.FromMinutes(5)
                         }
                     },
                 });
