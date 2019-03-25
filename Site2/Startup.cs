@@ -36,10 +36,10 @@ namespace Site2
                     // адрес сервера аутентификации
 
                     // Для пользователей из базы данных (пока мнимой)
-                    //Authority = "https://localhost:44301/identity",
+                    Authority = "https://localhost:44301/identity",
 
                     // Для windows пользователей
-                    Authority = "https://localhost:44384/identity",
+                    //Authority = "https://localhost:44384/identity",
 
                     // идентификатор данного клиента, можно найти в IS.Clients
                     ClientId = "site2",
@@ -53,7 +53,7 @@ namespace Site2
                     // адрес, на который редиректит после выхода, совпадает с соответствующим в IS.Clients
                     PostLogoutRedirectUri = "http://localhost:51566/",
                     SignInAsAuthenticationType = "Cookies",
-
+                    UseTokenLifetime = false,
                     // Фактически обработчики различных событий
                     Notifications = new OpenIdConnectAuthenticationNotifications()
                     {
@@ -77,13 +77,14 @@ namespace Site2
                         // Нам надо обработать событие выхода пользователя
                         RedirectToIdentityProvider = n =>
                         {
+                            n.ProtocolMessage.RedirectUri = "http://localhost:51566/";
                             // Это взято чисто из примера: https://identityserver.github.io/Documentation/docsv2/overview/mvcGettingStarted.html
                             if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.Logout)
                             {
                                 var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
-
                                 if (idTokenHint != null)
                                 {
+                                    n.ProtocolMessage.PostLogoutRedirectUri = "http://localhost:51566/";
                                     n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
                                 }
                             }

@@ -67,7 +67,7 @@ namespace Site1
                     // адрес, на который редиректит после выхода, совпадает с соответствующим в IS.Clients
                     PostLogoutRedirectUri = "http://localhost:51542/",
                     SignInAsAuthenticationType = "Cookies",
-
+                    UseTokenLifetime = false,
                     // Фактически обработчики различных событий
                     Notifications = new OpenIdConnectAuthenticationNotifications()
                     {
@@ -92,7 +92,7 @@ namespace Site1
 
                             // Создаём claims-ы пользователя, которые в дальнейшем будут видны в методах контроллера
                             var id = new ClaimsIdentity(n.AuthenticationTicket.Identity.AuthenticationType);
-
+                            
                             // Нам нужны id пользователя и ему логин
                             // добавляем id пользователя
                             id.AddClaim(n.AuthenticationTicket.Identity.FindFirst(Constants.ClaimTypes.Subject));
@@ -108,6 +108,7 @@ namespace Site1
                         // Нам надо обработать событие выхода пользователя
                         RedirectToIdentityProvider = n =>
                         {
+                            n.ProtocolMessage.RedirectUri = "http://localhost:51542/";
                             // Это взято чисто из примера: https://identityserver.github.io/Documentation/docsv2/overview/mvcGettingStarted.html
                             if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.Logout)
                             {
@@ -116,6 +117,7 @@ namespace Site1
 
                                 if (idTokenHint != null)
                                 {
+                                    n.ProtocolMessage.PostLogoutRedirectUri = "http://localhost:51542/";
                                     n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
                                 }
                             }

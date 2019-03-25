@@ -9,7 +9,8 @@ namespace Site1.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            string userName = (Request.GetOwinContext().Authentication.User as ClaimsPrincipal)?.FindFirst(Constants.ClaimTypes.Name)?.Value;
+            return View(userName as object);
         }
 
         // Чтобы потребовать входа пользователя, достаточно добавить Authorize атрибут
@@ -28,14 +29,16 @@ namespace Site1.Controllers
             // по ключу given_name
             // Но при использовании секрета клиента надо дополнительно запрашивать его у IdentityServer, скоро сделаю
             string userName = (user as ClaimsPrincipal).FindFirst(Constants.ClaimTypes.Name).Value;
-            return View();
+            return View(userName as object);
         }
 
-        public ActionResult Logout()
+        public void Logout()
         {
             // Так выполняется выход, на всех сайтах одновременно
             Request.GetOwinContext().Authentication.SignOut();
-            return Redirect("/");
+            //Request.GetOwinContext().Authentication.SignOut("Cookies");
+            //Request.GetOwinContext().Authentication.SignOut("oidc");
+            //return Redirect("/");
         }
     }
 }

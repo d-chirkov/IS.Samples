@@ -36,6 +36,8 @@ namespace IS
                     {
                         // После нажатия кнопки "Выход" на сайте, мы автоматически перенапрам пользователя (см. поле Client.PostLogoutRedirectUris)
                         EnablePostSignOutAutoRedirect = true,
+                        RequireSignOutPrompt = false,
+                        EnableSignOutPrompt = false,
 
                         // После нажатия на кнопку выхода, выведется страница с ссобщением об успешном выходе.
                         // Здесь указывается, через сколько секунд после вывода этой страницы надо перенаправить пользоватя обратно на сайт.

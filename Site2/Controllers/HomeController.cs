@@ -1,4 +1,5 @@
 ﻿using IdentityServer3.Core;
+using Microsoft.Owin.Security;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
@@ -9,7 +10,8 @@ namespace Site2.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            string userName = (Request.GetOwinContext().Authentication.User as ClaimsPrincipal)?.FindFirst(Constants.ClaimTypes.Name)?.Value;
+            return View(userName as object);
         }
 
         // Чтобы потребовать входа пользователя, достаточно добавить Authorize атрибут
@@ -27,12 +29,11 @@ namespace Site2.Controllers
             // Получение логина пользователя, его мы отдельно указывали в Claim-ах пользователя 
             // по ключу given_name
             string userName = (user as ClaimsPrincipal).FindFirst(Constants.ClaimTypes.Name).Value;
-            return View();
+            return View(userName as object);
         }
 
         public ActionResult Logout()
         {
-            // Так выполняется выход, на всех сайтах одновременно
             Request.GetOwinContext().Authentication.SignOut();
             return Redirect("/");
         }
