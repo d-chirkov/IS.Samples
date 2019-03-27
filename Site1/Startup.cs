@@ -123,6 +123,17 @@ namespace Site1
                             }
 
                             return Task.FromResult(0);
+                        },
+
+                        // Исправляет баг, см. https://github.com/IdentityServer/IdentityServer3/issues/542
+                        AuthenticationFailed = n => 
+                        {
+                            if (n.Exception.Message.StartsWith("OICE_20004") || n.Exception.Message.Contains("IDX10311"))
+                            {
+                                n.SkipToNextMiddleware();
+                            }
+
+                            return Task.FromResult(0);
                         }
                     }
                 });

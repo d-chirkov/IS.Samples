@@ -10,11 +10,13 @@ namespace IS.Repos
     class UserRepo : IUserRepo
     {
         private string pathToSqliteDb;
+        private string tableName;
         private Compiler compiler;
 
-        public UserRepo(string pathToSqliteDb)
+        public UserRepo(string pathToSqliteDb, string tableName)
         {
             this.pathToSqliteDb = pathToSqliteDb;
+            this.tableName = tableName;
             this.compiler = new SqliteCompiler();
         }
 
@@ -23,7 +25,7 @@ namespace IS.Repos
             using (var connection = this.GetConnection())
             {
                 var db = new QueryFactory(connection, this.compiler);
-                return db.Query("users").Where(new { name, password }).FirstOrDefault<User>();
+                return db.Query(this.tableName).Where(new { name, password }).FirstOrDefault<User>();
             }
         }
 
@@ -32,7 +34,7 @@ namespace IS.Repos
             using (var connection = this.GetConnection())
             {
                 var db = new QueryFactory(connection, this.compiler);
-                return db.Query("users").Where(new { id }).FirstOrDefault<User>();
+                return db.Query(this.tableName).Where(new { id }).FirstOrDefault<User>();
             }
         }
 
@@ -43,7 +45,7 @@ namespace IS.Repos
                 try
                 {
                     var db = new QueryFactory(connection, this.compiler);
-                    return db.Query("users").Insert(new { name, password }) == 1;
+                    return db.Query(this.tableName).Insert(new { name, password }) == 1;
                 }
                 catch
                 {

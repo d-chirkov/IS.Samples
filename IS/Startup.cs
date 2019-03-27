@@ -20,11 +20,12 @@ namespace IS
             // Настраиваем сервер аутентификации
             app.Map("/identity", idsrvApp =>
             {
-                var factory = new IdentityServerServiceFactory()
-                    .UseInMemoryClients(Clients.Get())
-                    .UseInMemoryScopes(StandardScopes.All);
+                var factory = new IdentityServerServiceFactory().UseInMemoryScopes(StandardScopes.All);
 
-                var userService = new DbUserService(new UserRepo($"{AppDomain.CurrentDomain.BaseDirectory}users.sqlite"));
+                var clientStore = new DbClientStore(new ClientRepo($"{AppDomain.CurrentDomain.BaseDirectory}is.sqlite", "clients"));
+                factory.ClientStore = new Registration<IClientStore>(resolver => clientStore);
+
+                var userService = new DbUserService(new UserRepo($"{AppDomain.CurrentDomain.BaseDirectory}is.sqlite", "users"));
                 factory.UserService = new Registration<IUserService>(resolver => userService);
 
                 idsrvApp.UseIdentityServer(new IdentityServerOptions
