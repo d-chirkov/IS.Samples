@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+﻿// Поясняющие комментарии см в IS.Site1
+
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
@@ -10,8 +11,10 @@ using System.Web.Helpers;
 using System.IdentityModel.Tokens.Jwt;
 using System.Collections.Generic;
 using IdentityServer3.Core;
+using IdentityModel.Client;
+using System;
+using System.Linq;
 
-// Конфигурация происходит в классе Startup, фактически добавляется middleware, так что добавляем ссылку на owin
 [assembly: OwinStartup(typeof(Site2.Startup))]
 
 namespace Site2
@@ -20,73 +23,80 @@ namespace Site2
     {
         public void Configuration(IAppBuilder app)
         {
-            // Это нужно для защиты от CSRF-атак
             AntiForgeryConfig.UniqueClaimTypeIdentifier = Constants.ClaimTypes.Subject;
-            // А это нужно, чтобы ключи Claims-ов пользователя имели адекыватные названия
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
 
+            // адрес сервера аутентификации
+            // Для пользователей из базы данных (пока мнимой)
+            string idsrvUri = "https://localhost:44301/identity";
+
+            // Для windows пользователей
+            //string idsrvUri = "https://localhost:44384/identity";
+            string clientId = "site2";
+            string clientSecret = "secret2";
+            string ownUri = "http://localhost:51566/";
+
             app
-                // Используем cookie аутентификацию
                 .UseCookieAuthentication(new CookieAuthenticationOptions
                 {
                     AuthenticationType = "Cookies"
                 })
                 .UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
                 {
-                    // адрес сервера аутентификации
-
-                    // Для пользователей из базы данных (пока мнимой)
-                    Authority = "https://localhost:44301/identity",
-
-                    // Для windows пользователей
-                    //Authority = "https://localhost:44384/identity",
-
-                    // идентификатор данного клиента, можно найти в IS.Clients
-                    ClientId = "site2",
-
-                    // адрес, на который перенаправляем после аутентификации, совпадает с соответствующим в IS.Clients
-                    RedirectUri = "http://localhost:51566/",
-
-                    // токен, который запрашиваем, связано со значением Flows.Implicit в IS.Clients
-                    ResponseType = "id_token",
-
-                    // адрес, на который редиректит после выхода, совпадает с соответствующим в IS.Clients
-                    PostLogoutRedirectUri = "http://localhost:51566/",
+                    Authority = idsrvUri,
+                    ClientId = clientId,
+                    ClientSecret = clientSecret,
+                    RedirectUri = ownUri,
+                    ResponseType = "code id_token",
+                    PostLogoutRedirectUri = ownUri,
                     SignInAsAuthenticationType = "Cookies",
                     UseTokenLifetime = false,
-                    // Фактически обработчики различных событий
                     Notifications = new OpenIdConnectAuthenticationNotifications()
                     {
-                        // обработчик события, когда после аутентификации сформировались Claims-ы пользователя
-                        SecurityTokenValidated = n =>
+                        AuthorizationCodeReceived = async n =>
                         {
-                            // Для того, чтобы выход работал нормально, надо в Claim-ы пользователя добавить токен идентификации
-                            var id = n.AuthenticationTicket.Identity;
-                            // Копируем созданные Claims
-                            var nid = new ClaimsIdentity(id.AuthenticationType);
-                            nid.AddClaims(id.Claims);
-                            // И добавляем токен идентификации
-                            nid.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
-                            // Заменяем старыем Claim-ы новыми
-                            n.AuthenticationTicket = new AuthenticationTicket(
-                                nid,
-                                n.AuthenticationTicket.Properties);
-                            return Task.FromResult(0);
+                            var tokenClient = new TokenClient(
+                                idsrvUri + "/connect/token",
+                                clientId,
+                                clientSecret);
+
+                            var tokenResponse = await tokenClient.RequestAuthorizationCodeAsync(n.Code, n.RedirectUri);
+
+                            if (tokenResponse.IsError)
+                            {
+                                throw new Exception(tokenResponse.Error);
+                            }
+
+                            var userInfoClient = new UserInfoClient(new Uri(idsrvUri + "/connect/userinfo").ToString());
+                            var userInfoResponse = await userInfoClient.GetAsync(tokenResponse.AccessToken);
+                            var id = new ClaimsIdentity(n.AuthenticationTicket.Identity.AuthenticationType);
+                            id.AddClaim(n.AuthenticationTicket.Identity.FindFirst(Constants.ClaimTypes.Subject));
+                            id.AddClaim(userInfoResponse.Claims.First(c => c.Type == Constants.ClaimTypes.Name));
+                            id.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
+                            n.AuthenticationTicket = new AuthenticationTicket(id, n.AuthenticationTicket.Properties);
                         },
 
-                        // Нам надо обработать событие выхода пользователя
                         RedirectToIdentityProvider = n =>
                         {
-                            n.ProtocolMessage.RedirectUri = "http://localhost:51566/";
-                            // Это взято чисто из примера: https://identityserver.github.io/Documentation/docsv2/overview/mvcGettingStarted.html
-                            if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.Logout)
+                            n.ProtocolMessage.RedirectUri = ownUri;
+                            if (n.ProtocolMessage.RequestType == Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectRequestType.Logout)
                             {
                                 var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
                                 if (idTokenHint != null)
                                 {
-                                    n.ProtocolMessage.PostLogoutRedirectUri = "http://localhost:51566/";
+                                    n.ProtocolMessage.PostLogoutRedirectUri = ownUri;
                                     n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
                                 }
+                            }
+
+                            return Task.FromResult(0);
+                        },
+                        
+                        AuthenticationFailed = n =>
+                        {
+                            if (n.Exception.Message.StartsWith("OICE_20004") || n.Exception.Message.Contains("IDX10311"))
+                            {
+                                n.SkipToNextMiddleware();
                             }
 
                             return Task.FromResult(0);

@@ -18,16 +18,8 @@ namespace Site2.Controllers
         [Authorize]
         public ActionResult Account()
         {
-            // Так можно получить пользователя, который делает запрос, а из пользователя
-            // можно получить его Claim-ы, там будет всё, что мы указали в IS.Users
             var user = Request.GetOwinContext().Authentication.User;
-
-            // Получение идентификатора пользователя. Мы его не указывали как отдельный Claim, потому что
-            // он автоматически копируется в Claim-ы пользователя
             string userId = (user as ClaimsPrincipal).FindFirst(Constants.ClaimTypes.Subject).Value;
-
-            // Получение логина пользователя, его мы отдельно указывали в Claim-ах пользователя 
-            // по ключу given_name
             string userName = (user as ClaimsPrincipal).FindFirst(Constants.ClaimTypes.Name).Value;
             return View(userName as object);
         }

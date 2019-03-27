@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using IdentityModel.Client;
+using IdentityServer3.Core;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.Owin;
 using Microsoft.Owin.Extensions;
@@ -19,65 +22,79 @@ namespace Site3.WebForms
     {
         public void Configuration(IAppBuilder app)
         {
-            // А это нужно, чтобы ключи Claims-ов пользователя имели адекыватные названия
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
+
+            // адрес сервера аутентификации
+            // Для пользователей из базы данных (пока мнимой)
+            //string idsrvUri = "https://localhost:44301/identity";
+
+            // Для windows пользователей
+            string idsrvUri = "https://localhost:44384/identity";
+            string clientId = "site3";
+            string clientSecret = "secret3";
+            string ownUri = "http://localhost:56140/";
+
             app
-                // Используем cookie аутентификацию
                 .UseCookieAuthentication(new CookieAuthenticationOptions
                 {
-                    AuthenticationType = "Cookies",
+                    AuthenticationType = "Cookies"
                 })
                 .UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
                 {
+                    Authority = idsrvUri,
+                    ClientId = clientId,
+                    ClientSecret = clientSecret,
+                    RedirectUri = ownUri,
+                    ResponseType = "code id_token",
+                    PostLogoutRedirectUri = ownUri,
                     SignInAsAuthenticationType = "Cookies",
-
-                    // адрес сервера аутентификации
-                    Authority = "https://localhost:44301/identity",
-
-                    // идентификатор данного клиента, можно найти в IS.Clients
-                    ClientId = "site3",
-
-                    // адрес, на который перенаправляем после аутентификации, совпадает с соответствующим в IS.Clients
-                    RedirectUri = "http://localhost:56140/",
-
-                    // токен, который запрашиваем, связано со значением Flows.Implicit в IS.Clients
-                    ResponseType = "id_token",
-
-                    // адрес, на который редиректит после выхода, совпадает с соответствующим в IS.Clients
-                    PostLogoutRedirectUri = "http://localhost:56140/",
-
-                    // Фактически обработчики различных событий
+                    UseTokenLifetime = false,
                     Notifications = new OpenIdConnectAuthenticationNotifications()
                     {
-                        // обработчик события, когда после аутентификации сформировались Claims-ы пользователя
-                        SecurityTokenValidated = n =>
+                        AuthorizationCodeReceived = async n =>
                         {
-                            // Для того, чтобы выход работал нормально, надо в Claim-ы пользователя добавить токен идентификации
-                            var id = n.AuthenticationTicket.Identity;
-                            // Копируем созданные Claims
-                            var nid = new ClaimsIdentity(id.AuthenticationType);
-                            nid.AddClaims(id.Claims);
-                            // И добавляем токен идентификации
-                            nid.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
-                            // Заменяем старыем Claim-ы новыми
-                            n.AuthenticationTicket = new AuthenticationTicket(
-                                nid,
-                                n.AuthenticationTicket.Properties);
+                            var tokenClient = new TokenClient(
+                                idsrvUri + "/connect/token",
+                                clientId,
+                                clientSecret);
+
+                            var tokenResponse = await tokenClient.RequestAuthorizationCodeAsync(n.Code, n.RedirectUri);
+
+                            if (tokenResponse.IsError)
+                            {
+                                throw new Exception(tokenResponse.Error);
+                            }
+
+                            var userInfoClient = new UserInfoClient(new Uri(idsrvUri + "/connect/userinfo").ToString());
+                            var userInfoResponse = await userInfoClient.GetAsync(tokenResponse.AccessToken);
+                            var id = new ClaimsIdentity(n.AuthenticationTicket.Identity.AuthenticationType);
+                            id.AddClaim(n.AuthenticationTicket.Identity.FindFirst(Constants.ClaimTypes.Subject));
+                            id.AddClaim(userInfoResponse.Claims.First(c => c.Type == Constants.ClaimTypes.Name));
+                            id.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
+                            n.AuthenticationTicket = new AuthenticationTicket(id, n.AuthenticationTicket.Properties);
+                        },
+
+                        RedirectToIdentityProvider = n =>
+                        {
+                            n.ProtocolMessage.RedirectUri = ownUri;
+                            if (n.ProtocolMessage.RequestType == Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectRequestType.Logout)
+                            {
+                                var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
+                                if (idTokenHint != null)
+                                {
+                                    n.ProtocolMessage.PostLogoutRedirectUri = ownUri;
+                                    n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
+                                }
+                            }
+
                             return Task.FromResult(0);
                         },
 
-                        // Нам надо обработать событие выхода пользователя
-                        RedirectToIdentityProvider = n =>
+                        AuthenticationFailed = n =>
                         {
-                            // Это взято чисто из примера: https://identityserver.github.io/Documentation/docsv2/overview/mvcGettingStarted.html
-                            if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.Logout)
+                            if (n.Exception.Message.StartsWith("OICE_20004") || n.Exception.Message.Contains("IDX10311"))
                             {
-                                var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
-
-                                if (idTokenHint != null)
-                                {
-                                    n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
-                                }
+                                n.SkipToNextMiddleware();
                             }
 
                             return Task.FromResult(0);

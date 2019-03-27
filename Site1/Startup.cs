@@ -1,7 +1,6 @@
 ﻿// ВАЖНО: в зависимостях стоит версия IdentityModel 2.6.0 - далеко не самая свежая, но для .Net Framework 4.5.1 новее нет
 // (IdentityModel нужен для добавления секрета приложения-клиента)
 
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using IdentityModel.Client;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
@@ -34,10 +33,10 @@ namespace Site1
 
             // адрес сервера аутентификации
             // Для пользователей из базы данных (пока мнимой)
-            string idsrvUri = "https://localhost:44301/identity";
+            //string idsrvUri = "https://localhost:44301/identity";
 
             // Для windows пользователей
-            //string idsrvUri = "https://localhost:44384/identity";
+            string idsrvUri = "https://localhost:44384/identity";
             string clientId = "site1";
             string clientSecret = "secret";
 
@@ -109,8 +108,8 @@ namespace Site1
                         RedirectToIdentityProvider = n =>
                         {
                             n.ProtocolMessage.RedirectUri = "http://localhost:51542/";
-                            // Это взято чисто из примера: https://identityserver.github.io/Documentation/docsv2/overview/mvcGettingStarted.html
-                            if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.Logout)
+                            // Это взято из примера: https://identityserver.github.io/Documentation/docsv2/overview/mvcGettingStarted.html
+                            if (n.ProtocolMessage.RequestType == Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectRequestType.Logout)
                             {
                                 // Вот тут нам нужен id_token, который мы добавляли в claims-ы пользователя чуть выше
                                 var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
