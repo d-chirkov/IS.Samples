@@ -5,6 +5,8 @@ using IdentityServer3.Core.Configuration;
 using Microsoft.Owin;
 using Owin;
 using IS.Models;
+using IS.Repos;
+using IdentityServer3.Core.Services;
 
 // Сервер аутентификации является OWIN-based, добавляем ссылку
 [assembly: OwinStartup(typeof(IS.Startup))]
@@ -18,6 +20,13 @@ namespace IS
             // Настраиваем сервер аутентификации
             app.Map("/identity", idsrvApp =>
             {
+                var factory = new IdentityServerServiceFactory()
+                    .UseInMemoryClients(Clients.Get())
+                    .UseInMemoryScopes(StandardScopes.All);
+
+                var userService = new DbUserService(new UserRepo($"{AppDomain.CurrentDomain.BaseDirectory}users.sqlite"));
+                factory.UserService = new Registration<IUserService>(resolver => userService);
+
                 idsrvApp.UseIdentityServer(new IdentityServerOptions
                 {
                     // Имя сервера аутентификации, можно будет наблюдать вверху страницы
@@ -27,10 +36,7 @@ namespace IS
                     SigningCertificate = LoadCertificate(),
 
                     // Для примера все пользователи и клиенты берутся из памяти
-                    Factory = new IdentityServerServiceFactory()
-                                .UseInMemoryUsers(Users.Get())
-                                .UseInMemoryClients(Clients.Get())
-                                .UseInMemoryScopes(StandardScopes.All),
+                    Factory = factory,
 
                     AuthenticationOptions = new AuthenticationOptions
                     {
