@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using IS.DTO;
+using IS.Repos;
 
 namespace IS.Controllers
 {
@@ -13,15 +14,18 @@ namespace IS.Controllers
     {
         [HttpPost]
         [Route("user")]
-        public void AddUser(NewUser newUser)
+        public IHttpActionResult AddUser(NewUser newUser)
         {
-
+            bool added = UserRepo.SetUser(newUser.Name, newUser.Password);
+            return added ? (IHttpActionResult)Ok() : Conflict();
         }
         
         [HttpPost]
         [Route("client")]
-        public void AddClient([FromBody]string value)
+        public IHttpActionResult AddClient(NewClient newClient)
         {
+            bool added = ClientRepo.SetClient(newClient.Id, newClient.Name, newClient.Secret, newClient.Uri);
+            return added ? (IHttpActionResult)Ok() : Conflict();
         }
     }
 }

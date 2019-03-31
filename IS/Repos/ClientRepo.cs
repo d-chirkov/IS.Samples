@@ -20,5 +20,21 @@ namespace IS.Repos
                 return db.Query(tableName).Where(new { id }).FirstOrDefault<Client>();
             }
         }
+
+        public static bool SetClient(string id, string name, string secret, string uri)
+        {
+            using (var connection = ConnectionFactory.GetConnection())
+            {
+                try
+                {
+                    var db = new QueryFactory(connection, compiler);
+                    return db.Query(tableName).Insert(new { id, name, secret, uri }) == 1;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
     }
 }
