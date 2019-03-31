@@ -4,7 +4,6 @@ using IdentityServer3.Core.Models;
 using IdentityServer3.Core.Configuration;
 using Microsoft.Owin;
 using Owin;
-using IS.Repos;
 using IdentityServer3.Core.Services;
 using System.Web.Http;
 
@@ -64,10 +63,16 @@ namespace IS
 
             // Настраиваем WebApi для регистрации пользователей и клиентов
             HttpConfiguration config = new HttpConfiguration();
+            config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
                 name: "RegistrationApi",
-                routeTemplate: "api/{controller}"
+                routeTemplate: "api/{controller}/{action}"
             );
+
+            // Добавляем swagger (обязательно до включения webapi)
+            SwaggerConfig.Register(config);
+
+            // Включаем webapi
             app.UseWebApi(config);
         }
 

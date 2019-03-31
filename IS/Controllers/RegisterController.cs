@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+﻿using System.Web.Http;
 using IS.DTO;
 using IS.Repos;
 
 namespace IS.Controllers
 {
-    [Route("register")]
+    [RoutePrefix("api/register")]
     public class RegisterController : ApiController
     {
         [HttpPost]

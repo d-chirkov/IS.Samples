@@ -1,7 +1,5 @@
 ﻿using System.Linq;
 using SqlKata.Execution;
-using System.Data.SQLite;
-using System.Data;
 using SqlKata.Compilers;
 using IS.Models;
 
