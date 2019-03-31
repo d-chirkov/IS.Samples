@@ -4,9 +4,9 @@ using IdentityServer3.Core.Models;
 using IdentityServer3.Core.Configuration;
 using Microsoft.Owin;
 using Owin;
-using IS.Models;
 using IS.Repos;
 using IdentityServer3.Core.Services;
+using System.Web.Http;
 
 // Сервер аутентификации является OWIN-based, добавляем ссылку
 [assembly: OwinStartup(typeof(IS.Startup))]
@@ -22,10 +22,10 @@ namespace IS
             {
                 var factory = new IdentityServerServiceFactory().UseInMemoryScopes(StandardScopes.All);
 
-                var clientStore = new DbClientStore(new ClientRepo($"{AppDomain.CurrentDomain.BaseDirectory}is.sqlite", "clients"));
+                var clientStore = new DbClientStore();
                 factory.ClientStore = new Registration<IClientStore>(resolver => clientStore);
 
-                var userService = new DbUserService(new UserRepo($"{AppDomain.CurrentDomain.BaseDirectory}is.sqlite", "users"));
+                var userService = new DbUserService();
                 factory.UserService = new Registration<IUserService>(resolver => userService);
 
                 idsrvApp.UseIdentityServer(new IdentityServerOptions
@@ -61,6 +61,14 @@ namespace IS
                     },
                 });
             });
+
+            // Настраиваем WebApi для регистрации пользователей и клиентов
+            HttpConfiguration config = new HttpConfiguration();
+            config.Routes.MapHttpRoute(
+                name: "RegistrationApi",
+                routeTemplate: "api/{controller}"
+            );
+            app.UseWebApi(config);
         }
 
         X509Certificate2 LoadCertificate()

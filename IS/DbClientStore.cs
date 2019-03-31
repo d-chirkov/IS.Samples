@@ -8,16 +8,9 @@ namespace IS
 {
     public class DbClientStore : IClientStore
     {
-        private IClientRepo repo;
-
-        public DbClientStore(IClientRepo repo)
-        {
-            this.repo = repo;
-        }
-
         public Task<Client> FindClientByIdAsync(string clientId)
         {
-            var clientFromDb = repo.GetClient(clientId);
+            var clientFromDb = ClientRepo.GetClient(clientId);
             if (clientFromDb == null)
             {
                 return Task.FromResult<Client>(null);

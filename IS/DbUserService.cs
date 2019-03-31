@@ -15,16 +15,9 @@ namespace IS
 {
     public class DbUserService : UserServiceBase
     {
-        IUserRepo repo;
-
-        public DbUserService(IUserRepo repo)
-        {
-            this.repo = repo;
-        }
-
         public override Task AuthenticateLocalAsync(LocalAuthenticationContext context)
         {
-            var user = repo.GetUser(context.UserName, context.Password);
+            var user = UserRepo.GetUser(context.UserName, context.Password);
             if (user != null)
             {
                 context.AuthenticateResult = new AuthenticateResult(user.Id, user.Name);
@@ -35,7 +28,7 @@ namespace IS
 
         public override Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            var user = repo.GetUser(Convert.ToInt32(context.Subject.GetSubjectId()));
+            var user = UserRepo.GetUser(Convert.ToInt32(context.Subject.GetSubjectId()));
             if (user != null && context.RequestedClaimTypes.Contains(Constants.ClaimTypes.Name))
             {
                 // Единственный claim который есть у пользователя в рамках примера - его username
