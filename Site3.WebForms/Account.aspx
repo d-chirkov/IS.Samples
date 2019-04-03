@@ -9,7 +9,7 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <h1>Сайт 3 (WebForms) - Профиль</h1>
+            <h1>Сайт 3 (WebForms) - Профиль <%:((System.Security.Claims.ClaimsPrincipal)User).FindFirst(IdentityServer3.Core.Constants.ClaimTypes.Name).Value%></h1>
             <a runat="server" href="~/">Главная</a>
             <a runat="server" href="~/Logout">Выход</a>
         </div>

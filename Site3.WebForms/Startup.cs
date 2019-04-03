@@ -26,10 +26,10 @@ namespace Site3.WebForms
 
             // адрес сервера аутентификации
             // Для пользователей из базы данных (пока мнимой)
-            //string idsrvUri = "https://localhost:44301/identity";
+            string idsrvUri = "https://localhost:44301/identity";
 
             // Для windows пользователей
-            string idsrvUri = "https://localhost:44384/identity";
+            //string idsrvUri = "https://localhost:44384/identity";
             string clientId = "site3";
             string clientSecret = "secret3";
             string ownUri = "http://localhost:56140/";
