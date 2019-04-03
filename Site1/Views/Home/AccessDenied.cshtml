@@ -1,0 +1,18 @@
+﻿@model string
+@{
+    ViewBag.Title = "Сайт 1 - Нет прав доступа!";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <div>
+        <h1>У вас @(Model == null ? "" : "(" + Model + ")") нет прав для просмотра этой страницы!</h1>
+    </div>
+</body>
+</html>

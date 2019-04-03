@@ -25,6 +25,10 @@ namespace Site1
     {
         public void Configuration(IAppBuilder app)
         {
+            // Добавляем пользователей в UserAccessControl, добавленные пользователи смогут заходить на сайт.
+            // Для теста добавим двух (bob:123, alice:1234)
+            UserAccessControl.AddAccessTo("1", "2");
+
             // Это нужно для защиты от CSRF-атак
             AntiForgeryConfig.UniqueClaimTypeIdentifier = Constants.ClaimTypes.Subject;
             // А это нужно, чтобы ключи Claims-ов пользователя имели адекыватные названия
