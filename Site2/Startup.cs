@@ -23,6 +23,9 @@ namespace Site2
     {
         public void Configuration(IAppBuilder app)
         {
+            // (alice:1234, test:123456, test2:test)
+            UserAccessControl.AddAccessTo("2", "3", "4");
+
             AntiForgeryConfig.UniqueClaimTypeIdentifier = Constants.ClaimTypes.Subject;
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
 

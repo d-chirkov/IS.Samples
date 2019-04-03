@@ -20,7 +20,29 @@ namespace Site2.Controllers
         {
             var user = Request.GetOwinContext().Authentication.User;
             string userId = (user as ClaimsPrincipal).FindFirst(Constants.ClaimTypes.Subject).Value;
+            if (!UserAccessControl.HasAccess(userId))
+            {
+                return RedirectToAction("AccessDenied");
+            }
+
             string userName = (user as ClaimsPrincipal).FindFirst(Constants.ClaimTypes.Name).Value;
+            return View(userName as object);
+        }
+
+        public ActionResult AccessDenied()
+        {
+            if (!Request.IsAuthenticated)
+            {
+                return RedirectToAction("Index");
+            }
+            string redirectToUrl = Url.Action("Index");
+            if (Request.UrlReferrer != null && Request.Url.Host == Request.UrlReferrer.Host)
+            {
+                redirectToUrl = Request.UrlReferrer.ToString();
+            }
+            Response.AddHeader("REFRESH", $"2;{redirectToUrl}");
+            ClaimsPrincipal user = Request.GetOwinContext().Authentication.User;
+            string userName = user.FindFirst(Constants.ClaimTypes.Name).Value;
             return View(userName as object);
         }
 
