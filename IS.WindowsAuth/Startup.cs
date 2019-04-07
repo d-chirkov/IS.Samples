@@ -35,6 +35,7 @@ namespace IS.WindowsAuth
                 .UseInMemoryClients(Clients.Get())
                 .UseInMemoryScopes(Scopes.Get());
             factory.UserService = new Registration<IUserService>(typeof(ExternalRegistrationUserService));
+            factory.CustomGrantValidators.Add(new Registration<ICustomGrantValidator, CustomGrantValidator>());
 
             app.Map("/identity", idsrvApp =>
             {

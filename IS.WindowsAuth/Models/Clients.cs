@@ -105,6 +105,30 @@ namespace IS.WindowsAuth.Models
                     },
 
                     AllowAccessToAllScopes = true
+                },
+
+                new Client
+                {
+                    Enabled = true,
+
+                    ClientName = "Desktop",
+
+                    ClientId = "desktop1",
+
+                    ClientSecrets = new List<Secret>
+                    {
+                        new Secret("secret3".Sha256()),
+                    },
+
+                    Flow = Flows.Custom,
+
+                    IdentityTokenLifetime = 30,
+
+                    RequireConsent = false,
+
+                    AllowAccessToAllScopes = true,
+
+                    AllowedCustomGrantTypes = new List<string> { "winauth" }
                 }
             };
         }
