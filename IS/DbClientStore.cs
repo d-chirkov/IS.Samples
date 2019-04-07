@@ -29,7 +29,7 @@ namespace IS
                     new Secret(clientFromDb.Secret.Sha256()),
                 },
 
-                Flow = Flows.Hybrid,
+                Flow = Flows.ResourceOwner,
 
                 // Время жизни identity токена в секундах, то есть токена идентификации.
                 // Также есть access токен, то есть токен для доступа к данным,
@@ -44,18 +44,24 @@ namespace IS
                 // профиль пользователя). Для текущих целей не нужно, поэтому пропускаем.
                 RequireConsent = false,
 
-                // Адрес сайта, куда будет редиректить после входа (по идее должен совпадать с адресом
-                // самого сайта)
-                RedirectUris = new List<string> { clientFromDb.Uri },
-
-                // Адрес, на который редиректит после выхода
-                PostLogoutRedirectUris = new List<string> { clientFromDb.Uri },
-
                 // Scope-ы в данном примере не освещаются, по идее с помощью них можно разделить 
                 // клиентов (сайты) на области и рудить ими по-отдельности, допускать пользователей
                 // в разные области. Для текущих целей пока не нужно.
                 AllowAccessToAllScopes = true
             };
+
+            // Если строка с uri не пустая, значит это wpf-клиент (или нечто подобное, то есть не сайт)
+            // Поэтому ставим другой Flow, и добавляем редиректы 
+            // (конечно, это можно сделать красивее, но для демонстрации оставил так)
+            if (clientFromDb.Uri != "")
+            {
+                client.Flow = Flows.Hybrid;
+                // Адрес сайта, куда будет редиректить после входа (по идее должен совпадать с адресом
+                // самого сайта)
+                client.RedirectUris = new List<string> { clientFromDb.Uri };
+                // Адрес, на который редиректит после выхода
+                client.PostLogoutRedirectUris = new List<string> { clientFromDb.Uri };
+            }
 
             return Task.FromResult(client);
         }

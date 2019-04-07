@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site3.WebForms", "Site3.Web
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IS.WindowsAuth", "IS.WindowsAuth\IS.WindowsAuth.csproj", "{2BBA3242-7EB1-4B3D-93D8-7BB4DC124484}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{4DE47DD9-CBBC-4EEF-9426-2A60ADB1486F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{2BBA3242-7EB1-4B3D-93D8-7BB4DC124484}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BBA3242-7EB1-4B3D-93D8-7BB4DC124484}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BBA3242-7EB1-4B3D-93D8-7BB4DC124484}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DE47DD9-CBBC-4EEF-9426-2A60ADB1486F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DE47DD9-CBBC-4EEF-9426-2A60ADB1486F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DE47DD9-CBBC-4EEF-9426-2A60ADB1486F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DE47DD9-CBBC-4EEF-9426-2A60ADB1486F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

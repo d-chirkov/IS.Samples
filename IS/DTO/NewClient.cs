@@ -8,6 +8,7 @@
         
         public string Secret { get; set; }
         
+        // Для wpf клиентов установить равным пустой строке
         public string Uri { get; set; }
     }
 }
