@@ -59,8 +59,10 @@ namespace Site1.Controllers
 
         public ActionResult Logout()
         {
-            // Так выполняется выход, на всех сайтах одновременно
-            Request.GetOwinContext().Authentication.SignOut();
+            if (Request.GetOwinContext().Authentication.User.Identity.IsAuthenticated)
+            {
+                Request.GetOwinContext().Authentication.SignOut();
+            }
             return Redirect("/");
         }
 

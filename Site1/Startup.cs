@@ -48,7 +48,7 @@ namespace Site1
                 // Используем cookie аутентификацию
                 .UseCookieAuthentication(new CookieAuthenticationOptions
                 {
-                    AuthenticationType = "Cookies"
+                    AuthenticationType = "Cookies",
                 })
                 .UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
                 {
@@ -57,7 +57,7 @@ namespace Site1
 
                     // идентификатор данного клиента, можно найти в IS.Clients
                     ClientId = clientId,
-
+                
                     // Секрет приложения-клиента
                     ClientSecret = clientSecret,
 
@@ -126,7 +126,7 @@ namespace Site1
                         // Исправляет баг, см. https://github.com/IdentityServer/IdentityServer3/issues/542
                         AuthenticationFailed = n => 
                         {
-                            if (n.Exception.Message.StartsWith("OICE_20004") || n.Exception.Message.Contains("IDX10311"))
+                            if (n.Exception.Message.Contains("IDX21323"))
                             {
                                 n.SkipToNextMiddleware();
                             }

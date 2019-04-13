@@ -40,7 +40,6 @@ namespace IS
                         EnableWebApiDiagnostics = true,
                         WebApiDiagnosticsIsVerbose = true
                     },
-
                     // Имя сервера аутентификации, можно будет наблюдать вверху страницы
                     SiteName = "Embedded IdentityServer",
                     
@@ -67,7 +66,7 @@ namespace IS
                         CookieOptions = new IdentityServer3.Core.Configuration.CookieOptions
                         {
                             // Время жизни сессий клиентов
-                            ExpireTimeSpan = TimeSpan.FromMinutes(5)
+                            ExpireTimeSpan = TimeSpan.FromMinutes(5),
                         }
                     },
                 });

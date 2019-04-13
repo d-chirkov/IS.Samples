@@ -95,7 +95,7 @@ namespace Site2
                         
                         AuthenticationFailed = n =>
                         {
-                            if (n.Exception.Message.StartsWith("OICE_20004") || n.Exception.Message.Contains("IDX10311"))
+                            if (n.Exception.Message.Contains("IDX21323"))
                             {
                                 n.SkipToNextMiddleware();
                             }
