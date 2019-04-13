@@ -50,7 +50,7 @@ namespace IS
                 AllowAccessToAllScopes = true
             };
 
-            // Если строка с uri не пустая, значит это wpf-клиент (или нечто подобное, то есть не сайт)
+            // Если строка с uri пустая, значит это wpf-клиент (или нечто подобное, то есть не сайт)
             // Поэтому ставим другой Flow, и добавляем редиректы 
             // (конечно, это можно сделать красивее, но для демонстрации оставил так)
             if (clientFromDb.Uri != "")
@@ -60,7 +60,7 @@ namespace IS
                 // самого сайта)
                 client.RedirectUris = new List<string> { clientFromDb.Uri };
                 // Адрес, на который редиректит после выхода
-                client.PostLogoutRedirectUris = new List<string> { clientFromDb.Uri };
+                client.PostLogoutRedirectUris = ClientRepo.GetAllUris().FindAll(uri => uri != string.Empty);
             }
 
             return Task.FromResult(client);

@@ -2,6 +2,7 @@
 using SqlKata.Execution;
 using SqlKata.Compilers;
 using IS.Models;
+using System.Collections.Generic;
 
 namespace IS.Repos
 {
@@ -31,6 +32,22 @@ namespace IS.Repos
                 catch
                 {
                     return false;
+                }
+            }
+        }
+
+        public static List<string> GetAllUris()
+        {
+            using (var connection = ConnectionFactory.GetConnection())
+            {
+                try
+                {
+                    var db = new QueryFactory(connection, compiler);
+                    return db.Query(tableName).Select("Uri").Get<string>().ToList();
+                }
+                catch
+                {
+                    return null;
                 }
             }
         }

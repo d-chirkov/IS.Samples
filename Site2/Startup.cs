@@ -50,7 +50,7 @@ namespace Site2
                     ClientId = clientId,
                     ClientSecret = clientSecret,
                     RedirectUri = ownUri,
-                    ResponseType = "code id_token",
+                    ResponseType = "id_token code token",
                     PostLogoutRedirectUri = ownUri,
                     SignInAsAuthenticationType = "Cookies",
                     UseTokenLifetime = false,
@@ -73,7 +73,7 @@ namespace Site2
                             var userInfoClient = new UserInfoClient(new Uri(idsrvUri + "/connect/userinfo").ToString());
                             var userInfoResponse = await userInfoClient.GetAsync(tokenResponse.AccessToken);
                             var id = new ClaimsIdentity(n.AuthenticationTicket.Identity.AuthenticationType);
-                            id.AddClaim(n.AuthenticationTicket.Identity.FindFirst(Constants.ClaimTypes.Subject));
+                            id.AddClaims(n.AuthenticationTicket.Identity.Claims);
                             id.AddClaim(userInfoResponse.Claims.First(c => c.Type == Constants.ClaimTypes.Name));
                             id.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
                             n.AuthenticationTicket = new AuthenticationTicket(id, n.AuthenticationTicket.Properties);
@@ -81,13 +81,11 @@ namespace Site2
 
                         RedirectToIdentityProvider = n =>
                         {
-                            n.ProtocolMessage.RedirectUri = ownUri;
                             if (n.ProtocolMessage.RequestType == Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectRequestType.Logout)
                             {
                                 var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
                                 if (idTokenHint != null)
                                 {
-                                    n.ProtocolMessage.PostLogoutRedirectUri = ownUri;
                                     n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
                                 }
                             }
@@ -106,7 +104,6 @@ namespace Site2
                         }
                     }
                 });
-
         }
     }
 }

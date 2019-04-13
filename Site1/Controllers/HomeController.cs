@@ -57,10 +57,12 @@ namespace Site1.Controllers
             return View(userName as object);
         }
 
-        public void Logout()
+        public ActionResult Logout()
         {
             // Так выполняется выход, на всех сайтах одновременно
             Request.GetOwinContext().Authentication.SignOut();
+            return Redirect("/");
         }
+
     }
 }

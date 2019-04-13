@@ -6,12 +6,14 @@ using Microsoft.Owin;
 using Owin;
 using IdentityServer3.Core.Services;
 using System.Web.Http;
+using IdentityServer3.Core.Services.Default;
 
 // Сервер аутентификации является OWIN-based, добавляем ссылку
 [assembly: OwinStartup(typeof(IS.Startup))]
 
 namespace IS
 {
+    
     public partial class Startup
     {
         public void Configuration(IAppBuilder app)
@@ -27,8 +29,18 @@ namespace IS
                 var userService = new DbUserService();
                 factory.UserService = new Registration<IUserService>(resolver => userService);
 
+                // Устанавливаем наш CustomViewService, чтобы после выхода пользователя в сообщении не выводилось
+                // неправильное имя клиентского приложения (выводится то, на котором был произведён вход).
+                factory.ViewService = new DefaultViewServiceRegistration<CustomViewService>();
+
                 idsrvApp.UseIdentityServer(new IdentityServerOptions
                 {
+                    LoggingOptions = new LoggingOptions
+                    {
+                        EnableWebApiDiagnostics = true,
+                        WebApiDiagnosticsIsVerbose = true
+                    },
+
                     // Имя сервера аутентификации, можно будет наблюдать вверху страницы
                     SiteName = "Embedded IdentityServer",
                     

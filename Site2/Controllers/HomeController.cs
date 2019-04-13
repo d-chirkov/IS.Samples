@@ -45,11 +45,15 @@ namespace Site2.Controllers
             string userName = user.FindFirst(Constants.ClaimTypes.Name).Value;
             return View(userName as object);
         }
-
+        
         public ActionResult Logout()
         {
-            Request.GetOwinContext().Authentication.SignOut();
+            if (Request.GetOwinContext().Authentication.User.Identity.IsAuthenticated)
+            {
+                Request.GetOwinContext().Authentication.SignOut();
+            }
             return Redirect("/");
         }
+
     }
 }

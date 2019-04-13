@@ -37,10 +37,10 @@ namespace Site1
 
             // адрес сервера аутентификации
             // Для пользователей из базы данных (пока мнимой)
-            //string idsrvUri = "https://localhost:44301/identity";
+            string idsrvUri = "https://localhost:44301/identity";
 
             // Для windows пользователей
-            string idsrvUri = "https://localhost:44384/identity";
+            //string idsrvUri = "https://localhost:44384/identity";
             string clientId = "site1";
             string clientSecret = "secret";
 
@@ -65,7 +65,7 @@ namespace Site1
                     RedirectUri = "http://localhost:51542/",
 
                     // токен, который запрашиваем, связано со значением Flows.Hybrid в IS.Clients
-                    ResponseType = "code id_token",
+                    ResponseType = "code id_token token",
 
                     // адрес, на который редиректит после выхода, совпадает с соответствующим в IS.Clients
                     PostLogoutRedirectUri = "http://localhost:51542/",
@@ -95,14 +95,11 @@ namespace Site1
 
                             // Создаём claims-ы пользователя, которые в дальнейшем будут видны в методах контроллера
                             var id = new ClaimsIdentity(n.AuthenticationTicket.Identity.AuthenticationType);
-                            
-                            // Нам нужны id пользователя и ему логин
-                            // добавляем id пользователя
-                            id.AddClaim(n.AuthenticationTicket.Identity.FindFirst(Constants.ClaimTypes.Subject));
+                            id.AddClaims(n.AuthenticationTicket.Identity.Claims);
 
                             // имя пользователя (логин)
                             id.AddClaim(userInfoResponse.Claims.First(c => c.Type == Constants.ClaimTypes.Name));
-
+                            
                             // и id_token (нужен для logout-а)
                             id.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
                             n.AuthenticationTicket = new AuthenticationTicket(id, n.AuthenticationTicket.Properties);
@@ -111,7 +108,6 @@ namespace Site1
                         // Нам надо обработать событие выхода пользователя
                         RedirectToIdentityProvider = n =>
                         {
-                            n.ProtocolMessage.RedirectUri = "http://localhost:51542/";
                             // Это взято из примера: https://identityserver.github.io/Documentation/docsv2/overview/mvcGettingStarted.html
                             if (n.ProtocolMessage.RequestType == Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectRequestType.Logout)
                             {
@@ -120,7 +116,6 @@ namespace Site1
 
                                 if (idTokenHint != null)
                                 {
-                                    n.ProtocolMessage.PostLogoutRedirectUri = "http://localhost:51542/";
                                     n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
                                 }
                             }
