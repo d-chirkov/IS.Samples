@@ -7,13 +7,13 @@ using Owin;
 using IdentityServer3.Core.Services;
 using System.Web.Http;
 using IdentityServer3.Core.Services.Default;
+using IS.IdSrvImpls;
 
 // Сервер аутентификации является OWIN-based, добавляем ссылку
 [assembly: OwinStartup(typeof(IS.Startup))]
 
 namespace IS
 {
-    
     public partial class Startup
     {
         public void Configuration(IAppBuilder app)

@@ -2,19 +2,19 @@
 // (IdentityModel нужен для добавления секрета приложения-клиента)
 
 using IdentityModel.Client;
+using IdentityServer3.Core;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Owin;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Helpers;
-using System.IdentityModel.Tokens.Jwt;
-using System.Collections.Generic;
-using IdentityServer3.Core;
-using System;
-using System.Linq;
 
 // Конфигурация происходит в классе Startup, фактически добавляется middleware, так что добавляем ссылку на owin
 [assembly: OwinStartup(typeof(Site1.Startup))]
@@ -57,7 +57,7 @@ namespace Site1
 
                     // идентификатор данного клиента, можно найти в IS.Clients
                     ClientId = clientId,
-                
+
                     // Секрет приложения-клиента
                     ClientSecret = clientSecret,
 
@@ -99,7 +99,7 @@ namespace Site1
 
                             // имя пользователя (логин)
                             id.AddClaim(userInfoResponse.Claims.First(c => c.Type == Constants.ClaimTypes.Name));
-                            
+
                             // и id_token (нужен для logout-а)
                             id.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
                             n.AuthenticationTicket = new AuthenticationTicket(id, n.AuthenticationTicket.Properties);
@@ -124,7 +124,7 @@ namespace Site1
                         },
 
                         // Исправляет баг, см. https://github.com/IdentityServer/IdentityServer3/issues/542
-                        AuthenticationFailed = n => 
+                        AuthenticationFailed = n =>
                         {
                             if (n.Exception.Message.Contains("IDX21323"))
                             {

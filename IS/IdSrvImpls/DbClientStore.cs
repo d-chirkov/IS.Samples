@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using IS.Repos;
 
-namespace IS
+namespace IS.IdSrvImpls
 {
     public class DbClientStore : IClientStore
     {

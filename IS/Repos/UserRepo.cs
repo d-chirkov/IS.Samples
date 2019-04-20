@@ -2,6 +2,7 @@
 using SqlKata.Execution;
 using SqlKata.Compilers;
 using IS.Models;
+using System.Collections.Generic;
 
 namespace IS.Repos
 {
@@ -25,6 +26,15 @@ namespace IS.Repos
             {
                 var db = new QueryFactory(connection, compiler);
                 return db.Query(tableName).Where(new { id }).FirstOrDefault<User>();
+            }
+        }
+
+        public static List<User> GetAllUsers()
+        {
+            using (var connection = ConnectionFactory.GetConnection())
+            {
+                var db = new QueryFactory(connection, compiler);
+                return db.Query(tableName).Get<User>().ToList();
             }
         }
 

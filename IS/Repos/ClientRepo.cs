@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using SqlKata.Execution;
 using SqlKata.Compilers;
-using IS.Models;
 using System.Collections.Generic;
+using IS.Models;
 
 namespace IS.Repos
 {

@@ -2,7 +2,7 @@
 using IS.DTO;
 using IS.Repos;
 
-namespace IS.Controllers
+namespace IS.Api.Controllers
 {
     [RoutePrefix("api/register")]
     public class RegisterController : ApiController
