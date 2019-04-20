@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using SqlKata.Execution;
+﻿using IS.Models;
 using SqlKata.Compilers;
-using IS.Models;
+using SqlKata.Execution;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IS.Repos
 {
@@ -10,7 +10,7 @@ namespace IS.Repos
     {
         private static string tableName = "users";
         private static Compiler compiler = new SqliteCompiler();
-        
+
         public static User GetUser(string name, string password)
         {
             using (var connection = ConnectionFactory.GetConnection())

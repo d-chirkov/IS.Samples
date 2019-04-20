@@ -1,13 +1,13 @@
-﻿using System;
-using System.Security.Cryptography.X509Certificates;
+﻿using IdentityServer3.Core.Configuration;
 using IdentityServer3.Core.Models;
-using IdentityServer3.Core.Configuration;
-using Microsoft.Owin;
-using Owin;
 using IdentityServer3.Core.Services;
-using System.Web.Http;
 using IdentityServer3.Core.Services.Default;
 using IS.IdSrvImpls;
+using Microsoft.Owin;
+using Owin;
+using System;
+using System.Security.Cryptography.X509Certificates;
+using System.Web.Http;
 
 // Сервер аутентификации является OWIN-based, добавляем ссылку
 [assembly: OwinStartup(typeof(IS.Startup))]
@@ -42,7 +42,7 @@ namespace IS
                     },
                     // Имя сервера аутентификации, можно будет наблюдать вверху страницы
                     SiteName = "Embedded IdentityServer",
-                    
+
                     // Загружаем сертификат
                     SigningCertificate = LoadCertificate(),
 

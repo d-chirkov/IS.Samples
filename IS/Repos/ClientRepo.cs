@@ -20,6 +20,15 @@ namespace IS.Repos
             }
         }
 
+        public static List<Client> GetAllClients()
+        {
+            using (var connection = ConnectionFactory.GetConnection())
+            {
+                var db = new QueryFactory(connection, compiler);
+                return db.Query(tableName).Get<Client>().ToList();
+            }
+        }
+
         public static bool SetClient(string id, string name, string secret, string uri)
         {
             using (var connection = ConnectionFactory.GetConnection())

@@ -1,6 +1,6 @@
-﻿using System.Web.Http;
-using IS.DTO;
+﻿using IS.DTO;
 using IS.Repos;
+using System.Web.Http;
 
 namespace IS.Api.Controllers
 {
@@ -14,7 +14,7 @@ namespace IS.Api.Controllers
             bool added = UserRepo.SetUser(newUser.Name, newUser.Password);
             return added ? (IHttpActionResult)Ok() : Conflict();
         }
-        
+
         [HttpPost]
         [Route("client")]
         public IHttpActionResult AddClient(NewClient newClient)

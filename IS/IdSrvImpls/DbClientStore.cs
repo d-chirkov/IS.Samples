@@ -1,8 +1,8 @@
 ﻿using IdentityServer3.Core.Models;
 using IdentityServer3.Core.Services;
+using IS.Repos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using IS.Repos;
 
 namespace IS.IdSrvImpls
 {
