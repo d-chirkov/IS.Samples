@@ -45,6 +45,38 @@ namespace IS.Repos
             }
         }
 
+        public static bool UpdateClient(string id, string name, string secret, string uri)
+        {
+            using (var connection = ConnectionFactory.GetConnection())
+            {
+                try
+                {
+                    var db = new QueryFactory(connection, compiler);
+                    return db.Query(tableName).Where(new { id }).Update(new { name, secret, uri }) == 1;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        public static bool DeleteClient(string id)
+        {
+            using (var connection = ConnectionFactory.GetConnection())
+            {
+                try
+                {
+                    var db = new QueryFactory(connection, compiler);
+                    return db.Query(tableName).Where(new { id }).Delete() == 1;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
         public static List<string> GetAllUris()
         {
             using (var connection = ConnectionFactory.GetConnection())
