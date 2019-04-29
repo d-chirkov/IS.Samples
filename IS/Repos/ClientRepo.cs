@@ -3,6 +3,7 @@ using SqlKata.Execution;
 using SqlKata.Compilers;
 using System.Collections.Generic;
 using IS.Models;
+using System;
 
 namespace IS.Repos
 {
@@ -52,7 +53,8 @@ namespace IS.Repos
                 try
                 {
                     var db = new QueryFactory(connection, compiler);
-                    return db.Query(tableName).Where(new { id }).Update(new { name, secret, uri }) == 1;
+                    object updateObject = secret == null ? (object)new { name, uri } : new { name, uri, secret };
+                    return db.Query(tableName).Where(new { id }).Update(updateObject) == 1;
                 }
                 catch
                 {

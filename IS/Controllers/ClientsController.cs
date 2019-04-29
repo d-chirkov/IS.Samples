@@ -59,6 +59,7 @@ namespace IS.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(EditClientViewModel editClient)
         {
             if (!ModelState.IsValid)
