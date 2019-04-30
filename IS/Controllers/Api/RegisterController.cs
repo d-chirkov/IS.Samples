@@ -11,8 +11,15 @@ namespace IS.Api.Controllers
         [Route("user")]
         public IHttpActionResult AddUser(NewUser newUser)
         {
-            bool added = UserRepo.SetUser(newUser.Name, newUser.Password);
-            return added ? (IHttpActionResult)Ok() : Conflict();
+            int? added = UserRepo.SetUser(newUser.Name, newUser.Password);
+            if (added == null)
+            {
+                var user = UserRepo.GetUser(newUser.Name);
+                return user == null ? 
+                    (IHttpActionResult)NotFound() : 
+                    Content(System.Net.HttpStatusCode.Conflict, new { id = user.Id, name = newUser.Name });
+            }
+            return Ok(new { id = added.Value, name = newUser.Name });
         }
 
         [HttpPost]

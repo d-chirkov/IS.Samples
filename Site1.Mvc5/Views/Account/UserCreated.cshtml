@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "UserCreated";
+}
+
+@if (ViewBag.AlreadyExists)
+{
+    <h2>Пользователь @ViewBag.Name уже зарегестрирован на SSO сервере и добавлен на сайт</h2>
+} else
+{
+    <h2>Пользователь @ViewBag.Name успешно был создан</h2>
+}
+

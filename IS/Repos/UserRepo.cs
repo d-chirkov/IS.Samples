@@ -1,6 +1,7 @@
 ﻿using IS.Models;
 using SqlKata.Compilers;
 using SqlKata.Execution;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,6 +18,15 @@ namespace IS.Repos
             {
                 var db = new QueryFactory(connection, compiler);
                 return db.Query(tableName).Where(new { name, password }).FirstOrDefault<User>();
+            }
+        }
+
+        public static User GetUser(string name)
+        {
+            using (var connection = ConnectionFactory.GetConnection())
+            {
+                var db = new QueryFactory(connection, compiler);
+                return db.Query(tableName).Where(new { name }).FirstOrDefault<User>();
             }
         }
 
@@ -38,19 +48,24 @@ namespace IS.Repos
             }
         }
 
-        public static bool SetUser(string name, string password)
+        public static int? SetUser(string name, string password)
         {
             using (var connection = ConnectionFactory.GetConnection())
             {
                 try
                 {
                     var db = new QueryFactory(connection, compiler);
-                    return db.Query(tableName).Insert(new { name, password }) == 1;
+                    bool added = db.Query(tableName).Insert(new { name, password }) == 1;
+                    // Костыль, но для примера так просто, InsertGetId всегда нули возвращает
+                    if (added)
+                    {
+                        return int.Parse(GetUser(name, password).Id);
+                    }
                 }
-                catch
+                catch (Exception e)
                 {
-                    return false;
                 }
+                return null;
             }
         }
     }

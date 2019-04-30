@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.438
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site2", "Site2\Site2.csproj", "{0CDBC8F9-531F-4068-A74B-FF5B90EA7E02}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IS.WindowsAuth", "IS.WindowsAuth\IS.WindowsAuth.csproj", "{2BBA3242-7EB1-4B3D-93D8-7BB4DC124484}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{4DE47DD9-CBBC-4EEF-9426-2A60ADB1486F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site1.Mvc5", "Site1.Mvc5\Site1.Mvc5.csproj", "{ACBC34EF-DD3B-4E3C-8DDD-E6BD1BC6A8A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{4DE47DD9-CBBC-4EEF-9426-2A60ADB1486F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DE47DD9-CBBC-4EEF-9426-2A60ADB1486F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DE47DD9-CBBC-4EEF-9426-2A60ADB1486F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACBC34EF-DD3B-4E3C-8DDD-E6BD1BC6A8A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACBC34EF-DD3B-4E3C-8DDD-E6BD1BC6A8A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACBC34EF-DD3B-4E3C-8DDD-E6BD1BC6A8A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACBC34EF-DD3B-4E3C-8DDD-E6BD1BC6A8A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
