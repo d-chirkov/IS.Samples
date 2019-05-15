@@ -12,7 +12,6 @@ namespace IS.IdSrvImpls
     {
         public Task<Client> FindClientByIdAsync(string clientId)
         {
-            throw new Exception("THIS IS TEST EXCEPTION");
             var clientFromDb = ClientRepo.GetClient(clientId);
             if (clientFromDb == null)
             {
