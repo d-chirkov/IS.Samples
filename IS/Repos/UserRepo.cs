@@ -62,7 +62,7 @@ namespace IS.Repos
                         return int.Parse(GetUser(name, password).Id);
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                 }
                 return null;

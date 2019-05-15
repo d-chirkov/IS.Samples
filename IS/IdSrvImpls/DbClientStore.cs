@@ -1,6 +1,8 @@
 ﻿using IdentityServer3.Core.Models;
 using IdentityServer3.Core.Services;
 using IS.Repos;
+using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,6 +12,7 @@ namespace IS.IdSrvImpls
     {
         public Task<Client> FindClientByIdAsync(string clientId)
         {
+            throw new Exception("THIS IS TEST EXCEPTION");
             var clientFromDb = ClientRepo.GetClient(clientId);
             if (clientFromDb == null)
             {
