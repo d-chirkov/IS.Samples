@@ -1,10 +1,10 @@
-﻿using IS.Repos;
-using IS.ViewModels;
-using System.Linq;
-using System.Web.Mvc;
-
-namespace IS
+﻿namespace IS
 {
+    using IS.ViewModels;
+    using SharedLib.IS;
+    using System.Linq;
+    using System.Web.Mvc;
+
     public class UsersController : Controller
     {
         public ActionResult GetAll()
@@ -13,6 +13,7 @@ namespace IS
             {
                 Users = UserRepo.GetAllUsers().Select(u => new UserViewModel { Id = u.Id, Name = u.Name })
             };
+
             return View(allUsers);
         }
     }

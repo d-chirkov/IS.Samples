@@ -1,14 +1,11 @@
-﻿using IdentityServer3.Core.Models;
-using IdentityServer3.Core.Services;
-using IS.Repos;
-using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace IS.IdSrvImpls
+﻿namespace SharedLib.IS.IdSrvImpls
 {
-    public class DbClientStore : IClientStore
+    using IdentityServer3.Core.Models;
+    using IdentityServer3.Core.Services;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    public class ISClientStore : IClientStore
     {
         public Task<Client> FindClientByIdAsync(string clientId)
         {
@@ -17,6 +14,7 @@ namespace IS.IdSrvImpls
             {
                 return Task.FromResult<Client>(null);
             }
+
             var client = new Client
             {
                 Enabled = true,

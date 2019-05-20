@@ -1,9 +1,9 @@
-﻿using IS.DTO;
-using IS.Repos;
-using System.Web.Http;
-
-namespace IS.Api.Controllers
+﻿namespace IS.Api.Controllers
 {
+    using IS.DTO;
+    using SharedLib.IS;
+    using System.Web.Http;
+
     [RoutePrefix("api/register")]
     public class RegisterController : ApiController
     {

@@ -1,32 +1,31 @@
-﻿using System.Linq;
-using SqlKata.Execution;
-using SqlKata.Compilers;
-using System.Collections.Generic;
-using IS.Models;
-using System;
-
-namespace IS.Repos
+﻿namespace SharedLib.IS
 {
+    using SqlKata.Compilers;
+    using SqlKata.Execution;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public static class ClientRepo
     {
-        private static string tableName = "clients";
+        public static string TableName { get; set; } = "clients";
+
         private static Compiler compiler = new SqliteCompiler();
 
-        public static Client GetClient(string id)
+        public static ISClient GetClient(string id)
         {
             using (var connection = ConnectionFactory.GetConnection())
             {
                 var db = new QueryFactory(connection, compiler);
-                return db.Query(tableName).Where(new { id }).FirstOrDefault<Client>();
+                return db.Query(TableName).Where(new { id }).FirstOrDefault<ISClient>();
             }
         }
 
-        public static List<Client> GetAllClients()
+        public static List<ISClient> GetAllClients()
         {
             using (var connection = ConnectionFactory.GetConnection())
             {
                 var db = new QueryFactory(connection, compiler);
-                return db.Query(tableName).Get<Client>().ToList();
+                return db.Query(TableName).Get<ISClient>().ToList();
             }
         }
 
@@ -37,7 +36,7 @@ namespace IS.Repos
                 try
                 {
                     var db = new QueryFactory(connection, compiler);
-                    return db.Query(tableName).Insert(new { id, name, secret, uri }) == 1;
+                    return db.Query(TableName).Insert(new { id, name, secret, uri }) == 1;
                 }
                 catch
                 {
@@ -54,7 +53,7 @@ namespace IS.Repos
                 {
                     var db = new QueryFactory(connection, compiler);
                     object updateObject = secret == null ? (object)new { name, uri } : new { name, uri, secret };
-                    return db.Query(tableName).Where(new { id }).Update(updateObject) == 1;
+                    return db.Query(TableName).Where(new { id }).Update(updateObject) == 1;
                 }
                 catch
                 {
@@ -70,7 +69,7 @@ namespace IS.Repos
                 try
                 {
                     var db = new QueryFactory(connection, compiler);
-                    return db.Query(tableName).Where(new { id }).Delete() == 1;
+                    return db.Query(TableName).Where(new { id }).Delete() == 1;
                 }
                 catch
                 {
@@ -86,7 +85,7 @@ namespace IS.Repos
                 try
                 {
                     var db = new QueryFactory(connection, compiler);
-                    return db.Query(tableName).Select("Uri").Get<string>().ToList();
+                    return db.Query(TableName).Select("Uri").Get<string>().ToList();
                 }
                 catch
                 {

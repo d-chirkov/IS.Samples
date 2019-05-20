@@ -6,6 +6,7 @@ using IS.IdSrvImpls;
 using Microsoft.Owin;
 using Owin;
 using Serilog;
+using SharedLib.IS.IdSrvImpls;
 using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Web.Http;
@@ -24,10 +25,10 @@ namespace IS
             {
                 var factory = new IdentityServerServiceFactory().UseInMemoryScopes(StandardScopes.All);
 
-                var clientStore = new DbClientStore();
+                var clientStore = new ISClientStore();
                 factory.ClientStore = new Registration<IClientStore>(resolver => clientStore);
 
-                var userService = new DbUserService();
+                var userService = new ISUserService();
                 factory.UserService = new Registration<IUserService>(resolver => userService);
 
                 // Устанавливаем наш CustomViewService, чтобы после выхода пользователя в сообщении не выводилось

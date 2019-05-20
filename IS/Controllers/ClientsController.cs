@@ -1,10 +1,10 @@
-﻿using IS.Repos;
-using IS.ViewModels;
-using System.Linq;
-using System.Web.Mvc;
-
-namespace IS.Controllers
+﻿namespace IS.Controllers
 {
+    using IS.ViewModels;
+    using SharedLib.IS;
+    using System.Linq;
+    using System.Web.Mvc;
+
     public class ClientsController : Controller
     {
         public ActionResult GetAll()
@@ -44,7 +44,7 @@ namespace IS.Controllers
 
         public ActionResult Edit(string id)
         {
-            Models.Client client = ClientRepo.GetClient(id);
+            ISClient client = ClientRepo.GetClient(id);
             if (client == null)
             {
                 return new HttpNotFoundResult("Клиент не найден");

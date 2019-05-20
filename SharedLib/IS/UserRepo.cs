@@ -1,50 +1,48 @@
-﻿using IS.Models;
-using SqlKata.Compilers;
-using SqlKata.Execution;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace IS.Repos
+﻿namespace SharedLib.IS
 {
+    using SqlKata.Compilers;
+    using SqlKata.Execution;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public static class UserRepo
     {
         private static string tableName = "users";
         private static Compiler compiler = new SqliteCompiler();
 
-        public static User GetUser(string name, string password)
+        public static ISUser GetUser(string name, string password)
         {
             using (var connection = ConnectionFactory.GetConnection())
             {
                 var db = new QueryFactory(connection, compiler);
-                return db.Query(tableName).Where(new { name, password }).FirstOrDefault<User>();
+                return db.Query(tableName).Where(new { name, password }).FirstOrDefault<ISUser>();
             }
         }
 
-        public static User GetUser(string name)
+        public static ISUser GetUser(string name)
         {
             using (var connection = ConnectionFactory.GetConnection())
             {
                 var db = new QueryFactory(connection, compiler);
-                return db.Query(tableName).Where(new { name }).FirstOrDefault<User>();
+                return db.Query(tableName).Where(new { name }).FirstOrDefault<ISUser>();
             }
         }
 
-        public static User GetUser(int id)
+        public static ISUser GetUser(int id)
         {
             using (var connection = ConnectionFactory.GetConnection())
             {
                 var db = new QueryFactory(connection, compiler);
-                return db.Query(tableName).Where(new { id }).FirstOrDefault<User>();
+                return db.Query(tableName).Where(new { id }).FirstOrDefault<ISUser>();
             }
         }
 
-        public static List<User> GetAllUsers()
+        public static List<ISUser> GetAllUsers()
         {
             using (var connection = ConnectionFactory.GetConnection())
             {
                 var db = new QueryFactory(connection, compiler);
-                return db.Query(tableName).Get<User>().ToList();
+                return db.Query(tableName).Get<ISUser>().ToList();
             }
         }
 

@@ -1,6 +1,6 @@
-﻿namespace IS.Models
+﻿namespace SharedLib.IS
 {
-    public class Client
+    public class ISClient
     {
         public string Id { get; set; }
         public string Name { get; set; }

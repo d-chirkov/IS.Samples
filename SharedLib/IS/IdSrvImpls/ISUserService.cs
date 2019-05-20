@@ -1,16 +1,15 @@
-﻿using IdentityServer3.Core;
-using IdentityServer3.Core.Extensions;
-using IdentityServer3.Core.Models;
-using IdentityServer3.Core.Services.Default;
-using IS.Repos;
-using System;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace IS.IdSrvImpls
+﻿namespace SharedLib.IS.IdSrvImpls
 {
-    public class DbUserService : UserServiceBase
+    using IdentityServer3.Core;
+    using IdentityServer3.Core.Extensions;
+    using IdentityServer3.Core.Models;
+    using IdentityServer3.Core.Services.Default;
+    using System;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    public class ISUserService : UserServiceBase
     {
         public override Task AuthenticateLocalAsync(LocalAuthenticationContext context)
         {
