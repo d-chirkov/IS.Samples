@@ -7,6 +7,14 @@
 
     public class ISClientStore : IClientStore
     {
+        private bool useWinAuth;
+        private ClientRepo clientRepo;
+
+        public ISClientStore(bool useWinAuth = false)
+        {
+            this.useWinAuth = useWinAuth;
+        }
+
         public Task<Client> FindClientByIdAsync(string clientId)
         {
             var clientFromDb = ClientRepo.GetClient(clientId);
@@ -61,6 +69,12 @@
                 client.RedirectUris = new List<string> { clientFromDb.Uri };
                 // Адрес, на который редиректит после выхода
                 client.PostLogoutRedirectUris = ClientRepo.GetAllUris().FindAll(uri => uri != string.Empty);
+            }
+            // Если это wpf-клиент и при этом используется windows аутентификация, то необходимо изменить некоторые параметры
+            else if (this.useWinAuth)
+            {
+                client.Flow = Flows.Custom;
+                client.AllowedCustomGrantTypes = new List<string> { "winauth" };
             }
 
             return Task.FromResult(client);

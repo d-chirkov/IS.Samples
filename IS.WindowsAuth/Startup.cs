@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Security.Cryptography.X509Certificates;
 using System;
 using IS.WindowsAuth.Models;
+using SharedLib.IS.IdSrvImpls;
 
 [assembly: OwinStartup(typeof(IS.WindowsAuth.Startup))]
 
@@ -32,8 +33,10 @@ namespace IS.WindowsAuth
             app.Map("/windows", ConfigureWindowsTokenProvider);
 
             var factory = new IdentityServerServiceFactory()
-                .UseInMemoryClients(Clients.Get())
                 .UseInMemoryScopes(Scopes.Get());
+
+            var clientStore = new ISClientStore(useWinAuth: true);
+            factory.ClientStore = new Registration<IClientStore>(resolver => clientStore);
             factory.UserService = new Registration<IUserService>(typeof(ExternalRegistrationUserService));
             factory.CustomGrantValidators.Add(new Registration<ICustomGrantValidator, CustomGrantValidator>());
 

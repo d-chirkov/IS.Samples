@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public static class ClientRepo
+    public class ClientRepo
     {
         public static string TableName { get; set; } = "clients";
 
