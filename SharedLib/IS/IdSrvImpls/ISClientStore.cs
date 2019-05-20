@@ -8,7 +8,6 @@
     public class ISClientStore : IClientStore
     {
         private bool useWinAuth;
-        private ClientRepo clientRepo;
 
         public ISClientStore(bool useWinAuth = false)
         {

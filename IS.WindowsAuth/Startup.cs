@@ -21,6 +21,7 @@ using System.Security.Cryptography.X509Certificates;
 using System;
 using IS.WindowsAuth.Models;
 using SharedLib.IS.IdSrvImpls;
+using Serilog;
 
 [assembly: OwinStartup(typeof(IS.WindowsAuth.Startup))]
 
@@ -83,6 +84,11 @@ namespace IS.WindowsAuth
             };
 
             app.UseIdentityServer(options);
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.File($"{AppDomain.CurrentDomain.BaseDirectory}\\IS.Log.txt")
+                .CreateLogger();
         }
 
         private static void ConfigureWindowsTokenProvider(IAppBuilder app)
