@@ -24,7 +24,7 @@
 
         public override Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            var user = UserRepo.GetUser(Convert.ToInt32(context.Subject.GetSubjectId()));
+            var user = UserRepo.GetUserById(context.Subject.GetSubjectId());
             if (user != null && context.RequestedClaimTypes.Contains(Constants.ClaimTypes.Name))
             {
                 // Единственный claim который есть у пользователя в рамках примера - его username

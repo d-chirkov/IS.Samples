@@ -14,7 +14,7 @@
             string addedId = UserRepo.SetUser(newUser.Name, newUser.Password);
             if (addedId == null)
             {
-                var user = UserRepo.GetUser(newUser.Name);
+                var user = UserRepo.GetUserByName(newUser.Name);
                 return user == null ? 
                     (IHttpActionResult)NotFound() : 
                     Content(System.Net.HttpStatusCode.Conflict, new { id = user.Id, name = newUser.Name });

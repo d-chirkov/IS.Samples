@@ -20,7 +20,7 @@
             }
         }
 
-        public static ISUser GetUser(string name)
+        public static ISUser GetUserByName(string name)
         {
             using (var connection = ConnectionFactory.GetConnection())
             {
@@ -29,7 +29,7 @@
             }
         }
 
-        public static ISUser GetUser(int id)
+        public static ISUser GetUserById(string id)
         {
             using (var connection = ConnectionFactory.GetConnection())
             {
