@@ -25,13 +25,19 @@ namespace Site1.Mvc5.Controllers
         [LocalAuthorize(true)]
         public ActionResult UserProfile()
         {
-            int idsrvUserId = int.Parse((Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
+            string idsrvUserId = (Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
                 ?.FindFirst(OidcClaimTypes.Subject)
-                ?.Value);
+                ?.Value;
+            string userLogin = (Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
+                ?.FindFirst(OidcClaimTypes.Name)
+                ?.Value;
+
             UserProfile userProfile = null;
             using (var context = new AccountsContext())
             {
-                userProfile = context.UserProfiles.Where(p => p.IdSrvId == idsrvUserId).FirstOrDefault();
+                userProfile =
+                    context.UserProfiles.Where(p => p.IdSrvId == idsrvUserId).FirstOrDefault() ??
+                    context.UserProfiles.Where(p => p.Login == userLogin).FirstOrDefault();
             }
             if (userProfile == null)
             {

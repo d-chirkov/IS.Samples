@@ -37,10 +37,10 @@ namespace Site1
 
             // адрес сервера аутентификации
             // Для пользователей из базы данных (пока мнимой)
-            string idsrvUri = "https://localhost:44301/identity";
+            //string idsrvUri = "https://localhost:44301/identity";
 
             // Для windows пользователей
-            //string idsrvUri = "https://localhost:44384/identity";
+            string idsrvUri = "https://localhost:44384/identity";
             string clientId = "site1";
             string clientSecret = "secret";
 

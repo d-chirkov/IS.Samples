@@ -2,6 +2,7 @@
 {
     using SqlKata.Compilers;
     using SqlKata.Execution;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -46,18 +47,26 @@
             }
         }
 
-        public static int? SetUser(string name, string password)
+        public static string SetUser(string name, string password)
         {
             using (var connection = ConnectionFactory.GetConnection())
             {
                 try
                 {
+                    string selectedGuid = string.Empty;
                     var db = new QueryFactory(connection, compiler);
-                    bool added = db.Query(tableName).Insert(new { name, password }) == 1;
+                    // Костыль, этот цикл вечный, чисто для дебага с sqlite (он не умеет сам назначать guid-ы)
+                    do
+                    {
+                        selectedGuid = Guid.NewGuid().ToString();
+                    }
+                    while (db.Query(tableName).Where(new { id = selectedGuid }).Get<ISUser>().Count() == 0);
+                    
+                    bool added = db.Query(tableName).Insert(new { id = selectedGuid, name, password }) == 1;
                     // Костыль, но для примера так просто, InsertGetId всегда нули возвращает
                     if (added)
                     {
-                        return int.Parse(GetUser(name, password).Id);
+                        return GetUser(name, password).Id;
                     }
                 }
                 catch

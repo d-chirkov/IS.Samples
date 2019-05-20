@@ -25,13 +25,20 @@ namespace Site1.Mvc5.Attributes
             }
             if (this.checkLocalAccess)
             {
-                int idsrvUserId = int.Parse((httpContext.Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
-                ?.FindFirst(OidcClaimTypes.Subject)
-                ?.Value);
+                string idsrvUserId = (httpContext.Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
+                    ?.FindFirst(OidcClaimTypes.Subject)
+                    ?.Value;
+
+                string userLogin = (httpContext.Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
+                    ?.FindFirst(OidcClaimTypes.Name)
+                    ?.Value;
+
                 UserProfile userProfile = null;
                 using (var context = new AccountsContext())
                 {
-                    userProfile = context.UserProfiles.Where(p => p.IdSrvId == idsrvUserId).FirstOrDefault();
+                    userProfile = 
+                        context.UserProfiles.Where(p => p.IdSrvId == idsrvUserId).FirstOrDefault() ??
+                        context.UserProfiles.Where(p => p.Login == userLogin).FirstOrDefault();
                 }
                 if (userProfile == null)
                 {

@@ -1692,3 +1692,117 @@
 2019-05-20 22:28:20.438 +03:00 [DBG] [2019-05-20T19:28:20.4376061Z] Sending response, Status=200 (OK), Method=GET, Url=https://localhost:44301/identity/connect/userinfo, Id=80000035-0000-fc00-b63f-84710c7967bb, Message='Content-type='application/json; charset=utf-8', content-length=unknown'
 2019-05-20 22:28:20.441 +03:00 [DBG] [2019-05-20T19:28:20.4416053Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=80000035-0000-fc00-b63f-84710c7967bb, Operation=UserInfoEndpointController.Dispose
 2019-05-20 22:28:20.441 +03:00 [DBG] [2019-05-20T19:28:20.4416053Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=80000035-0000-fc00-b63f-84710c7967bb, Operation=UserInfoEndpointController.Dispose
+2019-05-21 00:22:05.492 +03:00 [DBG] [2019-05-20T21:22:05.4711309Z] Request received, Method=POST, Url=https://localhost:44301/identity/connect/token, Id=80000012-0000-f600-b63f-84710c7967bb, Message='https://localhost:44301/identity/connect/token'
+2019-05-21 00:22:05.511 +03:00 [DBG] [2019-05-20T21:22:05.5101193Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=DependencyScopeHandler.SendAsync
+2019-05-21 00:22:05.513 +03:00 [DBG] [2019-05-20T21:22:05.5131208Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=PassiveAuthenticationMessageHandler.SendAsync
+2019-05-21 00:22:05.548 +03:00 [DBG] [2019-05-20T21:22:05.5461072Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=80000012-0000-f600-b63f-84710c7967bb, Message='Route='controller:TokenEndpoint,action:Post'', Operation=DefaultHttpControllerSelector.SelectController
+2019-05-21 00:22:05.552 +03:00 [DBG] [2019-05-20T21:22:05.5511062Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=80000012-0000-f600-b63f-84710c7967bb, Message='TokenEndpoint', Operation=DefaultHttpControllerSelector.SelectController
+2019-05-21 00:22:05.554 +03:00 [DBG] [2019-05-20T21:22:05.5531047Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=HttpControllerDescriptor.CreateController
+2019-05-21 00:22:05.556 +03:00 [DBG] [2019-05-20T21:22:05.5561042Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=DefaultHttpControllerActivator.Create
+2019-05-21 00:22:05.583 +03:00 [DBG] [2019-05-20T21:22:05.5820955Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=80000012-0000-f600-b63f-84710c7967bb, Message='IdentityServer3.Core.Endpoints.TokenEndpointController', Operation=DefaultHttpControllerActivator.Create
+2019-05-21 00:22:05.583 +03:00 [DBG] [2019-05-20T21:22:05.5830945Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=80000012-0000-f600-b63f-84710c7967bb, Message='IdentityServer3.Core.Endpoints.TokenEndpointController', Operation=HttpControllerDescriptor.CreateController
+2019-05-21 00:22:05.585 +03:00 [DBG] [2019-05-20T21:22:05.5850935Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=TokenEndpointController.ExecuteAsync
+2019-05-21 00:22:05.593 +03:00 [DBG] [2019-05-20T21:22:05.5930919Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=ApiControllerActionSelector.SelectAction
+2019-05-21 00:22:05.614 +03:00 [DBG] [2019-05-20T21:22:05.6130843Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=80000012-0000-f600-b63f-84710c7967bb, Message='Selected action 'Post()'', Operation=ApiControllerActionSelector.SelectAction
+2019-05-21 00:22:05.639 +03:00 [DBG] [2019-05-20T21:22:05.6380777Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=PreventUnsupportedRequestMediaTypesAttribute.OnAuthorizationAsync
+2019-05-21 00:22:05.650 +03:00 [DBG] [2019-05-20T21:22:05.6490753Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=PreventUnsupportedRequestMediaTypesAttribute.OnAuthorizationAsync
+2019-05-21 00:22:05.655 +03:00 [DBG] [2019-05-20T21:22:05.6540701Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-05-21 00:22:05.659 +03:00 [DBG] [2019-05-20T21:22:05.6560702Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-05-21 00:22:05.665 +03:00 [DBG] [2019-05-20T21:22:05.6650696Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=80000012-0000-f600-b63f-84710c7967bb, Message='Action filter for 'Post()'', Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-05-21 00:22:05.668 +03:00 [DBG] [2019-05-20T21:22:05.6680659Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-05-21 00:22:05.678 +03:00 [DBG] [2019-05-20T21:22:05.6760634Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=80000012-0000-f600-b63f-84710c7967bb, Message='Action='Post()'', Operation=ApiControllerActionInvoker.InvokeActionAsync
+2019-05-21 00:22:05.684 +03:00 [DBG] [2019-05-20T21:22:05.6830622Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=80000012-0000-f600-b63f-84710c7967bb, Message='Invoking action 'Post()'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-05-21 00:22:05.710 +03:00 [INF] Start token request
+2019-05-21 00:22:05.805 +03:00 [DBG] Start client validation
+2019-05-21 00:22:05.812 +03:00 [DBG] Start parsing Basic Authentication secret
+2019-05-21 00:22:05.815 +03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2019-05-21 00:22:05.817 +03:00 [INF] Secret id found: desktop1
+2019-05-21 00:22:06.243 +03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2019-05-21 00:22:06.243 +03:00 [INF] Client validation success
+2019-05-21 00:22:06.254 +03:00 [INF] Start token request validation
+2019-05-21 00:22:06.261 +03:00 [INF] Start validation of custom grant token request
+2019-05-21 00:22:06.510 +03:00 [ERR] Client not registered for custom grant type
+ {
+  "ClientId": "desktop1",
+  "ClientName": "WpfApp",
+  "GrantType": "winauth",
+  "Raw": {
+    "grant_type": "winauth",
+    "scope": "profile",
+    "name": "test",
+    "password": "******"
+  }
+}
+2019-05-21 00:22:06.514 +03:00 [INF] End token request
+2019-05-21 00:22:06.515 +03:00 [DBG] [2019-05-20T21:22:06.5148138Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=80000012-0000-f600-b63f-84710c7967bb, Message='Action returned 'IdentityServer3.Core.Results.TokenErrorResult'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-05-21 00:22:06.519 +03:00 [INF] Returning error: unsupported_grant_type
+2019-05-21 00:22:06.520 +03:00 [DBG] [2019-05-20T21:22:06.5198121Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=ApiControllerActionInvoker.InvokeActionAsync, Status=400 (BadRequest)
+2019-05-21 00:22:06.523 +03:00 [DBG] [2019-05-20T21:22:06.5228109Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=80000012-0000-f600-b63f-84710c7967bb, Message='Action filter for 'Post()'', Operation=NoCacheAttribute.OnActionExecutedAsync, Status=400 (BadRequest)
+2019-05-21 00:22:06.527 +03:00 [DBG] [2019-05-20T21:22:06.5268120Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=NoCacheAttribute.OnActionExecutedAsync, Status=400 (BadRequest)
+2019-05-21 00:22:06.527 +03:00 [DBG] [2019-05-20T21:22:06.5278117Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=TokenEndpointController.ExecuteAsync, Status=400 (BadRequest)
+2019-05-21 00:22:06.530 +03:00 [DBG] [2019-05-20T21:22:06.5308085Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=PassiveAuthenticationMessageHandler.SendAsync, Status=400 (BadRequest)
+2019-05-21 00:22:06.530 +03:00 [DBG] [2019-05-20T21:22:06.5308085Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=DependencyScopeHandler.SendAsync, Status=400 (BadRequest)
+2019-05-21 00:22:06.532 +03:00 [DBG] [2019-05-20T21:22:06.5308085Z] Sending response, Status=400 (BadRequest), Method=POST, Url=https://localhost:44301/identity/connect/token, Id=80000012-0000-f600-b63f-84710c7967bb, Message='Content-type='application/json; charset=utf-8', content-length=unknown'
+2019-05-21 00:22:06.576 +03:00 [DBG] [2019-05-20T21:22:06.5768171Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=TokenEndpointController.Dispose
+2019-05-21 00:22:06.577 +03:00 [DBG] [2019-05-20T21:22:06.5778177Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=80000012-0000-f600-b63f-84710c7967bb, Operation=TokenEndpointController.Dispose
+2019-05-21 00:31:13.351 +03:00 [DBG] [2019-05-20T21:31:13.3330395Z] Request received, Method=POST, Url=https://localhost:44301/identity/connect/token, Id=8000000e-0001-fe00-b63f-84710c7967bb, Message='https://localhost:44301/identity/connect/token'
+2019-05-21 00:31:13.362 +03:00 [DBG] [2019-05-20T21:31:13.3610303Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=DependencyScopeHandler.SendAsync
+2019-05-21 00:31:13.364 +03:00 [DBG] [2019-05-20T21:31:13.3640299Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=PassiveAuthenticationMessageHandler.SendAsync
+2019-05-21 00:31:13.389 +03:00 [DBG] [2019-05-20T21:31:13.3870227Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=8000000e-0001-fe00-b63f-84710c7967bb, Message='Route='controller:TokenEndpoint,action:Post'', Operation=DefaultHttpControllerSelector.SelectController
+2019-05-21 00:31:13.393 +03:00 [DBG] [2019-05-20T21:31:13.3920221Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=8000000e-0001-fe00-b63f-84710c7967bb, Message='TokenEndpoint', Operation=DefaultHttpControllerSelector.SelectController
+2019-05-21 00:31:13.395 +03:00 [DBG] [2019-05-20T21:31:13.3950191Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=HttpControllerDescriptor.CreateController
+2019-05-21 00:31:13.396 +03:00 [DBG] [2019-05-20T21:31:13.3960193Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=DefaultHttpControllerActivator.Create
+2019-05-21 00:31:13.418 +03:00 [DBG] [2019-05-20T21:31:13.4180153Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=8000000e-0001-fe00-b63f-84710c7967bb, Message='IdentityServer3.Core.Endpoints.TokenEndpointController', Operation=DefaultHttpControllerActivator.Create
+2019-05-21 00:31:13.419 +03:00 [DBG] [2019-05-20T21:31:13.4180153Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=8000000e-0001-fe00-b63f-84710c7967bb, Message='IdentityServer3.Core.Endpoints.TokenEndpointController', Operation=HttpControllerDescriptor.CreateController
+2019-05-21 00:31:13.423 +03:00 [DBG] [2019-05-20T21:31:13.4220111Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=TokenEndpointController.ExecuteAsync
+2019-05-21 00:31:13.428 +03:00 [DBG] [2019-05-20T21:31:13.4280089Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=ApiControllerActionSelector.SelectAction
+2019-05-21 00:31:13.447 +03:00 [DBG] [2019-05-20T21:31:13.4450028Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=8000000e-0001-fe00-b63f-84710c7967bb, Message='Selected action 'Post()'', Operation=ApiControllerActionSelector.SelectAction
+2019-05-21 00:31:13.469 +03:00 [DBG] [2019-05-20T21:31:13.4689976Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=PreventUnsupportedRequestMediaTypesAttribute.OnAuthorizationAsync
+2019-05-21 00:31:13.479 +03:00 [DBG] [2019-05-20T21:31:13.4789914Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=PreventUnsupportedRequestMediaTypesAttribute.OnAuthorizationAsync
+2019-05-21 00:31:13.483 +03:00 [DBG] [2019-05-20T21:31:13.4839930Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-05-21 00:31:13.487 +03:00 [DBG] [2019-05-20T21:31:13.4849930Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-05-21 00:31:13.492 +03:00 [DBG] [2019-05-20T21:31:13.4919900Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=8000000e-0001-fe00-b63f-84710c7967bb, Message='Action filter for 'Post()'', Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-05-21 00:31:13.494 +03:00 [DBG] [2019-05-20T21:31:13.4949890Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-05-21 00:31:13.499 +03:00 [DBG] [2019-05-20T21:31:13.4989877Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=8000000e-0001-fe00-b63f-84710c7967bb, Message='Action='Post()'', Operation=ApiControllerActionInvoker.InvokeActionAsync
+2019-05-21 00:31:13.507 +03:00 [DBG] [2019-05-20T21:31:13.5069857Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=8000000e-0001-fe00-b63f-84710c7967bb, Message='Invoking action 'Post()'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-05-21 00:31:13.516 +03:00 [INF] Start token request
+2019-05-21 00:31:13.563 +03:00 [DBG] Start client validation
+2019-05-21 00:31:13.568 +03:00 [DBG] Start parsing Basic Authentication secret
+2019-05-21 00:31:13.571 +03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2019-05-21 00:31:13.572 +03:00 [INF] Secret id found: desktop1
+2019-05-21 00:31:13.850 +03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2019-05-21 00:31:13.850 +03:00 [INF] Client validation success
+2019-05-21 00:31:13.859 +03:00 [INF] Start token request validation
+2019-05-21 00:31:13.868 +03:00 [INF] Start password token request validation
+2019-05-21 00:31:13.895 +03:00 [INF] Password token request validation success.
+2019-05-21 00:31:14.073 +03:00 [INF] Token request validation success
+ {
+  "ClientId": "desktop1",
+  "ClientName": "WpfApp",
+  "GrantType": "password",
+  "Scopes": "openid",
+  "UserName": "bob",
+  "AuthenticationContextReferenceClasses": [],
+  "Raw": {
+    "grant_type": "password",
+    "username": "bob",
+    "password": "******",
+    "scope": "openid"
+  }
+}
+2019-05-21 00:31:14.077 +03:00 [INF] Creating token response
+2019-05-21 00:31:14.079 +03:00 [INF] Processing token request
+2019-05-21 00:31:14.086 +03:00 [DBG] Creating access token
+2019-05-21 00:31:14.097 +03:00 [DBG] Creating JWT access token
+2019-05-21 00:31:14.230 +03:00 [INF] End token request
+2019-05-21 00:31:14.231 +03:00 [DBG] [2019-05-20T21:31:14.2301080Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=8000000e-0001-fe00-b63f-84710c7967bb, Message='Action returned 'IdentityServer3.Core.Results.TokenResult'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-05-21 00:31:14.254 +03:00 [INF] Returning token response.
+2019-05-21 00:31:14.255 +03:00 [DBG] [2019-05-20T21:31:14.2541647Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=ApiControllerActionInvoker.InvokeActionAsync, Status=200 (OK)
+2019-05-21 00:31:14.257 +03:00 [DBG] [2019-05-20T21:31:14.2561628Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=8000000e-0001-fe00-b63f-84710c7967bb, Message='Action filter for 'Post()'', Operation=NoCacheAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-05-21 00:31:14.260 +03:00 [DBG] [2019-05-20T21:31:14.2591610Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=NoCacheAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-05-21 00:31:14.260 +03:00 [DBG] [2019-05-20T21:31:14.2601606Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=TokenEndpointController.ExecuteAsync, Status=200 (OK)
+2019-05-21 00:31:14.262 +03:00 [DBG] [2019-05-20T21:31:14.2621600Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=PassiveAuthenticationMessageHandler.SendAsync, Status=200 (OK)
+2019-05-21 00:31:14.263 +03:00 [DBG] [2019-05-20T21:31:14.2621600Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=DependencyScopeHandler.SendAsync, Status=200 (OK)
+2019-05-21 00:31:14.264 +03:00 [DBG] [2019-05-20T21:31:14.2631597Z] Sending response, Status=200 (OK), Method=POST, Url=https://localhost:44301/identity/connect/token, Id=8000000e-0001-fe00-b63f-84710c7967bb, Message='Content-type='application/json; charset=utf-8', content-length=912'
+2019-05-21 00:31:14.308 +03:00 [DBG] [2019-05-20T21:31:14.3071456Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=TokenEndpointController.Dispose
+2019-05-21 00:31:14.308 +03:00 [DBG] [2019-05-20T21:31:14.3081448Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=8000000e-0001-fe00-b63f-84710c7967bb, Operation=TokenEndpointController.Dispose

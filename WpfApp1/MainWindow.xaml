@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Loaded="Window_Loaded">
     <Grid>
-        <Label Content="Вы успешно вошли в систему!" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+        <Label Name="infoLabel" Content="Вы успешно вошли в систему как " HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
 
     </Grid>
 </Window>

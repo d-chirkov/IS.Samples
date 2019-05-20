@@ -81,7 +81,7 @@ namespace Site1.Mvc5.Controllers
 
         class NewUser
         {
-            public int Id { get; set; }
+            public string Id { get; set; }
 
             public string Name { get; set; }
         }

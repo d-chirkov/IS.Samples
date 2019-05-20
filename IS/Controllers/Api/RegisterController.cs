@@ -11,15 +11,15 @@
         [Route("user")]
         public IHttpActionResult AddUser(NewUser newUser)
         {
-            int? added = UserRepo.SetUser(newUser.Name, newUser.Password);
-            if (added == null)
+            string addedId = UserRepo.SetUser(newUser.Name, newUser.Password);
+            if (addedId == null)
             {
                 var user = UserRepo.GetUser(newUser.Name);
                 return user == null ? 
                     (IHttpActionResult)NotFound() : 
                     Content(System.Net.HttpStatusCode.Conflict, new { id = user.Id, name = newUser.Name });
             }
-            return Ok(new { id = added.Value, name = newUser.Name });
+            return Ok(new { id = addedId, name = newUser.Name });
         }
 
         [HttpPost]

@@ -23,5 +23,13 @@ namespace WpfApp1
         {
             InitializeComponent();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.infoLabel.Content = 
+                CurrentUserProvider.UserName == null ? 
+                "неизвестная ошибка" : 
+                this.infoLabel.Content.ToString() + CurrentUserProvider.UserName;
+        }
     }
 }

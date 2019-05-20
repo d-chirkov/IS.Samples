@@ -30,11 +30,15 @@ namespace WpfApp1
         {
             this.IsEnabled = false;
             // адрес сервера аутентификации
-            // Для пользователей из базы данных (пока мнимой)
-            string idsrvUri = "https://localhost:44301/identity";
+            // Для пользователей из IS {
+            //string idsrvUri = "https://localhost:44301/identity";
+            //}
 
-            // Для windows пользователей
-            //string idsrvUri = "https://localhost:44384/identity";
+            // Для windows пользователей {
+            string idsrvUri = "https://localhost:44384/identity";
+            //}
+
+
             string clientId = "desktop1";
             string clientSecret = "secret3";
 
@@ -43,19 +47,18 @@ namespace WpfApp1
                 clientId,
                 clientSecret);
 
-            // Для windows аутентификации через IS.WindowsAuth
+            // Для обычной аутентификации через IS {
+            //var tokenResponse = await client.RequestResourceOwnerPasswordAsync(this.loginTextBox.Text, this.passwordTextBox.Password, "openid");
+            //}
 
-            //var creds = new Dictionary<string, string>();
-            //creds.Add("name", this.loginTextBox.Text);
-            //creds.Add("password", this.passwordTextBox.Password);
-            //var tokenResponse = await client.RequestCustomGrantAsync("winauth", "profile", creds);
+            // Для windows аутентификации через IS.WindowsAuth {
+            var creds = new Dictionary<string, string>();
+            creds.Add("name", this.loginTextBox.Text);
+            creds.Add("password", this.passwordTextBox.Password);
+            var tokenResponse = await client.RequestCustomGrantAsync("winauth", "profile", creds);
+            //}
 
-
-            // Для обычной аутентификации через IS
-            // Запашиваем токен через ResourceOwner и со scope-ом равным openid
-
-            var tokenResponse = await client.RequestResourceOwnerPasswordAsync(this.loginTextBox.Text, this.passwordTextBox.Password, "openid");
-            // И смотрим ошибки в ответе, если они есть, значит аутентификация не удалась
+            // Смотрим ошибки в ответе, если они есть, значит аутентификация не удалась
             if (tokenResponse.IsError)
             {
                 this.IsEnabled = true;
@@ -72,6 +75,7 @@ namespace WpfApp1
             // Если всё хорошо, закрываем текущее окно, и открываем само приложение
             else
             {
+                CurrentUserProvider.UserName = this.loginTextBox.Text;
                 MainWindow main = new MainWindow();
                 App.Current.MainWindow = main;
                 this.Close();
