@@ -5,6 +5,7 @@ using IdentityServer3.Core.Services.Default;
 using IS.IdSrvImpls;
 using Microsoft.Owin;
 using Owin;
+using Serilog;
 using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Web.Http;
@@ -85,6 +86,11 @@ namespace IS
 
             // Включаем webapi
             app.UseWebApi(config);
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.File($"{AppDomain.CurrentDomain.BaseDirectory}\\IS.Log.txt")
+                .CreateLogger();
         }
 
         X509Certificate2 LoadCertificate()
