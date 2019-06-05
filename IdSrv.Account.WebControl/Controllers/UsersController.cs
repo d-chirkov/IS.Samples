@@ -54,7 +54,20 @@
         [HttpGet]
         public ViewResult ChangePassword(ChangeIdSrvUserPasswordDTO passwords)
         {
-            throw new NotImplementedException();
+            if (passwords.NewPassword != passwords.RepeatNewPassword)
+            {
+                ModelState.AddModelError("", "Пароли не совпадают");
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(new ChangeIdSrvUserPasswordDTO { UserId = passwords.UserId });
+            }
+            bool changed = this.AccountService.ChangePasswordForUser(passwords);
+            if (!changed)
+            {
+                ModelState.AddModelError("", "Старыль пароль указан неверно");
+            }
+            return changed ? View(nameof(Index)) : View(new ChangeIdSrvUserPasswordDTO { UserId = passwords.UserId });
         }
     }
 }

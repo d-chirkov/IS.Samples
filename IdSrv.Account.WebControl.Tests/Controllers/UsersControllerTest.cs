@@ -84,6 +84,19 @@
         }
 
         [Test]
+        public void Create_ReturnSelfWithPassedModel_When_ModelIsInvalid()
+        {
+            var newUser = new NewIdSrvUserDTO { UserName = "u1", Password = "p1" };
+            this.AccountServiceMock.Setup(v => v.CreateUser(newUser)).Returns(true);
+            var controller = new UsersController(this.AccountServiceMock.Object);
+            controller.ModelState.AddModelError("", "error");
+            ViewResult viewResult = controller.Create(newUser);
+            Assert.NotNull(viewResult);
+            Assert.IsEmpty(viewResult.ViewName);
+            this.AccountServiceMock.Verify(v => v.CreateUser(It.IsAny<NewIdSrvUserDTO>()), Times.Never);
+        }
+
+        [Test]
         public void Create_ReturnViewWithPassedModel_When_ServiseReturnFalse()
         {
             var newUser = new NewIdSrvUserDTO { UserName = "u1", Password = "p1" };
@@ -96,7 +109,7 @@
         }
 
         [Test]
-        public void UpdatePassword_ReturnModelWithUserIdAndEmptyPasswords_When_NoArgs()
+        public void UpdatePassword_ReturnSelf_WithModelContainsPassedUserIdAndNullPasswords_When_NoArgs()
         {
             var passwords = new ChangeIdSrvUserPasswordDTO { UserId = new Guid() };
             var controller = new UsersController(this.AccountServiceMock.Object);
@@ -110,6 +123,76 @@
             Assert.IsNull(actualModel.OldPassword);
             Assert.IsNull(actualModel.NewPassword);
             Assert.IsNull(actualModel.RepeatNewPassword);
+        }
+
+        [Test]
+        public void ChangePassword_RedirectToIndex_CallSerive_When_ServiceReturnTrue()
+        {
+            var passwords = new ChangeIdSrvUserPasswordDTO
+            {
+                UserId = new Guid(),
+                OldPassword = "a",
+                NewPassword = "b",
+                RepeatNewPassword = "b"
+            };
+            this.AccountServiceMock.Setup(v => v.ChangePasswordForUser(passwords)).Returns(true);
+            var controller = new UsersController(this.AccountServiceMock.Object);
+            ViewResult viewResult = controller.ChangePassword(passwords);
+            Assert.NotNull(viewResult);
+            Assert.AreEqual(viewResult.ViewName, nameof(controller.Index));
+            this.AccountServiceMock.Verify(v => v.ChangePasswordForUser(passwords), Times.Once);
+        }
+
+        [Test]
+        public void ChangePassword_ReturnSelf_WithPassedModel_WithoutPasswords_WithInvlaidModelState_CallService_When_ServiceReturnFalse()
+        {
+            var passwords = new ChangeIdSrvUserPasswordDTO
+            {
+                UserId = new Guid(),
+                OldPassword = "a",
+                NewPassword = "b",
+                RepeatNewPassword = "b"
+            };
+            this.AccountServiceMock.Setup(v => v.ChangePasswordForUser(passwords)).Returns(false);
+            var controller = new UsersController(this.AccountServiceMock.Object);
+            ViewResult viewResult = controller.ChangePassword(passwords);
+            Assert.NotNull(viewResult);
+            Assert.IsEmpty(viewResult.ViewName);
+            var model = controller.ViewData.Model;
+            Assert.IsInstanceOf<ChangeIdSrvUserPasswordDTO>(model);
+            var actualModel = model as ChangeIdSrvUserPasswordDTO;
+            Assert.AreEqual(actualModel.UserId, passwords.UserId);
+            Assert.IsNull(actualModel.OldPassword);
+            Assert.IsNull(actualModel.NewPassword);
+            Assert.IsNull(actualModel.RepeatNewPassword);
+            Assert.IsFalse(controller.ModelState.IsValid);
+            this.AccountServiceMock.Verify(v => v.ChangePasswordForUser(passwords), Times.Once);
+        }
+
+        [Test]
+        public void ChangePassword_ReturnSelf_WithPassedModel_WithoutPasswords_WithInvlaidModelState_When_NewPasswordsAreDifferent()
+        {
+            var passwords = new ChangeIdSrvUserPasswordDTO
+            {
+                UserId = new Guid(),
+                OldPassword = "a",
+                NewPassword = "b",
+                RepeatNewPassword = "c"
+            };
+            this.AccountServiceMock.Setup(v => v.ChangePasswordForUser(passwords)).Returns(false);
+            var controller = new UsersController(this.AccountServiceMock.Object);
+            ViewResult viewResult = controller.ChangePassword(passwords);
+            Assert.NotNull(viewResult);
+            Assert.IsEmpty(viewResult.ViewName);
+            var model = controller.ViewData.Model;
+            Assert.IsInstanceOf<ChangeIdSrvUserPasswordDTO>(model);
+            var actualModel = model as ChangeIdSrvUserPasswordDTO;
+            Assert.AreEqual(actualModel.UserId, passwords.UserId);
+            Assert.IsNull(actualModel.OldPassword);
+            Assert.IsNull(actualModel.NewPassword);
+            Assert.IsNull(actualModel.RepeatNewPassword);
+            Assert.IsFalse(controller.ModelState.IsValid);
+            this.AccountServiceMock.Verify(v => v.ChangePasswordForUser(passwords), Times.Never);
         }
 
         // TODO: обработка ошибок сервиса, если он вернёт null или кинет исключение
