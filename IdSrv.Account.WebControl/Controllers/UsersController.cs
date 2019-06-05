@@ -1,13 +1,13 @@
-﻿using IdSrv.Account.WebControl.Infrastructure.Abstractions;
-using IdSrv.Account.WebControl.Infrastructure.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
-namespace IdSrv.Account.WebControl.Controllers
+﻿namespace IdSrv.Account.WebControl.Controllers
 {
+    using IdSrv.Account.WebControl.Infrastructure.Abstractions;
+    using IdSrv.Account.WebControl.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Mvc;
+
     public class UsersController : Controller
     {
         private IAccountService AccountService { get; set; }
@@ -20,7 +20,7 @@ namespace IdSrv.Account.WebControl.Controllers
         [HttpGet]
         public ViewResult Index()
         {
-            IEnumerable<IdSrvUser> users = this.AccountService.GetUsers();
+            IEnumerable<IdSrvUserDTO> users = this.AccountService.GetUsers();
             return View(users);
         }
 
@@ -31,7 +31,7 @@ namespace IdSrv.Account.WebControl.Controllers
         }
 
         [HttpPost]
-        public ViewResult Create(NewIdSrvUser newUser)
+        public ViewResult Create(NewIdSrvUserDTO newUser)
         {
             if (!ModelState.IsValid)
             {
@@ -43,6 +43,18 @@ namespace IdSrv.Account.WebControl.Controllers
                 ModelState.AddModelError("", "Такой пользователь уже существует");
             }
             return created ? View(nameof(Index)) : View(newUser);
+        }
+
+        [HttpGet]
+        public ViewResult ChangePassword(Guid id)
+        {
+            return View(new ChangeIdSrvUserPasswordDTO { UserId = id });
+        }
+
+        [HttpGet]
+        public ViewResult ChangePassword(ChangeIdSrvUserPasswordDTO passwords)
+        {
+            throw new NotImplementedException();
         }
     }
 }

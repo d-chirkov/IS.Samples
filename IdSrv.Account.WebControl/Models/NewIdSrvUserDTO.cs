@@ -1,6 +1,6 @@
-﻿namespace IdSrv.Account.WebControl.Infrastructure.Entities
+﻿namespace IdSrv.Account.WebControl.Models
 {
-    public class NewIdSrvUser
+    public class NewIdSrvUserDTO
     {
         public string UserName { get; set; }
 

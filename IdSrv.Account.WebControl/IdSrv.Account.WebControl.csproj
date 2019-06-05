@@ -132,9 +132,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Abstractions\IAccountService.cs" />
-    <Compile Include="Models\IdSrvApplication.cs" />
-    <Compile Include="Models\IdSrvUser.cs" />
-    <Compile Include="Models\NewIdSrvUser.cs" />
+    <Compile Include="Models\ChangePasswordDTO.cs" />
+    <Compile Include="Models\IdSrvApplicationDTO.cs" />
+    <Compile Include="Models\IdSrvUserDTO.cs" />
+    <Compile Include="Models\NewIdSrvUserDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

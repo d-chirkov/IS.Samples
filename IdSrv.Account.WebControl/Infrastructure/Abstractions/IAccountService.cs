@@ -1,17 +1,16 @@
-﻿using IdSrv.Account.WebControl.Infrastructure.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace IdSrv.Account.WebControl.Infrastructure.Abstractions
+﻿namespace IdSrv.Account.WebControl.Infrastructure.Abstractions
 {
+    using IdSrv.Account.WebControl.Models;
+    using System.Collections.Generic;
+
     public interface IAccountService
     {
-        IEnumerable<IdSrvUser> GetUsers();
+        IEnumerable<IdSrvUserDTO> GetUsers();
 
-        bool CreateUser(NewIdSrvUser newUser);
+        bool CreateUser(NewIdSrvUserDTO newUser);
 
-        IEnumerable<IdSrvApplication> GetApplications();
+        bool ChangePasswordForUser(ChangeIdSrvUserPasswordDTO passwords);
+
+        IEnumerable<IdSrvApplicationDTO> GetApplications();
     }
 }

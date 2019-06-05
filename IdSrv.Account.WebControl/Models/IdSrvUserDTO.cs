@@ -1,8 +1,8 @@
-﻿namespace IdSrv.Account.WebControl.Infrastructure.Entities
+﻿namespace IdSrv.Account.WebControl.Models
 {
     using System;
 
-    public class IdSrvUser
+    public class IdSrvUserDTO
     {
         public Guid Id { get; set; }
 
