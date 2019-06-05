@@ -10,6 +10,8 @@ namespace IdSrv.Account.WebControl.Infrastructure.Abstractions
     {
         IEnumerable<IdSrvUser> GetUsers();
 
+        bool CreateUser(NewIdSrvUser newUser);
+
         IEnumerable<IdSrvApplication> GetApplications();
     }
 }

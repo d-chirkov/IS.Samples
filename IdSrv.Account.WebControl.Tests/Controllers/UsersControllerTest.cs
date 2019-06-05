@@ -32,6 +32,7 @@
             ViewResult viewResult = controller.Index();
             object actualUsers = controller.ViewData.Model;
             Assert.NotNull(viewResult);
+            Assert.IsEmpty(viewResult.ViewName);
             Assert.IsInstanceOf<IEnumerable<IdSrvUser>>(actualUsers);
             Assert.AreEqual(actualUsers, users);
         }
@@ -52,6 +53,46 @@
         public void Index_ReturnViewWithNoUsers_When_AccountServiceReturnEmptyUsersCollection()
         {
             _Index_ReturnViewWithUsers(new List<IdSrvUser>());
+        }
+
+        [Test]
+        public void Create_ReturnEmptyView_When_NoArgs()
+        {
+            var controller = new UsersController(this.AccountServiceMock.Object);
+            ViewResult viewResult = controller.Create();
+            Assert.NotNull(viewResult);
+        }
+
+        [Test]
+        public void Create_RedirectToIndex_When_NewUserCreatedByService()
+        {
+            var newUser = new NewIdSrvUser { UserName = "u1", Password = "p1" };
+            this.AccountServiceMock.Setup(v => v.CreateUser(newUser)).Returns(true);
+            var controller = new UsersController(this.AccountServiceMock.Object);
+            ViewResult viewResult = controller.Create(newUser);
+            Assert.AreEqual(viewResult.ViewName, nameof(controller.Index));
+        }
+
+        [Test]
+        public void Create_CallSeriveseCreateUser_When_PassingNewUser()
+        {
+            var newUser = new NewIdSrvUser { UserName = "u1", Password = "p1" };
+            this.AccountServiceMock.Setup(v => v.CreateUser(newUser)).Returns(true);
+            var controller = new UsersController(this.AccountServiceMock.Object);
+            ViewResult viewResult = controller.Create(newUser);
+            this.AccountServiceMock.Verify(v => v.CreateUser(newUser), Times.Once);
+        }
+
+        [Test]
+        public void Create_ReturnViewWithPassedModel_When_ServiseReturnFalse()
+        {
+            var newUser = new NewIdSrvUser { UserName = "u1", Password = "p1" };
+            this.AccountServiceMock.Setup(v => v.CreateUser(newUser)).Returns(false);
+            var controller = new UsersController(this.AccountServiceMock.Object);
+            ViewResult viewResult = controller.Create(newUser);
+            Assert.NotNull(viewResult);
+            Assert.IsEmpty(viewResult.ViewName); // empty view name means asp.net returns the same view
+            Assert.AreEqual(controller.ViewData.Model, newUser);
         }
 
         // TODO: обработка ошибок сервиса, если он вернёт null или кинет исключение

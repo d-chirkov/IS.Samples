@@ -17,11 +17,32 @@ namespace IdSrv.Account.WebControl.Controllers
             this.AccountService = accountService;
         }
 
-        // GET: Users
+        [HttpGet]
         public ViewResult Index()
         {
             IEnumerable<IdSrvUser> users = this.AccountService.GetUsers();
             return View(users);
+        }
+
+        [HttpGet]
+        public ViewResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ViewResult Create(NewIdSrvUser newUser)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(newUser);
+            }
+            bool created = this.AccountService.CreateUser(newUser);
+            if (!created)
+            {
+                ModelState.AddModelError("", "Такой пользователь уже существует");
+            }
+            return created ? View(nameof(Index)) : View(newUser);
         }
     }
 }
