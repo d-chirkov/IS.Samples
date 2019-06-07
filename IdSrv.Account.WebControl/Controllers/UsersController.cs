@@ -15,14 +15,14 @@
 
         public UsersController(IAccountService accountService)
         {
-            this.AccountService = accountService;
+            this.AccountService = accountService ?? throw new NullReferenceException(nameof(accountService));
         }
 
         [HttpGet]
         public async Task<ViewResult> Index()
         {
             IEnumerable<IdSrvUserDTO> users = await this.AccountService.GetUsersAsync();
-            return View(users);
+            return View(users); 
         }
 
         [HttpGet]
