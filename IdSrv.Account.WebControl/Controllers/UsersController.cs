@@ -4,16 +4,14 @@
     using IdSrv.Account.WebControl.Models;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
-    using System.Web;
     using System.Web.Mvc;
 
     public class UsersController : Controller
     {
-        private IAccountService AccountService { get; set; }
+        private IUserService AccountService { get; set; }
 
-        public UsersController(IAccountService accountService)
+        public UsersController(IUserService accountService)
         {
             this.AccountService = accountService ?? throw new NullReferenceException(nameof(accountService));
         }
@@ -22,7 +20,7 @@
         public async Task<ViewResult> Index()
         {
             IEnumerable<IdSrvUserDTO> users = await this.AccountService.GetUsersAsync();
-            return View(users); 
+            return View(users);
         }
 
         [HttpGet]

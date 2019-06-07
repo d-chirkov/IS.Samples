@@ -126,13 +126,15 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ApplicationsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Abstractions\IAccountService.cs" />
-    <Compile Include="Models\ChangePasswordDTO.cs" />
+    <Compile Include="Infrastructure\Abstractions\IApplicationService.cs" />
+    <Compile Include="Infrastructure\Abstractions\IUserService.cs" />
+    <Compile Include="Models\ChangeIdSrvUserPasswordDTO.cs" />
     <Compile Include="Models\IdSrvApplicationDTO.cs" />
     <Compile Include="Models\IdSrvUserDTO.cs" />
     <Compile Include="Models\NewIdSrvUserDTO.cs" />
@@ -212,6 +214,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Applications\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>

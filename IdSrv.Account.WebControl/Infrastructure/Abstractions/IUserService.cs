@@ -5,15 +5,13 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public interface IAccountService
+    public interface IUserService
     {
         Task<IEnumerable<IdSrvUserDTO>> GetUsersAsync();
 
         Task<bool> CreateUserAsync(NewIdSrvUserDTO newUser);
 
         Task<bool> ChangePasswordForUserAsync(ChangeIdSrvUserPasswordDTO passwords);
-
-        Task<IEnumerable<IdSrvApplicationDTO>> GetApplicationsAsync();
 
         Task<bool> DeleteUserAsync(Guid id);
     }
