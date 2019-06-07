@@ -197,6 +197,47 @@
             this.AccountServiceMock.Verify(v => v.ChangePasswordForUserAsync(passwords), Times.Never);
         }
 
+        [Test]
+        public async Task Delete_CallServiceDeleteUser()
+        {
+            var userId = new Guid();
+            this.AccountServiceMock.Setup(v => v.DeleteUserAsync(userId)).ReturnsAsync(true);
+            var controller = new UsersController(this.AccountServiceMock.Object);
+            ViewResult viewResult = await controller.Delete(userId);
+            this.AccountServiceMock.Verify(v => v.DeleteUserAsync(userId), Times.Once);
+        }
+
+        [Test]
+        public async Task Delete_RedirectToIndex_When_ServiceReturnsAny()
+        {
+            Func<bool, Task> testWithServiceReturns = async (bool what) =>
+            {
+                var userId = new Guid();
+                this.AccountServiceMock.Setup(v => v.DeleteUserAsync(userId)).ReturnsAsync(true);
+                var controller = new UsersController(this.AccountServiceMock.Object);
+                ViewResult viewResult = await controller.Delete(userId);
+                Assert.AreEqual(nameof(controller.Index), viewResult.ViewName);
+            };
+            await testWithServiceReturns(true);
+            await testWithServiceReturns(false);
+        }
+
+        [Test]
+        public async Task Delete_PutErrorStatusToTempData_When_ServiceReturnsThisErrorStatus()
+        {
+            Func<bool, Task> testWithServiceReturns = async (bool status) =>
+            {
+                var userId = new Guid();
+                this.AccountServiceMock.Setup(v => v.DeleteUserAsync(userId)).ReturnsAsync(status);
+                var controller = new UsersController(this.AccountServiceMock.Object);
+                ViewResult viewResult = await controller.Delete(userId);
+                Assert.IsInstanceOf<bool?>(controller.TempData["_IsError"]);
+                Assert.AreEqual(!status, controller.TempData["_IsError"] as bool?);
+                Assert.AreEqual(nameof(controller.Index), viewResult.ViewName);
+            };
+            await testWithServiceReturns(true);
+            await testWithServiceReturns(false);
+        }
         // TODO: обработка ошибок сервиса, если он вернёт null или кинет исключение
     }
 }

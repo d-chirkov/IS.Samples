@@ -71,8 +71,8 @@
             return changed ? this.ViewSuccess("Пароль успешно изменён") : View(new ChangeIdSrvUserPasswordDTO { UserId = passwords.UserId });
         }
 
-        [HttpGet]
-        public async Task<ViewResult> DeleteUser(Guid id)
+        [HttpPost]
+        public async Task<ViewResult> Delete(Guid id)
         {
             bool deleted = await this.AccountService.DeleteUserAsync(id);
             return deleted ? this.ViewSuccess("Пользователь успешно удалён") : this.ViewError("Не удалось удалить пользователя");
