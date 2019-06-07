@@ -28,7 +28,7 @@
         [Test]
         public void Ctor_ThrowNullReferenceException_When_PassingNullInsteadUserService()
         {
-            Assert.Throws<NullReferenceException>(() => new ApplicationsController(null), "applicationService1");
+            Assert.Throws<NullReferenceException>(() => new ApplicationsController(null));
         }
     }
 }

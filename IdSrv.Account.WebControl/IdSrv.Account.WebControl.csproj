@@ -135,6 +135,7 @@
     <Compile Include="Infrastructure\Abstractions\IApplicationService.cs" />
     <Compile Include="Infrastructure\Abstractions\IUserService.cs" />
     <Compile Include="Models\ChangeIdSrvUserPasswordDTO.cs" />
+    <Compile Include="Models\NewIdSrvApplicationDTO.cs" />
     <Compile Include="Models\IdSrvApplicationDTO.cs" />
     <Compile Include="Models\IdSrvUserDTO.cs" />
     <Compile Include="Models\NewIdSrvUserDTO.cs" />

@@ -30,18 +30,18 @@
         }
 
         [HttpPost]
-        public async Task<ViewResult> Create(NewIdSrvUserDTO newUser)
+        public async Task<ViewResult> Create(NewIdSrvUserDTO user)
         {
             if (!ModelState.IsValid)
             {
-                return View(newUser);
+                return View(user);
             }
-            bool created = await this.AccountService.CreateUserAsync(newUser);
+            bool created = await this.AccountService.CreateUserAsync(user);
             if (!created)
             {
                 ModelState.AddModelError("", "Такой пользователь уже существует");
             }
-            return created ? this.ViewSuccess("Пользователь успешно создан") : View(newUser);
+            return created ? this.ViewSuccess("Пользователь успешно создан") : View(user);
         }
 
         [HttpGet]
@@ -64,7 +64,7 @@
             bool changed = await this.AccountService.ChangePasswordForUserAsync(passwords);
             if (!changed)
             {
-                ModelState.AddModelError("", "Старый пароль указан неверно");
+                ModelState.AddModelError("", "Не удалось изменить пароль");
             }
             return changed ? this.ViewSuccess("Пароль успешно изменён") : View(new ChangeIdSrvUserPasswordDTO { UserId = passwords.UserId });
         }

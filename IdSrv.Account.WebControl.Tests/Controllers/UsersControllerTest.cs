@@ -48,9 +48,8 @@
             };
             await testWhenServiceReturns(new []
             {
-                new IdSrvUserDTO { UserName = "u1", Id = new Guid(), Enabled = true },
-                new IdSrvUserDTO { UserName = "u2", Id = new Guid(), Enabled = true },
-                new IdSrvUserDTO { UserName = "u3", Id = new Guid(), Enabled = false },
+                new IdSrvUserDTO (),
+                new IdSrvUserDTO ()
             });
             await testWhenServiceReturns(new IdSrvUserDTO[] { });
         }
@@ -106,7 +105,6 @@
             Assert.IsInstanceOf<ChangeIdSrvUserPasswordDTO>(model);
             var actualModel = model as ChangeIdSrvUserPasswordDTO;
             Assert.AreEqual(actualModel.UserId, passwords.UserId);
-            Assert.IsNull(actualModel.OldPassword);
             Assert.IsNull(actualModel.NewPassword);
             Assert.IsNull(actualModel.RepeatNewPassword);
         }
@@ -114,13 +112,7 @@
         [Test]
         public async Task ChangePassword_CallServiceChangePasswordForUser_When_PassingModel()
         {
-            var passwords = new ChangeIdSrvUserPasswordDTO
-            {
-                UserId = new Guid(),
-                OldPassword = "a",
-                NewPassword = "b",
-                RepeatNewPassword = "b"
-            };
+            var passwords = new ChangeIdSrvUserPasswordDTO();
             this.UserServiceMock.Setup(v => v.ChangePasswordForUserAsync(passwords)).ReturnsAsync(true);
             var controller = new UsersController(this.UserServiceMock.Object);
             ViewResult viewResult = await controller.ChangePassword(passwords);
@@ -130,13 +122,7 @@
         [Test]
         public async Task ChangePassword_RedirectToIndex_With_TempDataContainsNoError_When_ServiceReturnTrue()
         {
-            var passwords = new ChangeIdSrvUserPasswordDTO
-            {
-                UserId = new Guid(),
-                OldPassword = "a",
-                NewPassword = "b",
-                RepeatNewPassword = "b"
-            };
+            var passwords = new ChangeIdSrvUserPasswordDTO();
             this.UserServiceMock.Setup(v => v.ChangePasswordForUserAsync(passwords)).ReturnsAsync(true);
             var controller = new UsersController(this.UserServiceMock.Object);
             ViewResult viewResult = await controller.ChangePassword(passwords);
@@ -160,7 +146,6 @@
                 Assert.IsInstanceOf<ChangeIdSrvUserPasswordDTO>(model);
                 var actualModel = model as ChangeIdSrvUserPasswordDTO;
                 Assert.AreEqual(actualModel.UserId, passwords.UserId);
-                Assert.IsNull(actualModel.OldPassword);
                 Assert.IsNull(actualModel.NewPassword);
                 Assert.IsNull(actualModel.RepeatNewPassword);
                 Assert.IsFalse(controller.ModelState.IsValid);
@@ -168,14 +153,12 @@
             await testWithPasswordsModel(new ChangeIdSrvUserPasswordDTO
             {
                 UserId = new Guid(),
-                OldPassword = "a",
                 NewPassword = "b",
                 RepeatNewPassword = "b"
             });
             await testWithPasswordsModel(new ChangeIdSrvUserPasswordDTO
             {
                 UserId = new Guid(),
-                OldPassword = "a",
                 NewPassword = "b",
                 RepeatNewPassword = "c"
             });
