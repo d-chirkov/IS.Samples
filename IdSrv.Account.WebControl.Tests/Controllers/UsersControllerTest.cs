@@ -14,6 +14,9 @@
     public class UsersControllerTest
     {
         public Mock<IAccountService> AccountServiceMock { get; set; }
+
+        public string MessageViewName { get; set; } = "Message";
+
         [SetUp]
         public void SetUp()
         {
@@ -39,7 +42,7 @@
         }
 
         [Test]
-        public void Index_ReturnViewWithUsers_When_AccountServiceReturnNotEmptyUsersCollection()
+        public async Task Index_ReturnViewWithUsers_When_AccountServiceReturnNotEmptyUsersCollection()
         {
             var users = new List<IdSrvUserDTO>()
             {
@@ -47,13 +50,13 @@
                 new IdSrvUserDTO { UserName = "u2", Id = new Guid(), Enabled = true },
                 new IdSrvUserDTO { UserName = "u3", Id = new Guid(), Enabled = false },
             };
-            _Index_ReturnViewWithUsers(users);
+            await _Index_ReturnViewWithUsers(users);
         }
 
         [Test]
-        public void Index_ReturnViewWithNoUsers_When_AccountServiceReturnEmptyUsersCollection()
+        public async Task Index_ReturnViewWithNoUsers_When_AccountServiceReturnEmptyUsersCollection()
         {
-            _Index_ReturnViewWithUsers(new List<IdSrvUserDTO>());
+            await _Index_ReturnViewWithUsers(new List<IdSrvUserDTO>());
         }
 
         [Test]
@@ -65,13 +68,13 @@
         }
 
         [Test]
-        public async Task Create_RedirectToIndex_When_NewUserCreatedByService()
+        public async Task Create_RedirectToMessage_When_NewUserCreatedByService()
         {
             var newUser = new NewIdSrvUserDTO { UserName = "u1", Password = "p1" };
             this.AccountServiceMock.Setup(v => v.CreateUserAsync(newUser)).Returns(Task.FromResult(true));
             var controller = new UsersController(this.AccountServiceMock.Object);
             ViewResult viewResult = await controller.Create(newUser);
-            Assert.AreEqual(viewResult.ViewName, nameof(controller.Index));
+            Assert.AreEqual(this.MessageViewName, viewResult.ViewName);
         }
 
         [Test]
@@ -127,7 +130,7 @@
         }
 
         [Test]
-        public async Task ChangePassword_RedirectToIndex_CallSerive_When_ServiceReturnTrue()
+        public async Task ChangePassword_RedirectToMessage_CallSerive_When_ServiceReturnTrue()
         {
             var passwords = new ChangeIdSrvUserPasswordDTO
             {
@@ -140,7 +143,7 @@
             var controller = new UsersController(this.AccountServiceMock.Object);
             ViewResult viewResult = await controller.ChangePassword(passwords);
             Assert.NotNull(viewResult);
-            Assert.AreEqual(viewResult.ViewName, nameof(controller.Index));
+            Assert.AreEqual(this.MessageViewName, viewResult.ViewName);
             this.AccountServiceMock.Verify(v => v.ChangePasswordForUserAsync(passwords), Times.Once);
         }
 

@@ -43,7 +43,7 @@
             {
                 ModelState.AddModelError("", "Такой пользователь уже существует");
             }
-            return created ? View(nameof(Index)) : View(newUser);
+            return created ? this.ViewSuccess("Пользователь успешно создан") : View(newUser);
         }
 
         [HttpGet]
@@ -52,7 +52,7 @@
             return View(new ChangeIdSrvUserPasswordDTO { UserId = id });
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<ViewResult> ChangePassword(ChangeIdSrvUserPasswordDTO passwords)
         {
             if (passwords.NewPassword != passwords.RepeatNewPassword)
@@ -66,9 +66,31 @@
             bool changed = await this.AccountService.ChangePasswordForUserAsync(passwords);
             if (!changed)
             {
-                ModelState.AddModelError("", "Старыль пароль указан неверно");
+                ModelState.AddModelError("", "Старый пароль указан неверно");
             }
-            return changed ? View(nameof(Index)) : View(new ChangeIdSrvUserPasswordDTO { UserId = passwords.UserId });
+            return changed ? this.ViewSuccess("Пароль успешно изменён") : View(new ChangeIdSrvUserPasswordDTO { UserId = passwords.UserId });
+        }
+
+        [HttpGet]
+        public async Task<ViewResult> DeleteUser(Guid id)
+        {
+            bool deleted = await this.AccountService.DeleteUserAsync(id);
+            return deleted ? this.ViewSuccess("Пользователь успешно удалён") : this.ViewError("Не удалось удалить пользователя");
+        }
+
+        private ViewResult ViewSuccess(string message) => ViewMessage(message, false);
+
+        private ViewResult ViewError(string message) => ViewMessage(message, true);
+
+        private ViewResult ViewMessage(string message, bool isError)
+        {
+            ViewData["_IsError"] = isError;
+            ViewData["_Message"] = "Пароль успешно изменён";
+            if (Response != null)
+            {
+                Response.AddHeader("REFRESH", $"2;{Url.Action(nameof(Index))}");
+            }
+            return View("Message");
         }
     }
 }
