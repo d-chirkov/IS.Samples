@@ -84,13 +84,9 @@
 
         private ViewResult ViewMessage(string message, bool isError)
         {
-            ViewData["_IsError"] = isError;
-            ViewData["_Message"] = "Пароль успешно изменён";
-            if (Response != null)
-            {
-                Response.AddHeader("REFRESH", $"2;{Url.Action(nameof(Index))}");
-            }
-            return View("Message");
+            TempData["_IsError"] = isError;
+            TempData["_Message"] = message;
+            return View(nameof(Index));
         }
     }
 }

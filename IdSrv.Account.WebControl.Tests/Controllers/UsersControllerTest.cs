@@ -15,8 +15,6 @@
     {
         public Mock<IAccountService> AccountServiceMock { get; set; }
 
-        public string MessageViewName { get; set; } = "Message";
-
         [SetUp]
         public void SetUp()
         {
@@ -74,7 +72,7 @@
             this.AccountServiceMock.Setup(v => v.CreateUserAsync(newUser)).Returns(Task.FromResult(true));
             var controller = new UsersController(this.AccountServiceMock.Object);
             ViewResult viewResult = await controller.Create(newUser);
-            Assert.AreEqual(this.MessageViewName, viewResult.ViewName);
+            Assert.AreEqual(nameof(controller.Index), viewResult.ViewName);
         }
 
         [Test]
@@ -143,7 +141,7 @@
             var controller = new UsersController(this.AccountServiceMock.Object);
             ViewResult viewResult = await controller.ChangePassword(passwords);
             Assert.NotNull(viewResult);
-            Assert.AreEqual(this.MessageViewName, viewResult.ViewName);
+            Assert.AreEqual(nameof(controller.Index), viewResult.ViewName);
             this.AccountServiceMock.Verify(v => v.ChangePasswordForUserAsync(passwords), Times.Once);
         }
 
