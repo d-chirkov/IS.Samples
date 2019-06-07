@@ -5,6 +5,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using System.Web;
     using System.Web.Mvc;
 
@@ -18,9 +19,9 @@
         }
 
         [HttpGet]
-        public ViewResult Index()
+        public async Task<ViewResult> Index()
         {
-            IEnumerable<IdSrvUserDTO> users = this.AccountService.GetUsers();
+            IEnumerable<IdSrvUserDTO> users = await this.AccountService.GetUsersAsync();
             return View(users);
         }
 
@@ -31,13 +32,13 @@
         }
 
         [HttpPost]
-        public ViewResult Create(NewIdSrvUserDTO newUser)
+        public async Task<ViewResult> Create(NewIdSrvUserDTO newUser)
         {
             if (!ModelState.IsValid)
             {
                 return View(newUser);
             }
-            bool created = this.AccountService.CreateUser(newUser);
+            bool created = await this.AccountService.CreateUserAsync(newUser);
             if (!created)
             {
                 ModelState.AddModelError("", "Такой пользователь уже существует");
@@ -52,7 +53,7 @@
         }
 
         [HttpGet]
-        public ViewResult ChangePassword(ChangeIdSrvUserPasswordDTO passwords)
+        public async Task<ViewResult> ChangePassword(ChangeIdSrvUserPasswordDTO passwords)
         {
             if (passwords.NewPassword != passwords.RepeatNewPassword)
             {
@@ -62,7 +63,7 @@
             {
                 return View(new ChangeIdSrvUserPasswordDTO { UserId = passwords.UserId });
             }
-            bool changed = this.AccountService.ChangePasswordForUser(passwords);
+            bool changed = await this.AccountService.ChangePasswordForUserAsync(passwords);
             if (!changed)
             {
                 ModelState.AddModelError("", "Старыль пароль указан неверно");

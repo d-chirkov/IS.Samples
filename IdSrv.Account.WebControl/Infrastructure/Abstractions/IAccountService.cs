@@ -2,15 +2,16 @@
 {
     using IdSrv.Account.WebControl.Models;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface IAccountService
     {
-        IEnumerable<IdSrvUserDTO> GetUsers();
+        Task<IEnumerable<IdSrvUserDTO>> GetUsersAsync();
 
-        bool CreateUser(NewIdSrvUserDTO newUser);
+        Task<bool> CreateUserAsync(NewIdSrvUserDTO newUser);
 
-        bool ChangePasswordForUser(ChangeIdSrvUserPasswordDTO passwords);
+        Task<bool> ChangePasswordForUserAsync(ChangeIdSrvUserPasswordDTO passwords);
 
-        IEnumerable<IdSrvApplicationDTO> GetApplications();
+        Task<IEnumerable<IdSrvApplicationDTO>> GetApplications();
     }
 }
