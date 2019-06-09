@@ -49,7 +49,11 @@
 
         public async Task<IHttpActionResult> ChangePassword(IdSrvUserPasswordDTO password)
         {
-            throw new NotImplementedException();
+            RepositoryResponse response = await this.UserRepository.ChangePasswordAsync(password);
+            return
+                response == RepositoryResponse.Success ? Ok() :
+                response == RepositoryResponse.NotFound ? NotFound() as IHttpActionResult :
+                throw new UserRepositoryException();
         }
 
         public async Task<IHttpActionResult> Delete(Guid id)

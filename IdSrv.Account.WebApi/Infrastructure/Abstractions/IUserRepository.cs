@@ -12,10 +12,10 @@
 
         Task<RepositoryResponse> CreateAsync(NewIdSrvUserDTO user);
 
-        Task<bool> DeleteAsync(Guid id);
+        Task<RepositoryResponse> DeleteAsync(Guid id);
 
         Task<RepositoryResponse> UpdateAsync(IdSrvUserDTO user);
 
-        Task<bool> ChangePasswordAsync(IdSrvUserPasswordDTO password);
+        Task<RepositoryResponse> ChangePasswordAsync(IdSrvUserPasswordDTO password);
     }
 }

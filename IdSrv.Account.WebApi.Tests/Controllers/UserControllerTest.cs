@@ -17,7 +17,7 @@
     class UserControllerTest
     {
         private Mock<IUserRepository> UserRepository { get; set; }
-        public RepositoryResponse UnexcpectedRepositoryResponse { get; set; } = (RepositoryResponse)100;
+        public RepositoryResponse UnexpectedRepositoryResponse { get; set; } = (RepositoryResponse)100;
 
         [SetUp]
         public void SetUp()
@@ -116,7 +116,7 @@
         {
             this.UserRepository
                 .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvUserDTO>()))
-                .ReturnsAsync(this.UnexcpectedRepositoryResponse);
+                .ReturnsAsync(this.UnexpectedRepositoryResponse);
             var controller = new UserController(this.UserRepository.Object);
             Assert.ThrowsAsync<UserRepositoryException>(() => controller.Create(new NewIdSrvUserDTO()));
         }
@@ -171,9 +171,70 @@
         {
             this.UserRepository
                 .Setup(v => v.UpdateAsync(It.IsAny<IdSrvUserDTO>()))
-                .ReturnsAsync(this.UnexcpectedRepositoryResponse);
+                .ReturnsAsync(this.UnexpectedRepositoryResponse);
             var controller = new UserController(this.UserRepository.Object);
             Assert.ThrowsAsync<UserRepositoryException>(() => controller.Update(new IdSrvUserDTO()));
+        }
+
+
+
+
+
+
+
+
+        [Test]
+        public async Task ChangePassword_ReturnOk_When_RepositoryReturnSuccess()
+        {
+            this.UserRepository
+                .Setup(v => v.ChangePasswordAsync(It.IsAny<IdSrvUserPasswordDTO>()))
+                .ReturnsAsync(RepositoryResponse.Success);
+            var controller = new UserController(this.UserRepository.Object);
+            var httpResult = await controller.ChangePassword(new IdSrvUserPasswordDTO());
+            Assert.IsInstanceOf<OkResult>(httpResult);
+        }
+
+        [Test]
+        public async Task ChangePassword_CallUpdateFromRepository_With_PassedPassword()
+        {
+            var password = new IdSrvUserPasswordDTO();
+            this.UserRepository
+                .Setup(v => v.ChangePasswordAsync(password))
+                .ReturnsAsync(RepositoryResponse.Success);
+            var controller = new UserController(this.UserRepository.Object);
+            var httpResult = await controller.ChangePassword(password);
+            this.UserRepository.Verify(v => v.ChangePasswordAsync(password));
+        }
+
+        [Test]
+        public async Task ChangePassword_ReturnNotFound_When_RepositoryReturnNotFound()
+        {
+            this.UserRepository
+                .Setup(v => v.ChangePasswordAsync(It.IsAny<IdSrvUserPasswordDTO>()))
+                .ReturnsAsync(RepositoryResponse.NotFound);
+            var controller = new UserController(this.UserRepository.Object);
+            var httpResult = await controller.ChangePassword(new IdSrvUserPasswordDTO());
+            Assert.IsInstanceOf<NotFoundResult>(httpResult);
+        }
+
+        [Test]
+        public void ChangePassword_ThrowsUserRepositoryException_When_RepositoryReturnConflict()
+        {
+            this.UserRepository
+                .Setup(v => v.ChangePasswordAsync(It.IsAny<IdSrvUserPasswordDTO>()))
+                .ReturnsAsync(RepositoryResponse.Conflict);
+            var controller = new UserController(this.UserRepository.Object);
+            Assert.ThrowsAsync<UserRepositoryException>(() => controller.ChangePassword(new IdSrvUserPasswordDTO()));
+        }
+
+        [Test]
+        public void ChangePassword_ThrowsUserRepositoryException_When_RepositoryReturnUnexpectedResponse()
+        {
+            this.UserRepository
+                .Setup(v => v.ChangePasswordAsync(It.IsAny<IdSrvUserPasswordDTO>()))
+                .ReturnsAsync(this.UnexpectedRepositoryResponse);
+            var controller = new UserController(this.UserRepository.Object);
+            Assert.ThrowsAsync<UserRepositoryException>(() => controller.ChangePassword(new IdSrvUserPasswordDTO()));
         }
     }
 }
