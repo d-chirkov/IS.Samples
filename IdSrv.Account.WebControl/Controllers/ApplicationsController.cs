@@ -1,5 +1,5 @@
 ﻿using IdSrv.Account.WebControl.Infrastructure.Abstractions;
-using IdSrv.Account.WebControl.Models;
+using IdSrv.Account.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace IdSrv.Account.WebControl.Controllers
         // GET: Applications
         public async Task<ViewResult> Index()
         {
-            return View();
+            throw new NotImplementedException();
         }
 
         [HttpGet]

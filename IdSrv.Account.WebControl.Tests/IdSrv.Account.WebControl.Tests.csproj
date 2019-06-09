@@ -118,6 +118,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IdSrv.Account.Models\IdSrv.Account.Models.csproj">
+      <Project>{a6eba51e-320b-4c2e-b7f0-a8b7a96f7b1c}</Project>
+      <Name>IdSrv.Account.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IdSrv.Account.WebControl\IdSrv.Account.WebControl.csproj">
       <Project>{A689F854-6F74-4DA7-9458-0FBF028AD290}</Project>
       <Name>IdSrv.Account.WebControl</Name>

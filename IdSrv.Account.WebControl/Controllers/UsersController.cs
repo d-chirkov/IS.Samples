@@ -1,7 +1,7 @@
 ﻿namespace IdSrv.Account.WebControl.Controllers
 {
     using IdSrv.Account.WebControl.Infrastructure.Abstractions;
-    using IdSrv.Account.WebControl.Models;
+    using IdSrv.Account.Models;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -13,7 +13,7 @@
 
         public UsersController(IUserService accountService)
         {
-            this.AccountService = accountService ?? throw new NullReferenceException(nameof(accountService));
+            this.AccountService = accountService ?? throw new ArgumentNullException(nameof(accountService));
         }
 
         [HttpGet]
@@ -47,26 +47,22 @@
         [HttpGet]
         public ViewResult ChangePassword(Guid id)
         {
-            return View(new ChangeIdSrvUserPasswordDTO { UserId = id });
+            return View(new IdSrvUserPasswordDTO { UserId = id });
         }
 
         [HttpPost]
-        public async Task<ViewResult> ChangePassword(ChangeIdSrvUserPasswordDTO passwords)
+        public async Task<ViewResult> ChangePassword(IdSrvUserPasswordDTO passwords)
         {
-            if (passwords.NewPassword != passwords.RepeatNewPassword)
-            {
-                ModelState.AddModelError("", "Пароли не совпадают");
-            }
             if (!ModelState.IsValid)
             {
-                return View(new ChangeIdSrvUserPasswordDTO { UserId = passwords.UserId });
+                return View(new IdSrvUserPasswordDTO { UserId = passwords.UserId });
             }
             bool changed = await this.AccountService.ChangePasswordForUserAsync(passwords);
             if (!changed)
             {
                 ModelState.AddModelError("", "Не удалось изменить пароль");
             }
-            return changed ? this.ViewSuccess("Пароль успешно изменён") : View(new ChangeIdSrvUserPasswordDTO { UserId = passwords.UserId });
+            return changed ? this.ViewSuccess("Пароль успешно изменён") : View(new IdSrvUserPasswordDTO { UserId = passwords.UserId });
         }
 
         [HttpPost]

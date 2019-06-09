@@ -1,6 +1,6 @@
 ﻿namespace IdSrv.Account.WebControl.Infrastructure.Abstractions
 {
-    using IdSrv.Account.WebControl.Models;
+    using IdSrv.Account.Models;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -11,7 +11,7 @@
 
         Task<bool> CreateUserAsync(NewIdSrvUserDTO newUser);
 
-        Task<bool> ChangePasswordForUserAsync(ChangeIdSrvUserPasswordDTO passwords);
+        Task<bool> ChangePasswordForUserAsync(IdSrvUserPasswordDTO passwords);
 
         Task<bool> DeleteUserAsync(Guid id);
     }

@@ -1,4 +1,4 @@
-﻿namespace IdSrv.Account.WebControl.Models
+﻿namespace IdSrv.Account.Models
 {
     public class NewIdSrvUserDTO
     {

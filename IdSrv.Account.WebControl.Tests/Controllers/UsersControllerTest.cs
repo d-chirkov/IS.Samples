@@ -5,7 +5,7 @@
     using Moq;
     using IdSrv.Account.WebControl.Infrastructure.Abstractions;
     using System.Collections.Generic;
-    using IdSrv.Account.WebControl.Models;
+    using IdSrv.Account.Models;
     using System.Web.Mvc;
     using System.Threading.Tasks;
 
@@ -27,9 +27,9 @@
         }
 
         [Test]
-        public void Ctor_ThrowNullReferenceException_When_PassingNullInsteadUserService()
+        public void Ctor_ThrowArgumentNullException_When_PassingNullInsteadUserService()
         {
-            Assert.Throws<NullReferenceException>(() => new UsersController(null));
+            Assert.Throws<ArgumentNullException>(() => new UsersController(null));
         }
 
         [Test]
@@ -94,25 +94,24 @@
             Assert.AreEqual(controller.ViewData.Model, newUser);
         }
         [Test]
-        public void UpdatePassword_ReturnSelf_With_ModelContainsPassedUserIdAndNullPasswords_When_NoArgs()
+        public void UpdatePassword_ReturnSelf_With_ModelContainsPassedUserIdAndNullPassword_When_NoArgs()
         {
-            var passwords = new ChangeIdSrvUserPasswordDTO { UserId = new Guid() };
+            var passwords = new IdSrvUserPasswordDTO { UserId = new Guid() };
             var controller = new UsersController(this.UserServiceMock.Object);
             ViewResult viewResult = controller.ChangePassword(passwords.UserId);
             Assert.NotNull(viewResult);
             Assert.IsEmpty(viewResult.ViewName); // empty view name means asp.net returns the same view
             object model = controller.ViewData.Model;
-            Assert.IsInstanceOf<ChangeIdSrvUserPasswordDTO>(model);
-            var actualModel = model as ChangeIdSrvUserPasswordDTO;
+            Assert.IsInstanceOf<IdSrvUserPasswordDTO>(model);
+            var actualModel = model as IdSrvUserPasswordDTO;
             Assert.AreEqual(actualModel.UserId, passwords.UserId);
-            Assert.IsNull(actualModel.NewPassword);
-            Assert.IsNull(actualModel.RepeatNewPassword);
+            Assert.IsNull(actualModel.Password);
         }
 
         [Test]
         public async Task ChangePassword_CallServiceChangePasswordForUser_When_PassingModel()
         {
-            var passwords = new ChangeIdSrvUserPasswordDTO();
+            var passwords = new IdSrvUserPasswordDTO();
             this.UserServiceMock.Setup(v => v.ChangePasswordForUserAsync(passwords)).ReturnsAsync(true);
             var controller = new UsersController(this.UserServiceMock.Object);
             ViewResult viewResult = await controller.ChangePassword(passwords);
@@ -122,7 +121,7 @@
         [Test]
         public async Task ChangePassword_RedirectToIndex_With_TempDataContainsNoError_When_ServiceReturnTrue()
         {
-            var passwords = new ChangeIdSrvUserPasswordDTO();
+            var passwords = new IdSrvUserPasswordDTO();
             this.UserServiceMock.Setup(v => v.ChangePasswordForUserAsync(passwords)).ReturnsAsync(true);
             var controller = new UsersController(this.UserServiceMock.Object);
             ViewResult viewResult = await controller.ChangePassword(passwords);
@@ -133,35 +132,24 @@
         }
 
         [Test]
-        public async Task ChangePassword_ReturnSelf_With_ModelIsInvalidAndHasNullPasswords_When_ServiceReturnFalseOrDiffPasswords()
+        public async Task ChangePassword_ReturnSelf_With_ModelIsInvalidAndHasNullPassword_When_ServiceReturnFalse()
         {
-            Func<ChangeIdSrvUserPasswordDTO, Task> testWithPasswordsModel = async (passwords) =>
+            var passwords = new IdSrvUserPasswordDTO
             {
-                this.UserServiceMock.Setup(v => v.ChangePasswordForUserAsync(passwords)).ReturnsAsync(false);
-                var controller = new UsersController(this.UserServiceMock.Object);
-                ViewResult viewResult = await controller.ChangePassword(passwords);
-                Assert.NotNull(viewResult);
-                Assert.IsEmpty(viewResult.ViewName);
-                var model = controller.ViewData.Model;
-                Assert.IsInstanceOf<ChangeIdSrvUserPasswordDTO>(model);
-                var actualModel = model as ChangeIdSrvUserPasswordDTO;
-                Assert.AreEqual(actualModel.UserId, passwords.UserId);
-                Assert.IsNull(actualModel.NewPassword);
-                Assert.IsNull(actualModel.RepeatNewPassword);
-                Assert.IsFalse(controller.ModelState.IsValid);
+                UserId = new Guid(),
+                Password = "b",
             };
-            await testWithPasswordsModel(new ChangeIdSrvUserPasswordDTO
-            {
-                UserId = new Guid(),
-                NewPassword = "b",
-                RepeatNewPassword = "b"
-            });
-            await testWithPasswordsModel(new ChangeIdSrvUserPasswordDTO
-            {
-                UserId = new Guid(),
-                NewPassword = "b",
-                RepeatNewPassword = "c"
-            });
+            this.UserServiceMock.Setup(v => v.ChangePasswordForUserAsync(passwords)).ReturnsAsync(false);
+            var controller = new UsersController(this.UserServiceMock.Object);
+            ViewResult viewResult = await controller.ChangePassword(passwords);
+            Assert.NotNull(viewResult);
+            Assert.IsEmpty(viewResult.ViewName);
+            var model = controller.ViewData.Model;
+            Assert.IsInstanceOf<IdSrvUserPasswordDTO>(model);
+            var actualModel = model as IdSrvUserPasswordDTO;
+            Assert.AreEqual(actualModel.UserId, passwords.UserId);
+            Assert.IsNull(actualModel.Password);
+            Assert.IsFalse(controller.ModelState.IsValid);
         }
 
         [Test]

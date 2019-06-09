@@ -5,7 +5,7 @@
     using Moq;
     using IdSrv.Account.WebControl.Infrastructure.Abstractions;
     using System.Collections.Generic;
-    using IdSrv.Account.WebControl.Models;
+    using IdSrv.Account.Models;
     using System.Web.Mvc;
     using System.Threading.Tasks;
 
