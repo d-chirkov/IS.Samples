@@ -22,12 +22,21 @@
             UserRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
+        [HttpPost]
         public async Task<IHttpActionResult> Get(Guid id)
         {
             IdSrvUserDTO user = await this.UserRepository.GetByIdAsync(id);
             return user != null ? Ok(user) : NotFound() as IHttpActionResult;
         }
 
+        [HttpPost]
+        public async Task<IHttpActionResult> GetByAuthInfo(IdSrvUserAuthDTO authInfo)
+        {
+            IdSrvUserDTO user = await this.UserRepository.GetByAuthInfoAsync(authInfo);
+            return user != null ? Ok(user) : NotFound() as IHttpActionResult;
+        }
+
+        [HttpPost]
         public async Task<IHttpActionResult> Create(NewIdSrvUserDTO user)
         {
             RepositoryResponse response = await this.UserRepository.CreateAsync(user);
@@ -37,6 +46,7 @@
                 throw new UserRepositoryException();
         }
 
+        [HttpPost]
         public async Task<IHttpActionResult> Update(IdSrvUserDTO user)
         {
             RepositoryResponse response = await this.UserRepository.UpdateAsync(user);
@@ -47,6 +57,7 @@
                 throw new UserRepositoryException();
         }
 
+        [HttpPost]
         public async Task<IHttpActionResult> ChangePassword(IdSrvUserPasswordDTO password)
         {
             RepositoryResponse response = await this.UserRepository.ChangePasswordAsync(password);
@@ -56,14 +67,14 @@
                 throw new UserRepositoryException();
         }
 
+        [HttpPost]
         public async Task<IHttpActionResult> Delete(Guid id)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IHttpActionResult> Check(IdSrvUserAuthDTO authInfo)
-        {
-            throw new NotImplementedException();
+            RepositoryResponse response = await this.UserRepository.DeleteAsync(id);
+            return
+                response == RepositoryResponse.Success ? Ok() :
+                response == RepositoryResponse.NotFound ? NotFound() as IHttpActionResult :
+                throw new UserRepositoryException();
         }
     }
 }

@@ -8,7 +8,7 @@
     {
         Task<IdSrvUserDTO> GetByIdAsync(Guid id);
 
-        Task<IdSrvUserDTO> GetByAuthIndoAsync(IdSrvUserAuthDTO userAuth);
+        Task<IdSrvUserDTO> GetByAuthInfoAsync(IdSrvUserAuthDTO userAuth);
 
         Task<RepositoryResponse> CreateAsync(NewIdSrvUserDTO user);
 
