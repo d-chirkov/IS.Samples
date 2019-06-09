@@ -1,20 +1,15 @@
 ﻿namespace IdSrv.Account.WebApi.Controllers
 {
-    using IdSrv.Account.WebApi.Infrastructure.Abstractions;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
+    using System.Threading.Tasks;
     using System.Web.Http;
     using IdSrv.Account.Models;
-    using System.Threading.Tasks;
     using IdSrv.Account.WebApi.Infrastructure;
+    using IdSrv.Account.WebApi.Infrastructure.Abstractions;
     using IdSrv.Account.WebApi.Infrastructure.Exceptions;
 
     public class UserController : ApiController
     {
-
         private IUserRepository UserRepository { get; set; }
 
         public UserController(IUserRepository userRepository)

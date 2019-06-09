@@ -1,14 +1,11 @@
-﻿namespace IdSrv.Account.WebApi.Tests.Controllers
+﻿namespace IdSrv.Account.WebApi.Controllers.Tests
 {
     using System;
     using NUnit.Framework;
     using Moq;
     using IdSrv.Account.WebApi.Infrastructure.Abstractions;
-    using IdSrv.Account.WebApi.Controllers;
-    using System.Collections.Generic;
     using IdSrv.Account.Models;
     using System.Threading.Tasks;
-    using System.Net;
     using System.Web.Http.Results;
     using IdSrv.Account.WebApi.Infrastructure;
     using IdSrv.Account.WebApi.Infrastructure.Exceptions;
