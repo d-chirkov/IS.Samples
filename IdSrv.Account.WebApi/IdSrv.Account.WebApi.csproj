@@ -150,6 +150,8 @@
     </Compile>
     <Compile Include="Infrastructure\Abstractions\IApplicationRepository.cs" />
     <Compile Include="Infrastructure\Abstractions\IUserRepository.cs" />
+    <Compile Include="Infrastructure\Exceptions\UserRepositoryException.cs" />
+    <Compile Include="Infrastructure\RepositoryResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

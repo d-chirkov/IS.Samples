@@ -9,6 +9,8 @@
     using System.Web.Http;
     using IdSrv.Account.Models;
     using System.Threading.Tasks;
+    using IdSrv.Account.WebApi.Infrastructure;
+    using IdSrv.Account.WebApi.Infrastructure.Exceptions;
 
     public class UserController : ApiController
     {
@@ -20,37 +22,44 @@
             UserRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
-        // GET api/values
-        public async Task<IdSrvUserDTO> Get(Guid id)
+        public async Task<IHttpActionResult> Get(Guid id)
+        {
+            IdSrvUserDTO user = await this.UserRepository.GetByIdAsync(id);
+            return user != null ? Ok(user) : NotFound() as IHttpActionResult;
+        }
+
+        public async Task<IHttpActionResult> Create(NewIdSrvUserDTO user)
+        {
+            RepositoryResponse response = await this.UserRepository.CreateAsync(user);
+            return 
+                response == RepositoryResponse.Success ? Ok() :
+                response == RepositoryResponse.Conflict ? Conflict() as IHttpActionResult:
+                throw new UserRepositoryException();
+        }
+
+        public async Task<IHttpActionResult> Update(IdSrvUserDTO user)
+        {
+            RepositoryResponse response = await this.UserRepository.UpdateAsync(user);
+            return
+                response == RepositoryResponse.Success ? Ok() :
+                response == RepositoryResponse.Conflict ? Conflict() :
+                response == RepositoryResponse.NotFound ? NotFound() as IHttpActionResult :
+                throw new UserRepositoryException();
+        }
+
+        public async Task<IHttpActionResult> ChangePassword(IdSrvUserPasswordDTO password)
         {
             throw new NotImplementedException();
         }
 
-        public async Task Create(NewIdSrvUserDTO user)
+        public async Task<IHttpActionResult> Delete(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task Update(IdSrvUserDTO user)
+        public async Task<IHttpActionResult> Check(IdSrvUserAuthDTO authInfo)
         {
             throw new NotImplementedException();
-        }
-
-        // POST api/values
-        public async Task ChangePassword(IdSrvUserPasswordDTO password)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task Delete(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task Check(IdSrvUserAuthDTO authInfo)
-        {
-
-
         }
     }
 }

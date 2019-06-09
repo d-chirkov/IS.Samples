@@ -5,7 +5,10 @@ using System.Web;
 
 namespace IdSrv.Account.WebApi.Infrastructure
 {
-    public class RepositoryResponse
+    public enum RepositoryResponse
     {
+        Success,
+        Conflict,
+        NotFound
     }
 }
