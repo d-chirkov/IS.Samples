@@ -30,9 +30,14 @@
             }
         }
 
-        public Task<IdSrvUserDTO> GetByIdAsync(Guid id)
+        public async Task<IdSrvUserDTO> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                return await db.Query("Users").Select("Id", "UserName").FirstOrDefaultAsync<IdSrvUserDTO>();
+            }
         }
 
         public Task<IdSrvUserDTO> GetByAuthInfoAsync(IdSrvUserAuthDTO userAuth)
