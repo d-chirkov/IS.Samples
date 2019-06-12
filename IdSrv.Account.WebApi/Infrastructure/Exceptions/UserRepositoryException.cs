@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace IdSrv.Account.WebApi.Infrastructure.Exceptions
+﻿namespace IdSrv.Account.WebApi.Infrastructure.Exceptions
 {
+    using System;
+
     public class UserRepositoryException : Exception
     {
         public UserRepositoryException() : base()

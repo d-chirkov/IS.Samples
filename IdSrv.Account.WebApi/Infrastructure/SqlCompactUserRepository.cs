@@ -1,16 +1,15 @@
-﻿
-namespace IdSrv.Account.WebApi.Infrastructure
+﻿namespace IdSrv.Account.WebApi.Infrastructure
 {
     using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Data.SqlServerCe;
+    using System.Security.Cryptography;
     using System.Threading.Tasks;
     using IdSrv.Account.Models;
     using IdSrv.Account.WebApi.Infrastructure.Abstractions;
-    using SqlKata;
-    using SqlKata.Execution;
     using SqlKata.Compilers;
-    using System.Data;
-    using System.Security.Cryptography;
-    using System.Data.SqlServerCe;
+    using SqlKata.Execution;
 
     public class SqlCompactUserRepository : IUserRepository
     {
@@ -18,7 +17,7 @@ namespace IdSrv.Account.WebApi.Infrastructure
 
         public SqlCompactUserRepository(SqlCompactConnectionFactory connectionFactory)
         {
-            DatabaseConnectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
+            this.DatabaseConnectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
         }
 
         public Task<RepositoryResponse> ChangePasswordAsync(IdSrvUserPasswordDTO password)
@@ -69,6 +68,11 @@ namespace IdSrv.Account.WebApi.Infrastructure
         }
 
         public Task<RepositoryResponse> UpdateAsync(IdSrvUserDTO user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<IdSrvUserDTO>> GetAll()
         {
             throw new NotImplementedException();
         }

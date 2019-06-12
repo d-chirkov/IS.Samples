@@ -1,11 +1,14 @@
 ﻿namespace IdSrv.Account.WebApi.Infrastructure.Abstractions
 {
-    using IdSrv.Account.Models;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
+    using IdSrv.Account.Models;
 
     public interface IUserRepository
     {
+        Task<IEnumerable<IdSrvUserDTO>> GetAll();
+
         Task<IdSrvUserDTO> GetByIdAsync(Guid id);
 
         Task<IdSrvUserDTO> GetByAuthInfoAsync(IdSrvUserAuthDTO userAuth);
