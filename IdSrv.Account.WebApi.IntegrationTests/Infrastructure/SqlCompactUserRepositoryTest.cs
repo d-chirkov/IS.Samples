@@ -56,6 +56,29 @@
         }
 
         [Test]
+        public void CreateAsync_ThrowsArgumentNullException_When_ArgIsNullOrContainsAnyNull()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.CreateAsync(null));
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.CreateAsync(new NewIdSrvUserDTO
+            {
+                UserName = null,
+                Password = "p"
+            }));
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.CreateAsync(new NewIdSrvUserDTO
+            {
+                UserName = "a",
+                Password = null
+            }));
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.CreateAsync(new NewIdSrvUserDTO
+            {
+                UserName = null,
+                Password = null
+            }));
+        }
+
+        [Test]
         public async Task CreateAsync_ReturnSuccess_And_CreateUserInDb_When_ThereIsNoUsersWithTheSameNameInDb()
         {
             string userName = "u1";
@@ -162,12 +185,19 @@
                     PasswordHash = this.GetB64PasswordHash("p2", "s2"),
                     PasswordSalt = "s2"
                 });
-                searchingId = await db.Query("Users").Select("Id").Where(new { UserName = "u1" }).FirstAsync<Guid>();
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u3",
+                    PasswordHash = this.GetB64PasswordHash("p3", "s3"),
+                    PasswordSalt = "s3"
+                });
+                searchingId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
             var repository = new SqlCompactUserRepository(connectionFactory);
             IdSrvUserDTO user = await repository.GetByIdAsync(searchingId);
             Assert.IsNotNull(user);
-            Assert.AreEqual(user.UserName, "u1");
+            Assert.AreEqual(user.Id, searchingId);
+            Assert.AreEqual(user.UserName, "u2");
         }
 
         [Test]
@@ -194,6 +224,129 @@
             } while (searchingId == existingId);
             var repository = new SqlCompactUserRepository(connectionFactory);
             IdSrvUserDTO user = await repository.GetByIdAsync(searchingId);
+            Assert.IsNull(user);
+        }
+
+        [Test]
+        public void GetByAuthInfoAsync_ThrowsArgumentNullException_When_ArgIsNullOrContainsAnyNull()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.GetByAuthInfoAsync(null));
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO
+            {
+                UserName = null,
+                Password = "p"
+            }));
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO
+            {
+                UserName = "a",
+                Password = null
+            }));
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO
+            {
+                UserName = null,
+                Password = null
+            }));
+        }
+
+        [Test]
+        public async Task GetByAuthInfoAsync_ReturnUserFromDb_When_PassingExistingAuthInfo()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            Guid userId = Guid.Empty;
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2",
+                    PasswordHash = this.GetB64PasswordHash("p2", "s2"),
+                    PasswordSalt = "s2"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u3",
+                    PasswordHash = this.GetB64PasswordHash("p3", "s3"),
+                    PasswordSalt = "s3"
+                });
+                userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
+            }
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u2", Password = "p2"});
+            Assert.IsNotNull(user);
+            Assert.AreEqual(user.Id, userId);
+            Assert.AreEqual(user.UserName, "u2");
+        }
+
+        [Test]
+        public async Task GetByAuthInfoAsync_ReturnNull_When_PassingNotExistingUserName()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2",
+                    PasswordHash = this.GetB64PasswordHash("p2", "s2"),
+                    PasswordSalt = "s2"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u3",
+                    PasswordHash = this.GetB64PasswordHash("p3", "s3"),
+                    PasswordSalt = "s3"
+                });
+            }
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u4", Password = "p4" });
+            Assert.IsNull(user);
+        }
+
+        [Test]
+        public async Task GetByAuthInfoAsync_ReturnNull_When_PassingInvalidPasswordForExistingUserName()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2",
+                    PasswordHash = this.GetB64PasswordHash("p2", "s2"),
+                    PasswordSalt = "s2"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u3",
+                    PasswordHash = this.GetB64PasswordHash("p3", "s3"),
+                    PasswordSalt = "s3"
+                });
+            }
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u2", Password = "p4" });
             Assert.IsNull(user);
         }
     }

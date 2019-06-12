@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using System.Web.Http;
     using System.Web.Http.Results;
     using IdSrv.Account.Models;
     using IdSrv.Account.WebApi.Infrastructure;
@@ -51,7 +52,7 @@
             var user = new IdSrvUserDTO();
             this.UserRepository.Setup(v => v.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(user);
             var controller = new UserController(this.UserRepository.Object);
-            System.Web.Http.IHttpActionResult httpResult = await controller.Get(new Guid());
+            IHttpActionResult httpResult = await controller.Get(new Guid());
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<OkNegotiatedContentResult<IdSrvUserDTO>>(httpResult);
             Assert.AreEqual(user, (httpResult as OkNegotiatedContentResult<IdSrvUserDTO>).Content);
@@ -62,7 +63,7 @@
         {
             this.UserRepository.Setup(v => v.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(null as IdSrvUserDTO);
             var controller = new UserController(this.UserRepository.Object);
-            System.Web.Http.IHttpActionResult httpResult = await controller.Get(new Guid());
+            IHttpActionResult httpResult = await controller.Get(new Guid());
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<NotFoundResult>(httpResult);
         }
@@ -82,7 +83,7 @@
             var users = new List<IdSrvUserDTO> { new IdSrvUserDTO(), new IdSrvUserDTO() };
             this.UserRepository.Setup(v => v.GetAllAsync()).ReturnsAsync(users);
             var controller = new UserController(this.UserRepository.Object);
-            System.Web.Http.IHttpActionResult httpResult = await controller.GetAll();
+            IHttpActionResult httpResult = await controller.GetAll();
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<OkNegotiatedContentResult<IEnumerable<IdSrvUserDTO>>>(httpResult);
             Assert.AreEqual(users, (httpResult as OkNegotiatedContentResult<IEnumerable<IdSrvUserDTO>>).Content);
@@ -94,7 +95,7 @@
             var users = new List<IdSrvUserDTO> { };
             this.UserRepository.Setup(v => v.GetAllAsync()).ReturnsAsync(users);
             var controller = new UserController(this.UserRepository.Object);
-            System.Web.Http.IHttpActionResult httpResult = await controller.GetAll();
+            IHttpActionResult httpResult = await controller.GetAll();
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<OkNegotiatedContentResult<IEnumerable<IdSrvUserDTO>>>(httpResult);
             Assert.AreEqual(users, (httpResult as OkNegotiatedContentResult<IEnumerable<IdSrvUserDTO>>).Content);
@@ -105,9 +106,33 @@
         {
             this.UserRepository.Setup(v => v.GetAllAsync()).ReturnsAsync(null as IEnumerable<IdSrvUserDTO>);
             var controller = new UserController(this.UserRepository.Object);
-            System.Web.Http.IHttpActionResult httpResult = await controller.GetAll();
+            IHttpActionResult httpResult = await controller.GetAll();
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<NotFoundResult>(httpResult);
+        }
+
+        [Test]
+        public async Task Create_ReturnBadRequest_When_PassingDtoWithNullArgs()
+        {
+            this.UserRepository
+                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvUserDTO>()))
+                .ReturnsAsync(RepositoryResponse.Conflict);
+            var controller = new UserController(this.UserRepository.Object);
+            IHttpActionResult httpResult = await controller.Create(new NewIdSrvUserDTO());
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<BadRequestResult>(httpResult);
+        }
+
+        [Test]
+        public async Task Create_ReturnBadRequest_When_PassingNull()
+        {
+            this.UserRepository
+                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvUserDTO>()))
+                .ReturnsAsync(RepositoryResponse.Conflict);
+            var controller = new UserController(this.UserRepository.Object);
+            IHttpActionResult httpResult = await controller.Create(null);
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<BadRequestResult>(httpResult);
         }
 
         [Test]
@@ -117,7 +142,8 @@
                 .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvUserDTO>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new UserController(this.UserRepository.Object);
-            System.Web.Http.IHttpActionResult httpResult = await controller.Create(new NewIdSrvUserDTO());
+            var newUserDto = new NewIdSrvUserDTO { UserName = "u", Password = "p" };
+            IHttpActionResult httpResult = await controller.Create(newUserDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<OkResult>(httpResult);
         }
@@ -129,9 +155,9 @@
                 .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvUserDTO>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new UserController(this.UserRepository.Object);
-            var user = new NewIdSrvUserDTO();
-            System.Web.Http.IHttpActionResult httpResult = await controller.Create(user);
-            this.UserRepository.Verify(v => v.CreateAsync(user));
+            var userDto = new NewIdSrvUserDTO { UserName = "u", Password = "p" };
+            IHttpActionResult httpResult = await controller.Create(userDto);
+            this.UserRepository.Verify(v => v.CreateAsync(userDto));
         }
 
         [Test]
@@ -141,7 +167,8 @@
                 .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvUserDTO>()))
                 .ReturnsAsync(RepositoryResponse.Conflict);
             var controller = new UserController(this.UserRepository.Object);
-            System.Web.Http.IHttpActionResult httpResult = await controller.Create(new NewIdSrvUserDTO());
+            var newUserDto = new NewIdSrvUserDTO { UserName = "u", Password = "p" };
+            IHttpActionResult httpResult = await controller.Create(newUserDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<ConflictResult>(httpResult);
         }
@@ -153,7 +180,8 @@
                 .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvUserDTO>()))
                 .ReturnsAsync(RepositoryResponse.NotFound);
             var controller = new UserController(this.UserRepository.Object);
-            Assert.ThrowsAsync<UserRepositoryException>(() => controller.Create(new NewIdSrvUserDTO()));
+            var newUserDto = new NewIdSrvUserDTO { UserName = "u", Password = "p" };
+            Assert.ThrowsAsync<UserRepositoryException>(() => controller.Create(newUserDto));
         }
 
         [Test]
@@ -163,7 +191,32 @@
                 .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvUserDTO>()))
                 .ReturnsAsync(this.UnexpectedRepositoryResponse);
             var controller = new UserController(this.UserRepository.Object);
-            Assert.ThrowsAsync<UserRepositoryException>(() => controller.Create(new NewIdSrvUserDTO()));
+            var newUserDto = new NewIdSrvUserDTO { UserName = "u", Password = "p" };
+            Assert.ThrowsAsync<UserRepositoryException>(() => controller.Create(newUserDto));
+        }
+
+        [Test]
+        public async Task Update_ReturnBadRequest_When_PassingDtoWithNullArgs()
+        {
+            this.UserRepository
+                .Setup(v => v.UpdateAsync(It.IsAny<IdSrvUserDTO>()))
+                .ReturnsAsync(RepositoryResponse.NotFound);
+            var controller = new UserController(this.UserRepository.Object);
+            IHttpActionResult httpResult = await controller.Update(new IdSrvUserDTO());
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<BadRequestResult>(httpResult);
+        }
+
+        [Test]
+        public async Task Update_ReturnBadRequest_When_PassingNull()
+        {
+            this.UserRepository
+                .Setup(v => v.UpdateAsync(It.IsAny<IdSrvUserDTO>()))
+                .ReturnsAsync(RepositoryResponse.NotFound);
+            var controller = new UserController(this.UserRepository.Object);
+            IHttpActionResult httpResult = await controller.Update(null);
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<BadRequestResult>(httpResult);
         }
 
         [Test]
@@ -173,7 +226,8 @@
                 .Setup(v => v.UpdateAsync(It.IsAny<IdSrvUserDTO>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new UserController(this.UserRepository.Object);
-            System.Web.Http.IHttpActionResult httpResult = await controller.Update(new IdSrvUserDTO());
+            var userDto = new IdSrvUserDTO { Id = Guid.NewGuid(), UserName = "u" };
+            IHttpActionResult httpResult = await controller.Update(userDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<OkResult>(httpResult);
         }
@@ -185,9 +239,9 @@
                 .Setup(v => v.UpdateAsync(It.IsAny<IdSrvUserDTO>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new UserController(this.UserRepository.Object);
-            var user = new IdSrvUserDTO();
-            System.Web.Http.IHttpActionResult httpResult = await controller.Update(user);
-            this.UserRepository.Verify(v => v.UpdateAsync(user));
+            var userDto = new IdSrvUserDTO { Id = Guid.NewGuid(), UserName = "u" };
+            IHttpActionResult httpResult = await controller.Update(userDto);
+            this.UserRepository.Verify(v => v.UpdateAsync(userDto));
         }
 
         [Test]
@@ -197,7 +251,8 @@
                 .Setup(v => v.UpdateAsync(It.IsAny<IdSrvUserDTO>()))
                 .ReturnsAsync(RepositoryResponse.NotFound);
             var controller = new UserController(this.UserRepository.Object);
-            System.Web.Http.IHttpActionResult httpResult = await controller.Update(new IdSrvUserDTO());
+            var userDto = new IdSrvUserDTO { Id = Guid.NewGuid(), UserName = "u" };
+            IHttpActionResult httpResult = await controller.Update(userDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<NotFoundResult>(httpResult);
         }
@@ -209,7 +264,8 @@
                 .Setup(v => v.UpdateAsync(It.IsAny<IdSrvUserDTO>()))
                 .ReturnsAsync(RepositoryResponse.Conflict);
             var controller = new UserController(this.UserRepository.Object);
-            System.Web.Http.IHttpActionResult httpResult = await controller.Update(new IdSrvUserDTO());
+            var userDto = new IdSrvUserDTO { Id = Guid.NewGuid(), UserName = "u" };
+            IHttpActionResult httpResult = await controller.Update(userDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<ConflictResult>(httpResult);
         }
@@ -221,7 +277,33 @@
                 .Setup(v => v.UpdateAsync(It.IsAny<IdSrvUserDTO>()))
                 .ReturnsAsync(this.UnexpectedRepositoryResponse);
             var controller = new UserController(this.UserRepository.Object);
-            Assert.ThrowsAsync<UserRepositoryException>(() => controller.Update(new IdSrvUserDTO()));
+            var userDto = new IdSrvUserDTO { Id = Guid.NewGuid(), UserName = "u" };
+            Assert.ThrowsAsync<UserRepositoryException>(() => controller.Update(userDto));
+        }
+
+        [Test]
+        public async Task ChangePassword_ReturnBadRequest_When_PassingStructureWithNullArgs()
+        {
+            this.UserRepository
+                .Setup(v => v.ChangePasswordAsync(It.IsAny<IdSrvUserPasswordDTO>()))
+                .ReturnsAsync(RepositoryResponse.Success);
+            var controller = new UserController(this.UserRepository.Object);
+            var passwordDto = new IdSrvUserPasswordDTO();
+            IHttpActionResult httpResult = await controller.ChangePassword(passwordDto);
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<BadRequestResult>(httpResult);
+        }
+
+        [Test]
+        public async Task ChangePassword_ReturnBadRequest_When_PassingNull()
+        {
+            this.UserRepository
+                .Setup(v => v.ChangePasswordAsync(It.IsAny<IdSrvUserPasswordDTO>()))
+                .ReturnsAsync(RepositoryResponse.Success);
+            var controller = new UserController(this.UserRepository.Object);
+            IHttpActionResult httpResult = await controller.ChangePassword(null);
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<BadRequestResult>(httpResult);
         }
 
         [Test]
@@ -231,7 +313,8 @@
                 .Setup(v => v.ChangePasswordAsync(It.IsAny<IdSrvUserPasswordDTO>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new UserController(this.UserRepository.Object);
-            System.Web.Http.IHttpActionResult httpResult = await controller.ChangePassword(new IdSrvUserPasswordDTO());
+            var passwordDto = new IdSrvUserPasswordDTO { UserId = Guid.NewGuid(), Password = "p1" };
+            IHttpActionResult httpResult = await controller.ChangePassword(passwordDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<OkResult>(httpResult);
         }
@@ -243,9 +326,9 @@
                 .Setup(v => v.ChangePasswordAsync(It.IsAny<IdSrvUserPasswordDTO>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new UserController(this.UserRepository.Object);
-            var password = new IdSrvUserPasswordDTO();
-            System.Web.Http.IHttpActionResult httpResult = await controller.ChangePassword(password);
-            this.UserRepository.Verify(v => v.ChangePasswordAsync(password));
+            var passwordDto = new IdSrvUserPasswordDTO { UserId = Guid.NewGuid(), Password = "p1" };
+            IHttpActionResult httpResult = await controller.ChangePassword(passwordDto);
+            this.UserRepository.Verify(v => v.ChangePasswordAsync(passwordDto));
         }
 
         [Test]
@@ -255,7 +338,8 @@
                 .Setup(v => v.ChangePasswordAsync(It.IsAny<IdSrvUserPasswordDTO>()))
                 .ReturnsAsync(RepositoryResponse.NotFound);
             var controller = new UserController(this.UserRepository.Object);
-            System.Web.Http.IHttpActionResult httpResult = await controller.ChangePassword(new IdSrvUserPasswordDTO());
+            var passwordDto = new IdSrvUserPasswordDTO { UserId = Guid.NewGuid(), Password = "p1" };
+            IHttpActionResult httpResult = await controller.ChangePassword(passwordDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<NotFoundResult>(httpResult);
         }
@@ -267,7 +351,8 @@
                 .Setup(v => v.ChangePasswordAsync(It.IsAny<IdSrvUserPasswordDTO>()))
                 .ReturnsAsync(RepositoryResponse.Conflict);
             var controller = new UserController(this.UserRepository.Object);
-            Assert.ThrowsAsync<UserRepositoryException>(() => controller.ChangePassword(new IdSrvUserPasswordDTO()));
+            var passwordDto = new IdSrvUserPasswordDTO { UserId = Guid.NewGuid(), Password = "p1" };
+            Assert.ThrowsAsync<UserRepositoryException>(() => controller.ChangePassword(passwordDto));
         }
 
         [Test]
@@ -277,7 +362,8 @@
                 .Setup(v => v.ChangePasswordAsync(It.IsAny<IdSrvUserPasswordDTO>()))
                 .ReturnsAsync(this.UnexpectedRepositoryResponse);
             var controller = new UserController(this.UserRepository.Object);
-            Assert.ThrowsAsync<UserRepositoryException>(() => controller.ChangePassword(new IdSrvUserPasswordDTO()));
+            var passwordDto = new IdSrvUserPasswordDTO { UserId = Guid.NewGuid(), Password = "p1" };
+            Assert.ThrowsAsync<UserRepositoryException>(() => controller.ChangePassword(passwordDto));
         }
 
         [Test]
@@ -295,7 +381,7 @@
         {
             this.UserRepository.Setup(v => v.DeleteAsync(It.IsAny<Guid>())).ReturnsAsync(RepositoryResponse.Success);
             var controller = new UserController(this.UserRepository.Object);
-            System.Web.Http.IHttpActionResult httpResult = await controller.Delete(new Guid());
+            IHttpActionResult httpResult = await controller.Delete(new Guid());
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<OkResult>(httpResult);
         }
@@ -305,7 +391,7 @@
         {
             this.UserRepository.Setup(v => v.DeleteAsync(It.IsAny<Guid>())).ReturnsAsync(RepositoryResponse.NotFound);
             var controller = new UserController(this.UserRepository.Object);
-            System.Web.Http.IHttpActionResult httpResult = await controller.Get(new Guid());
+            IHttpActionResult httpResult = await controller.Get(new Guid());
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<NotFoundResult>(httpResult);
         }
@@ -327,15 +413,40 @@
         }
 
         [Test]
-        public async Task GetByAuthInfo_InvokeDeleteFromRepository_With_PassedId()
+        public async Task GetByAuthInfo_ReturnBadRequest_When_PassingDtoWithNullArgs()
         {
             this.UserRepository
                 .Setup(v => v.GetByAuthInfoAsync(It.IsAny<IdSrvUserAuthDTO>()))
                 .ReturnsAsync(new IdSrvUserDTO());
             var controller = new UserController(this.UserRepository.Object);
             var authInfo = new IdSrvUserAuthDTO();
-            await controller.GetByAuthInfo(authInfo);
-            this.UserRepository.Verify(v => v.GetByAuthInfoAsync(authInfo));
+            IHttpActionResult httpResult = await controller.GetByAuthInfo(authInfo);
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<BadRequestResult>(httpResult);
+        }
+
+        [Test]
+        public async Task GetByAuthInfo_ReturnBadRequest_When_PassingNull()
+        {
+            this.UserRepository
+                .Setup(v => v.GetByAuthInfoAsync(It.IsAny<IdSrvUserAuthDTO>()))
+                .ReturnsAsync(new IdSrvUserDTO());
+            var controller = new UserController(this.UserRepository.Object);
+            IHttpActionResult httpResult = await controller.GetByAuthInfo(null);
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<BadRequestResult>(httpResult);
+        }
+
+        [Test]
+        public async Task GetByAuthInfo_InvokeDeleteFromRepository_With_PassedId()
+        {
+            this.UserRepository
+                .Setup(v => v.GetByAuthInfoAsync(It.IsAny<IdSrvUserAuthDTO>()))
+                .ReturnsAsync(new IdSrvUserDTO());
+            var controller = new UserController(this.UserRepository.Object);
+            var authInfoDto = new IdSrvUserAuthDTO { UserName = "u", Password = "p" };
+            await controller.GetByAuthInfo(authInfoDto);
+            this.UserRepository.Verify(v => v.GetByAuthInfoAsync(authInfoDto));
         }
 
         [Test]
@@ -346,7 +457,8 @@
                 .Setup(v => v.GetByAuthInfoAsync(It.IsAny<IdSrvUserAuthDTO>()))
                 .ReturnsAsync(user);
             var controller = new UserController(this.UserRepository.Object);
-            System.Web.Http.IHttpActionResult httpResult = await controller.GetByAuthInfo(new IdSrvUserAuthDTO());
+            var authInfoDto = new IdSrvUserAuthDTO { UserName = "u", Password = "p" };
+            IHttpActionResult httpResult = await controller.GetByAuthInfo(authInfoDto);
             Assert.IsInstanceOf<OkNegotiatedContentResult<IdSrvUserDTO>>(httpResult);
             Assert.NotNull(httpResult);
             Assert.AreEqual(user, (httpResult as OkNegotiatedContentResult<IdSrvUserDTO>).Content);
@@ -359,7 +471,8 @@
                 .Setup(v => v.GetByAuthInfoAsync(It.IsAny<IdSrvUserAuthDTO>()))
                 .ReturnsAsync(null as IdSrvUserDTO);
             var controller = new UserController(this.UserRepository.Object);
-            System.Web.Http.IHttpActionResult httpResult = await controller.GetByAuthInfo(new IdSrvUserAuthDTO());
+            var authInfoDto = new IdSrvUserAuthDTO { UserName = "u", Password = "p" };
+            IHttpActionResult httpResult = await controller.GetByAuthInfo(authInfoDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<NotFoundResult>(httpResult);
         }

@@ -35,6 +35,11 @@
         [HttpPost]
         public async Task<IHttpActionResult> GetByAuthInfo(IdSrvUserAuthDTO authInfo)
         {
+            if (authInfo == null || authInfo.UserName == null || authInfo.Password == null)
+            {
+                return this.BadRequest();
+            }
+
             IdSrvUserDTO user = await this.UserRepository.GetByAuthInfoAsync(authInfo);
             return user != null ? this.Ok(user) : this.NotFound() as IHttpActionResult;
         }
@@ -42,6 +47,11 @@
         [HttpPost]
         public async Task<IHttpActionResult> Create(NewIdSrvUserDTO user)
         {
+            if (user == null || user.UserName == null || user.Password == null)
+            {
+                return this.BadRequest();
+            }
+
             RepositoryResponse response = await this.UserRepository.CreateAsync(user);
             return
                 response == RepositoryResponse.Success ? this.Ok() :
@@ -52,6 +62,11 @@
         [HttpPost]
         public async Task<IHttpActionResult> Update(IdSrvUserDTO user)
         {
+            if (user == null || user.UserName == null)
+            {
+                return this.BadRequest();
+            }
+
             RepositoryResponse response = await this.UserRepository.UpdateAsync(user);
             return
                 response == RepositoryResponse.Success ? this.Ok() :
@@ -63,6 +78,11 @@
         [HttpPost]
         public async Task<IHttpActionResult> ChangePassword(IdSrvUserPasswordDTO password)
         {
+            if (password == null || password.Password == null)
+            {
+                return this.BadRequest();
+            }
+
             RepositoryResponse response = await this.UserRepository.ChangePasswordAsync(password);
             return
                 response == RepositoryResponse.Success ? this.Ok() :
