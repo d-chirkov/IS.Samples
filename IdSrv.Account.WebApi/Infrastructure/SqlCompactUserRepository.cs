@@ -2,21 +2,21 @@
 namespace IdSrv.Account.WebApi.Infrastructure
 {
     using System;
-    using System.Data.SqlServerCe;
     using System.Threading.Tasks;
     using IdSrv.Account.Models;
     using IdSrv.Account.WebApi.Infrastructure.Abstractions;
     using SqlKata;
     using SqlKata.Execution;
     using SqlKata.Compilers;
-    using System.Data.SqlServerCe;
     using System.Data;
+    using System.Security.Cryptography;
+    using System.Data.SqlServerCe;
 
     public class SqlCompactUserRepository : IUserRepository
     {
-        public IDatabaseConnectionFactory DatabaseConnectionFactory { get; set; }
+        public SqlCompactConnectionFactory DatabaseConnectionFactory { get; set; }
 
-        public SqlCompactUserRepository(IDatabaseConnectionFactory connectionFactory)
+        public SqlCompactUserRepository(SqlCompactConnectionFactory connectionFactory)
         {
             DatabaseConnectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
         }
@@ -28,20 +28,27 @@ namespace IdSrv.Account.WebApi.Infrastructure
 
         public async Task<RepositoryResponse> CreateAsync(NewIdSrvUserDTO user)
         {
-            var compiler = new SqlServerCompiler();
             using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
             {
+                var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
-                while(true)
+                string passwordSalt = Guid.NewGuid().ToString();
+                SHA512 sha512 = new SHA512Managed();
+                byte[] rawPasswordHash = sha512.ComputeHash(System.Text.Encoding.UTF8.GetBytes(user.Password + passwordSalt));
+                string b64PasswordHash = Convert.ToBase64String(rawPasswordHash);
+                try
                 {
-                    var guid = Guid.NewGuid();
-                    var foundById = await db.Query("Users").Select("Id").Where(new { Id = guid.ToString() }).FirstOrDefaultAsync();
-                    if (foundById != null)
+                    int inserted = await db.Query("Users").InsertAsync(new
                     {
-                        continue;
-                    }
-                    int inserted = await db.Query("Users").InsertAsync(new { Id = guid.ToString(), UserName = user.UserName, PasswordHash = user.Password + "abc", PasswordSalt = "abc" });
+                        user.UserName,
+                        PasswordHash = b64PasswordHash,
+                        PasswordSalt = passwordSalt
+                    });
                     return inserted == 1 ? RepositoryResponse.Success : RepositoryResponse.Conflict;
+                }
+                catch (SqlCeException ex) when (ex.NativeError == 25016)
+                {
+                    return RepositoryResponse.Conflict;
                 }
             }
         }

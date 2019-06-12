@@ -6,11 +6,12 @@
     using NUnit.Framework;
     using IdSrv.Account.WebApi.Infrastructure;
     using System.Data.SqlServerCe;
+    using IdSrv.Account.WebApi.IntegrationTests;
 
     [TestFixture]
     class SqlCompactConnectionFactoryTest
     {
-        public string TestConnectionString { get; set; } = @"Data Source=C:\Users\dchir\source\repos\IS.Samples\IdSrv.Account.WebApi.IntegrationTests\Infrastructure\test_compact_db.sdf";
+        public string TestConnectionString { get; set; } = $"Data Source={TestHelper.GetPathToTestDb()}";
 
         [Test]
         public void Ctor_DoesNotThrow_When_AnyNotNullStringPassed()
