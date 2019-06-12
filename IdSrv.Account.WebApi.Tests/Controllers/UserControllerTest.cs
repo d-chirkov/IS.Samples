@@ -70,17 +70,17 @@
         [Test]
         public async Task GetAll_InvokeGetAllFromRepository()
         {
-            this.UserRepository.Setup(v => v.GetAll()).ReturnsAsync(new List<IdSrvUserDTO>());
+            this.UserRepository.Setup(v => v.GetAllAsync()).ReturnsAsync(new List<IdSrvUserDTO>());
             var controller = new UserController(this.UserRepository.Object);
             await controller.GetAll();
-            this.UserRepository.Verify(v => v.GetAll());
+            this.UserRepository.Verify(v => v.GetAllAsync());
         }
 
         [Test]
         public async Task GetAll_ReturnOkWithUsersReceivedFromRepository_When_RepositoryReturnNotNull()
         {
             var users = new List<IdSrvUserDTO> { new IdSrvUserDTO(), new IdSrvUserDTO() };
-            this.UserRepository.Setup(v => v.GetAll()).ReturnsAsync(users);
+            this.UserRepository.Setup(v => v.GetAllAsync()).ReturnsAsync(users);
             var controller = new UserController(this.UserRepository.Object);
             System.Web.Http.IHttpActionResult httpResult = await controller.GetAll();
             Assert.NotNull(httpResult);
@@ -92,7 +92,7 @@
         public async Task GetAll_ReturnOkWithEmptyUsersList_When_RepositoryReturnNotNullEmptyUsersList()
         {
             var users = new List<IdSrvUserDTO> { };
-            this.UserRepository.Setup(v => v.GetAll()).ReturnsAsync(users);
+            this.UserRepository.Setup(v => v.GetAllAsync()).ReturnsAsync(users);
             var controller = new UserController(this.UserRepository.Object);
             System.Web.Http.IHttpActionResult httpResult = await controller.GetAll();
             Assert.NotNull(httpResult);
@@ -103,7 +103,7 @@
         [Test]
         public async Task GetAll_ReturnNotFound_When_RepositoryReturnNull()
         {
-            this.UserRepository.Setup(v => v.GetAll()).ReturnsAsync(null as IEnumerable<IdSrvUserDTO>);
+            this.UserRepository.Setup(v => v.GetAllAsync()).ReturnsAsync(null as IEnumerable<IdSrvUserDTO>);
             var controller = new UserController(this.UserRepository.Object);
             System.Web.Http.IHttpActionResult httpResult = await controller.GetAll();
             Assert.NotNull(httpResult);

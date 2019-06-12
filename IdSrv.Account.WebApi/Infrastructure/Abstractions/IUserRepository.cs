@@ -7,7 +7,7 @@
 
     public interface IUserRepository
     {
-        Task<IEnumerable<IdSrvUserDTO>> GetAll();
+        Task<IEnumerable<IdSrvUserDTO>> GetAllAsync();
 
         Task<IdSrvUserDTO> GetByIdAsync(Guid id);
 

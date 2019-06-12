@@ -21,7 +21,7 @@
         [HttpGet]
         public async Task<IHttpActionResult> GetAll()
         {
-            IEnumerable<IdSrvUserDTO> users = await this.UserRepository.GetAll();
+            IEnumerable<IdSrvUserDTO> users = await this.UserRepository.GetAllAsync();
             return users != null ? this.Ok(users) : this.NotFound() as IHttpActionResult;
         }
 

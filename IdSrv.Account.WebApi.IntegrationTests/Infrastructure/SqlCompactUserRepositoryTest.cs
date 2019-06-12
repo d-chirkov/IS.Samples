@@ -16,11 +16,19 @@
     using System.IO;
     using IdSrv.Account.WebApi.IntegrationTests;
     using System.Security.Cryptography;
+    using System.Collections.Generic;
 
     [TestFixture]
     class SqlCompactUserRepositoryTest
     {
         public string TestConnectionString { get; set; } = $"Data Source={TestHelper.GetPathToTestDb()}";
+
+        private string GetB64PasswordHash(string password, string salt)
+        {
+            SHA512 sha512 = new SHA512Managed();
+            byte[] rawPasswordHash = sha512.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password + salt));
+            return Convert.ToBase64String(rawPasswordHash);
+        }
 
         [SetUp]
         public async Task SetUp()
@@ -91,11 +99,38 @@
                 Assert.NotNull(createdUser);
                 Assert.IsInstanceOf<Guid>(createdUser.Id);
                 Assert.AreEqual(createdUser.UserName, "u1");
-                SHA512 sha512 = new SHA512Managed();
-                byte[] rawPasswordHash = sha512.ComputeHash(System.Text.Encoding.UTF8.GetBytes("p1" + createdUser.PasswordSalt));
-                string b64PasswordHash = Convert.ToBase64String(rawPasswordHash);
-                Assert.AreEqual(createdUser.PasswordHash, b64PasswordHash);
+                Assert.AreEqual(createdUser.PasswordHash, this.GetB64PasswordHash("p1", createdUser.PasswordSalt));
             }
+        }
+
+        [Test]
+        public async Task GetAllAsync_ReturnAllUsersFromDb_When_UsersExistsInDb()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2",
+                    PasswordHash = this.GetB64PasswordHash("p2", "s2"),
+                    PasswordSalt = "s2"
+                });
+            }
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            var usersEnum = await repository.GetAllAsync();
+            Assert.NotNull(usersEnum);
+            List<IdSrvUserDTO> users = usersEnum.ToList();
+            Assert.AreEqual(users.Count(), 2);
+            Assert.AreEqual(users[0].UserName, "u1");
+            Assert.AreEqual(users[1].UserName, "u2");
         }
     }
 }

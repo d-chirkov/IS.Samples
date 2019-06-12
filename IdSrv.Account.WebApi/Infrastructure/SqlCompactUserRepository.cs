@@ -20,6 +20,26 @@
             this.DatabaseConnectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
         }
 
+        public async Task<IEnumerable<IdSrvUserDTO>> GetAllAsync()
+        {
+            using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                return await db.Query("Users").Select("Id", "UserName").GetAsync<IdSrvUserDTO>();
+            }
+        }
+
+        public Task<IdSrvUserDTO> GetByIdAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IdSrvUserDTO> GetByAuthInfoAsync(IdSrvUserAuthDTO userAuth)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<RepositoryResponse> ChangePasswordAsync(IdSrvUserPasswordDTO password)
         {
             throw new NotImplementedException();
@@ -56,25 +76,10 @@
         {
             throw new NotImplementedException();
         }
-
-        public Task<IdSrvUserDTO> GetByAuthInfoAsync(IdSrvUserAuthDTO userAuth)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IdSrvUserDTO> GetByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<RepositoryResponse> UpdateAsync(IdSrvUserDTO user)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<IdSrvUserDTO>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
