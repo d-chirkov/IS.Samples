@@ -36,7 +36,11 @@
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
-                return await db.Query("Users").Select("Id", "UserName").FirstOrDefaultAsync<IdSrvUserDTO>();
+                return await db
+                    .Query("Users")
+                    .Select("Id", "UserName")
+                    .Where(new { Id = id })
+                    .FirstOrDefaultAsync<IdSrvUserDTO>();
             }
         }
 

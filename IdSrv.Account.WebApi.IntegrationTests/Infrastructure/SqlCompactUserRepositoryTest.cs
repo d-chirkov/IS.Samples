@@ -71,7 +71,7 @@
                 var rows = await db.Query("Users").Select().GetAsync();
                 Assert.AreEqual(rows.Count(), 1);
                 var createdUser = rows.FirstOrDefault();
-                Assert.NotNull(createdUser);
+                Assert.IsNotNull(createdUser);
                 Assert.IsInstanceOf<Guid>(createdUser.Id);
                 Assert.AreEqual(createdUser.UserName, userName);
                 SHA512 sha512 = new SHA512Managed();
@@ -96,7 +96,7 @@
                 var rows = await db.Query("Users").Select().GetAsync();
                 Assert.AreEqual(rows.Count(), 1);
                 var createdUser = rows.FirstOrDefault();
-                Assert.NotNull(createdUser);
+                Assert.IsNotNull(createdUser);
                 Assert.IsInstanceOf<Guid>(createdUser.Id);
                 Assert.AreEqual(createdUser.UserName, "u1");
                 Assert.AreEqual(createdUser.PasswordHash, this.GetB64PasswordHash("p1", createdUser.PasswordSalt));
@@ -126,7 +126,7 @@
             }
             var repository = new SqlCompactUserRepository(connectionFactory);
             IEnumerable<IdSrvUserDTO> users = await repository.GetAllAsync();
-            Assert.NotNull(users);
+            Assert.IsNotNull(users);
             Assert.AreEqual(users.ElementAt(0).UserName, "u1");
             Assert.AreEqual(users.ElementAt(1).UserName, "u2");
         }
@@ -137,7 +137,7 @@
             var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
             var repository = new SqlCompactUserRepository(connectionFactory);
             IEnumerable<IdSrvUserDTO> users = await repository.GetAllAsync();
-            Assert.NotNull(users);
+            Assert.IsNotNull(users);
             Assert.AreEqual(users.Count(), 0);
         }
 
@@ -166,8 +166,35 @@
             }
             var repository = new SqlCompactUserRepository(connectionFactory);
             IdSrvUserDTO user = await repository.GetByIdAsync(searchingId);
-            Assert.NotNull(user);
+            Assert.IsNotNull(user);
             Assert.AreEqual(user.UserName, "u1");
+        }
+
+        [Test]
+        public async Task GetByIdAsync_ReturnNull_When_PassingNotExistingId()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            Guid existingId = Guid.Empty;
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                existingId = await db.Query("Users").Select("Id").Where(new { UserName = "u1" }).FirstAsync<Guid>();
+            }
+            Guid searchingId;
+            do
+            {
+                searchingId = Guid.NewGuid();
+            } while (searchingId == existingId);
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            IdSrvUserDTO user = await repository.GetByIdAsync(searchingId);
+            Assert.IsNull(user);
         }
     }
 }
