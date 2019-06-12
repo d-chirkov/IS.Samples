@@ -1,25 +1,20 @@
 ﻿namespace IdSrv.Account.WebApi.Infrastructure.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-    using System.Threading.Tasks;
-    using NUnit.Framework;
-    using IdSrv.Account.WebApi.Infrastructure;
-    using IdSrv.Account.WebApi.Infrastructure.Abstractions;
-    using Moq;
-    using IdSrv.Account.Models;
-    using SqlKata;
-    using SqlKata.Execution;
-    using SqlKata.Compilers;
-    using System.Data.SqlServerCe;
-    using System.IO;
-    using IdSrv.Account.WebApi.IntegrationTests;
     using System.Security.Cryptography;
-    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using IdSrv.Account.Models;
+    using IdSrv.Account.WebApi.Infrastructure;
+    using IdSrv.Account.WebApi.IntegrationTests;
+    using NUnit.Framework;
+    using SqlKata.Compilers;
+    using SqlKata.Execution;
 
     [TestFixture]
-    class SqlCompactUserRepositoryTest
+    internal class SqlCompactUserRepositoryTest
     {
         public string TestConnectionString { get; set; } = $"Data Source={TestHelper.GetPathToTestDb()}";
 
@@ -91,9 +86,9 @@
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
-                var rows = await db.Query("Users").Select().GetAsync();
+                IEnumerable<dynamic> rows = await db.Query("Users").Select().GetAsync();
                 Assert.AreEqual(rows.Count(), 1);
-                var createdUser = rows.FirstOrDefault();
+                dynamic createdUser = rows.FirstOrDefault();
                 Assert.IsNotNull(createdUser);
                 Assert.IsInstanceOf<Guid>(createdUser.Id);
                 Assert.AreEqual(createdUser.UserName, userName);
@@ -116,9 +111,9 @@
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
-                var rows = await db.Query("Users").Select().GetAsync();
+                IEnumerable<dynamic> rows = await db.Query("Users").Select().GetAsync();
                 Assert.AreEqual(rows.Count(), 1);
-                var createdUser = rows.FirstOrDefault();
+                dynamic createdUser = rows.FirstOrDefault();
                 Assert.IsNotNull(createdUser);
                 Assert.IsInstanceOf<Guid>(createdUser.Id);
                 Assert.AreEqual(createdUser.UserName, "u1");
@@ -280,7 +275,7 @@
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
             var repository = new SqlCompactUserRepository(connectionFactory);
-            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u2", Password = "p2"});
+            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u2", Password = "p2" });
             Assert.IsNotNull(user);
             Assert.AreEqual(user.Id, userId);
             Assert.AreEqual(user.UserName, "u2");

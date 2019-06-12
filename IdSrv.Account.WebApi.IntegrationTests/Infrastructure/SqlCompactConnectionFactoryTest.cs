@@ -2,14 +2,14 @@
 {
     using System;
     using System.Data;
-    using System.Threading.Tasks;
-    using NUnit.Framework;
-    using IdSrv.Account.WebApi.Infrastructure;
     using System.Data.SqlServerCe;
+    using System.Threading.Tasks;
+    using IdSrv.Account.WebApi.Infrastructure;
     using IdSrv.Account.WebApi.IntegrationTests;
+    using NUnit.Framework;
 
     [TestFixture]
-    class SqlCompactConnectionFactoryTest
+    internal class SqlCompactConnectionFactoryTest
     {
         public string TestConnectionString { get; set; } = $"Data Source={TestHelper.GetPathToTestDb()}";
 

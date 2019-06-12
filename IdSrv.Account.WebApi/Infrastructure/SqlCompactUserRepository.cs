@@ -54,7 +54,7 @@
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
-                var userInDb = await db
+                dynamic userInDb = await db
                     .Query("Users")
                     .Select("Id", "UserName", "PasswordHash", "PasswordSalt")
                     .Where(new { UserName = userAuth.UserName })
@@ -66,8 +66,8 @@
                 string passwordHashFromDb = userInDb.PasswordHash;
                 string passwordSaltFromDb = userInDb.PasswordSalt;
                 string calculatedPasswordHash = this.GetB64PasswordHashFrom(userAuth.Password, passwordSaltFromDb);
-                return calculatedPasswordHash == passwordHashFromDb ? 
-                    new IdSrvUserDTO { Id = userInDb.Id, UserName = userInDb.UserName } : 
+                return calculatedPasswordHash == passwordHashFromDb ?
+                    new IdSrvUserDTO { Id = userInDb.Id, UserName = userInDb.UserName } :
                     null;
             }
         }
