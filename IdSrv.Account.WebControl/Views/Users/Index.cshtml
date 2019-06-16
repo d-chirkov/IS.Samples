@@ -4,18 +4,32 @@
     ViewBag.Title = "Index";
 }
 
-@if (TempData.ContainsKey("_IsError"))
+@section scripts
 {
-    bool? isError = TempData["_IsError"] as bool?;
-    string errorClass = isError.HasValue && isError.Value ? "warning" : "success";
-    <div class="alert alert-@errorClass alert-dismissible">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        @(TempData["_Message"] as string)
-    </div>
+    <script>
+        $(document).ready(function() {
+            $("#temp-message").fadeTo(1000, 200).slideUp(200, function () {
+                $("#temp-message").remove();
+            });
+        });
+    </script>
+    
 }
 
-<div class="container">
-    <h2 class="row">Пользователи</h2>
+<div class="container center-block">
+
+    @if (TempData.ContainsKey("_IsError"))
+    {
+        bool? isError = TempData["_IsError"] as bool?;
+        string errorClass = isError.HasValue && isError.Value ? "warning" : "success";
+        <div id="temp-message" class="alert alert-@errorClass alert-dismissible fade show row col-sm-offset-3 col-sm-4 text-center" style="position:fixed">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            @(TempData["_Message"] as string)
+        </div>
+    }
+
+
+    <h2 class="row col-md-12">Пользователи</h2>
     <br />
     <table class="table row">
         <tr class="row">
