@@ -17,8 +17,6 @@
 
         Task<RepositoryResponse> DeleteAsync(Guid id);
 
-        Task<RepositoryResponse> UpdateAsync(IdSrvUserDTO user);
-
         Task<RepositoryResponse> ChangePasswordAsync(IdSrvUserPasswordDTO password);
     }
 }

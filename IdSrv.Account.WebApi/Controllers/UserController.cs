@@ -60,22 +60,6 @@
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> Update(IdSrvUserDTO user)
-        {
-            if (user == null || user.UserName == null)
-            {
-                return this.BadRequest();
-            }
-
-            RepositoryResponse response = await this.UserRepository.UpdateAsync(user);
-            return
-                response == RepositoryResponse.Success ? this.Ok() :
-                response == RepositoryResponse.Conflict ? this.Conflict() :
-                response == RepositoryResponse.NotFound ? this.NotFound() as IHttpActionResult :
-                throw new UserRepositoryException();
-        }
-
-        [HttpPost]
         public async Task<IHttpActionResult> ChangePassword(IdSrvUserPasswordDTO password)
         {
             if (password == null || password.Password == null)

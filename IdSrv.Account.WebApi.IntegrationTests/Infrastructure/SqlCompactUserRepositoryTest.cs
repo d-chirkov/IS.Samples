@@ -86,7 +86,7 @@
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
-                IEnumerable<dynamic> rows = await db.Query("Users").Select().GetAsync();
+                IEnumerable<dynamic> rows = await db.Query("Users").GetAsync();
                 Assert.AreEqual(rows.Count(), 1);
                 dynamic createdUser = rows.FirstOrDefault();
                 Assert.IsNotNull(createdUser);
@@ -111,7 +111,7 @@
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
-                IEnumerable<dynamic> rows = await db.Query("Users").Select().GetAsync();
+                IEnumerable<dynamic> rows = await db.Query("Users").GetAsync();
                 Assert.AreEqual(rows.Count(), 1);
                 dynamic createdUser = rows.FirstOrDefault();
                 Assert.IsNotNull(createdUser);
@@ -343,6 +343,183 @@
             var repository = new SqlCompactUserRepository(connectionFactory);
             IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u2", Password = "p4" });
             Assert.IsNull(user);
+        }
+
+        [Test]
+        public void ChangePasswordAsync_ThrowArgumentNullException_When_PassingNullPasswords()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.ChangePasswordAsync(null));
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.ChangePasswordAsync(new IdSrvUserPasswordDTO
+            {
+                UserId = Guid.NewGuid(),
+                Password = null
+            }));
+        }
+
+        [Test]
+        public async Task ChangePasswordAsync_ReturnSuccessAndChangePasswordInDb_When_PassingExistingUserGuidWithNewPassword()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            Guid userId;
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2",
+                    PasswordHash = this.GetB64PasswordHash("p2", "s2"),
+                    PasswordSalt = "s2"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u3",
+                    PasswordHash = this.GetB64PasswordHash("p3", "s3"),
+                    PasswordSalt = "s3"
+                });
+                userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
+            }
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse response = await repository.ChangePasswordAsync(new IdSrvUserPasswordDTO
+            {
+                UserId = userId,
+                Password = "p4"
+            });
+            Assert.AreEqual(RepositoryResponse.Success, response);
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                dynamic insertedPassword = await db
+                    .Query("Users")
+                    .Select("PasswordHash", "PasswordSalt")
+                    .Where(new { Id = userId })
+                    .FirstOrDefaultAsync();
+                Assert.IsNotNull(insertedPassword);
+                Assert.AreEqual(this.GetB64PasswordHash("p4", insertedPassword.PasswordSalt), insertedPassword.PasswordHash);
+            }
+        }
+
+        [Test]
+        public async Task ChangePasswordAsync_ReturnNotFound_When_PassingNotExistingUserGuid()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var existingIds = new List<Guid>();
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2",
+                    PasswordHash = this.GetB64PasswordHash("p2", "s2"),
+                    PasswordSalt = "s2"
+                });
+                existingIds = (await db.Query("Users").Select("Id").GetAsync<Guid>()).ToList();
+            }
+            var notExistingId = Guid.NewGuid();
+            while (existingIds.Contains(notExistingId))
+            {
+                notExistingId = Guid.NewGuid();
+            }
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse response = await repository.ChangePasswordAsync(new IdSrvUserPasswordDTO
+            {
+                UserId = notExistingId,
+                Password = "p4"
+            });
+            Assert.AreEqual(RepositoryResponse.NotFound, response);
+        }
+
+        [Test]
+        public async Task DeleteAsync_ReturnSuccessAndDeleteUserFromDb_When_PassingExistingUserGuid()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            Guid userId;
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2",
+                    PasswordHash = this.GetB64PasswordHash("p2", "s2"),
+                    PasswordSalt = "s2"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u3",
+                    PasswordHash = this.GetB64PasswordHash("p3", "s3"),
+                    PasswordSalt = "s3"
+                });
+                userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
+            }
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse response = await repository.DeleteAsync(userId);
+            Assert.AreEqual(RepositoryResponse.Success, response);
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                dynamic deletedUser = await db
+                    .Query("Users")
+                    .Where(new { Id = userId })
+                    .FirstOrDefaultAsync();
+                Assert.IsNull(deletedUser);
+            }
+        }
+
+        [Test]
+        public async Task DeleteAsync_ReturnNotFound_When_PassingNotExistingUserGuid()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var existingIds = new List<Guid>();
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2",
+                    PasswordHash = this.GetB64PasswordHash("p2", "s2"),
+                    PasswordSalt = "s2"
+                });
+                existingIds = (await db.Query("Users").Select("Id").GetAsync<Guid>()).ToList();
+            }
+            var notExistingId = Guid.NewGuid();
+            while (existingIds.Contains(notExistingId))
+            {
+                notExistingId = Guid.NewGuid();
+            }
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse response = await repository.DeleteAsync(notExistingId);
+            Assert.AreEqual(RepositoryResponse.NotFound, response);
         }
     }
 }

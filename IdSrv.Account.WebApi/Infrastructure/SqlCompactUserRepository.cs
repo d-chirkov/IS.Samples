@@ -72,9 +72,27 @@
             }
         }
 
-        public Task<RepositoryResponse> ChangePasswordAsync(IdSrvUserPasswordDTO password)
+        public async Task<RepositoryResponse> ChangePasswordAsync(IdSrvUserPasswordDTO password)
         {
-            throw new NotImplementedException();
+            if (password == null || password.Password == null)
+            {
+                throw new ArgumentNullException(nameof(password));
+            }
+            using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                string passwordSalt = Guid.NewGuid().ToString();
+                int updated = await db
+                    .Query("Users")
+                    .Where(new { Id = password.UserId })
+                    .UpdateAsync(new
+                    {
+                        PasswordHash = this.GetB64PasswordHashFrom(password.Password, passwordSalt),
+                        PasswordSalt = passwordSalt
+                    });
+                return updated == 1 ? RepositoryResponse.Success : RepositoryResponse.NotFound;
+            }
         }
 
         public async Task<RepositoryResponse> CreateAsync(NewIdSrvUserDTO user)
@@ -105,13 +123,19 @@
             }
         }
 
-        public Task<RepositoryResponse> DeleteAsync(Guid id)
+        public async Task<RepositoryResponse> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
-        }
-        public Task<RepositoryResponse> UpdateAsync(IdSrvUserDTO user)
-        {
-            throw new NotImplementedException();
+            using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                string passwordSalt = Guid.NewGuid().ToString();
+                int deleted = await db
+                    .Query("Users")
+                    .Where(new { Id = id })
+                    .DeleteAsync();
+                return deleted == 1 ? RepositoryResponse.Success : RepositoryResponse.NotFound;
+            }
         }
 
         private string GetB64PasswordHashFrom(string password, string salt)
