@@ -175,7 +175,7 @@
             Func<bool, Task> testWithServiceReturns = async (bool what) =>
             {
                 var userId = new Guid();
-                this.UserServiceMock.Setup(v => v.DeleteUserAsync(userId)).ReturnsAsync(true);
+                this.UserServiceMock.Setup(v => v.DeleteUserAsync(userId)).ReturnsAsync(what);
                 var controller = new UsersController(this.UserServiceMock.Object);
                 ActionResult result = await controller.Delete(userId);
                 Assert.IsInstanceOf<RedirectToRouteResult>(result);
@@ -198,6 +198,106 @@
                 Assert.IsTrue(controller.TempData.ContainsKey("_IsError"));
                 Assert.IsInstanceOf<bool?>(controller.TempData["_IsError"]);
                 Assert.AreEqual(!status, controller.TempData["_IsError"] as bool?);
+            };
+            await testWithServiceReturns(true);
+            await testWithServiceReturns(false);
+        }
+
+        [Test]
+        public async Task Block_CallServiceChangeBlock()
+        {
+            var userId = new Guid();
+            IdSrvUserBlockDTO block = null;
+            this.UserServiceMock
+                .Setup(v => v.ChangeBlock(It.IsAny<IdSrvUserBlockDTO>()))
+                .ReturnsAsync(true)
+                .Callback<IdSrvUserBlockDTO>(r => block = r); ;
+            var controller = new UsersController(this.UserServiceMock.Object);
+            await controller.Block(userId);
+            Assert.NotNull(block);
+            Assert.AreEqual(userId, block.UserId);
+            Assert.IsTrue(block.IsBlocked);
+        }
+
+        [Test]
+        public async Task Block_RedirectToIndex_When_ServiceReturnsAny()
+        {
+            Func<bool, Task> testWithServiceReturns = async (bool what) =>
+            {
+                var userId = new Guid();
+                this.UserServiceMock.Setup(v => v.ChangeBlock(It.IsAny<IdSrvUserBlockDTO>())).ReturnsAsync(what);
+                var controller = new UsersController(this.UserServiceMock.Object);
+                ActionResult result = await controller.Block(userId);
+                Assert.IsInstanceOf<RedirectToRouteResult>(result);
+                var redirectResult = result as RedirectToRouteResult;
+                Assert.AreEqual(nameof(controller.Index), redirectResult.RouteValues["action"]);
+            };
+            await testWithServiceReturns(true);
+            await testWithServiceReturns(false);
+        }
+
+        [Test]
+        public async Task Block_PutErrorStatusToTempData_When_ServiceReturnsThisErrorStatus()
+        {
+            Func<bool, Task> testWithServiceReturns = async (bool what) =>
+            {
+                var userId = new Guid();
+                this.UserServiceMock.Setup(v => v.ChangeBlock(It.IsAny<IdSrvUserBlockDTO>())).ReturnsAsync(what);
+                var controller = new UsersController(this.UserServiceMock.Object);
+                await controller.Block(userId);
+                Assert.IsTrue(controller.TempData.ContainsKey("_IsError"));
+                Assert.IsInstanceOf<bool?>(controller.TempData["_IsError"]);
+                Assert.AreEqual(!what, controller.TempData["_IsError"] as bool?);
+            };
+            await testWithServiceReturns(true);
+            await testWithServiceReturns(false);
+        }
+
+        [Test]
+        public async Task Unblock_CallServiceChangeBlock()
+        {
+            var userId = new Guid();
+            IdSrvUserBlockDTO block = null;
+            this.UserServiceMock
+                .Setup(v => v.ChangeBlock(It.IsAny<IdSrvUserBlockDTO>()))
+                .ReturnsAsync(true)
+                .Callback<IdSrvUserBlockDTO>(r => block = r); ;
+            var controller = new UsersController(this.UserServiceMock.Object);
+            await controller.Unblock(userId);
+            Assert.NotNull(block);
+            Assert.AreEqual(userId, block.UserId);
+            Assert.IsFalse(block.IsBlocked);
+        }
+
+        [Test]
+        public async Task Unblock_RedirectToIndex_When_ServiceReturnsAny()
+        {
+            Func<bool, Task> testWithServiceReturns = async (bool what) =>
+            {
+                var userId = new Guid();
+                this.UserServiceMock.Setup(v => v.ChangeBlock(It.IsAny<IdSrvUserBlockDTO>())).ReturnsAsync(what);
+                var controller = new UsersController(this.UserServiceMock.Object);
+                ActionResult result = await controller.Unblock(userId);
+                Assert.IsInstanceOf<RedirectToRouteResult>(result);
+                var redirectResult = result as RedirectToRouteResult;
+                Assert.AreEqual(nameof(controller.Index), redirectResult.RouteValues["action"]);
+            };
+            await testWithServiceReturns(true);
+            await testWithServiceReturns(false);
+        }
+
+        [Test]
+        public async Task Unblock_PutErrorStatusToTempData_When_ServiceReturnsThisErrorStatus()
+        {
+            Func<bool, Task> testWithServiceReturns = async (bool what) =>
+            {
+                var userId = new Guid();
+                this.UserServiceMock.Setup(v => v.ChangeBlock(It.IsAny<IdSrvUserBlockDTO>())).ReturnsAsync(what);
+                var controller = new UsersController(this.UserServiceMock.Object);
+                await controller.Unblock(userId);
+                Assert.IsTrue(controller.TempData.ContainsKey("_IsError"));
+                Assert.IsInstanceOf<bool?>(controller.TempData["_IsError"]);
+                Assert.AreEqual(!what, controller.TempData["_IsError"] as bool?);
             };
             await testWithServiceReturns(true);
             await testWithServiceReturns(false);

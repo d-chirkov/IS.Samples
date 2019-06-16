@@ -37,6 +37,8 @@
             }
         }
 
+        #region DatabaseInteractions
+
         [Test]
         public void Ctor_DoesNotThrow_When_PassingNotNullFactory()
         {
@@ -1231,5 +1233,174 @@
             });
             Assert.AreEqual(RepositoryResponse.NotFound, response);
         }
+
+        #endregion
+
+        #region Scenarios
+
+        [Test]
+        public async Task Create_GetByAuthInfo_Delete_GetByAuthInfo_GetById_GetAll()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
+            Assert.AreEqual(RepositoryResponse.Success, result);
+            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u1", Password = "p1" });
+            Assert.IsNotNull(user);
+            Assert.AreEqual("u1", user.UserName);
+            Assert.IsFalse(user.IsBlocked);
+            Guid storedId = user.Id;
+            IEnumerable<IdSrvUserDTO> users = await repository.GetAllAsync();
+            Assert.IsNotNull(users);
+            Assert.AreEqual(1, users.Count());
+            result = await repository.DeleteAsync(storedId);
+            Assert.AreEqual(RepositoryResponse.Success, result);
+            user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u1", Password = "p1" });
+            Assert.IsNull(user);
+            user = await repository.GetByIdAsync(storedId);
+            Assert.IsNull(user);
+            users = await repository.GetAllAsync();
+            Assert.IsNotNull(users);
+            Assert.AreEqual(0, users.Count());
+        }
+
+        [Test]
+        public async Task Create_GetByAuthInfo_Block_GetById_Unblock_GetById()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
+            Assert.AreEqual(RepositoryResponse.Success, result);
+            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u1", Password = "p1" });
+            Assert.IsNotNull(user);
+            Assert.AreEqual("u1", user.UserName);
+            Assert.IsFalse(user.IsBlocked);
+            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO { UserId = user.Id, IsBlocked = true});
+            Assert.AreEqual(RepositoryResponse.Success, result);
+            user = await repository.GetByIdAsync(user.Id);
+            Assert.IsNotNull(user);
+            Assert.IsTrue(user.IsBlocked);
+            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO { UserId = user.Id, IsBlocked = false });
+            Assert.AreEqual(RepositoryResponse.Success, result);
+            user = await repository.GetByIdAsync(user.Id);
+            Assert.IsNotNull(user);
+            Assert.IsFalse(user.IsBlocked);
+        }
+
+        [Test]
+        public async Task Create_GetByAuthInfo_ChangePassword_GetByAuthInfo()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
+            Assert.AreEqual(RepositoryResponse.Success, result);
+            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u1", Password = "p1" });
+            Assert.IsNotNull(user);
+            Assert.AreEqual("u1", user.UserName);
+            Assert.IsFalse(user.IsBlocked);
+            result = await repository.ChangePasswordAsync(new IdSrvUserPasswordDTO { UserId = user.Id, Password = "p2" });
+            Assert.AreEqual(RepositoryResponse.Success, result);
+            user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u1", Password = "p1" });
+            Assert.IsNull(user);
+            user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u1", Password = "p2" });
+            Assert.IsNotNull(user);
+            Assert.AreEqual("u1", user.UserName);
+            Assert.IsFalse(user.IsBlocked);
+        }
+
+        [Test]
+        public async Task Create1_Create2_Create1_GetAll_GetById1_GetById2_Delete1_GetAll_Delete1_GetAll()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
+            Assert.AreEqual(RepositoryResponse.Success, result);
+            result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u2", Password = "p2" });
+            Assert.AreEqual(RepositoryResponse.Success, result);
+            result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p2" });
+            Assert.AreEqual(RepositoryResponse.Conflict, result);
+
+            IEnumerable<IdSrvUserDTO> users = await repository.GetAllAsync();
+            Assert.IsNotNull(users);
+            Assert.AreEqual(2, users.Count());
+            IdSrvUserDTO user1 = users.OrderBy(u => u.UserName).ElementAt(0);
+            IdSrvUserDTO user2 = users.OrderBy(u => u.UserName).ElementAt(1);
+            Assert.AreEqual("u1", user1.UserName);
+            Assert.AreEqual("u2", user2.UserName);
+            Assert.IsFalse(user1.IsBlocked);
+            Assert.IsFalse(user2.IsBlocked);
+
+            IdSrvUserDTO user = await repository.GetByIdAsync(user1.Id);
+            Assert.IsNotNull(user);
+            Assert.AreEqual("u1", user.UserName);
+            Assert.IsFalse(user.IsBlocked);
+
+            user = await repository.GetByIdAsync(user2.Id);
+            Assert.IsNotNull(user);
+            Assert.AreEqual("u2", user.UserName);
+            Assert.IsFalse(user.IsBlocked);
+
+            result = await repository.DeleteAsync(user1.Id);
+            Assert.AreEqual(RepositoryResponse.Success, result);
+
+            users = await repository.GetAllAsync();
+            Assert.IsNotNull(users);
+            Assert.AreEqual(1, users.Count());
+            user = users.First();
+            Assert.AreEqual("u2", user.UserName);
+            Assert.IsFalse(user.IsBlocked);
+
+            result = await repository.DeleteAsync(user1.Id);
+            Assert.AreEqual(RepositoryResponse.NotFound, result);
+
+            users = await repository.GetAllAsync();
+            Assert.IsNotNull(users);
+            Assert.AreEqual(1, users.Count());
+            user = users.First();
+            Assert.AreEqual("u2", user.UserName);
+            Assert.IsFalse(user.IsBlocked);
+        }
+
+        [Test]
+        public async Task Create_GetByAuthInfo_Block_GetById_Block_GetById_Unblock_Unblock_GetById()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
+            Assert.AreEqual(RepositoryResponse.Success, result);
+
+            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u1", Password = "p1" });
+            Assert.IsNotNull(user);
+            Assert.AreEqual("u1", user.UserName);
+            Assert.IsFalse(user.IsBlocked);
+
+            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO { UserId = user.Id, IsBlocked = true });
+            Assert.AreEqual(RepositoryResponse.Success, result);
+
+            user = await repository.GetByIdAsync(user.Id);
+            Assert.IsNotNull(user);
+            Assert.IsTrue(user.IsBlocked);
+
+            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO { UserId = user.Id, IsBlocked = true });
+            Assert.AreEqual(RepositoryResponse.Success, result);
+
+            user = await repository.GetByIdAsync(user.Id);
+            Assert.IsNotNull(user);
+            Assert.IsTrue(user.IsBlocked);
+
+            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO { UserId = user.Id, IsBlocked = false });
+            Assert.AreEqual(RepositoryResponse.Success, result);
+
+            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO { UserId = user.Id, IsBlocked = false });
+            Assert.AreEqual(RepositoryResponse.Success, result);
+
+            user = await repository.GetByIdAsync(user.Id);
+            Assert.IsNotNull(user);
+            Assert.IsFalse(user.IsBlocked);
+        }
+
+        // TODO: add more scenarious
+
+        #endregion
     }
 }
