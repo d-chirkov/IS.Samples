@@ -14,5 +14,7 @@
         Task<bool> ChangePasswordForUserAsync(IdSrvUserPasswordDTO passwords);
 
         Task<bool> DeleteUserAsync(Guid id);
+
+        Task<bool> ChangeBlock(IdSrvUserBlockDTO block);
     }
 }

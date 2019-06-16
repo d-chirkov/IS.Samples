@@ -49,5 +49,11 @@
             HttpResponseMessage response = await this.Client.DeleteAsync($"api/User/{id.ToString()}");
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<bool> ChangeBlock(IdSrvUserBlockDTO block)
+        {
+            HttpResponseMessage response = await this.Client.PostAsJsonAsync("api/User/ChangeBlocking", block);
+            return response.IsSuccessStatusCode;
+        }
     }
 }

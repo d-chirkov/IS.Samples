@@ -68,11 +68,31 @@
         }
 
         [HttpPost]
-        [Route("/Users/Delete/{id}")]
+        [Route("/Users/Delete")]
         public async Task<ActionResult> Delete(Guid id)
         {
             bool deleted = await this.AccountService.DeleteUserAsync(id);
             return deleted ? this.ViewSuccess("Пользователь успешно удалён") : this.ViewError("Не удалось удалить пользователя");
+        }
+
+        [HttpPost]
+        [Route("/Users/Block")]
+        public async Task<ActionResult> Block(Guid id)
+        {
+            bool blocked = await this.AccountService.ChangeBlock(new IdSrvUserBlockDTO { UserId = id, IsBlocked = true });
+            return blocked ? 
+                this.ViewSuccess("Пользователь заблокирован") : 
+                this.ViewError("Не удалось заблокировать пользователя");
+        }
+
+        [HttpPost]
+        [Route("/Users/Unblock")]
+        public async Task<ActionResult> Unblock(Guid id)
+        {
+            bool unblocked = await this.AccountService.ChangeBlock(new IdSrvUserBlockDTO { UserId = id, IsBlocked = false });
+            return unblocked ?
+                this.ViewSuccess("Пользователь разблокирован") :
+                this.ViewError("Не удалось разблокировать пользователя");
         }
 
         private RedirectToRouteResult ViewSuccess(string message)

@@ -31,20 +31,51 @@
         </tr>
 
     @foreach (var item in Model) {
-        <tr class="row">
-            <td class="col-md-4">
+        <tr class="row @(item.IsBlocked ? "danger" : "")">
+            <td class="col-md-6">
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td class="col-md-3">
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
-            <td class="col-md-3 container">
-                    @Html.ActionLink("Сменить пароль", "ChangePassword", new { id = item.Id}, new { @class="btn btn-default col-md-6"} )
-                    @using (Html.BeginForm("Delete", "Users", FormMethod.Post))
-                    {
-                        @Html.Hidden("id", item.Id)
-                        <input type="submit" value="Удалить" class="btn btn-danger col-md-5 pull-right" />
-                    }
+            <td class="col-md-3">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle pull-right" type="button" data-toggle="dropdown"> 
+                        Действия <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            @Html.ActionLink("Сменить пароль", "ChangePassword", new { id = item.Id }, new { @class = "btn btn-link" })
+                        </li>
+                        <li>
+                            @using (Html.BeginForm("Delete", "Users", FormMethod.Post))
+                            {
+                                @Html.Hidden("id", item.Id)
+                                <input type="submit" value="Удалить" class="form-control btn btn-link" />
+                            }
+                        </li>
+                        @if (item.IsBlocked)
+                        {
+                            <li>
+                                @using (Html.BeginForm("Unblock", "Users", FormMethod.Post))
+                                {
+                                    @Html.Hidden("id", item.Id)
+                                    <input type="submit" value="Разблокировать" class="form-control btn btn-link" />
+                                }
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                @using (Html.BeginForm("Block", "Users", FormMethod.Post))
+                                {
+                                    @Html.Hidden("id", item.Id)
+                                    <input type="submit" value="Блокировать" class="form-control btn btn-link" />
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div> 
             
             </td>
         </tr>
