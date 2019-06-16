@@ -81,6 +81,22 @@
                 throw new UserRepositoryException();
         }
 
+        [HttpPost]
+        [Route("ChangeBlocking")]
+        public async Task<IHttpActionResult> ChangeBlocking(IdSrvUserBlockDTO block)
+        {
+            if (block == null)
+            {
+                return this.BadRequest();
+            }
+
+            RepositoryResponse response = await this.UserRepository.ChangeBlockingAsync(block);
+            return
+                response == RepositoryResponse.Success ? this.Ok() :
+                response == RepositoryResponse.NotFound ? this.NotFound() as IHttpActionResult :
+                throw new UserRepositoryException();
+        }
+
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(Guid id)
         {

@@ -271,7 +271,7 @@
         }
 
         [Test]
-        public async Task ChangePassword_InvokeUpdateFromRepository_With_PassedPassword()
+        public async Task ChangePassword_InvokeChangePasswordAsyncFromRepository_With_PassedPassword()
         {
             this.UserRepository
                 .Setup(v => v.ChangePasswordAsync(It.IsAny<IdSrvUserPasswordDTO>()))
@@ -426,6 +426,87 @@
             IHttpActionResult httpResult = await controller.GetByAuthInfo(authInfoDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<NotFoundResult>(httpResult);
+        }
+
+
+
+
+
+
+
+
+
+
+
+        [Test]
+        public async Task ChangeBlocking_ReturnBadRequest_When_PassingNull()
+        {
+            this.UserRepository
+                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvUserBlockDTO>()))
+                .ReturnsAsync(RepositoryResponse.Success);
+            var controller = new UserController(this.UserRepository.Object);
+            IHttpActionResult httpResult = await controller.ChangeBlocking(null);
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<BadRequestResult>(httpResult);
+        }
+
+        [Test]
+        public async Task ChangeBlocking_ReturnOk_When_RepositoryReturnSuccess()
+        {
+            this.UserRepository
+                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvUserBlockDTO>()))
+                .ReturnsAsync(RepositoryResponse.Success);
+            var controller = new UserController(this.UserRepository.Object);
+            IHttpActionResult httpResult = await controller.ChangeBlocking(new IdSrvUserBlockDTO());
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<OkResult>(httpResult);
+        }
+
+        [Test]
+        public async Task ChangeBlocking_InvokeChangeBlockingAsyncFromRepository_With_PassedBlock()
+        {
+            this.UserRepository
+                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvUserBlockDTO>()))
+                .ReturnsAsync(RepositoryResponse.Success);
+            var controller = new UserController(this.UserRepository.Object);
+            var blockDto = new IdSrvUserBlockDTO();
+            IHttpActionResult httpResult = await controller.ChangeBlocking(blockDto);
+            this.UserRepository.Verify(v => v.ChangeBlockingAsync(blockDto));
+        }
+
+        [Test]
+        public async Task ChangeBlocking_ReturnNotFound_When_RepositoryReturnNotFound()
+        {
+            this.UserRepository
+                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvUserBlockDTO>()))
+                .ReturnsAsync(RepositoryResponse.NotFound);
+            var controller = new UserController(this.UserRepository.Object);
+            var blockDto = new IdSrvUserBlockDTO();
+            IHttpActionResult httpResult = await controller.ChangeBlocking(blockDto);
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<NotFoundResult>(httpResult);
+        }
+
+        [Test]
+        public void ChangeBlocking_ThrowsUserRepositoryException_When_RepositoryReturnConflict()
+        {
+            this.UserRepository
+                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvUserBlockDTO>()))
+                .ReturnsAsync(RepositoryResponse.Conflict);
+            var controller = new UserController(this.UserRepository.Object);
+            var blockDto = new IdSrvUserBlockDTO();
+            Assert.ThrowsAsync<UserRepositoryException>(() => controller.ChangeBlocking(blockDto));
+        }
+
+        [Test]
+        public void ChangeBlocking_ThrowsUserRepositoryException_When_RepositoryReturnUnexpectedResponse()
+        {
+            this.UserRepository
+                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvUserBlockDTO>()))
+                .ReturnsAsync(this.UnexpectedRepositoryResponse);
+            var controller = new UserController(this.UserRepository.Object);
+            var blockDto = new IdSrvUserBlockDTO();
+            Assert.ThrowsAsync<UserRepositoryException>(() => controller.ChangeBlocking(blockDto));
         }
     }
 }

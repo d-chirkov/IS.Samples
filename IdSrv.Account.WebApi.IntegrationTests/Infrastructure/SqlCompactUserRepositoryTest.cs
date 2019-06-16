@@ -115,6 +115,47 @@
         }
 
         [Test]
+        public async Task CreateAsync_CreateUnblockedUserInDb_When_PassingUserWithPassword()
+        {
+            string userName = "u1";
+            string userPassword = "p1";
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            var user = new NewIdSrvUserDTO { UserName = userName, Password = userPassword };
+            RepositoryResponse response = await repository.CreateAsync(user);
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                IEnumerable<dynamic> rows = await db.Query("Users").GetAsync();
+                Assert.AreEqual(rows.Count(), 1);
+                dynamic createdUser = rows.FirstOrDefault();
+                Assert.IsNotNull(createdUser);
+                Assert.IsFalse(createdUser.IsBlocked);
+            }
+        }
+
+        [Test]
+        public async Task CreateAsync_CreateUnblockedUserInDb_When_PassingUserWithoutPassword()
+        {
+            string userName = "u1";
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            var user = new NewIdSrvUserDTO { UserName = userName };
+            RepositoryResponse response = await repository.CreateAsync(user);
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                IEnumerable<dynamic> rows = await db.Query("Users").GetAsync();
+                Assert.AreEqual(rows.Count(), 1);
+                dynamic createdUser = rows.FirstOrDefault();
+                Assert.IsNotNull(createdUser);
+                Assert.IsFalse(createdUser.IsBlocked);
+            }
+        }
+
+        [Test]
         public async Task CreateAsync_ReturnConflict_And_DoNotChangeDbData_When_TryingToCreateUserWithTheSameNameTwice()
         {
             var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
@@ -624,7 +665,7 @@
         }
 
         [Test]
-        public async Task DeleteAsync_ReturnSuccessAndDeleteUserFromDb_When_PassingExistingUserThatHasPassword()
+        public async Task DeleteAsync_ReturnSuccess_And_DeleteUserFromDb_When_PassingExistingUserThatHasPassword()
         {
             var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
             Guid userId;
@@ -668,7 +709,7 @@
         }
 
         [Test]
-        public async Task DeleteAsync_ReturnSuccessAndDeleteUserFromDb_When_PassingExistingUserThatHasNotPassword()
+        public async Task DeleteAsync_ReturnSuccess_And_DeleteUserFromDb_When_PassingExistingUserThatHasNotPassword()
         {
             var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
             Guid userId;
@@ -739,6 +780,455 @@
             }
             var repository = new SqlCompactUserRepository(connectionFactory);
             RepositoryResponse response = await repository.DeleteAsync(notExistingId);
+            Assert.AreEqual(RepositoryResponse.NotFound, response);
+        }
+
+        [Test]
+        public void ChangeBlockingAsync_ThrowArgumentNullException_When_PassingNull()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.ChangePasswordAsync(null));
+        }
+
+        [Test]
+        public async Task ChangeBlockingAsync_ReturnSuccess_And_BlockUserInDb_When_BlockUserWithPassword()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            Guid userId;
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2",
+                    PasswordHash = this.GetB64PasswordHash("p2", "s2"),
+                    PasswordSalt = "s2",
+                    IsBlocked = false
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u3",
+                    PasswordHash = this.GetB64PasswordHash("p3", "s3"),
+                    PasswordSalt = "s3"
+                });
+                userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
+            }
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            {
+                UserId = userId,
+                IsBlocked = true
+            });
+            Assert.AreEqual(RepositoryResponse.Success, response);
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                bool? isBlocked = await db
+                    .Query("Users")
+                    .Select("IsBlocked")
+                    .Where(new { Id = userId })
+                    .FirstOrDefaultAsync<bool?>();
+                Assert.IsNotNull(isBlocked);
+                Assert.IsTrue(isBlocked);
+            }
+        }
+
+        [Test]
+        public async Task ChangeBlockingAsync_ReturnSuccess_And_BlockUserInDb_When_BlockUserWithoutPassword()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            Guid userId;
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2",
+                    IsBlocked = false
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u3",
+                    PasswordHash = this.GetB64PasswordHash("p3", "s3"),
+                    PasswordSalt = "s3"
+                });
+                userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
+            }
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            {
+                UserId = userId,
+                IsBlocked = true
+            });
+            Assert.AreEqual(RepositoryResponse.Success, response);
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                bool? isBlocked = await db
+                    .Query("Users")
+                    .Select("IsBlocked")
+                    .Where(new { Id = userId })
+                    .FirstOrDefaultAsync<bool?>();
+                Assert.IsNotNull(isBlocked);
+                Assert.IsTrue(isBlocked);
+            }
+        }
+
+        [Test]
+        public async Task ChangeBlockingAsync_ReturnSuccess_And_UnblockUserInDb_When_UnblockingUserWithPassword()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            Guid userId;
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2",
+                    PasswordHash = this.GetB64PasswordHash("p2", "s2"),
+                    PasswordSalt = "s2",
+                    IsBlocked = true
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u3",
+                    PasswordHash = this.GetB64PasswordHash("p3", "s3"),
+                    PasswordSalt = "s3"
+                });
+                userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
+            }
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            {
+                UserId = userId,
+                IsBlocked = false
+            });
+            Assert.AreEqual(RepositoryResponse.Success, response);
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                bool? isBlocked = await db
+                    .Query("Users")
+                    .Select("IsBlocked")
+                    .Where(new { Id = userId })
+                    .FirstOrDefaultAsync<bool?>();
+                Assert.IsNotNull(isBlocked);
+                Assert.IsFalse(isBlocked);
+            }
+        }
+
+        [Test]
+        public async Task ChangeBlockingAsync_ReturnSuccess_And_UnblockUserInDb_When_UnblockingUserWithoutPassword()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            Guid userId;
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2",
+                    IsBlocked = true
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u3",
+                    PasswordHash = this.GetB64PasswordHash("p3", "s3"),
+                    PasswordSalt = "s3"
+                });
+                userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
+            }
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            {
+                UserId = userId,
+                IsBlocked = false
+            });
+            Assert.AreEqual(RepositoryResponse.Success, response);
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                bool? isBlocked = await db
+                    .Query("Users")
+                    .Select("IsBlocked")
+                    .Where(new { Id = userId })
+                    .FirstOrDefaultAsync<bool?>();
+                Assert.IsNotNull(isBlocked);
+                Assert.IsFalse(isBlocked);
+            }
+        }
+
+        [Test]
+        public async Task ChangeBlockingAsync_ReturnSuccess_And_DoNotChangeDb_When_BlockingAlreadyBlockedUserWithPassword()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            Guid userId;
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2",
+                    PasswordHash = this.GetB64PasswordHash("p2", "s2"),
+                    PasswordSalt = "s2",
+                    IsBlocked = true
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u3",
+                    PasswordHash = this.GetB64PasswordHash("p3", "s3"),
+                    PasswordSalt = "s3"
+                });
+                userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
+            }
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            {
+                UserId = userId,
+                IsBlocked = true
+            });
+            Assert.AreEqual(RepositoryResponse.Success, response);
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                bool? isBlocked = await db
+                    .Query("Users")
+                    .Select("IsBlocked")
+                    .Where(new { Id = userId })
+                    .FirstOrDefaultAsync<bool?>();
+                Assert.IsNotNull(isBlocked);
+                Assert.IsTrue(true);
+            }
+        }
+
+        [Test]
+        public async Task ChangeBlockingAsync_ReturnSuccess_And_DoNotChangeDb_When_BlockingAlreadyBlockedUserWithoutPassword()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            Guid userId;
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2",
+                    IsBlocked = true
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u3",
+                    PasswordHash = this.GetB64PasswordHash("p3", "s3"),
+                    PasswordSalt = "s3"
+                });
+                userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
+            }
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            {
+                UserId = userId,
+                IsBlocked = true
+            });
+            Assert.AreEqual(RepositoryResponse.Success, response);
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                bool? isBlocked = await db
+                    .Query("Users")
+                    .Select("IsBlocked")
+                    .Where(new { Id = userId })
+                    .FirstOrDefaultAsync<bool?>();
+                Assert.IsNotNull(isBlocked);
+                Assert.IsTrue(true);
+            }
+        }
+
+        [Test]
+        public async Task ChangeBlockingAsync_ReturnSuccess_And_DoNotChangeDb_When_UnblockingAlreadyUnblockedUserWithPassword()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            Guid userId;
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2",
+                    PasswordHash = this.GetB64PasswordHash("p2", "s2"),
+                    PasswordSalt = "s2",
+                    IsBlocked = false
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u3",
+                    PasswordHash = this.GetB64PasswordHash("p3", "s3"),
+                    PasswordSalt = "s3"
+                });
+                userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
+            }
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            {
+                UserId = userId,
+                IsBlocked = false
+            });
+            Assert.AreEqual(RepositoryResponse.Success, response);
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                bool? isBlocked = await db
+                    .Query("Users")
+                    .Select("IsBlocked")
+                    .Where(new { Id = userId })
+                    .FirstOrDefaultAsync<bool?>();
+                Assert.IsNotNull(isBlocked);
+                Assert.AreEqual(false, isBlocked);
+            }
+        }
+
+        [Test]
+        public async Task ChangeBlockingAsync_ReturnSuccess_And_DoNotChangeDb_When_UnblockingAlreadyUnblockedUserWithoutPassword()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            Guid userId;
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2",
+                    IsBlocked = false
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u3",
+                    PasswordHash = this.GetB64PasswordHash("p3", "s3"),
+                    PasswordSalt = "s3"
+                });
+                userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
+            }
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            {
+                UserId = userId,
+                IsBlocked = false
+            });
+            Assert.AreEqual(RepositoryResponse.Success, response);
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                bool? isBlocked = await db
+                    .Query("Users")
+                    .Select("IsBlocked")
+                    .Where(new { Id = userId })
+                    .FirstOrDefaultAsync<bool?>();
+                Assert.IsNotNull(isBlocked);
+                Assert.AreEqual(false, isBlocked);
+            }
+        }
+
+        [Test]
+        public async Task ChangeBlockingAsync_ReturnNotFound_When_PassingNotExistingUser()
+        {
+            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            List<Guid> existingIds = new List<Guid>();
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u3",
+                    PasswordHash = this.GetB64PasswordHash("p3", "s3"),
+                    PasswordSalt = "s3"
+                });
+                existingIds = (await db.Query("Users").Select("Id").GetAsync<Guid>()).ToList();
+            }
+            var notExistingId = Guid.NewGuid();
+            while (existingIds.Contains(notExistingId))
+            {
+                notExistingId = Guid.NewGuid();
+            }
+            var repository = new SqlCompactUserRepository(connectionFactory);
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            {
+                UserId = notExistingId,
+                IsBlocked = true
+            });
             Assert.AreEqual(RepositoryResponse.NotFound, response);
         }
     }

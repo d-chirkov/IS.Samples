@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IdSrvUserBlockDTO.cs" />
     <Compile Include="IdSrvUserPasswordDTO.cs" />
     <Compile Include="IdSrvApplicationDTO.cs" />
     <Compile Include="IdSrvUserAuthDTO.cs" />

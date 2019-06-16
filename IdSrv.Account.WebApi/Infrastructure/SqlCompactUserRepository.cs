@@ -28,7 +28,7 @@
                 var db = new QueryFactory(connection, compiler);
                 return await db
                     .Query("Users")
-                    .Select("Id", "UserName")
+                    .Select("Id", "UserName", "IsBlocked")
                     .GetAsync<IdSrvUserDTO>();
             }
         }
@@ -41,7 +41,7 @@
                 var db = new QueryFactory(connection, compiler);
                 return await db
                     .Query("Users")
-                    .Select("Id", "UserName")
+                    .Select("Id", "UserName", "IsBlocked")
                     .Where(new { Id = id })
                     .FirstOrDefaultAsync<IdSrvUserDTO>();
             }
@@ -59,7 +59,7 @@
                 var db = new QueryFactory(connection, compiler);
                 dynamic userInDb = await db
                     .Query("Users")
-                    .Select("Id", "UserName", "PasswordHash", "PasswordSalt")
+                    .Select("Id", "UserName", "PasswordHash", "PasswordSalt", "IsBlocked")
                     .Where(new { UserName = userAuth.UserName })
                     .FirstOrDefaultAsync();
                 // If PasswordHash and PasswordSalt are null, then it means that it's windows user,
@@ -72,7 +72,7 @@
                 string passwordSaltFromDb = userInDb.PasswordSalt;
                 string calculatedPasswordHash = this.GetB64PasswordHashFrom(userAuth.Password, passwordSaltFromDb);
                 return calculatedPasswordHash == passwordHashFromDb ?
-                    new IdSrvUserDTO { Id = userInDb.Id, UserName = userInDb.UserName } :
+                    new IdSrvUserDTO { Id = userInDb.Id, UserName = userInDb.UserName, IsBlocked = userInDb.IsBlocked } :
                     null;
             }
         }
@@ -112,6 +112,24 @@
             }
         }
 
+        public async Task<RepositoryResponse> ChangeBlockingAsync(IdSrvUserBlockDTO block)
+        {
+            if (block == null)
+            {
+                throw new ArgumentNullException(nameof(block));
+            }
+            using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                int updated = await db
+                    .Query("Users")
+                    .Where(new { Id = block.UserId })
+                    .UpdateAsync(new { block.IsBlocked });
+                return updated == 1 ? RepositoryResponse.Success : RepositoryResponse.NotFound;
+            }
+        }
+
         public async Task<RepositoryResponse> CreateAsync(NewIdSrvUserDTO user)
         {
             if (user == null || user.UserName == null)
@@ -129,7 +147,8 @@
                     {
                         user.UserName,
                         PasswordHash = this.GetB64PasswordHashFrom(user.Password, passwordSalt),
-                        PasswordSalt = passwordSalt
+                        PasswordSalt = passwordSalt,
+                        IsBlocked = false
                     });
                     return inserted == 1 ? RepositoryResponse.Success : RepositoryResponse.Conflict;
                 }
