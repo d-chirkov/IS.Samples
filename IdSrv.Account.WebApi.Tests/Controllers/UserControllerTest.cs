@@ -112,13 +112,25 @@
         }
 
         [Test]
-        public async Task Create_ReturnBadRequest_When_PassingDtoWithNullArgs()
+        public async Task Create_ReturnBadRequest_When_PassingNullDto()
         {
             this.UserRepository
                 .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvUserDTO>()))
                 .ReturnsAsync(RepositoryResponse.Conflict);
             var controller = new UserController(this.UserRepository.Object);
-            IHttpActionResult httpResult = await controller.Create(new NewIdSrvUserDTO());
+            IHttpActionResult httpResult = await controller.Create(null);
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<BadRequestResult>(httpResult);
+        }
+
+        [Test]
+        public async Task Create_ReturnBadRequest_When_PassingDtoWithNullUserName()
+        {
+            this.UserRepository
+                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvUserDTO>()))
+                .ReturnsAsync(RepositoryResponse.Conflict);
+            var controller = new UserController(this.UserRepository.Object);
+            IHttpActionResult httpResult = await controller.Create(new NewIdSrvUserDTO { Password = "p1" });
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<BadRequestResult>(httpResult);
         }
@@ -136,7 +148,7 @@
         }
 
         [Test]
-        public async Task Create_ReturnOk_When_RepositoryReturnSuccess()
+        public async Task Create_ReturnOk_When_PassingDtoWithUsernameAndPassword_And_RepositoryReturnSuccess()
         {
             this.UserRepository
                 .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvUserDTO>()))
@@ -149,13 +161,38 @@
         }
 
         [Test]
-        public async Task Create_InvokeCreateFromRepository_With_PassedUser()
+        public async Task Create_ReturnOk_When_PassingDtoOnlyWithUsername_And_RepositoryReturnSuccess()
+        {
+            this.UserRepository
+                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvUserDTO>()))
+                .ReturnsAsync(RepositoryResponse.Success);
+            var controller = new UserController(this.UserRepository.Object);
+            var newUserDto = new NewIdSrvUserDTO { UserName = "u"};
+            IHttpActionResult httpResult = await controller.Create(newUserDto);
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<OkResult>(httpResult);
+        }
+
+        [Test]
+        public async Task Create_InvokeCreateFromRepository_With_PassedUser_When_PassingUserWithPassword()
         {
             this.UserRepository
                 .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvUserDTO>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new UserController(this.UserRepository.Object);
             var userDto = new NewIdSrvUserDTO { UserName = "u", Password = "p" };
+            IHttpActionResult httpResult = await controller.Create(userDto);
+            this.UserRepository.Verify(v => v.CreateAsync(userDto));
+        }
+
+        [Test]
+        public async Task Create_InvokeCreateFromRepository_With_PassedUser_When_PassingUserWithoutPassword()
+        {
+            this.UserRepository
+                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvUserDTO>()))
+                .ReturnsAsync(RepositoryResponse.Success);
+            var controller = new UserController(this.UserRepository.Object);
+            var userDto = new NewIdSrvUserDTO { UserName = "u" };
             IHttpActionResult httpResult = await controller.Create(userDto);
             this.UserRepository.Verify(v => v.CreateAsync(userDto));
         }

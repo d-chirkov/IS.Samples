@@ -26,7 +26,10 @@
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
-                return await db.Query("Users").Select("Id", "UserName").GetAsync<IdSrvUserDTO>();
+                return await db
+                    .Query("Users")
+                    .Select("Id", "UserName")
+                    .GetAsync<IdSrvUserDTO>();
             }
         }
 
@@ -59,7 +62,9 @@
                     .Select("Id", "UserName", "PasswordHash", "PasswordSalt")
                     .Where(new { UserName = userAuth.UserName })
                     .FirstOrDefaultAsync();
-                if (userInDb == null)
+                // If PasswordHash and PasswordSalt are null, then it means that it's windows user,
+                // this repository have not responsibility to authenticate windows users, so we just return null.
+                if (userInDb == null || userInDb.PasswordHash == null)
                 {
                     return null;
                 }
@@ -82,6 +87,18 @@
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
+                string existingPassword = await db
+                    .Query("Users")
+                    .Select("PasswordHash")
+                    .Where(new { Id = password.UserId })
+                    .FirstOrDefaultAsync<string>();
+                // If PasswordHash is null, then it's attempt to change password for windows user,
+                // this repository have not resposibility to change passwords for windows users, so we
+                // just return RepositoryResponse.NotFound
+                if (existingPassword == null)
+                {
+                    return RepositoryResponse.NotFound;
+                }
                 string passwordSalt = Guid.NewGuid().ToString();
                 int updated = await db
                     .Query("Users")
@@ -97,7 +114,7 @@
 
         public async Task<RepositoryResponse> CreateAsync(NewIdSrvUserDTO user)
         {
-            if (user == null || user.UserName == null || user.Password == null)
+            if (user == null || user.UserName == null)
             {
                 throw new ArgumentNullException(nameof(user));
             }
@@ -105,7 +122,7 @@
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
-                string passwordSalt = Guid.NewGuid().ToString();
+                string passwordSalt = user.Password != null ? Guid.NewGuid().ToString() : null;
                 try
                 {
                     int inserted = await db.Query("Users").InsertAsync(new
@@ -140,6 +157,10 @@
 
         private string GetB64PasswordHashFrom(string password, string salt)
         {
+            if (password == null || salt == null)
+            {
+                return null;
+            }
             SHA512 sha512 = new SHA512Managed();
             byte[] rawPasswordHash = sha512.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password + salt));
             return Convert.ToBase64String(rawPasswordHash);

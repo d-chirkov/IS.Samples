@@ -38,6 +38,8 @@
         [Route("GetByAuthInfo")]
         public async Task<IHttpActionResult> GetByAuthInfo(IdSrvUserAuthDTO authInfo)
         {
+            // This action check credentials only for simple users, not windows users.
+            // So it's necessary to get password from client
             if (authInfo == null || authInfo.UserName == null || authInfo.Password == null)
             {
                 return this.BadRequest();
@@ -50,7 +52,8 @@
         [HttpPut]
         public async Task<IHttpActionResult> Create(NewIdSrvUserDTO user)
         {
-            if (user == null || user.UserName == null || user.Password == null)
+            // Password can be null for windows users
+            if (user == null || user.UserName == null)
             {
                 return this.BadRequest();
             }
