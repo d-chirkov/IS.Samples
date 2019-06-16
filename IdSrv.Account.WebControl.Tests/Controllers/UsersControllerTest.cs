@@ -1,13 +1,13 @@
 ﻿namespace IdSrv.Account.WebControl.Controllers.Tests
 {
     using System;
-    using NUnit.Framework;
-    using Moq;
-    using IdSrv.Account.WebControl.Infrastructure.Abstractions;
     using System.Collections.Generic;
-    using IdSrv.Account.Models;
-    using System.Web.Mvc;
     using System.Threading.Tasks;
+    using System.Web.Mvc;
+    using IdSrv.Account.Models;
+    using IdSrv.Account.WebControl.Infrastructure.Abstractions;
+    using Moq;
+    using NUnit.Framework;
 
     [TestFixture]
     public class UsersControllerTest
@@ -17,7 +17,7 @@
         [SetUp]
         public void SetUp()
         {
-            UserServiceMock = new Mock<IUserService>();
+            this.UserServiceMock = new Mock<IUserService>();
         }
 
         [Test]
@@ -46,7 +46,7 @@
                 Assert.IsInstanceOf<IEnumerable<IdSrvUserDTO>>(actualUsers);
                 Assert.AreEqual(actualUsers, users);
             };
-            await testWhenServiceReturns(new []
+            await testWhenServiceReturns(new[]
             {
                 new IdSrvUserDTO (),
                 new IdSrvUserDTO ()
@@ -68,7 +68,7 @@
             var newUser = new NewIdSrvUserDTO { UserName = "u1", Password = "p1" };
             this.UserServiceMock.Setup(v => v.CreateUserAsync(newUser)).ReturnsAsync(true);
             var controller = new UsersController(this.UserServiceMock.Object);
-            ViewResult viewResult = await controller.Create(newUser);
+            await controller.Create(newUser);
             this.UserServiceMock.Verify(v => v.CreateUserAsync(newUser), Times.Once);
         }
 
@@ -77,8 +77,9 @@
         {
             this.UserServiceMock.Setup(v => v.CreateUserAsync(It.IsAny<NewIdSrvUserDTO>())).Returns(Task.FromResult(true));
             var controller = new UsersController(this.UserServiceMock.Object);
-            ViewResult viewResult = await controller.Create(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
-            Assert.AreEqual(nameof(controller.Index), viewResult.ViewName);
+            ActionResult result = await controller.Create(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
+            Assert.IsInstanceOf<RedirectToRouteResult>(result);
+            Assert.AreEqual(nameof(controller.Index), (result as RedirectToRouteResult).RouteValues["action"]);
         }
 
         [Test]
@@ -87,7 +88,9 @@
             var newUser = new NewIdSrvUserDTO { UserName = "u1", Password = "p1" };
             this.UserServiceMock.Setup(v => v.CreateUserAsync(It.IsAny<NewIdSrvUserDTO>())).Returns(Task.FromResult(false));
             var controller = new UsersController(this.UserServiceMock.Object);
-            ViewResult viewResult = await controller.Create(newUser);
+            ActionResult result = await controller.Create(newUser);
+            Assert.IsInstanceOf<ViewResult>(result);
+            var viewResult = result as ViewResult;
             Assert.NotNull(viewResult);
             Assert.AreEqual(string.Empty, viewResult.ViewName);
             Assert.IsFalse(controller.ModelState.IsValid);
@@ -114,7 +117,7 @@
             var passwords = new IdSrvUserPasswordDTO();
             this.UserServiceMock.Setup(v => v.ChangePasswordForUserAsync(passwords)).ReturnsAsync(true);
             var controller = new UsersController(this.UserServiceMock.Object);
-            ViewResult viewResult = await controller.ChangePassword(passwords);
+            await controller.ChangePassword(passwords);
             this.UserServiceMock.Verify(v => v.ChangePasswordForUserAsync(passwords), Times.Once);
         }
 
@@ -124,9 +127,11 @@
             var passwords = new IdSrvUserPasswordDTO();
             this.UserServiceMock.Setup(v => v.ChangePasswordForUserAsync(passwords)).ReturnsAsync(true);
             var controller = new UsersController(this.UserServiceMock.Object);
-            ViewResult viewResult = await controller.ChangePassword(passwords);
-            Assert.NotNull(viewResult);
-            Assert.AreEqual(nameof(controller.Index), viewResult.ViewName);
+            ActionResult result = await controller.ChangePassword(passwords);
+            Assert.IsInstanceOf<RedirectToRouteResult>(result);
+            var redirectResult = result as RedirectToRouteResult;
+            Assert.NotNull(redirectResult);
+            Assert.AreEqual(nameof(controller.Index), redirectResult.RouteValues["action"]);
             Assert.IsTrue(controller.TempData.ContainsKey("_IsError"));
             Assert.IsFalse(controller.TempData["_IsError"] as bool?);
         }
@@ -141,10 +146,12 @@
             };
             this.UserServiceMock.Setup(v => v.ChangePasswordForUserAsync(passwords)).ReturnsAsync(false);
             var controller = new UsersController(this.UserServiceMock.Object);
-            ViewResult viewResult = await controller.ChangePassword(passwords);
+            ActionResult result = await controller.ChangePassword(passwords);
+            Assert.IsInstanceOf<ViewResult>(result);
+            var viewResult = result as ViewResult;
             Assert.NotNull(viewResult);
             Assert.IsEmpty(viewResult.ViewName);
-            var model = controller.ViewData.Model;
+            object model = controller.ViewData.Model;
             Assert.IsInstanceOf<IdSrvUserPasswordDTO>(model);
             var actualModel = model as IdSrvUserPasswordDTO;
             Assert.AreEqual(actualModel.UserId, passwords.UserId);
@@ -158,7 +165,7 @@
             var userId = new Guid();
             this.UserServiceMock.Setup(v => v.DeleteUserAsync(userId)).ReturnsAsync(true);
             var controller = new UsersController(this.UserServiceMock.Object);
-            ViewResult viewResult = await controller.Delete(userId);
+            await controller.Delete(userId);
             this.UserServiceMock.Verify(v => v.DeleteUserAsync(userId), Times.Once);
         }
 
@@ -170,8 +177,10 @@
                 var userId = new Guid();
                 this.UserServiceMock.Setup(v => v.DeleteUserAsync(userId)).ReturnsAsync(true);
                 var controller = new UsersController(this.UserServiceMock.Object);
-                ViewResult viewResult = await controller.Delete(userId);
-                Assert.AreEqual(nameof(controller.Index), viewResult.ViewName);
+                ActionResult result = await controller.Delete(userId);
+                Assert.IsInstanceOf<RedirectToRouteResult>(result);
+                var redirectResult = result as RedirectToRouteResult;
+                Assert.AreEqual(nameof(controller.Index), redirectResult.RouteValues["action"]);
             };
             await testWithServiceReturns(true);
             await testWithServiceReturns(false);
@@ -185,7 +194,7 @@
                 var userId = new Guid();
                 this.UserServiceMock.Setup(v => v.DeleteUserAsync(userId)).ReturnsAsync(status);
                 var controller = new UsersController(this.UserServiceMock.Object);
-                ViewResult viewResult = await controller.Delete(userId);
+                await controller.Delete(userId);
                 Assert.IsTrue(controller.TempData.ContainsKey("_IsError"));
                 Assert.IsInstanceOf<bool?>(controller.TempData["_IsError"]);
                 Assert.AreEqual(!status, controller.TempData["_IsError"] as bool?);

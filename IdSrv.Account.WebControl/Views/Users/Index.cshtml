@@ -1,0 +1,57 @@
+﻿@model IEnumerable<IdSrv.Account.Models.IdSrvUserDTO>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (TempData.ContainsKey("_IsError"))
+{
+    bool? isError = TempData["_IsError"] as bool?;
+    string errorClass = isError.HasValue && isError.Value ? "warning" : "success";
+    <div class="alert alert-@errorClass alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        @(TempData["_Message"] as string)
+    </div>
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+    <table class="table container">
+        <tr class="row">
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <td>
+                Actions
+            </td>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr class="row">
+            <td class="col-md-3">
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td class="col-md-3">
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td class="col-md-3 container">
+                    @Html.ActionLink("Сменить пароль", "ChangePassword", new { id = item.Id}, new { @class="btn btn-default col-md-6"} )
+                    @using (Html.BeginForm("Delete", "Users", FormMethod.Post))
+                    {
+                        @Html.Hidden("id", item.Id)
+                        <input type="submit" value="Удалить" class="btn btn-danger col-md-6" />
+                    }
+            
+            </td>
+        </tr>
+    }
+    </table>
+</div>
+
+

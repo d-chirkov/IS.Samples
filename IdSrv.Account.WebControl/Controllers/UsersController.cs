@@ -1,11 +1,11 @@
 ﻿namespace IdSrv.Account.WebControl.Controllers
 {
-    using IdSrv.Account.WebControl.Infrastructure.Abstractions;
-    using IdSrv.Account.Models;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Web.Mvc;
+    using IdSrv.Account.Models;
+    using IdSrv.Account.WebControl.Infrastructure.Abstractions;
 
     public class UsersController : Controller
     {
@@ -20,67 +20,76 @@
         public async Task<ViewResult> Index()
         {
             IEnumerable<IdSrvUserDTO> users = await this.AccountService.GetUsersAsync();
-            return View(users);
+            return this.View(users);
         }
 
         [HttpGet]
         public ViewResult Create()
         {
-            return View();
+            return this.View();
         }
 
         [HttpPost]
-        public async Task<ViewResult> Create(NewIdSrvUserDTO user)
+        public async Task<ActionResult> Create(NewIdSrvUserDTO user)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View(user);
+                return this.View(user);
             }
             bool created = await this.AccountService.CreateUserAsync(user);
             if (!created)
             {
-                ModelState.AddModelError("", "Такой пользователь уже существует");
+                this.ModelState.AddModelError("", "Такой пользователь уже существует");
             }
-            return created ? this.ViewSuccess("Пользователь успешно создан") : View(user);
+            return created ? this.ViewSuccess("Пользователь успешно создан") : this.View(user) as ActionResult;
         }
 
         [HttpGet]
         public ViewResult ChangePassword(Guid id)
         {
-            return View(new IdSrvUserPasswordDTO { UserId = id });
+            return this.View(new IdSrvUserPasswordDTO { UserId = id });
         }
 
         [HttpPost]
-        public async Task<ViewResult> ChangePassword(IdSrvUserPasswordDTO passwords)
+        public async Task<ActionResult> ChangePassword(IdSrvUserPasswordDTO passwords)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View(new IdSrvUserPasswordDTO { UserId = passwords.UserId });
+                return this.View(new IdSrvUserPasswordDTO { UserId = passwords.UserId });
             }
             bool changed = await this.AccountService.ChangePasswordForUserAsync(passwords);
             if (!changed)
             {
-                ModelState.AddModelError("", "Не удалось изменить пароль");
+                this.ModelState.AddModelError("", "Не удалось изменить пароль");
             }
-            return changed ? this.ViewSuccess("Пароль успешно изменён") : View(new IdSrvUserPasswordDTO { UserId = passwords.UserId });
+            return changed ? 
+                    this.ViewSuccess("Пароль успешно изменён") :
+                    this.View(new IdSrvUserPasswordDTO { UserId = passwords.UserId }) as ActionResult;
         }
 
         [HttpPost]
-        public async Task<ViewResult> Delete(Guid id)
+        [Route("/Users/Delete/{id}")]
+        public async Task<ActionResult> Delete(Guid id)
         {
             bool deleted = await this.AccountService.DeleteUserAsync(id);
             return deleted ? this.ViewSuccess("Пользователь успешно удалён") : this.ViewError("Не удалось удалить пользователя");
         }
 
-        private ViewResult ViewSuccess(string message) => ViewMessage(message, false);
-
-        private ViewResult ViewError(string message) => ViewMessage(message, true);
-
-        private ViewResult ViewMessage(string message, bool isError)
+        private RedirectToRouteResult ViewSuccess(string message)
         {
-            TempData["_IsError"] = isError;
-            TempData["_Message"] = message;
-            return View(nameof(Index));
+            return this.ViewMessage(message, false);
+        }
+
+        private RedirectToRouteResult ViewError(string message)
+        {
+            return this.ViewMessage(message, true);
+        }
+
+        private RedirectToRouteResult ViewMessage(string message, bool isError)
+        {
+            this.TempData["_IsError"] = isError;
+            this.TempData["_Message"] = message;
+            return this.RedirectToAction(nameof(Index));
         }
     }
 }
