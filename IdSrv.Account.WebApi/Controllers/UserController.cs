@@ -19,13 +19,14 @@
         }
 
         [HttpGet]
+        [Route("GetAll")]
         public async Task<IHttpActionResult> GetAll()
         {
             IEnumerable<IdSrvUserDTO> users = await this.UserRepository.GetAllAsync();
             return users != null ? this.Ok(users) : this.NotFound() as IHttpActionResult;
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IHttpActionResult> Get(Guid id)
         {
             IdSrvUserDTO user = await this.UserRepository.GetByIdAsync(id);
@@ -33,6 +34,7 @@
         }
 
         [HttpPost]
+        [Route("GetByAuthInfo")]
         public async Task<IHttpActionResult> GetByAuthInfo(IdSrvUserAuthDTO authInfo)
         {
             if (authInfo == null || authInfo.UserName == null || authInfo.Password == null)
@@ -44,7 +46,7 @@
             return user != null ? this.Ok(user) : this.NotFound() as IHttpActionResult;
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IHttpActionResult> Create(NewIdSrvUserDTO user)
         {
             if (user == null || user.UserName == null || user.Password == null)
@@ -60,6 +62,7 @@
         }
 
         [HttpPost]
+        [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(IdSrvUserPasswordDTO password)
         {
             if (password == null || password.Password == null)
@@ -74,7 +77,7 @@
                 throw new UserRepositoryException();
         }
 
-        [HttpPost]
+        [HttpDelete]
         public async Task<IHttpActionResult> Delete(Guid id)
         {
             RepositoryResponse response = await this.UserRepository.DeleteAsync(id);
