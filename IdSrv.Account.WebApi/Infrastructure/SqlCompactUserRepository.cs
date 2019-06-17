@@ -87,22 +87,11 @@
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
-                string existingPassword = await db
-                    .Query("Users")
-                    .Select("PasswordHash")
-                    .Where(new { Id = password.UserId })
-                    .FirstOrDefaultAsync<string>();
-                // If PasswordHash is null, then it's attempt to change password for windows user,
-                // this repository have not resposibility to change passwords for windows users, so we
-                // just return RepositoryResponse.NotFound
-                if (existingPassword == null)
-                {
-                    return RepositoryResponse.NotFound;
-                }
                 string passwordSalt = Guid.NewGuid().ToString();
                 int updated = await db
                     .Query("Users")
                     .Where(new { Id = password.UserId })
+                    .WhereNotNull("PasswordHash")
                     .UpdateAsync(new
                     {
                         PasswordHash = this.GetB64PasswordHashFrom(password.Password, passwordSalt),
