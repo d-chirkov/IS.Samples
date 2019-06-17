@@ -6,11 +6,11 @@
     using System.Threading.Tasks;
     using IdSrv.Account.WebApi.Infrastructure.Abstractions;
 
-    public class SqlCompactConnectionFactory : IDatabaseConnectionFactory
+    public class SqlCeConnectionFactory : IDatabaseConnectionFactory
     {
         private string ConnectionString { get; set; }
 
-        public SqlCompactConnectionFactory(string connectionString)
+        public SqlCeConnectionFactory(string connectionString)
         {
             this.ConnectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
         }

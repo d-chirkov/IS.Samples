@@ -14,7 +14,7 @@
     using SqlKata.Execution;
 
     [TestFixture]
-    internal class SqlCompactUserRepositoryTest
+    internal class SqlCeUserRepositoryTest
     {
         public string TestConnectionString { get; set; } = $"Data Source={TestHelper.GetPathToTestDb()}";
 
@@ -28,7 +28,7 @@
         [SetUp]
         public async Task SetUp()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
                 var compiler = new SqlServerCompiler();
@@ -37,26 +37,30 @@
             }
         }
 
-        #region DatabaseInteractions
+        #region Common
 
         [Test]
         public void Ctor_DoesNotThrow_When_PassingNotNullFactory()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
-            Assert.DoesNotThrow(() => new SqlCompactUserRepository(connectionFactory));
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            Assert.DoesNotThrow(() => new SqlCeUserRepository(connectionFactory));
         }
 
         [Test]
         public void Ctor_ThrowArgumentNullException_When_PassingNullInsteadFactory()
         {
-            Assert.Throws<ArgumentNullException>(() => new SqlCompactUserRepository(null));
+            Assert.Throws<ArgumentNullException>(() => new SqlCeUserRepository(null));
         }
+
+        #endregion
+
+        #region DatabaseInteractions
 
         [Test]
         public void CreateAsync_ThrowsArgumentNullException_When_ArgIsNullOrContainsAnyNull()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCeUserRepository(connectionFactory);
             Assert.ThrowsAsync<ArgumentNullException>(() => repository.CreateAsync(null));
             Assert.ThrowsAsync<ArgumentNullException>(() => repository.CreateAsync(new NewIdSrvUserDTO
             {
@@ -70,8 +74,8 @@
         {
             string userName = "u1";
             string userPassword = "p1";
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCeUserRepository(connectionFactory);
             var user = new NewIdSrvUserDTO { UserName = userName, Password = userPassword };
             RepositoryResponse response = await repository.CreateAsync(user);
             Assert.AreEqual(RepositoryResponse.Success, response);
@@ -96,8 +100,8 @@
         public async Task CreateAsync_ReturnSuccess_And_CreateUserInDb_When_PassingNullPasswordForNewUser()
         {
             string userName = "u1";
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCeUserRepository(connectionFactory);
             var user = new NewIdSrvUserDTO { UserName = userName };
             RepositoryResponse response = await repository.CreateAsync(user);
             Assert.AreEqual(RepositoryResponse.Success, response);
@@ -121,8 +125,8 @@
         {
             string userName = "u1";
             string userPassword = "p1";
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCeUserRepository(connectionFactory);
             var user = new NewIdSrvUserDTO { UserName = userName, Password = userPassword };
             RepositoryResponse response = await repository.CreateAsync(user);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
@@ -141,8 +145,8 @@
         public async Task CreateAsync_CreateUnblockedUserInDb_When_PassingUserWithoutPassword()
         {
             string userName = "u1";
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCeUserRepository(connectionFactory);
             var user = new NewIdSrvUserDTO { UserName = userName };
             RepositoryResponse response = await repository.CreateAsync(user);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
@@ -160,8 +164,8 @@
         [Test]
         public async Task CreateAsync_ReturnConflict_And_DoNotChangeDbData_When_TryingToCreateUserWithTheSameNameTwice()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCeUserRepository(connectionFactory);
             await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
             RepositoryResponse response = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p2" });
             Assert.AreEqual(RepositoryResponse.Conflict, response);
@@ -182,7 +186,7 @@
         [Test]
         public async Task GetAllAsync_ReturnAllUsersFromDb_When_UsersExistsInDb()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
                 var compiler = new SqlServerCompiler();
@@ -204,7 +208,7 @@
                     UserName = "u3",
                 });
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             IEnumerable<IdSrvUserDTO> users = await repository.GetAllAsync();
             Assert.IsNotNull(users);
             Assert.AreEqual(3, users.Count());
@@ -216,8 +220,8 @@
         [Test]
         public async Task GetAllAsync_ReturnEmptyUsersEnumFromDb_When_ThereAreNoUsersInDb()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCeUserRepository(connectionFactory);
             IEnumerable<IdSrvUserDTO> users = await repository.GetAllAsync();
             Assert.IsNotNull(users);
             Assert.AreEqual(users.Count(), 0);
@@ -226,7 +230,7 @@
         [Test]
         public async Task GetByIdAsync_ReturnUserFromDb_When_PassingExistingIdForUserWithPassword()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             Guid searchingId = Guid.Empty;
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -252,7 +256,7 @@
                 });
                 searchingId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDTO user = await repository.GetByIdAsync(searchingId);
             Assert.IsNotNull(user);
             Assert.AreEqual(user.Id, searchingId);
@@ -262,7 +266,7 @@
         [Test]
         public async Task GetByIdAsync_ReturnUserFromDb_When_PassingExistingIdForUserWithoutPassword()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             Guid searchingId = Guid.Empty;
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -286,7 +290,7 @@
                 });
                 searchingId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDTO user = await repository.GetByIdAsync(searchingId);
             Assert.IsNotNull(user);
             Assert.AreEqual(user.Id, searchingId);
@@ -296,7 +300,7 @@
         [Test]
         public async Task GetByIdAsync_ReturnNull_When_PassingNotExistingId()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             Guid existingId = Guid.Empty;
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -315,7 +319,7 @@
             {
                 searchingId = Guid.NewGuid();
             } while (searchingId == existingId);
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDTO user = await repository.GetByIdAsync(searchingId);
             Assert.IsNull(user);
         }
@@ -323,8 +327,8 @@
         [Test]
         public void GetByAuthInfoAsync_ThrowsArgumentNullException_When_ArgIsNullOrContainsAnyNull()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCeUserRepository(connectionFactory);
             Assert.ThrowsAsync<ArgumentNullException>(() => repository.GetByAuthInfoAsync(null));
             Assert.ThrowsAsync<ArgumentNullException>(() => repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO
             {
@@ -346,7 +350,7 @@
         [Test]
         public async Task GetByAuthInfoAsync_ReturnUserFromDb_When_PassingExistingAuthInfoForUserWithPassword()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             Guid userId = Guid.Empty;
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -376,7 +380,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u2", Password = "p2" });
             Assert.IsNotNull(user);
             Assert.AreEqual(user.Id, userId);
@@ -386,7 +390,7 @@
         [Test]
         public async Task GetByAuthInfoAsync_ReturnNull_When_PassingExistingAuthInfoForUserWithoutPassword()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             Guid userId = Guid.Empty;
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -416,7 +420,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u3" }).FirstAsync<Guid>();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u3", Password = "p3" });
             Assert.IsNull(user);
         }
@@ -424,7 +428,7 @@
         [Test]
         public async Task GetByAuthInfoAsync_ReturnNull_When_PassingNotExistingUserName()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
                 var compiler = new SqlServerCompiler();
@@ -446,7 +450,7 @@
                     UserName = "u3"
                 });
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u4", Password = "p4" });
             Assert.IsNull(user);
         }
@@ -454,7 +458,7 @@
         [Test]
         public async Task GetByAuthInfoAsync_ReturnNull_When_PassingInvalidPasswordForExistingUserWithPassword()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
                 var compiler = new SqlServerCompiler();
@@ -478,7 +482,7 @@
                     PasswordSalt = "s3"
                 });
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u2", Password = "p4" });
             Assert.IsNull(user);
         }
@@ -486,7 +490,7 @@
         [Test]
         public async Task GetByAuthInfoAsync_ReturnNull_When_PassingInvalidPasswordForExistingUserWithoutPassword()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
                 var compiler = new SqlServerCompiler();
@@ -508,7 +512,7 @@
                     PasswordSalt = "s3"
                 });
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u2", Password = "p4" });
             Assert.IsNull(user);
         }
@@ -516,8 +520,8 @@
         [Test]
         public void ChangePasswordAsync_ThrowArgumentNullException_When_PassingNullPasswords()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCeUserRepository(connectionFactory);
             Assert.ThrowsAsync<ArgumentNullException>(() => repository.ChangePasswordAsync(null));
             Assert.ThrowsAsync<ArgumentNullException>(() => repository.ChangePasswordAsync(new IdSrvUserPasswordDTO
             {
@@ -529,7 +533,7 @@
         [Test]
         public async Task ChangePasswordAsync_ReturnSuccess_And_ChangePasswordInDb_When_PassingUserThatHasPasswordInDb()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             Guid userId;
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -555,7 +559,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangePasswordAsync(new IdSrvUserPasswordDTO
             {
                 UserId = userId,
@@ -579,7 +583,7 @@
         [Test]
         public async Task ChangePasswordAsync_ReturnNotFound_And_DoNotChangePasswordInDb_When_PassingUserThatHasNotPasswordInDb()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             Guid userId;
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -603,7 +607,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangePasswordAsync(new IdSrvUserPasswordDTO
             {
                 UserId = userId,
@@ -628,7 +632,7 @@
         [Test]
         public async Task ChangePasswordAsync_ReturnNotFound_When_PassingNotExistingUserGuid()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             var existingIds = new List<Guid>();
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -657,7 +661,7 @@
             {
                 notExistingId = Guid.NewGuid();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangePasswordAsync(new IdSrvUserPasswordDTO
             {
                 UserId = notExistingId,
@@ -669,7 +673,7 @@
         [Test]
         public async Task DeleteAsync_ReturnSuccess_And_DeleteUserFromDb_When_PassingExistingUserThatHasPassword()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             Guid userId;
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -695,7 +699,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.DeleteAsync(userId);
             Assert.AreEqual(RepositoryResponse.Success, response);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
@@ -713,7 +717,7 @@
         [Test]
         public async Task DeleteAsync_ReturnSuccess_And_DeleteUserFromDb_When_PassingExistingUserThatHasNotPassword()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             Guid userId;
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -737,7 +741,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.DeleteAsync(userId);
             Assert.AreEqual(RepositoryResponse.Success, response);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
@@ -755,7 +759,7 @@
         [Test]
         public async Task DeleteAsync_ReturnNotFound_When_PassingNotExistingUserGuid()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             var existingIds = new List<Guid>();
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -780,7 +784,7 @@
             {
                 notExistingId = Guid.NewGuid();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.DeleteAsync(notExistingId);
             Assert.AreEqual(RepositoryResponse.NotFound, response);
         }
@@ -788,15 +792,15 @@
         [Test]
         public void ChangeBlockingAsync_ThrowArgumentNullException_When_PassingNull()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCeUserRepository(connectionFactory);
             Assert.ThrowsAsync<ArgumentNullException>(() => repository.ChangePasswordAsync(null));
         }
 
         [Test]
         public async Task ChangeBlockingAsync_ReturnSuccess_And_BlockUserInDb_When_BlockUserWithPassword()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             Guid userId;
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -823,7 +827,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
             {
                 UserId = userId,
@@ -847,7 +851,7 @@
         [Test]
         public async Task ChangeBlockingAsync_ReturnSuccess_And_BlockUserInDb_When_BlockUserWithoutPassword()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             Guid userId;
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -872,7 +876,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
             {
                 UserId = userId,
@@ -896,7 +900,7 @@
         [Test]
         public async Task ChangeBlockingAsync_ReturnSuccess_And_UnblockUserInDb_When_UnblockingUserWithPassword()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             Guid userId;
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -923,7 +927,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
             {
                 UserId = userId,
@@ -947,7 +951,7 @@
         [Test]
         public async Task ChangeBlockingAsync_ReturnSuccess_And_UnblockUserInDb_When_UnblockingUserWithoutPassword()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             Guid userId;
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -972,7 +976,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
             {
                 UserId = userId,
@@ -996,7 +1000,7 @@
         [Test]
         public async Task ChangeBlockingAsync_ReturnSuccess_And_DoNotChangeDb_When_BlockingAlreadyBlockedUserWithPassword()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             Guid userId;
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -1023,7 +1027,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
             {
                 UserId = userId,
@@ -1047,7 +1051,7 @@
         [Test]
         public async Task ChangeBlockingAsync_ReturnSuccess_And_DoNotChangeDb_When_BlockingAlreadyBlockedUserWithoutPassword()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             Guid userId;
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -1072,7 +1076,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
             {
                 UserId = userId,
@@ -1096,7 +1100,7 @@
         [Test]
         public async Task ChangeBlockingAsync_ReturnSuccess_And_DoNotChangeDb_When_UnblockingAlreadyUnblockedUserWithPassword()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             Guid userId;
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -1123,7 +1127,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
             {
                 UserId = userId,
@@ -1147,7 +1151,7 @@
         [Test]
         public async Task ChangeBlockingAsync_ReturnSuccess_And_DoNotChangeDb_When_UnblockingAlreadyUnblockedUserWithoutPassword()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             Guid userId;
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -1172,7 +1176,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
             {
                 UserId = userId,
@@ -1196,7 +1200,7 @@
         [Test]
         public async Task ChangeBlockingAsync_ReturnNotFound_When_PassingNotExistingUser()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             List<Guid> existingIds = new List<Guid>();
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -1225,7 +1229,7 @@
             {
                 notExistingId = Guid.NewGuid();
             }
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
             {
                 UserId = notExistingId,
@@ -1241,8 +1245,8 @@
         [Test]
         public async Task Create_GetByAuthInfo_Delete_GetByAuthInfo_GetById_GetAll()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
             Assert.AreEqual(RepositoryResponse.Success, result);
             IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u1", Password = "p1" });
@@ -1267,8 +1271,8 @@
         [Test]
         public async Task Create_GetByAuthInfo_Block_GetById_Unblock_GetById()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
             Assert.AreEqual(RepositoryResponse.Success, result);
             IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u1", Password = "p1" });
@@ -1290,8 +1294,8 @@
         [Test]
         public async Task Create_GetByAuthInfo_ChangePassword_GetByAuthInfo()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
             Assert.AreEqual(RepositoryResponse.Success, result);
             IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u1", Password = "p1" });
@@ -1311,8 +1315,8 @@
         [Test]
         public async Task Create1_Create2_Create1_GetAll_GetById1_GetById2_Delete1_GetAll_Delete1_GetAll()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
             Assert.AreEqual(RepositoryResponse.Success, result);
             result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u2", Password = "p2" });
@@ -1364,8 +1368,8 @@
         [Test]
         public async Task Create_GetByAuthInfo_Block_GetById_Block_GetById_Unblock_Unblock_GetById()
         {
-            var connectionFactory = new SqlCompactConnectionFactory(this.TestConnectionString);
-            var repository = new SqlCompactUserRepository(connectionFactory);
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
             Assert.AreEqual(RepositoryResponse.Success, result);
 

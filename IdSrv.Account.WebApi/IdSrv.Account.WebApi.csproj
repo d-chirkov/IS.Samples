@@ -151,13 +151,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Abstractions\IApplicationRepository.cs" />
+    <Compile Include="Infrastructure\Abstractions\IClientRepository.cs" />
     <Compile Include="Infrastructure\Abstractions\IRepositoryConnection.cs" />
     <Compile Include="Infrastructure\Abstractions\IUserRepository.cs" />
     <Compile Include="Infrastructure\Exceptions\UserRepositoryException.cs" />
     <Compile Include="Infrastructure\RepositoryResponse.cs" />
-    <Compile Include="Infrastructure\SqlCompactConnectionFactory.cs" />
-    <Compile Include="Infrastructure\SqlCompactUserRepository.cs" />
+    <Compile Include="Infrastructure\SqlCeConnectionFactory.cs" />
+    <Compile Include="Infrastructure\SqlCeClientRepository.cs" />
+    <Compile Include="Infrastructure\SqlCeUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

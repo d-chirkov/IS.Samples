@@ -30,7 +30,7 @@ namespace IdSrv.Account.WebControl.Controllers
         }
 
         [HttpPost]
-        public async Task<ViewResult> Create(NewIdSrvApplicationDTO application)
+        public async Task<ViewResult> Create(NewIdSrvClientDTO application)
         {
             throw new NotImplementedException();
         }
@@ -42,7 +42,7 @@ namespace IdSrv.Account.WebControl.Controllers
         }
 
         [HttpPost]
-        public async Task<ViewResult> Update(IdSrvApplicationDTO application)
+        public async Task<ViewResult> Update(IdSrvClientDTO application)
         {
             throw new NotImplementedException();
         }

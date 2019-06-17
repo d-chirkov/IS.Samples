@@ -41,12 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IdSrvClientBlockDTO.cs" />
+    <Compile Include="UpdateIdSrvClientDTO.cs" />
     <Compile Include="IdSrvUserBlockDTO.cs" />
     <Compile Include="IdSrvUserPasswordDTO.cs" />
-    <Compile Include="IdSrvApplicationDTO.cs" />
+    <Compile Include="IdSrvClientDTO.cs" />
     <Compile Include="IdSrvUserAuthDTO.cs" />
     <Compile Include="IdSrvUserDTO.cs" />
-    <Compile Include="NewIdSrvApplicationDTO.cs" />
+    <Compile Include="NewIdSrvClientDTO.cs" />
     <Compile Include="NewIdSrvUserDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

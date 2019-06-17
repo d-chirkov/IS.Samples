@@ -11,11 +11,11 @@
     using SqlKata.Compilers;
     using SqlKata.Execution;
 
-    public class SqlCompactUserRepository : IUserRepository
+    public class SqlCeUserRepository : IUserRepository
     {
-        public SqlCompactConnectionFactory DatabaseConnectionFactory { get; set; }
+        public SqlCeConnectionFactory DatabaseConnectionFactory { get; set; }
 
-        public SqlCompactUserRepository(SqlCompactConnectionFactory connectionFactory)
+        public SqlCeUserRepository(SqlCeConnectionFactory connectionFactory)
         {
             this.DatabaseConnectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
         }

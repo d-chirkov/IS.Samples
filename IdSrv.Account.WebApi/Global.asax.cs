@@ -17,11 +17,11 @@
             var builder = new ContainerBuilder();
 
             builder
-                .Register(c => new SqlCompactConnectionFactory(this.GetConnectionStringToDb()))
-                .As<SqlCompactConnectionFactory>()
+                .Register(c => new SqlCeConnectionFactory(this.GetConnectionStringToDb()))
+                .As<SqlCeConnectionFactory>()
                 .SingleInstance();
             builder
-                .RegisterType<SqlCompactUserRepository>()
+                .RegisterType<SqlCeUserRepository>()
                 .As<IUserRepository>()
                 .InstancePerRequest();
 
