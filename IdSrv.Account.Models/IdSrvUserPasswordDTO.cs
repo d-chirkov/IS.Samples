@@ -5,7 +5,7 @@
 
     public class IdSrvUserPasswordDTO
     {
-        public Guid UserId { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         public string Password { get; set; }

@@ -18,8 +18,12 @@
         {
             var builder = new ContainerBuilder();
             builder
-                .Register(v => new RestUserService("https://localhost:44397/"))
+                .Register(v => new RestUserService("https://localhost:44397/Api/User/"))
                 .As<IUserService>()
+                .InstancePerRequest();
+            builder
+                .Register(v => new RestClientService("https://localhost:44397/Api/Client/"))
+                .As<IClientService>()
                 .InstancePerRequest();
 
             builder.RegisterControllers(typeof(MvcApplication).Assembly);

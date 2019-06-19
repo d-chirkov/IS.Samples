@@ -90,7 +90,7 @@
                 string passwordSalt = Guid.NewGuid().ToString();
                 int updated = await db
                     .Query("Users")
-                    .Where(new { Id = password.UserId })
+                    .Where(new { Id = password.Id })
                     .WhereNotNull("PasswordHash")
                     .UpdateAsync(new
                     {
@@ -113,7 +113,7 @@
                 var db = new QueryFactory(connection, compiler);
                 int updated = await db
                     .Query("Users")
-                    .Where(new { Id = block.UserId })
+                    .Where(new { Id = block.Id })
                     .UpdateAsync(new { block.IsBlocked });
                 return updated == 1 ? RepositoryResponse.Success : RepositoryResponse.NotFound;
             }

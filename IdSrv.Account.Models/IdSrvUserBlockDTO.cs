@@ -4,7 +4,7 @@
 
     public class IdSrvUserBlockDTO
     {
-        public Guid UserId { get; set; }
+        public Guid Id { get; set; }
 
         public bool IsBlocked{ get; set; }
     }

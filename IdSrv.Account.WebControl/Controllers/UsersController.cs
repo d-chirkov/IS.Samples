@@ -9,17 +9,17 @@
 
     public class UsersController : Controller
     {
-        private IUserService AccountService { get; set; }
+        private IUserService userService { get; set; }
 
-        public UsersController(IUserService accountService)
+        public UsersController(IUserService userService)
         {
-            this.AccountService = accountService ?? throw new ArgumentNullException(nameof(accountService));
+            this.userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
         [HttpGet]
         public async Task<ViewResult> Index()
         {
-            IEnumerable<IdSrvUserDTO> users = await this.AccountService.GetUsersAsync();
+            IEnumerable<IdSrvUserDTO> users = await this.userService.GetUsersAsync();
             return this.View(users);
         }
 
@@ -36,7 +36,7 @@
             {
                 return this.View(user);
             }
-            bool created = await this.AccountService.CreateUserAsync(user);
+            bool created = await this.userService.CreateUserAsync(user);
             if (!created)
             {
                 this.ModelState.AddModelError("", "Такой пользователь уже существует");
@@ -47,7 +47,7 @@
         [HttpGet]
         public ViewResult ChangePassword(Guid id)
         {
-            return this.View(new IdSrvUserPasswordDTO { UserId = id });
+            return this.View(new IdSrvUserPasswordDTO { Id = id });
         }
 
         [HttpPost]
@@ -55,23 +55,23 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View(new IdSrvUserPasswordDTO { UserId = passwords.UserId });
+                return this.View(new IdSrvUserPasswordDTO { Id = passwords.Id });
             }
-            bool changed = await this.AccountService.ChangePasswordForUserAsync(passwords);
+            bool changed = await this.userService.ChangePasswordForUserAsync(passwords);
             if (!changed)
             {
                 this.ModelState.AddModelError("", "Не удалось изменить пароль");
             }
             return changed ? 
                     this.ViewSuccess("Пароль успешно изменён") :
-                    this.View(new IdSrvUserPasswordDTO { UserId = passwords.UserId }) as ActionResult;
+                    this.View(new IdSrvUserPasswordDTO { Id = passwords.Id }) as ActionResult;
         }
 
         [HttpPost]
         [Route("/Users/Delete")]
         public async Task<ActionResult> Delete(Guid id)
         {
-            bool deleted = await this.AccountService.DeleteUserAsync(id);
+            bool deleted = await this.userService.DeleteUserAsync(id);
             return deleted ? this.ViewSuccess("Пользователь успешно удалён") : this.ViewError("Не удалось удалить пользователя");
         }
 
@@ -79,7 +79,7 @@
         [Route("/Users/Block")]
         public async Task<ActionResult> Block(Guid id)
         {
-            bool blocked = await this.AccountService.ChangeBlock(new IdSrvUserBlockDTO { UserId = id, IsBlocked = true });
+            bool blocked = await this.userService.ChangeBlock(new IdSrvUserBlockDTO { Id = id, IsBlocked = true });
             return blocked ? 
                 this.ViewSuccess("Пользователь заблокирован") : 
                 this.ViewError("Не удалось заблокировать пользователя");
@@ -89,7 +89,7 @@
         [Route("/Users/Unblock")]
         public async Task<ActionResult> Unblock(Guid id)
         {
-            bool unblocked = await this.AccountService.ChangeBlock(new IdSrvUserBlockDTO { UserId = id, IsBlocked = false });
+            bool unblocked = await this.userService.ChangeBlock(new IdSrvUserBlockDTO { Id = id, IsBlocked = false });
             return unblocked ?
                 this.ViewSuccess("Пользователь разблокирован") :
                 this.ViewError("Не удалось разблокировать пользователя");

@@ -44,7 +44,7 @@
                 Assert.NotNull(viewResult);
                 Assert.IsEmpty(viewResult.ViewName);
                 Assert.IsInstanceOf<IEnumerable<IdSrvUserDTO>>(actualUsers);
-                Assert.AreEqual(actualUsers, users);
+                Assert.AreEqual(users, actualUsers);
             };
             await testWhenServiceReturns(new[]
             {
@@ -99,15 +99,15 @@
         [Test]
         public void UpdatePassword_ReturnSelf_With_ModelContainsPassedUserIdAndNullPassword_When_NoArgs()
         {
-            var passwords = new IdSrvUserPasswordDTO { UserId = new Guid() };
+            var passwords = new IdSrvUserPasswordDTO { Id = new Guid() };
             var controller = new UsersController(this.UserServiceMock.Object);
-            ViewResult viewResult = controller.ChangePassword(passwords.UserId);
+            ViewResult viewResult = controller.ChangePassword(passwords.Id);
             Assert.NotNull(viewResult);
             Assert.IsEmpty(viewResult.ViewName); // empty view name means asp.net returns the same view
             object model = controller.ViewData.Model;
             Assert.IsInstanceOf<IdSrvUserPasswordDTO>(model);
             var actualModel = model as IdSrvUserPasswordDTO;
-            Assert.AreEqual(actualModel.UserId, passwords.UserId);
+            Assert.AreEqual(actualModel.Id, passwords.Id);
             Assert.IsNull(actualModel.Password);
         }
 
@@ -141,7 +141,7 @@
         {
             var passwords = new IdSrvUserPasswordDTO
             {
-                UserId = new Guid(),
+                Id = new Guid(),
                 Password = "b",
             };
             this.UserServiceMock.Setup(v => v.ChangePasswordForUserAsync(passwords)).ReturnsAsync(false);
@@ -154,7 +154,7 @@
             object model = controller.ViewData.Model;
             Assert.IsInstanceOf<IdSrvUserPasswordDTO>(model);
             var actualModel = model as IdSrvUserPasswordDTO;
-            Assert.AreEqual(actualModel.UserId, passwords.UserId);
+            Assert.AreEqual(actualModel.Id, passwords.Id);
             Assert.IsNull(actualModel.Password);
             Assert.IsFalse(controller.ModelState.IsValid);
         }
@@ -215,7 +215,7 @@
             var controller = new UsersController(this.UserServiceMock.Object);
             await controller.Block(userId);
             Assert.NotNull(block);
-            Assert.AreEqual(userId, block.UserId);
+            Assert.AreEqual(userId, block.Id);
             Assert.IsTrue(block.IsBlocked);
         }
 
@@ -265,7 +265,7 @@
             var controller = new UsersController(this.UserServiceMock.Object);
             await controller.Unblock(userId);
             Assert.NotNull(block);
-            Assert.AreEqual(userId, block.UserId);
+            Assert.AreEqual(userId, block.Id);
             Assert.IsFalse(block.IsBlocked);
         }
 

@@ -252,7 +252,7 @@
                 .Setup(v => v.ChangePasswordAsync(It.IsAny<IdSrvUserPasswordDTO>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new UserController(this.UserRepository.Object);
-            var passwordDto = new IdSrvUserPasswordDTO { UserId = Guid.NewGuid(), Password = "p1" };
+            var passwordDto = new IdSrvUserPasswordDTO { Id = Guid.NewGuid(), Password = "p1" };
             IHttpActionResult httpResult = await controller.ChangePassword(passwordDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<OkResult>(httpResult);
@@ -265,7 +265,7 @@
                 .Setup(v => v.ChangePasswordAsync(It.IsAny<IdSrvUserPasswordDTO>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new UserController(this.UserRepository.Object);
-            var passwordDto = new IdSrvUserPasswordDTO { UserId = Guid.NewGuid(), Password = "p1" };
+            var passwordDto = new IdSrvUserPasswordDTO { Id = Guid.NewGuid(), Password = "p1" };
             IHttpActionResult httpResult = await controller.ChangePassword(passwordDto);
             this.UserRepository.Verify(v => v.ChangePasswordAsync(passwordDto));
         }
@@ -277,7 +277,7 @@
                 .Setup(v => v.ChangePasswordAsync(It.IsAny<IdSrvUserPasswordDTO>()))
                 .ReturnsAsync(RepositoryResponse.NotFound);
             var controller = new UserController(this.UserRepository.Object);
-            var passwordDto = new IdSrvUserPasswordDTO { UserId = Guid.NewGuid(), Password = "p1" };
+            var passwordDto = new IdSrvUserPasswordDTO { Id = Guid.NewGuid(), Password = "p1" };
             IHttpActionResult httpResult = await controller.ChangePassword(passwordDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<NotFoundResult>(httpResult);
@@ -290,7 +290,7 @@
                 .Setup(v => v.ChangePasswordAsync(It.IsAny<IdSrvUserPasswordDTO>()))
                 .ReturnsAsync(RepositoryResponse.Conflict);
             var controller = new UserController(this.UserRepository.Object);
-            var passwordDto = new IdSrvUserPasswordDTO { UserId = Guid.NewGuid(), Password = "p1" };
+            var passwordDto = new IdSrvUserPasswordDTO { Id = Guid.NewGuid(), Password = "p1" };
             Assert.ThrowsAsync<UserRepositoryException>(() => controller.ChangePassword(passwordDto));
         }
 
@@ -301,7 +301,7 @@
                 .Setup(v => v.ChangePasswordAsync(It.IsAny<IdSrvUserPasswordDTO>()))
                 .ReturnsAsync(this.UnexpectedRepositoryResponse);
             var controller = new UserController(this.UserRepository.Object);
-            var passwordDto = new IdSrvUserPasswordDTO { UserId = Guid.NewGuid(), Password = "p1" };
+            var passwordDto = new IdSrvUserPasswordDTO { Id = Guid.NewGuid(), Password = "p1" };
             Assert.ThrowsAsync<UserRepositoryException>(() => controller.ChangePassword(passwordDto));
         }
 
