@@ -1,4 +1,10 @@
-﻿namespace IdSrv.Server.Services
+﻿using IdSrv.Server;
+using Microsoft.Owin;
+
+// Сервер аутентификации является OWIN-based, добавляем ссылку
+[assembly: OwinStartup(typeof(Startup))]
+
+namespace IdSrv.Server.Services
 {
     using IdentityServer3.Core.Models;
     using IdentityServer3.Core.Services.Default;

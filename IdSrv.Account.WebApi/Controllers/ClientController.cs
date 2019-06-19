@@ -42,6 +42,19 @@
             return client != null ? this.Ok(client) : this.NotFound() as IHttpActionResult;
         }
 
+        [HttpGet]
+        [Route("GetByName")]
+        public async Task<IHttpActionResult> GetByName(string name)
+        {
+            if (name == null)
+            {
+                return this.BadRequest();
+            }
+
+            IdSrvClientDTO client = await this.ClientRepository.GetByNameAsync(name);
+            return client != null ? this.Ok(client) : this.NotFound() as IHttpActionResult;
+        }
+
         [HttpPut]
         public async Task<IHttpActionResult> Create(NewIdSrvClientDTO client)
         {

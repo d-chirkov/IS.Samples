@@ -40,11 +40,11 @@ namespace Site1.Mvc5
 
             // адрес сервера аутентификации
             // Для пользователей из базы данных (пока мнимой)
-            string idsrvUri = "https://localhost:44301/identity";
+            string idsrvUri = "https://localhost:44363/identity";
 
             // Для windows пользователей
             //string idsrvUri = "https://localhost:44384/identity";
-            string clientId = "site1.mvc5";
+            string clientId = "78f36f55-784d-4895-8913-f9a76b807a5c";
             string clientSecret = "123";
 
             app

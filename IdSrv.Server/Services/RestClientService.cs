@@ -9,6 +9,7 @@
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
+    using System.Web;
 
     public class RestClientStore : IClientStore
     {
@@ -27,7 +28,7 @@
 
         public async Task<Client> FindClientByIdAsync(string clientId)
         {
-            IdSrvClientDTO clientFromRest = await this.GetClientByIdAsync(Guid.Parse(clientId));
+            IdSrvClientDTO clientFromRest = await this.GetClientByIdAsync(clientId);
             if (clientFromRest == null)
             {
                 return null;
@@ -71,7 +72,7 @@
             // Если строка с uri пустая, значит это wpf-клиент (или нечто подобное, то есть не сайт)
             // Поэтому ставим другой Flow, и добавляем редиректы 
             // (конечно, это можно сделать красивее, но для демонстрации оставил так)
-            if (clientFromRest.Uri != "")
+            if (clientFromRest.Uri != null)
             {
                 client.Flow = Flows.Hybrid;
                 // Адрес сайта, куда будет редиректить после входа (по идее должен совпадать с адресом
@@ -90,9 +91,13 @@
             return client;
         }
 
-        private async Task<IdSrvClientDTO> GetClientByIdAsync(Guid id)
+        private async Task<IdSrvClientDTO> GetClientByIdAsync(string clientId)
         {
-            HttpResponseMessage response = await this.HttpClient.GetAsync($"{id.ToString()}");
+            if (!Guid.TryParse(clientId, out Guid result))
+            {
+                return null;
+            }
+            HttpResponseMessage response = await this.HttpClient.GetAsync(clientId);
             return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvClientDTO>() : null;
         }
 

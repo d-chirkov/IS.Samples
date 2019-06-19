@@ -182,25 +182,29 @@
         [Test]
         public async Task GetByIdAsync_ReturnClient_When_PassingExistingId_And_ClientInDbContainsUri()
         {
-            Guid id = await this.InsertDefaultClient(1);
+            await this.InsertDefaultClient(1);
+            Guid id = await this.InsertDefaultClient(2);
+            await this.InsertDefaultClient(3);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
             IdSrvClientDTO client = await repository.GetByIdAsync(id);
             Assert.AreEqual(id, client.Id);
-            Assert.AreEqual($"n1", client.Name);
-            Assert.AreEqual($"u1", client.Uri);
-            Assert.AreEqual($"p1", client.Secret);
+            Assert.AreEqual($"n2", client.Name);
+            Assert.AreEqual($"u2", client.Uri);
+            Assert.AreEqual($"p2", client.Secret);
         }
 
         [Test]
         public async Task GetByIdAsync_ReturnClient_When_PassingExistingId_And_ClientInDbNotContainsUri()
         {
-            Guid id = await this.InsertDefaultClient(1, false);
+            await this.InsertDefaultClient(1);
+            Guid id = await this.InsertDefaultClient(2, false);
+            await this.InsertDefaultClient(3);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
             IdSrvClientDTO client = await repository.GetByIdAsync(id);
             Assert.AreEqual(id, client.Id);
-            Assert.AreEqual($"n1", client.Name);
+            Assert.AreEqual($"n2", client.Name);
             Assert.AreEqual(null, client.Uri);
-            Assert.AreEqual($"p1", client.Secret);
+            Assert.AreEqual($"p2", client.Secret);
         }
 
         [Test]
@@ -225,6 +229,60 @@
             }
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
             IdSrvClientDTO client = await repository.GetByIdAsync(notExistingId);
+            Assert.IsNull(client);
+        }
+
+        [Test]
+        public void GetByNameAsync_ThrowsArgumentNullException_When_PassingNullName()
+        {
+            var repository = new SqlCeClientRepository(this.ConnectionFactory);
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.GetByNameAsync(null));
+        }
+
+        [Test]
+        public async Task GetByNameAsync_ReturnClient_When_PassingExistingName_And_ClientInDbContainsUri()
+        {
+            await this.InsertDefaultClient(1);
+            Guid id = await this.InsertDefaultClient(2);
+            await this.InsertDefaultClient(3);
+            var repository = new SqlCeClientRepository(this.ConnectionFactory);
+            IdSrvClientDTO client = await repository.GetByNameAsync("n2");
+            Assert.AreEqual(id, client.Id);
+            Assert.AreEqual($"n2", client.Name);
+            Assert.AreEqual($"u2", client.Uri);
+            Assert.AreEqual($"p2", client.Secret);
+        }
+
+        [Test]
+        public async Task GetByNameAsync_ReturnClient_When_PassingExistingName_And_ClientInDbNotContainsUri()
+        {
+            await this.InsertDefaultClient(1);
+            Guid id = await this.InsertDefaultClient(2, false);
+            await this.InsertDefaultClient(3);
+            var repository = new SqlCeClientRepository(this.ConnectionFactory);
+            IdSrvClientDTO client = await repository.GetByNameAsync("n2");
+            Assert.AreEqual(id, client.Id);
+            Assert.AreEqual($"n2", client.Name);
+            Assert.AreEqual(null, client.Uri);
+            Assert.AreEqual($"p2", client.Secret);
+        }
+
+        [Test]
+        public async Task GetByNameAsync_ReturnNull_When_DbNotContainAnyClients()
+        {
+            var repository = new SqlCeClientRepository(this.ConnectionFactory);
+            IdSrvClientDTO client = await repository.GetByNameAsync("n2");
+            Assert.IsNull(client);
+        }
+
+        [Test]
+        public async Task GetByNameAsync_ReturnNull_When_PassingIdForNotExisingClient()
+        {
+            await this.InsertDefaultClient(1);
+            await this.InsertDefaultClient(2, false);
+            await this.InsertDefaultClient(3, isBlocked: true);
+            var repository = new SqlCeClientRepository(this.ConnectionFactory);
+            IdSrvClientDTO client = await repository.GetByNameAsync("n4");
             Assert.IsNull(client);
         }
 

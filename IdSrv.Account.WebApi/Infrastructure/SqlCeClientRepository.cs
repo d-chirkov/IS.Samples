@@ -62,6 +62,25 @@
             }
         }
 
+        public async Task<IdSrvClientDTO> GetByNameAsync(string clientName)
+        {
+            if (clientName == null)
+            {
+                throw new ArgumentNullException(nameof(clientName));
+            }
+
+            using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                return await db
+                    .Query("Clients")
+                    .Where(new { Name = clientName })
+                    .Select("Id", "Name", "Uri", "Secret", "IsBlocked")
+                    .FirstOrDefaultAsync<IdSrvClientDTO>();
+            }
+        }
+
         public async Task<RepositoryResponse> DeleteAsync(Guid id)
         {
             using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())

@@ -12,6 +12,7 @@ namespace IdSrv.Server
     using IdentityServer3.Core.Services;
     using IdentityServer3.Core.Services.Default;
     using Services;
+    using Serilog;
 
     public class Startup
     {
@@ -70,6 +71,11 @@ namespace IdSrv.Server
                     },
                 });
             });
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.File($"{AppDomain.CurrentDomain.BaseDirectory}\\IS.Log.txt")
+                .CreateLogger();
         }
 
         X509Certificate2 LoadCertificate()

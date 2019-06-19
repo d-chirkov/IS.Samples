@@ -33,7 +33,7 @@
     <br />
     <table class="table row">
         <tr class="row">
-            <th class="col-md-1">
+            <th class="col-md-3">
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th class="col-md-2">
@@ -52,7 +52,7 @@
 
     @foreach (var item in Model) {
         <tr class="row @(item.IsBlocked ? "danger" : "")">
-            <td class="col-md-1">
+            <td class="col-md-3">
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td class="col-md-2">

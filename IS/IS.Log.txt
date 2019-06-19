@@ -7546,3 +7546,977 @@ System.DllNotFoundException: Не удается загрузить DLL "SQLite.
 2019-06-01 18:12:16.441 +03:00 [DBG] [2019-06-01T15:12:16.4417092Z] Sending response, Status=200 (OK), Method=GET, Url=https://localhost:44301/identity/connect/userinfo, Id=0f337b10-a2c3-4569-8509-2bead3232304, Message='Content-type='application/json; charset=utf-8', content-length=unknown'
 2019-06-01 18:12:16.444 +03:00 [DBG] [2019-06-01T15:12:16.4447085Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=0f337b10-a2c3-4569-8509-2bead3232304, Operation=UserInfoEndpointController.Dispose
 2019-06-01 18:12:16.445 +03:00 [DBG] [2019-06-01T15:12:16.4447085Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=0f337b10-a2c3-4569-8509-2bead3232304, Operation=UserInfoEndpointController.Dispose
+2019-06-19 22:01:22.764 +03:00 [DBG] [2019-06-19T19:01:22.7393541Z] Request received, Method=GET, Url=https://localhost:44301/identity/.well-known/openid-configuration, Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Message='https://localhost:44301/identity/.well-known/openid-configuration'
+2019-06-19 22:01:22.783 +03:00 [DBG] [2019-06-19T19:01:22.7803412Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Operation=DependencyScopeHandler.SendAsync
+2019-06-19 22:01:22.786 +03:00 [DBG] [2019-06-19T19:01:22.7853388Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Operation=PassiveAuthenticationMessageHandler.SendAsync
+2019-06-19 22:01:22.826 +03:00 [DBG] [2019-06-19T19:01:22.8233270Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Message='Route='controller:DiscoveryEndpoint,action:GetConfiguration'', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:01:22.833 +03:00 [DBG] [2019-06-19T19:01:22.8323244Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Message='DiscoveryEndpoint', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:01:22.835 +03:00 [DBG] [2019-06-19T19:01:22.8353231Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:01:22.839 +03:00 [DBG] [2019-06-19T19:01:22.8383220Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:01:22.853 +03:00 [DBG] [2019-06-19T19:01:22.8513178Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Message='IdentityServer3.Core.Endpoints.DiscoveryEndpointController', Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:01:22.854 +03:00 [DBG] [2019-06-19T19:01:22.8533182Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Message='IdentityServer3.Core.Endpoints.DiscoveryEndpointController', Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:01:22.858 +03:00 [DBG] [2019-06-19T19:01:22.8573157Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Operation=DiscoveryEndpointController.ExecuteAsync
+2019-06-19 22:01:22.869 +03:00 [DBG] [2019-06-19T19:01:22.8693112Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:01:22.904 +03:00 [DBG] [2019-06-19T19:01:22.9013018Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Message='Selected action 'GetConfiguration()'', Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:01:22.933 +03:00 [DBG] [2019-06-19T19:01:22.9322917Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:01:22.946 +03:00 [DBG] [2019-06-19T19:01:22.9432885Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:01:22.950 +03:00 [DBG] [2019-06-19T19:01:22.9472874Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Message='Action='GetConfiguration()'', Operation=ApiControllerActionInvoker.InvokeActionAsync
+2019-06-19 22:01:22.960 +03:00 [DBG] [2019-06-19T19:01:22.9592818Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Message='Invoking action 'GetConfiguration()'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:01:22.989 +03:00 [INF] Start discovery request
+2019-06-19 22:01:23.330 +03:00 [DBG] [2019-06-19T19:01:23.3281616Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Message='Action returned 'System.Web.Http.Results.NegotiatedContentResult`1[Newtonsoft.Json.Linq.JObject]'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:01:23.342 +03:00 [DBG] [2019-06-19T19:01:23.3401578Z] Level=Info, Kind=Begin, Category='System.Net.Http.Formatting', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Message='Type='JObject', formatters=[JsonMediaTypeFormatterTracer, FormUrlEncodedMediaTypeFormatterTracer, FormUrlEncodedMediaTypeFormatterTracer]', Operation=DefaultContentNegotiator.Negotiate
+2019-06-19 22:01:23.385 +03:00 [DBG] [2019-06-19T19:01:23.3841427Z] Level=Info, Kind=Begin, Category='System.Net.Http.Formatting', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Message='Obtaining formatter of type 'JsonMediaTypeFormatter' for type='JObject', mediaType='application/json; charset=utf-8'', Operation=JsonMediaTypeFormatter.GetPerRequestFormatterInstance
+2019-06-19 22:01:23.391 +03:00 [DBG] [2019-06-19T19:01:23.3861418Z] Level=Info, Kind=End, Category='System.Net.Http.Formatting', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Message='Will use same 'JsonMediaTypeFormatter' formatter', Operation=JsonMediaTypeFormatter.GetPerRequestFormatterInstance
+2019-06-19 22:01:23.393 +03:00 [DBG] [2019-06-19T19:01:23.3911418Z] Level=Info, Kind=End, Category='System.Net.Http.Formatting', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Message='Selected formatter='JsonMediaTypeFormatter', content-type='application/json; charset=utf-8'', Operation=DefaultContentNegotiator.Negotiate
+2019-06-19 22:01:23.399 +03:00 [DBG] [2019-06-19T19:01:23.3981380Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Operation=ApiControllerActionInvoker.InvokeActionAsync, Status=200 (OK)
+2019-06-19 22:01:23.401 +03:00 [DBG] [2019-06-19T19:01:23.3991375Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Operation=DiscoveryEndpointController.ExecuteAsync, Status=200 (OK)
+2019-06-19 22:01:23.406 +03:00 [DBG] [2019-06-19T19:01:23.4051365Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Operation=PassiveAuthenticationMessageHandler.SendAsync, Status=200 (OK)
+2019-06-19 22:01:23.407 +03:00 [DBG] [2019-06-19T19:01:23.4061363Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Operation=DependencyScopeHandler.SendAsync, Status=200 (OK)
+2019-06-19 22:01:23.410 +03:00 [DBG] [2019-06-19T19:01:23.4071359Z] Sending response, Status=200 (OK), Method=GET, Url=https://localhost:44301/identity/.well-known/openid-configuration, Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Message='Content-type='application/json; charset=utf-8', content-length=unknown'
+2019-06-19 22:01:23.439 +03:00 [DBG] [2019-06-19T19:01:23.4221314Z] Level=Info, Kind=Begin, Category='System.Net.Http.Formatting', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Message='Value='{
+  "issuer": "https://localhost:44301/identity",
+  "jwks_uri": "https://localhost:44301/identity/.well-known/jwks",
+  "authorization_endpoint": "https://localhost:44301/identity/connect/authorize",
+  "token_endpoint": "https://localhost:44301/identity/connect/token",
+  "userinfo_endpoint": "https://localhost:44301/identity/connect/userinfo",
+  "end_session_endpoint": "https://localhost:44301/identity/connect/endsession",
+  "check_session_iframe": "https://localhost:44301/identity/connect/checksession",
+  "revocation_endpoint": "https://localhost:44301/identity/connect/revocation",
+  "introspection_endpoint": "https://localhost:44301/identity/connect/introspect",
+  "http_logout_supported": true,
+  "scopes_supported": [
+    "openid",
+    "profile",
+    "email",
+    "phone",
+    "address"
+  ],
+  "claims_supported": [
+    "sub",
+    "name",
+    "family_name",
+    "given_name",
+    "middle_name",
+    "nickname",
+    "preferred_username",
+    "profile",
+    "picture",
+    "website",
+    "gender",
+    "birthdate",
+    "zoneinfo",
+    "locale",
+    "updated_at",
+    "email",
+    "email_verified",
+    "phone_number",
+    "phone_number_verified",
+    "address"
+  ],
+  "response_types_supported": [
+    "code",
+    "token",
+    "id_token",
+    "id_token token",
+    "code id_token",
+    "code token",
+    "code id_token token"
+  ],
+  "response_modes_supported": [
+    "form_post",
+    "query",
+    "fragment"
+  ],
+  "grant_types_supported": [
+    "authorization_code",
+    "client_credentials",
+    "password",
+    "refresh_token",
+    "implicit"
+  ],
+  "subject_types_supported": [
+    "public"
+  ],
+  "id_token_signing_alg_values_supported": [
+    "RS256"
+  ],
+  "code_challenge_methods_supported": [
+    "plain",
+    "S256"
+  ],
+  "token_endpoint_auth_methods_supported": [
+    "client_secret_post",
+    "client_secret_basic"
+  ]
+}', type='JObject', content-type='application/json; charset=utf-8'', Operation=JsonMediaTypeFormatter.WriteToStreamAsync
+2019-06-19 22:01:23.464 +03:00 [DBG] [2019-06-19T19:01:23.4631168Z] Level=Info, Kind=End, Category='System.Net.Http.Formatting', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Operation=JsonMediaTypeFormatter.WriteToStreamAsync
+2019-06-19 22:01:23.495 +03:00 [DBG] [2019-06-19T19:01:23.4941082Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Operation=DiscoveryEndpointController.Dispose
+2019-06-19 22:01:23.495 +03:00 [DBG] [2019-06-19T19:01:23.4951076Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=4eb5b2cc-40df-4532-a54d-16cb00bce0f4, Operation=DiscoveryEndpointController.Dispose
+2019-06-19 22:01:23.977 +03:00 [DBG] [2019-06-19T19:01:23.9779492Z] Request received, Method=GET, Url=https://localhost:44301/identity/.well-known/jwks, Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Message='https://localhost:44301/identity/.well-known/jwks'
+2019-06-19 22:01:23.978 +03:00 [DBG] [2019-06-19T19:01:23.9779492Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Operation=DependencyScopeHandler.SendAsync
+2019-06-19 22:01:23.978 +03:00 [DBG] [2019-06-19T19:01:23.9789498Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Operation=PassiveAuthenticationMessageHandler.SendAsync
+2019-06-19 22:01:23.978 +03:00 [DBG] [2019-06-19T19:01:23.9789498Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Message='Route='controller:DiscoveryEndpoint,action:GetKeyData'', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:01:23.979 +03:00 [DBG] [2019-06-19T19:01:23.9789498Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Message='DiscoveryEndpoint', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:01:23.979 +03:00 [DBG] [2019-06-19T19:01:23.9799481Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:01:23.979 +03:00 [DBG] [2019-06-19T19:01:23.9799481Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:01:23.980 +03:00 [DBG] [2019-06-19T19:01:23.9809473Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Message='IdentityServer3.Core.Endpoints.DiscoveryEndpointController', Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:01:23.980 +03:00 [DBG] [2019-06-19T19:01:23.9809473Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Message='IdentityServer3.Core.Endpoints.DiscoveryEndpointController', Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:01:23.981 +03:00 [DBG] [2019-06-19T19:01:23.9809473Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Operation=DiscoveryEndpointController.ExecuteAsync
+2019-06-19 22:01:23.981 +03:00 [DBG] [2019-06-19T19:01:23.9819477Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:01:23.981 +03:00 [DBG] [2019-06-19T19:01:23.9819477Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Message='Selected action 'GetKeyData()'', Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:01:23.982 +03:00 [DBG] [2019-06-19T19:01:23.9819477Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:01:23.982 +03:00 [DBG] [2019-06-19T19:01:23.9829450Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:01:23.982 +03:00 [DBG] [2019-06-19T19:01:23.9829450Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Message='Action='GetKeyData()'', Operation=ApiControllerActionInvoker.InvokeActionAsync
+2019-06-19 22:01:23.983 +03:00 [DBG] [2019-06-19T19:01:23.9829450Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Message='Invoking action 'GetKeyData()'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:01:23.989 +03:00 [INF] Start key discovery request
+2019-06-19 22:01:23.993 +03:00 [DBG] [2019-06-19T19:01:23.9939415Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Message='Action returned 'System.Web.Http.Results.JsonResult`1[<>f__AnonymousTypef`1[System.Collections.Generic.List`1[IdentityServer3.Core.Endpoints.DiscoveryEndpointController+JsonWebKeyDto]]]'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:01:24.014 +03:00 [DBG] [2019-06-19T19:01:24.0149346Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Operation=ApiControllerActionInvoker.InvokeActionAsync, Status=200 (OK)
+2019-06-19 22:01:24.015 +03:00 [DBG] [2019-06-19T19:01:24.0149346Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Operation=DiscoveryEndpointController.ExecuteAsync, Status=200 (OK)
+2019-06-19 22:01:24.015 +03:00 [DBG] [2019-06-19T19:01:24.0159343Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Operation=PassiveAuthenticationMessageHandler.SendAsync, Status=200 (OK)
+2019-06-19 22:01:24.015 +03:00 [DBG] [2019-06-19T19:01:24.0159343Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Operation=DependencyScopeHandler.SendAsync, Status=200 (OK)
+2019-06-19 22:01:24.016 +03:00 [DBG] [2019-06-19T19:01:24.0159343Z] Sending response, Status=200 (OK), Method=GET, Url=https://localhost:44301/identity/.well-known/jwks, Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Message='Content-type='application/json; charset=utf-8', content-length=1515'
+2019-06-19 22:01:24.018 +03:00 [DBG] [2019-06-19T19:01:24.0179344Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Operation=DiscoveryEndpointController.Dispose
+2019-06-19 22:01:24.018 +03:00 [DBG] [2019-06-19T19:01:24.0189341Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=ff5ea8e4-76a7-4943-bade-a38a23fd1d2e, Operation=DiscoveryEndpointController.Dispose
+2019-06-19 22:01:50.712 +03:00 [DBG] [2019-06-19T19:01:50.7125119Z] Request received, Method=GET, Url=https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http:%2F%2Flocalhost:57161%2F&response_mode=form_post&response_type=code id_token token&scope=openid profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0, Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http:%2F%2Flocalhost:57161%2F&response_mode=form_post&response_type=code id_token token&scope=openid profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0'
+2019-06-19 22:01:50.713 +03:00 [DBG] [2019-06-19T19:01:50.7135138Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=DependencyScopeHandler.SendAsync
+2019-06-19 22:01:50.713 +03:00 [DBG] [2019-06-19T19:01:50.7135138Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=PassiveAuthenticationMessageHandler.SendAsync
+2019-06-19 22:01:50.713 +03:00 [DBG] [2019-06-19T19:01:50.7135138Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='Route='controller:AuthorizeEndpoint,action:Get'', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:01:50.714 +03:00 [DBG] [2019-06-19T19:01:50.7145127Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='AuthorizeEndpoint', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:01:50.714 +03:00 [DBG] [2019-06-19T19:01:50.7145127Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:01:50.714 +03:00 [DBG] [2019-06-19T19:01:50.7145127Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:01:50.739 +03:00 [DBG] [2019-06-19T19:01:50.7394999Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='IdentityServer3.Core.Endpoints.AuthorizeEndpointController', Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:01:50.740 +03:00 [DBG] [2019-06-19T19:01:50.7394999Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='IdentityServer3.Core.Endpoints.AuthorizeEndpointController', Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:01:50.740 +03:00 [DBG] [2019-06-19T19:01:50.7404998Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=AuthorizeEndpointController.ExecuteAsync
+2019-06-19 22:01:50.740 +03:00 [DBG] [2019-06-19T19:01:50.7404998Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:01:50.754 +03:00 [DBG] [2019-06-19T19:01:50.7534955Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='Selected action 'Get(HttpRequestMessage request)'', Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:01:50.767 +03:00 [DBG] [2019-06-19T19:01:50.7664910Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:01:50.783 +03:00 [DBG] [2019-06-19T19:01:50.7824852Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='The authentication filter did not encounter an error or set a principal.', Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:01:50.784 +03:00 [DBG] [2019-06-19T19:01:50.7844850Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:01:50.789 +03:00 [DBG] [2019-06-19T19:01:50.7874856Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:01:50.795 +03:00 [DBG] [2019-06-19T19:01:50.7954815Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=PreventUnsupportedRequestMediaTypesAttribute.OnAuthorizationAsync
+2019-06-19 22:01:50.801 +03:00 [DBG] [2019-06-19T19:01:50.8004795Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=PreventUnsupportedRequestMediaTypesAttribute.OnAuthorizationAsync
+2019-06-19 22:01:50.801 +03:00 [DBG] [2019-06-19T19:01:50.8014787Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:01:50.807 +03:00 [DBG] [2019-06-19T19:01:50.8064783Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='Binding parameter 'request'', Operation=HttpRequestParameterBinding.ExecuteBindingAsync
+2019-06-19 22:01:50.810 +03:00 [DBG] [2019-06-19T19:01:50.8074789Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='Parameter 'request' bound to the value 'Method: GET, RequestUri: 'https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http:%2F%2Flocalhost:57161%2F&response_mode=form_post&response_type=code id_token token&scope=openid profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:
+{
+  Connection: close
+  Accept: text/html
+  Accept: application/xhtml+xml
+  Accept: application/xml; q=0.9
+  Accept: */*; q=0.8
+  Accept-Encoding: gzip
+  Accept-Encoding: deflate
+  Accept-Encoding: br
+  Accept-Language: ru-RU
+  Accept-Language: ru; q=0.8
+  Accept-Language: en-US; q=0.5
+  Accept-Language: en; q=0.3
+  Cookie: OpenIdConnect.nonce.rfkSK%2FFuVgRimMNWfWEqPgjOGs6e1J9hMsvE7AXXL5Q%3D=MUxLbTBBZldHV3ZxV0d5NUhGTzVKcTFRQU5qcDNia3llY1A5enJDTW94djRtY3dmSldiQmhDVVlKUkVYMzRZQW9oLVJCOHEwa1Itb29TZVQ4V2w5MkRzT2x0QmdWWmw1bDNfZmhWdzBHYVI0dHVCeTNrTU1PODFiczM5WU1rU01jU29ZQzhvbzdFeHk3TVV2alJkZTQxWjF5VzQxdWo1elg5bVI2LUFkY0ZEYUFWR1BNcmlFTUQtbUl3UHF3a1lKQjJmcnZyUGVkb1dxZ3d3S2pNaXpPZ0hQQ1VqZ2NnX2VycHA3ZHJ3Rmk2WQ%3D%3D
+  Host: localhost:44301
+  Referer: http://localhost:57161/
+  TE: trailers
+  User-Agent: Mozilla/5.0
+  User-Agent: (Windows NT 10.0; Win64; x64; rv:67.0)
+  User-Agent: Gecko/20100101
+  User-Agent: Firefox/67.0
+  dnt: 1
+  upgrade-insecure-requests: 1
+}'', Operation=HttpRequestParameterBinding.ExecuteBindingAsync
+2019-06-19 22:01:50.811 +03:00 [DBG] [2019-06-19T19:01:50.8104761Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='Model state is valid. Values: request=Method: GET, RequestUri: 'https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http:%2F%2Flocalhost:57161%2F&response_mode=form_post&response_type=code id_token token&scope=openid profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:
+{
+  Connection: close
+  Accept: text/html
+  Accept: application/xhtml+xml
+  Accept: application/xml; q=0.9
+  Accept: */*; q=0.8
+  Accept-Encoding: gzip
+  Accept-Encoding: deflate
+  Accept-Encoding: br
+  Accept-Language: ru-RU
+  Accept-Language: ru; q=0.8
+  Accept-Language: en-US; q=0.5
+  Accept-Language: en; q=0.3
+  Cookie: OpenIdConnect.nonce.rfkSK%2FFuVgRimMNWfWEqPgjOGs6e1J9hMsvE7AXXL5Q%3D=MUxLbTBBZldHV3ZxV0d5NUhGTzVKcTFRQU5qcDNia3llY1A5enJDTW94djRtY3dmSldiQmhDVVlKUkVYMzRZQW9oLVJCOHEwa1Itb29TZVQ4V2w5MkRzT2x0QmdWWmw1bDNfZmhWdzBHYVI0dHVCeTNrTU1PODFiczM5WU1rU01jU29ZQzhvbzdFeHk3TVV2alJkZTQxWjF5VzQxdWo1elg5bVI2LUFkY0ZEYUFWR1BNcmlFTUQtbUl3UHF3a1lKQjJmcnZyUGVkb1dxZ3d3S2pNaXpPZ0hQQ1VqZ2NnX2VycHA3ZHJ3Rmk2WQ%3D%3D
+  Host: localhost:44301
+  Referer: http://localhost:57161/
+  TE: trailers
+  User-Agent: Mozilla/5.0
+  User-Agent: (Windows NT 10.0; Win64; x64; rv:67.0)
+  User-Agent: Gecko/20100101
+  User-Agent: Firefox/67.0
+  dnt: 1
+  upgrade-insecure-requests: 1
+}', Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:01:50.817 +03:00 [DBG] [2019-06-19T19:01:50.8164743Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='Action filter for 'Get(HttpRequestMessage request)'', Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:01:50.820 +03:00 [DBG] [2019-06-19T19:01:50.8194736Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:01:50.825 +03:00 [DBG] [2019-06-19T19:01:50.8254711Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='Action filter for 'Get(HttpRequestMessage request)'', Operation=SecurityHeadersAttribute.OnActionExecutingAsync
+2019-06-19 22:01:50.826 +03:00 [DBG] [2019-06-19T19:01:50.8254711Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=SecurityHeadersAttribute.OnActionExecutingAsync
+2019-06-19 22:01:50.827 +03:00 [DBG] [2019-06-19T19:01:50.8264709Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='Action='Get(request=Method: GET, RequestUri: 'https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http:%2F%2Flocalhost:57161%2F&response_mode=form_post&response_type=code id_token token&scope=openid profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:
+{
+  Connection: close
+  Accept: text/html
+  Accept: application/xhtml+xml
+  Accept: application/xml; q=0.9
+  Accept: */*; q=0.8
+  Accept-Encoding: gzip
+  Accept-Encoding: deflate
+  Accept-Encoding: br
+  Accept-Language: ru-RU
+  Accept-Language: ru; q=0.8
+  Accept-Language: en-US; q=0.5
+  Accept-Language: en; q=0.3
+  Cookie: OpenIdConnect.nonce.rfkSK%2FFuVgRimMNWfWEqPgjOGs6e1J9hMsvE7AXXL5Q%3D=MUxLbTBBZldHV3ZxV0d5NUhGTzVKcTFRQU5qcDNia3llY1A5enJDTW94djRtY3dmSldiQmhDVVlKUkVYMzRZQW9oLVJCOHEwa1Itb29TZVQ4V2w5MkRzT2x0QmdWWmw1bDNfZmhWdzBHYVI0dHVCeTNrTU1PODFiczM5WU1rU01jU29ZQzhvbzdFeHk3TVV2alJkZTQxWjF5VzQxdWo1elg5bVI2LUFkY0ZEYUFWR1BNcmlFTUQtbUl3UHF3a1lKQjJmcnZyUGVkb1dxZ3d3S2pNaXpPZ0hQQ1VqZ2NnX2VycHA3ZHJ3Rmk2WQ%3D%3D
+  Host: localhost:44301
+  Referer: http://localhost:57161/
+  TE: trailers
+  User-Agent: Mozilla/5.0
+  User-Agent: (Windows NT 10.0; Win64; x64; rv:67.0)
+  User-Agent: Gecko/20100101
+  User-Agent: Firefox/67.0
+  dnt: 1
+  upgrade-insecure-requests: 1
+})'', Operation=ApiControllerActionInvoker.InvokeActionAsync
+2019-06-19 22:01:50.827 +03:00 [DBG] [2019-06-19T19:01:50.8274741Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='Invoking action 'Get(request=Method: GET, RequestUri: 'https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http:%2F%2Flocalhost:57161%2F&response_mode=form_post&response_type=code id_token token&scope=openid profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:
+{
+  Connection: close
+  Accept: text/html
+  Accept: application/xhtml+xml
+  Accept: application/xml; q=0.9
+  Accept: */*; q=0.8
+  Accept-Encoding: gzip
+  Accept-Encoding: deflate
+  Accept-Encoding: br
+  Accept-Language: ru-RU
+  Accept-Language: ru; q=0.8
+  Accept-Language: en-US; q=0.5
+  Accept-Language: en; q=0.3
+  Cookie: OpenIdConnect.nonce.rfkSK%2FFuVgRimMNWfWEqPgjOGs6e1J9hMsvE7AXXL5Q%3D=MUxLbTBBZldHV3ZxV0d5NUhGTzVKcTFRQU5qcDNia3llY1A5enJDTW94djRtY3dmSldiQmhDVVlKUkVYMzRZQW9oLVJCOHEwa1Itb29TZVQ4V2w5MkRzT2x0QmdWWmw1bDNfZmhWdzBHYVI0dHVCeTNrTU1PODFiczM5WU1rU01jU29ZQzhvbzdFeHk3TVV2alJkZTQxWjF5VzQxdWo1elg5bVI2LUFkY0ZEYUFWR1BNcmlFTUQtbUl3UHF3a1lKQjJmcnZyUGVkb1dxZ3d3S2pNaXpPZ0hQQ1VqZ2NnX2VycHA3ZHJ3Rmk2WQ%3D%3D
+  Host: localhost:44301
+  Referer: http://localhost:57161/
+  TE: trailers
+  User-Agent: Mozilla/5.0
+  User-Agent: (Windows NT 10.0; Win64; x64; rv:67.0)
+  User-Agent: Gecko/20100101
+  User-Agent: Firefox/67.0
+  dnt: 1
+  upgrade-insecure-requests: 1
+})'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:01:50.832 +03:00 [INF] Start authorize request
+2019-06-19 22:01:50.846 +03:00 [INF] Start authorize request protocol validation
+2019-06-19 22:01:50.980 +03:00 [INF] Authorize request validation success
+ {
+  "ClientId": "site1.mvc5",
+  "ClientName": "site1.mvc5",
+  "RedirectUri": "http://localhost:57161/",
+  "AllowedRedirectUris": [
+    "http://localhost:57161/"
+  ],
+  "SubjectId": "unknown",
+  "ResponseType": "code id_token token",
+  "ResponseMode": "form_post",
+  "Flow": "Hybrid",
+  "RequestedScopes": "openid profile",
+  "State": "OpenIdConnect.AuthenticationProperties=22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M",
+  "Nonce": "636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk",
+  "Raw": {
+    "client_id": "site1.mvc5",
+    "redirect_uri": "http://localhost:57161/",
+    "response_mode": "form_post",
+    "response_type": "code id_token token",
+    "scope": "openid profile",
+    "state": "OpenIdConnect.AuthenticationProperties=22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M",
+    "nonce": "636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk",
+    "x-client-SKU": "ID_NET451",
+    "x-client-ver": "5.3.0.0"
+  }
+}
+2019-06-19 22:01:50.993 +03:00 [INF] User is not authenticated. Redirecting to login.
+2019-06-19 22:01:51.015 +03:00 [INF] End authorize request
+2019-06-19 22:01:51.015 +03:00 [DBG] [2019-06-19T19:01:51.0154122Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='Action returned 'IdentityServer3.Core.Results.LoginResult'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:01:51.017 +03:00 [INF] Redirecting to login page
+2019-06-19 22:01:51.053 +03:00 [DBG] Protecting message: {"ReturnUrl":"https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http%3A%2F%2Flocalhost%3A57161%2F&response_mode=form_post&response_type=code%20id_token%20token&scope=openid%20profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0","ClientId":"site1.mvc5","AcrValues":[],"Created":636965677107365019}
+2019-06-19 22:01:51.073 +03:00 [DBG] [2019-06-19T19:01:51.0723925Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=ApiControllerActionInvoker.InvokeActionAsync, Status=302 (Redirect)
+2019-06-19 22:01:51.075 +03:00 [DBG] [2019-06-19T19:01:51.0743911Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='Action filter for 'Get(HttpRequestMessage request)'', Operation=SecurityHeadersAttribute.OnActionExecutedAsync, Status=302 (Redirect)
+2019-06-19 22:01:51.083 +03:00 [DBG] [2019-06-19T19:01:51.0823892Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=SecurityHeadersAttribute.OnActionExecutedAsync, Status=302 (Redirect)
+2019-06-19 22:01:51.083 +03:00 [DBG] [2019-06-19T19:01:51.0833890Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='Action filter for 'Get(HttpRequestMessage request)'', Operation=NoCacheAttribute.OnActionExecutedAsync, Status=302 (Redirect)
+2019-06-19 22:01:51.085 +03:00 [DBG] [2019-06-19T19:01:51.0843869Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=NoCacheAttribute.OnActionExecutedAsync, Status=302 (Redirect)
+2019-06-19 22:01:51.086 +03:00 [DBG] [2019-06-19T19:01:51.0853884Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=AuthorizeEndpointController.ExecuteAsync, Status=302 (Redirect)
+2019-06-19 22:01:51.088 +03:00 [DBG] [2019-06-19T19:01:51.0873881Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=PassiveAuthenticationMessageHandler.SendAsync, Status=302 (Redirect)
+2019-06-19 22:01:51.089 +03:00 [DBG] [2019-06-19T19:01:51.0883873Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=DependencyScopeHandler.SendAsync, Status=302 (Redirect)
+2019-06-19 22:01:51.090 +03:00 [DBG] [2019-06-19T19:01:51.0893871Z] Sending response, Status=302 (Redirect), Method=GET, Url=https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http:%2F%2Flocalhost:57161%2F&response_mode=form_post&response_type=code id_token token&scope=openid profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0, Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Message='Content-type='none', content-length=unknown'
+2019-06-19 22:01:51.091 +03:00 [DBG] [2019-06-19T19:01:51.0903872Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=AuthorizeEndpointController.Dispose
+2019-06-19 22:01:51.091 +03:00 [DBG] [2019-06-19T19:01:51.0913867Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=a81f3f8d-15af-4f34-b5c9-0e8d29dcff5d, Operation=AuthorizeEndpointController.Dispose
+2019-06-19 22:01:51.104 +03:00 [DBG] [2019-06-19T19:01:51.1023818Z] Request received, Method=GET, Url=https://localhost:44301/identity/login?signin=d61024fdc655bcb5bffa01194ff4832d, Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='https://localhost:44301/identity/login?signin=d61024fdc655bcb5bffa01194ff4832d'
+2019-06-19 22:01:51.106 +03:00 [DBG] [2019-06-19T19:01:51.1043808Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=DependencyScopeHandler.SendAsync
+2019-06-19 22:01:51.107 +03:00 [DBG] [2019-06-19T19:01:51.1073807Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=PassiveAuthenticationMessageHandler.SendAsync
+2019-06-19 22:01:51.109 +03:00 [DBG] [2019-06-19T19:01:51.1083809Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='Route='MS_SubRoutes:System.Web.Http.Routing.IHttpRouteData[]'', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:01:51.110 +03:00 [DBG] [2019-06-19T19:01:51.1103806Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='Authentication', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:01:51.111 +03:00 [DBG] [2019-06-19T19:01:51.1103806Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:01:51.111 +03:00 [DBG] [2019-06-19T19:01:51.1113804Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:01:51.115 +03:00 [DBG] [2019-06-19T19:01:51.1153784Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='IdentityServer3.Core.Endpoints.AuthenticationController', Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:01:51.116 +03:00 [DBG] [2019-06-19T19:01:51.1153784Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='IdentityServer3.Core.Endpoints.AuthenticationController', Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:01:51.116 +03:00 [DBG] [2019-06-19T19:01:51.1163780Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=AuthenticationController.ExecuteAsync
+2019-06-19 22:01:51.116 +03:00 [DBG] [2019-06-19T19:01:51.1163780Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:01:51.122 +03:00 [DBG] [2019-06-19T19:01:51.1203767Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='Selected action 'Login(String signin)'', Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:01:51.123 +03:00 [DBG] [2019-06-19T19:01:51.1223753Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:01:51.123 +03:00 [DBG] [2019-06-19T19:01:51.1233736Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='The authentication filter did not encounter an error or set a principal.', Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:01:51.123 +03:00 [DBG] [2019-06-19T19:01:51.1233736Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:01:51.124 +03:00 [DBG] [2019-06-19T19:01:51.1243735Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:01:51.124 +03:00 [DBG] [2019-06-19T19:01:51.1243735Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=PreventUnsupportedRequestMediaTypesAttribute.OnAuthorizationAsync
+2019-06-19 22:01:51.125 +03:00 [DBG] [2019-06-19T19:01:51.1243735Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=PreventUnsupportedRequestMediaTypesAttribute.OnAuthorizationAsync
+2019-06-19 22:01:51.125 +03:00 [DBG] [2019-06-19T19:01:51.1253732Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:01:51.126 +03:00 [DBG] [2019-06-19T19:01:51.1253732Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='Binding parameter 'signin'', Operation=ModelBinderParameterBinding.ExecuteBindingAsync
+2019-06-19 22:01:51.206 +03:00 [DBG] [2019-06-19T19:01:51.2063482Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='Parameter 'signin' bound to the value 'd61024fdc655bcb5bffa01194ff4832d'', Operation=ModelBinderParameterBinding.ExecuteBindingAsync
+2019-06-19 22:01:51.207 +03:00 [DBG] [2019-06-19T19:01:51.2073464Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='Model state is valid. Values: signin=d61024fdc655bcb5bffa01194ff4832d', Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:01:51.207 +03:00 [DBG] [2019-06-19T19:01:51.2073464Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='Action filter for 'Login(String signin)'', Operation=SecurityHeadersAttribute.OnActionExecutingAsync
+2019-06-19 22:01:51.208 +03:00 [DBG] [2019-06-19T19:01:51.2073464Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=SecurityHeadersAttribute.OnActionExecutingAsync
+2019-06-19 22:01:51.208 +03:00 [DBG] [2019-06-19T19:01:51.2083460Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='Action filter for 'Login(String signin)'', Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:01:51.209 +03:00 [DBG] [2019-06-19T19:01:51.2083460Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:01:51.209 +03:00 [DBG] [2019-06-19T19:01:51.2093459Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='Action='Login(signin=d61024fdc655bcb5bffa01194ff4832d)'', Operation=ApiControllerActionInvoker.InvokeActionAsync
+2019-06-19 22:01:51.209 +03:00 [DBG] [2019-06-19T19:01:51.2093459Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='Invoking action 'Login(signin=d61024fdc655bcb5bffa01194ff4832d)'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:01:51.222 +03:00 [INF] Login page requested
+2019-06-19 22:01:51.342 +03:00 [DBG] signin message passed to login: {
+  "ReturnUrl": "https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http%3A%2F%2Flocalhost%3A57161%2F&response_mode=form_post&response_type=code%20id_token%20token&scope=openid%20profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0",
+  "ClientId": "site1.mvc5",
+  "IdP": null,
+  "Tenant": null,
+  "LoginHint": null,
+  "DisplayMode": null,
+  "UiLocales": null,
+  "AcrValues": [],
+  "Created": 636965677107365019
+}
+2019-06-19 22:01:51.383 +03:00 [INF] rendering login page
+2019-06-19 22:01:51.393 +03:00 [DBG] [2019-06-19T19:01:51.3932871Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='Action returned 'IdentityServer3.Core.Results.LoginActionResult'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:01:51.465 +03:00 [DBG] [2019-06-19T19:01:51.4642630Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=ApiControllerActionInvoker.InvokeActionAsync, Status=200 (OK)
+2019-06-19 22:01:51.465 +03:00 [DBG] [2019-06-19T19:01:51.4652615Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='Action filter for 'Login(String signin)'', Operation=NoCacheAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:01:51.466 +03:00 [DBG] [2019-06-19T19:01:51.4652615Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=NoCacheAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:01:51.466 +03:00 [DBG] [2019-06-19T19:01:51.4662612Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='Action filter for 'Login(String signin)'', Operation=SecurityHeadersAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:01:51.468 +03:00 [DBG] [2019-06-19T19:01:51.4682612Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=SecurityHeadersAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:01:51.469 +03:00 [DBG] [2019-06-19T19:01:51.4682612Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=AuthenticationController.ExecuteAsync, Status=200 (OK)
+2019-06-19 22:01:51.470 +03:00 [DBG] [2019-06-19T19:01:51.4692604Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=PassiveAuthenticationMessageHandler.SendAsync, Status=200 (OK)
+2019-06-19 22:01:51.471 +03:00 [DBG] [2019-06-19T19:01:51.4702594Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=DependencyScopeHandler.SendAsync, Status=200 (OK)
+2019-06-19 22:01:51.471 +03:00 [DBG] [2019-06-19T19:01:51.4712605Z] Sending response, Status=200 (OK), Method=GET, Url=https://localhost:44301/identity/login?signin=d61024fdc655bcb5bffa01194ff4832d, Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Message='Content-type='text/html; charset=utf-8', content-length=5358'
+2019-06-19 22:01:51.473 +03:00 [DBG] [2019-06-19T19:01:51.4722607Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=AuthenticationController.Dispose
+2019-06-19 22:01:51.473 +03:00 [DBG] [2019-06-19T19:01:51.4732597Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=0bb9d50d-ad1f-4b8d-b2c7-6f7e143a8750, Operation=AuthenticationController.Dispose
+2019-06-19 22:01:51.746 +03:00 [DBG] [2019-06-19T19:01:51.7461706Z] Request received, Method=POST, Url=https://localhost:44301/identity/csp/report, Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Message='https://localhost:44301/identity/csp/report'
+2019-06-19 22:01:51.746 +03:00 [DBG] [2019-06-19T19:01:51.7461706Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Operation=DependencyScopeHandler.SendAsync
+2019-06-19 22:01:51.747 +03:00 [DBG] [2019-06-19T19:01:51.7471691Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Operation=PassiveAuthenticationMessageHandler.SendAsync
+2019-06-19 22:01:51.748 +03:00 [DBG] [2019-06-19T19:01:51.7471691Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Message='Route='controller:CspReport'', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:01:51.748 +03:00 [DBG] [2019-06-19T19:01:51.7481691Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Message='CspReport', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:01:51.749 +03:00 [DBG] [2019-06-19T19:01:51.7481691Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:01:51.749 +03:00 [DBG] [2019-06-19T19:01:51.7491686Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:01:51.751 +03:00 [DBG] [2019-06-19T19:01:51.7501713Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Message='IdentityServer3.Core.Endpoints.CspReportController', Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:01:51.751 +03:00 [DBG] [2019-06-19T19:01:51.7511678Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Message='IdentityServer3.Core.Endpoints.CspReportController', Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:01:51.752 +03:00 [DBG] [2019-06-19T19:01:51.7511678Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Operation=CspReportController.ExecuteAsync
+2019-06-19 22:01:51.752 +03:00 [DBG] [2019-06-19T19:01:51.7521681Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:01:51.753 +03:00 [DBG] [2019-06-19T19:01:51.7531679Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Message='Selected action 'Post()'', Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:01:51.754 +03:00 [DBG] [2019-06-19T19:01:51.7541667Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:01:51.755 +03:00 [DBG] [2019-06-19T19:01:51.7551672Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Message='The authentication filter did not encounter an error or set a principal.', Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:01:51.756 +03:00 [DBG] [2019-06-19T19:01:51.7551672Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:01:51.756 +03:00 [DBG] [2019-06-19T19:01:51.7561662Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:01:51.756 +03:00 [DBG] [2019-06-19T19:01:51.7561662Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:01:51.757 +03:00 [DBG] [2019-06-19T19:01:51.7561662Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:01:51.757 +03:00 [DBG] [2019-06-19T19:01:51.7571662Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Message='Action='Post()'', Operation=ApiControllerActionInvoker.InvokeActionAsync
+2019-06-19 22:01:51.758 +03:00 [DBG] [2019-06-19T19:01:51.7571662Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Message='Invoking action 'Post()'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:01:51.765 +03:00 [INF] CSP Report endpoint requested
+2019-06-19 22:01:51.773 +03:00 [INF] CSP Report data: {"csp-report":{"blocked-uri":"inline","column-number":4153,"document-uri":"https://localhost:44301/identity/login?signin=d61024fdc655bcb5bffa01194ff4832d","line-number":4,"original-policy":"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src *; report-uri https://localhost:44301/identity/csp/report","referrer":"http://localhost:57161/","source-file":"https://localhost:44301/identity/login?signin=d61024fdc655bcb5bffa01194ff4832d","violated-directive":"script-src"}}
+2019-06-19 22:01:51.781 +03:00 [INF] Rendering 204
+2019-06-19 22:01:51.782 +03:00 [DBG] [2019-06-19T19:01:51.7821589Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Message='Action returned 'System.Web.Http.Results.ResponseMessageResult'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:01:51.783 +03:00 [DBG] [2019-06-19T19:01:51.7831586Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Operation=ApiControllerActionInvoker.InvokeActionAsync, Status=204 (NoContent)
+2019-06-19 22:01:51.783 +03:00 [DBG] [2019-06-19T19:01:51.7831586Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Operation=CspReportController.ExecuteAsync, Status=204 (NoContent)
+2019-06-19 22:01:51.784 +03:00 [DBG] [2019-06-19T19:01:51.7831586Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Operation=PassiveAuthenticationMessageHandler.SendAsync, Status=204 (NoContent)
+2019-06-19 22:01:51.784 +03:00 [DBG] [2019-06-19T19:01:51.7841583Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Operation=DependencyScopeHandler.SendAsync, Status=204 (NoContent)
+2019-06-19 22:01:51.784 +03:00 [DBG] [2019-06-19T19:01:51.7841583Z] Sending response, Status=204 (NoContent), Method=POST, Url=https://localhost:44301/identity/csp/report, Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Message='Content-type='none', content-length=unknown'
+2019-06-19 22:01:51.785 +03:00 [DBG] [2019-06-19T19:01:51.7841583Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Operation=CspReportController.Dispose
+2019-06-19 22:01:51.785 +03:00 [DBG] [2019-06-19T19:01:51.7851578Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=dc0f80d2-39e3-42cf-82cf-7a4d6368a21a, Operation=CspReportController.Dispose
+2019-06-19 22:02:00.127 +03:00 [DBG] [2019-06-19T19:02:00.1262291Z] Request received, Method=POST, Url=https://localhost:44301/identity/login?signin=d61024fdc655bcb5bffa01194ff4832d, Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='https://localhost:44301/identity/login?signin=d61024fdc655bcb5bffa01194ff4832d'
+2019-06-19 22:02:00.129 +03:00 [DBG] [2019-06-19T19:02:00.1272300Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=DependencyScopeHandler.SendAsync
+2019-06-19 22:02:00.129 +03:00 [DBG] [2019-06-19T19:02:00.1292279Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=PassiveAuthenticationMessageHandler.SendAsync
+2019-06-19 22:02:00.129 +03:00 [DBG] [2019-06-19T19:02:00.1292279Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='Route='MS_SubRoutes:System.Web.Http.Routing.IHttpRouteData[]'', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:02:00.130 +03:00 [DBG] [2019-06-19T19:02:00.1292279Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='Authentication', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:02:00.130 +03:00 [DBG] [2019-06-19T19:02:00.1302287Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:02:00.130 +03:00 [DBG] [2019-06-19T19:02:00.1302287Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:02:00.131 +03:00 [DBG] [2019-06-19T19:02:00.1312261Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='IdentityServer3.Core.Endpoints.AuthenticationController', Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:02:00.132 +03:00 [DBG] [2019-06-19T19:02:00.1312261Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='IdentityServer3.Core.Endpoints.AuthenticationController', Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:02:00.132 +03:00 [DBG] [2019-06-19T19:02:00.1322283Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=AuthenticationController.ExecuteAsync
+2019-06-19 22:02:00.132 +03:00 [DBG] [2019-06-19T19:02:00.1322283Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:02:00.133 +03:00 [DBG] [2019-06-19T19:02:00.1322283Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='Selected action 'LoginLocal(String signin, LoginCredentials model)'', Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:02:00.133 +03:00 [DBG] [2019-06-19T19:02:00.1332276Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:02:00.133 +03:00 [DBG] [2019-06-19T19:02:00.1332276Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='The authentication filter did not encounter an error or set a principal.', Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:02:00.134 +03:00 [DBG] [2019-06-19T19:02:00.1342275Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:02:00.134 +03:00 [DBG] [2019-06-19T19:02:00.1342275Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:02:00.134 +03:00 [DBG] [2019-06-19T19:02:00.1342275Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=PreventUnsupportedRequestMediaTypesAttribute.OnAuthorizationAsync
+2019-06-19 22:02:00.135 +03:00 [DBG] [2019-06-19T19:02:00.1342275Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=PreventUnsupportedRequestMediaTypesAttribute.OnAuthorizationAsync
+2019-06-19 22:02:00.135 +03:00 [DBG] [2019-06-19T19:02:00.1352270Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=ValidateAntiForgeryTokenAttribute.OnAuthorizationAsync
+2019-06-19 22:02:00.180 +03:00 [DBG] [2019-06-19T19:02:00.1792101Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=ValidateAntiForgeryTokenAttribute.OnAuthorizationAsync
+2019-06-19 22:02:00.180 +03:00 [DBG] [2019-06-19T19:02:00.1802110Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:02:00.181 +03:00 [DBG] [2019-06-19T19:02:00.1802110Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='Binding parameter 'signin'', Operation=ModelBinderParameterBinding.ExecuteBindingAsync
+2019-06-19 22:02:00.181 +03:00 [DBG] [2019-06-19T19:02:00.1812098Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='Parameter 'signin' bound to the value 'd61024fdc655bcb5bffa01194ff4832d'', Operation=ModelBinderParameterBinding.ExecuteBindingAsync
+2019-06-19 22:02:00.183 +03:00 [DBG] [2019-06-19T19:02:00.1822094Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='Binding parameter 'model'', Operation=FormatterParameterBinding.ExecuteBindingAsync
+2019-06-19 22:02:00.214 +03:00 [DBG] [2019-06-19T19:02:00.2131998Z] Level=Info, Kind=Begin, Category='System.Net.Http.Formatting', Id=00000000-0000-0000-0000-000000000000, Message='Type='LoginCredentials', content-type='application/x-www-form-urlencoded'', Operation=JQueryMvcFormUrlEncodedFormatter.ReadFromStreamAsync
+2019-06-19 22:02:00.283 +03:00 [DBG] [2019-06-19T19:02:00.2821768Z] Level=Info, Kind=End, Category='System.Net.Http.Formatting', Id=00000000-0000-0000-0000-000000000000, Message='Value read='IdentityServer3.Core.ViewModels.LoginCredentials'', Operation=JQueryMvcFormUrlEncodedFormatter.ReadFromStreamAsync
+2019-06-19 22:02:00.296 +03:00 [DBG] [2019-06-19T19:02:00.2951736Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='Parameter 'model' bound to the value 'IdentityServer3.Core.ViewModels.LoginCredentials'', Operation=FormatterParameterBinding.ExecuteBindingAsync
+2019-06-19 22:02:00.297 +03:00 [DBG] [2019-06-19T19:02:00.2961724Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='Model state is valid. Values: signin=d61024fdc655bcb5bffa01194ff4832d, model=IdentityServer3.Core.ViewModels.LoginCredentials', Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:02:00.297 +03:00 [DBG] [2019-06-19T19:02:00.2971719Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='Action filter for 'LoginLocal(String signin, LoginCredentials model)'', Operation=SecurityHeadersAttribute.OnActionExecutingAsync
+2019-06-19 22:02:00.297 +03:00 [DBG] [2019-06-19T19:02:00.2971719Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=SecurityHeadersAttribute.OnActionExecutingAsync
+2019-06-19 22:02:00.298 +03:00 [DBG] [2019-06-19T19:02:00.2981713Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='Action filter for 'LoginLocal(String signin, LoginCredentials model)'', Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:02:00.298 +03:00 [DBG] [2019-06-19T19:02:00.2981713Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:02:00.299 +03:00 [DBG] [2019-06-19T19:02:00.2981713Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='Action='LoginLocal(signin=d61024fdc655bcb5bffa01194ff4832d, model=IdentityServer3.Core.ViewModels.LoginCredentials)'', Operation=ApiControllerActionInvoker.InvokeActionAsync
+2019-06-19 22:02:00.299 +03:00 [DBG] [2019-06-19T19:02:00.2991712Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='Invoking action 'LoginLocal(signin=d61024fdc655bcb5bffa01194ff4832d, model=IdentityServer3.Core.ViewModels.LoginCredentials)'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:02:00.315 +03:00 [INF] Login page submitted
+2019-06-19 22:02:00.338 +03:00 [INF] Login credentials successfully validated by user service
+2019-06-19 22:02:00.354 +03:00 [INF] Calling PostAuthenticateAsync on the user service
+2019-06-19 22:02:00.363 +03:00 [INF] issuing primary signin cookie
+2019-06-19 22:02:00.374 +03:00 [INF] redirecting to: "https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http:%2F%2Flocalhost:57161%2F&response_mode=form_post&response_type=code id_token token&scope=openid profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0"
+2019-06-19 22:02:00.378 +03:00 [DBG] [2019-06-19T19:02:00.3771461Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='Action returned 'System.Web.Http.Results.RedirectResult'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:02:00.379 +03:00 [DBG] [2019-06-19T19:02:00.3791448Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=ApiControllerActionInvoker.InvokeActionAsync, Status=302 (Redirect)
+2019-06-19 22:02:00.380 +03:00 [DBG] [2019-06-19T19:02:00.3791448Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='Action filter for 'LoginLocal(String signin, LoginCredentials model)'', Operation=NoCacheAttribute.OnActionExecutedAsync, Status=302 (Redirect)
+2019-06-19 22:02:00.380 +03:00 [DBG] [2019-06-19T19:02:00.3801441Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=NoCacheAttribute.OnActionExecutedAsync, Status=302 (Redirect)
+2019-06-19 22:02:00.381 +03:00 [DBG] [2019-06-19T19:02:00.3801441Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='Action filter for 'LoginLocal(String signin, LoginCredentials model)'', Operation=SecurityHeadersAttribute.OnActionExecutedAsync, Status=302 (Redirect)
+2019-06-19 22:02:00.381 +03:00 [DBG] [2019-06-19T19:02:00.3811435Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=SecurityHeadersAttribute.OnActionExecutedAsync, Status=302 (Redirect)
+2019-06-19 22:02:00.381 +03:00 [DBG] [2019-06-19T19:02:00.3811435Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=AuthenticationController.ExecuteAsync, Status=302 (Redirect)
+2019-06-19 22:02:00.382 +03:00 [DBG] [2019-06-19T19:02:00.3821437Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=PassiveAuthenticationMessageHandler.SendAsync, Status=302 (Redirect)
+2019-06-19 22:02:00.382 +03:00 [DBG] [2019-06-19T19:02:00.3821437Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=DependencyScopeHandler.SendAsync, Status=302 (Redirect)
+2019-06-19 22:02:00.383 +03:00 [DBG] [2019-06-19T19:02:00.3821437Z] Sending response, Status=302 (Redirect), Method=POST, Url=https://localhost:44301/identity/login?signin=d61024fdc655bcb5bffa01194ff4832d, Id=0e4b6760-ae66-405a-834f-7c238fea4564, Message='Content-type='none', content-length=unknown'
+2019-06-19 22:02:00.383 +03:00 [DBG] [2019-06-19T19:02:00.3831438Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=AuthenticationController.Dispose
+2019-06-19 22:02:00.383 +03:00 [DBG] [2019-06-19T19:02:00.3831438Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=0e4b6760-ae66-405a-834f-7c238fea4564, Operation=AuthenticationController.Dispose
+2019-06-19 22:02:00.441 +03:00 [DBG] [2019-06-19T19:02:00.4401266Z] Request received, Method=GET, Url=https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http:%2F%2Flocalhost:57161%2F&response_mode=form_post&response_type=code id_token token&scope=openid profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0, Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http:%2F%2Flocalhost:57161%2F&response_mode=form_post&response_type=code id_token token&scope=openid profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0'
+2019-06-19 22:02:00.441 +03:00 [DBG] [2019-06-19T19:02:00.4411249Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=DependencyScopeHandler.SendAsync
+2019-06-19 22:02:00.441 +03:00 [DBG] [2019-06-19T19:02:00.4411249Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=PassiveAuthenticationMessageHandler.SendAsync
+2019-06-19 22:02:00.442 +03:00 [DBG] [2019-06-19T19:02:00.4411249Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='Route='controller:AuthorizeEndpoint,action:Get'', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:02:00.442 +03:00 [DBG] [2019-06-19T19:02:00.4421243Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='AuthorizeEndpoint', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:02:00.443 +03:00 [DBG] [2019-06-19T19:02:00.4421243Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:02:00.443 +03:00 [DBG] [2019-06-19T19:02:00.4431240Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:02:00.445 +03:00 [DBG] [2019-06-19T19:02:00.4451236Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='IdentityServer3.Core.Endpoints.AuthorizeEndpointController', Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:02:00.445 +03:00 [DBG] [2019-06-19T19:02:00.4451236Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='IdentityServer3.Core.Endpoints.AuthorizeEndpointController', Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:02:00.446 +03:00 [DBG] [2019-06-19T19:02:00.4461231Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=AuthorizeEndpointController.ExecuteAsync
+2019-06-19 22:02:00.446 +03:00 [DBG] [2019-06-19T19:02:00.4461231Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:02:00.447 +03:00 [DBG] [2019-06-19T19:02:00.4461231Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='Selected action 'Get(HttpRequestMessage request)'', Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:02:00.447 +03:00 [DBG] [2019-06-19T19:02:00.4471226Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:02:00.449 +03:00 [DBG] [2019-06-19T19:02:00.4481225Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='The authentication filter successfully set a principal to a known identity. Identity.Name='bob'. Identity.AuthenticationType='idsrv'.', Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:02:00.449 +03:00 [DBG] [2019-06-19T19:02:00.4491222Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:02:00.450 +03:00 [DBG] [2019-06-19T19:02:00.4491222Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:02:00.450 +03:00 [DBG] [2019-06-19T19:02:00.4501216Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=PreventUnsupportedRequestMediaTypesAttribute.OnAuthorizationAsync
+2019-06-19 22:02:00.450 +03:00 [DBG] [2019-06-19T19:02:00.4501216Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=PreventUnsupportedRequestMediaTypesAttribute.OnAuthorizationAsync
+2019-06-19 22:02:00.451 +03:00 [DBG] [2019-06-19T19:02:00.4501216Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:02:00.451 +03:00 [DBG] [2019-06-19T19:02:00.4511212Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='Binding parameter 'request'', Operation=HttpRequestParameterBinding.ExecuteBindingAsync
+2019-06-19 22:02:00.452 +03:00 [DBG] [2019-06-19T19:02:00.4511212Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='Parameter 'request' bound to the value 'Method: GET, RequestUri: 'https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http:%2F%2Flocalhost:57161%2F&response_mode=form_post&response_type=code id_token token&scope=openid profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:
+{
+  Connection: close
+  Accept: text/html
+  Accept: application/xhtml+xml
+  Accept: application/xml; q=0.9
+  Accept: */*; q=0.8
+  Accept-Encoding: gzip
+  Accept-Encoding: deflate
+  Accept-Encoding: br
+  Accept-Language: ru-RU
+  Accept-Language: ru; q=0.8
+  Accept-Language: en-US; q=0.5
+  Accept-Language: en; q=0.3
+  Cookie: idsrv.xsrf=ijGnGojyGxFisjJRgOBN4FtzZTsDmC3uukDSqt3mke0RF531uN6CN-57OwSKvw5xdYPcnHrMCSZzqIkDQ1GLzNFB0zR3MZIjZND3BkXercA; idsvr.session=5bea1685cbf932898a084197811e0571; idsrv=z8zETKKnaybRd0NKLCfctl89x18kuTgazIeReVvpQMCOt7Q7BjN6kc_PZpKvqgg97fEWKng3RjfmXYe8Q7lC0fJahZI4BIlyh0qoVmvofanTUhES_j9mGTwR2Xfs9xnw-xZ1XjbmpQbdNm1qoNRD3-VdCm6oQTJS0YZj4TBWWmphAxN1S5ubMlYGjGB44bISSyo5IqNtWEuwfCFtN3pxYTKuNSxiLS7mV385y6_dAIORIFRMqqX1pBe083_N5Mvl55xIQvBms7ZDEPj08oV78BBrqayW8CtBTECCiO2RjBphvVaOaAUfxriSoCxx0h-4BSeGYQtJ20oL9f7tQivzQGYmTMtIIW7sPMp9eR7LEuEfHmDofI5BIpMujcXYah8p; OpenIdConnect.nonce.rfkSK%2FFuVgRimMNWfWEqPgjOGs6e1J9hMsvE7AXXL5Q%3D=MUxLbTBBZldHV3ZxV0d5NUhGTzVKcTFRQU5qcDNia3llY1A5enJDTW94djRtY3dmSldiQmhDVVlKUkVYMzRZQW9oLVJCOHEwa1Itb29TZVQ4V2w5MkRzT2x0QmdWWmw1bDNfZmhWdzBHYVI0dHVCeTNrTU1PODFiczM5WU1rU01jU29ZQzhvbzdFeHk3TVV2alJkZTQxWjF5VzQxdWo1elg5bVI2LUFkY0ZEYUFWR1BNcmlFTUQtbUl3UHF3a1lKQjJmcnZyUGVkb1dxZ3d3S2pNaXpPZ0hQQ1VqZ2NnX2VycHA3ZHJ3Rmk2WQ%3D%3D
+  Host: localhost:44301
+  Referer: https://localhost:44301/identity/login?signin=d61024fdc655bcb5bffa01194ff4832d
+  TE: trailers
+  User-Agent: Mozilla/5.0
+  User-Agent: (Windows NT 10.0; Win64; x64; rv:67.0)
+  User-Agent: Gecko/20100101
+  User-Agent: Firefox/67.0
+  dnt: 1
+  upgrade-insecure-requests: 1
+}'', Operation=HttpRequestParameterBinding.ExecuteBindingAsync
+2019-06-19 22:02:00.452 +03:00 [DBG] [2019-06-19T19:02:00.4521207Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='Model state is valid. Values: request=Method: GET, RequestUri: 'https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http:%2F%2Flocalhost:57161%2F&response_mode=form_post&response_type=code id_token token&scope=openid profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:
+{
+  Connection: close
+  Accept: text/html
+  Accept: application/xhtml+xml
+  Accept: application/xml; q=0.9
+  Accept: */*; q=0.8
+  Accept-Encoding: gzip
+  Accept-Encoding: deflate
+  Accept-Encoding: br
+  Accept-Language: ru-RU
+  Accept-Language: ru; q=0.8
+  Accept-Language: en-US; q=0.5
+  Accept-Language: en; q=0.3
+  Cookie: idsrv.xsrf=ijGnGojyGxFisjJRgOBN4FtzZTsDmC3uukDSqt3mke0RF531uN6CN-57OwSKvw5xdYPcnHrMCSZzqIkDQ1GLzNFB0zR3MZIjZND3BkXercA; idsvr.session=5bea1685cbf932898a084197811e0571; idsrv=z8zETKKnaybRd0NKLCfctl89x18kuTgazIeReVvpQMCOt7Q7BjN6kc_PZpKvqgg97fEWKng3RjfmXYe8Q7lC0fJahZI4BIlyh0qoVmvofanTUhES_j9mGTwR2Xfs9xnw-xZ1XjbmpQbdNm1qoNRD3-VdCm6oQTJS0YZj4TBWWmphAxN1S5ubMlYGjGB44bISSyo5IqNtWEuwfCFtN3pxYTKuNSxiLS7mV385y6_dAIORIFRMqqX1pBe083_N5Mvl55xIQvBms7ZDEPj08oV78BBrqayW8CtBTECCiO2RjBphvVaOaAUfxriSoCxx0h-4BSeGYQtJ20oL9f7tQivzQGYmTMtIIW7sPMp9eR7LEuEfHmDofI5BIpMujcXYah8p; OpenIdConnect.nonce.rfkSK%2FFuVgRimMNWfWEqPgjOGs6e1J9hMsvE7AXXL5Q%3D=MUxLbTBBZldHV3ZxV0d5NUhGTzVKcTFRQU5qcDNia3llY1A5enJDTW94djRtY3dmSldiQmhDVVlKUkVYMzRZQW9oLVJCOHEwa1Itb29TZVQ4V2w5MkRzT2x0QmdWWmw1bDNfZmhWdzBHYVI0dHVCeTNrTU1PODFiczM5WU1rU01jU29ZQzhvbzdFeHk3TVV2alJkZTQxWjF5VzQxdWo1elg5bVI2LUFkY0ZEYUFWR1BNcmlFTUQtbUl3UHF3a1lKQjJmcnZyUGVkb1dxZ3d3S2pNaXpPZ0hQQ1VqZ2NnX2VycHA3ZHJ3Rmk2WQ%3D%3D
+  Host: localhost:44301
+  Referer: https://localhost:44301/identity/login?signin=d61024fdc655bcb5bffa01194ff4832d
+  TE: trailers
+  User-Agent: Mozilla/5.0
+  User-Agent: (Windows NT 10.0; Win64; x64; rv:67.0)
+  User-Agent: Gecko/20100101
+  User-Agent: Firefox/67.0
+  dnt: 1
+  upgrade-insecure-requests: 1
+}', Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:02:00.453 +03:00 [DBG] [2019-06-19T19:02:00.4521207Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='Action filter for 'Get(HttpRequestMessage request)'', Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:02:00.454 +03:00 [DBG] [2019-06-19T19:02:00.4531218Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:02:00.454 +03:00 [DBG] [2019-06-19T19:02:00.4541214Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='Action filter for 'Get(HttpRequestMessage request)'', Operation=SecurityHeadersAttribute.OnActionExecutingAsync
+2019-06-19 22:02:00.455 +03:00 [DBG] [2019-06-19T19:02:00.4541214Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=SecurityHeadersAttribute.OnActionExecutingAsync
+2019-06-19 22:02:00.455 +03:00 [DBG] [2019-06-19T19:02:00.4551204Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='Action='Get(request=Method: GET, RequestUri: 'https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http:%2F%2Flocalhost:57161%2F&response_mode=form_post&response_type=code id_token token&scope=openid profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:
+{
+  Connection: close
+  Accept: text/html
+  Accept: application/xhtml+xml
+  Accept: application/xml; q=0.9
+  Accept: */*; q=0.8
+  Accept-Encoding: gzip
+  Accept-Encoding: deflate
+  Accept-Encoding: br
+  Accept-Language: ru-RU
+  Accept-Language: ru; q=0.8
+  Accept-Language: en-US; q=0.5
+  Accept-Language: en; q=0.3
+  Cookie: idsrv.xsrf=ijGnGojyGxFisjJRgOBN4FtzZTsDmC3uukDSqt3mke0RF531uN6CN-57OwSKvw5xdYPcnHrMCSZzqIkDQ1GLzNFB0zR3MZIjZND3BkXercA; idsvr.session=5bea1685cbf932898a084197811e0571; idsrv=z8zETKKnaybRd0NKLCfctl89x18kuTgazIeReVvpQMCOt7Q7BjN6kc_PZpKvqgg97fEWKng3RjfmXYe8Q7lC0fJahZI4BIlyh0qoVmvofanTUhES_j9mGTwR2Xfs9xnw-xZ1XjbmpQbdNm1qoNRD3-VdCm6oQTJS0YZj4TBWWmphAxN1S5ubMlYGjGB44bISSyo5IqNtWEuwfCFtN3pxYTKuNSxiLS7mV385y6_dAIORIFRMqqX1pBe083_N5Mvl55xIQvBms7ZDEPj08oV78BBrqayW8CtBTECCiO2RjBphvVaOaAUfxriSoCxx0h-4BSeGYQtJ20oL9f7tQivzQGYmTMtIIW7sPMp9eR7LEuEfHmDofI5BIpMujcXYah8p; OpenIdConnect.nonce.rfkSK%2FFuVgRimMNWfWEqPgjOGs6e1J9hMsvE7AXXL5Q%3D=MUxLbTBBZldHV3ZxV0d5NUhGTzVKcTFRQU5qcDNia3llY1A5enJDTW94djRtY3dmSldiQmhDVVlKUkVYMzRZQW9oLVJCOHEwa1Itb29TZVQ4V2w5MkRzT2x0QmdWWmw1bDNfZmhWdzBHYVI0dHVCeTNrTU1PODFiczM5WU1rU01jU29ZQzhvbzdFeHk3TVV2alJkZTQxWjF5VzQxdWo1elg5bVI2LUFkY0ZEYUFWR1BNcmlFTUQtbUl3UHF3a1lKQjJmcnZyUGVkb1dxZ3d3S2pNaXpPZ0hQQ1VqZ2NnX2VycHA3ZHJ3Rmk2WQ%3D%3D
+  Host: localhost:44301
+  Referer: https://localhost:44301/identity/login?signin=d61024fdc655bcb5bffa01194ff4832d
+  TE: trailers
+  User-Agent: Mozilla/5.0
+  User-Agent: (Windows NT 10.0; Win64; x64; rv:67.0)
+  User-Agent: Gecko/20100101
+  User-Agent: Firefox/67.0
+  dnt: 1
+  upgrade-insecure-requests: 1
+})'', Operation=ApiControllerActionInvoker.InvokeActionAsync
+2019-06-19 22:02:00.456 +03:00 [DBG] [2019-06-19T19:02:00.4551204Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='Invoking action 'Get(request=Method: GET, RequestUri: 'https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http:%2F%2Flocalhost:57161%2F&response_mode=form_post&response_type=code id_token token&scope=openid profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:
+{
+  Connection: close
+  Accept: text/html
+  Accept: application/xhtml+xml
+  Accept: application/xml; q=0.9
+  Accept: */*; q=0.8
+  Accept-Encoding: gzip
+  Accept-Encoding: deflate
+  Accept-Encoding: br
+  Accept-Language: ru-RU
+  Accept-Language: ru; q=0.8
+  Accept-Language: en-US; q=0.5
+  Accept-Language: en; q=0.3
+  Cookie: idsrv.xsrf=ijGnGojyGxFisjJRgOBN4FtzZTsDmC3uukDSqt3mke0RF531uN6CN-57OwSKvw5xdYPcnHrMCSZzqIkDQ1GLzNFB0zR3MZIjZND3BkXercA; idsvr.session=5bea1685cbf932898a084197811e0571; idsrv=z8zETKKnaybRd0NKLCfctl89x18kuTgazIeReVvpQMCOt7Q7BjN6kc_PZpKvqgg97fEWKng3RjfmXYe8Q7lC0fJahZI4BIlyh0qoVmvofanTUhES_j9mGTwR2Xfs9xnw-xZ1XjbmpQbdNm1qoNRD3-VdCm6oQTJS0YZj4TBWWmphAxN1S5ubMlYGjGB44bISSyo5IqNtWEuwfCFtN3pxYTKuNSxiLS7mV385y6_dAIORIFRMqqX1pBe083_N5Mvl55xIQvBms7ZDEPj08oV78BBrqayW8CtBTECCiO2RjBphvVaOaAUfxriSoCxx0h-4BSeGYQtJ20oL9f7tQivzQGYmTMtIIW7sPMp9eR7LEuEfHmDofI5BIpMujcXYah8p; OpenIdConnect.nonce.rfkSK%2FFuVgRimMNWfWEqPgjOGs6e1J9hMsvE7AXXL5Q%3D=MUxLbTBBZldHV3ZxV0d5NUhGTzVKcTFRQU5qcDNia3llY1A5enJDTW94djRtY3dmSldiQmhDVVlKUkVYMzRZQW9oLVJCOHEwa1Itb29TZVQ4V2w5MkRzT2x0QmdWWmw1bDNfZmhWdzBHYVI0dHVCeTNrTU1PODFiczM5WU1rU01jU29ZQzhvbzdFeHk3TVV2alJkZTQxWjF5VzQxdWo1elg5bVI2LUFkY0ZEYUFWR1BNcmlFTUQtbUl3UHF3a1lKQjJmcnZyUGVkb1dxZ3d3S2pNaXpPZ0hQQ1VqZ2NnX2VycHA3ZHJ3Rmk2WQ%3D%3D
+  Host: localhost:44301
+  Referer: https://localhost:44301/identity/login?signin=d61024fdc655bcb5bffa01194ff4832d
+  TE: trailers
+  User-Agent: Mozilla/5.0
+  User-Agent: (Windows NT 10.0; Win64; x64; rv:67.0)
+  User-Agent: Gecko/20100101
+  User-Agent: Firefox/67.0
+  dnt: 1
+  upgrade-insecure-requests: 1
+})'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:02:00.456 +03:00 [INF] Start authorize request
+2019-06-19 22:02:00.456 +03:00 [INF] Start authorize request protocol validation
+2019-06-19 22:02:00.463 +03:00 [INF] Authorize request validation success
+ {
+  "ClientId": "site1.mvc5",
+  "ClientName": "site1.mvc5",
+  "RedirectUri": "http://localhost:57161/",
+  "AllowedRedirectUris": [
+    "http://localhost:57161/"
+  ],
+  "SubjectId": "{370425E3-C52B-4508-80D8-F91A08BF97A4}",
+  "ResponseType": "code id_token token",
+  "ResponseMode": "form_post",
+  "Flow": "Hybrid",
+  "RequestedScopes": "openid profile",
+  "State": "OpenIdConnect.AuthenticationProperties=22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M",
+  "Nonce": "636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk",
+  "SessionId": "5bea1685cbf932898a084197811e0571",
+  "Raw": {
+    "client_id": "site1.mvc5",
+    "redirect_uri": "http://localhost:57161/",
+    "response_mode": "form_post",
+    "response_type": "code id_token token",
+    "scope": "openid profile",
+    "state": "OpenIdConnect.AuthenticationProperties=22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M",
+    "nonce": "636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk",
+    "x-client-SKU": "ID_NET451",
+    "x-client-ver": "5.3.0.0"
+  }
+}
+2019-06-19 22:02:00.491 +03:00 [INF] Creating Hybrid Flow response.
+2019-06-19 22:02:00.508 +03:00 [INF] Creating Implicit Flow response.
+2019-06-19 22:02:00.515 +03:00 [DBG] Creating access token
+2019-06-19 22:02:00.531 +03:00 [DBG] Creating JWT access token
+2019-06-19 22:02:00.651 +03:00 [DBG] Creating identity token
+2019-06-19 22:02:00.657 +03:00 [INF] Getting claims for identity token for subject: {370425E3-C52B-4508-80D8-F91A08BF97A4}
+2019-06-19 22:02:00.663 +03:00 [DBG] Creating JWT identity token
+2019-06-19 22:02:00.689 +03:00 [DBG] Adding client site1.mvc5 to client list cookie for subject {370425E3-C52B-4508-80D8-F91A08BF97A4}
+2019-06-19 22:02:00.694 +03:00 [INF] End authorize request
+2019-06-19 22:02:00.694 +03:00 [DBG] [2019-06-19T19:02:00.6941475Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='Action returned 'IdentityServer3.Core.Results.AuthorizeFormPostResult'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:02:00.698 +03:00 [INF] Posting to http://localhost:57161/
+2019-06-19 22:02:00.698 +03:00 [DBG] Using DefaultViewService to render authorization response HTML
+2019-06-19 22:02:00.705 +03:00 [DBG] [2019-06-19T19:02:00.7041431Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=ApiControllerActionInvoker.InvokeActionAsync, Status=200 (OK)
+2019-06-19 22:02:00.705 +03:00 [DBG] [2019-06-19T19:02:00.7051409Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='Action filter for 'Get(HttpRequestMessage request)'', Operation=SecurityHeadersAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:02:00.705 +03:00 [DBG] [2019-06-19T19:02:00.7051409Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=SecurityHeadersAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:02:00.706 +03:00 [DBG] [2019-06-19T19:02:00.7051409Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='Action filter for 'Get(HttpRequestMessage request)'', Operation=NoCacheAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:02:00.706 +03:00 [DBG] [2019-06-19T19:02:00.7061396Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=NoCacheAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:02:00.706 +03:00 [DBG] [2019-06-19T19:02:00.7061396Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=AuthorizeEndpointController.ExecuteAsync, Status=200 (OK)
+2019-06-19 22:02:00.707 +03:00 [DBG] [2019-06-19T19:02:00.7061396Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=PassiveAuthenticationMessageHandler.SendAsync, Status=200 (OK)
+2019-06-19 22:02:00.707 +03:00 [DBG] [2019-06-19T19:02:00.7071391Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=DependencyScopeHandler.SendAsync, Status=200 (OK)
+2019-06-19 22:02:00.707 +03:00 [DBG] [2019-06-19T19:02:00.7071391Z] Sending response, Status=200 (OK), Method=GET, Url=https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http:%2F%2Flocalhost:57161%2F&response_mode=form_post&response_type=code id_token token&scope=openid profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0, Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Message='Content-type='text/html; charset=utf-8', content-length=4741'
+2019-06-19 22:02:00.708 +03:00 [DBG] [2019-06-19T19:02:00.7081408Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=AuthorizeEndpointController.Dispose
+2019-06-19 22:02:00.709 +03:00 [DBG] [2019-06-19T19:02:00.7081408Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=6d59baa5-3e36-4dc7-a2c0-9b17f84a9466, Operation=AuthorizeEndpointController.Dispose
+2019-06-19 22:02:00.859 +03:00 [DBG] [2019-06-19T19:02:00.8593388Z] Request received, Method=POST, Url=https://localhost:44301/identity/csp/report, Id=5b552542-736b-49ec-8513-86b49cc7a328, Message='https://localhost:44301/identity/csp/report'
+2019-06-19 22:02:00.860 +03:00 [DBG] [2019-06-19T19:02:00.8603375Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=5b552542-736b-49ec-8513-86b49cc7a328, Operation=DependencyScopeHandler.SendAsync
+2019-06-19 22:02:00.860 +03:00 [DBG] [2019-06-19T19:02:00.8603375Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=5b552542-736b-49ec-8513-86b49cc7a328, Operation=PassiveAuthenticationMessageHandler.SendAsync
+2019-06-19 22:02:00.860 +03:00 [DBG] [2019-06-19T19:02:00.8603375Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=5b552542-736b-49ec-8513-86b49cc7a328, Message='Route='controller:CspReport'', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:02:00.861 +03:00 [DBG] [2019-06-19T19:02:00.8603375Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=5b552542-736b-49ec-8513-86b49cc7a328, Message='CspReport', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:02:00.861 +03:00 [DBG] [2019-06-19T19:02:00.8613368Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=5b552542-736b-49ec-8513-86b49cc7a328, Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:02:00.861 +03:00 [DBG] [2019-06-19T19:02:00.8613368Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=5b552542-736b-49ec-8513-86b49cc7a328, Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:02:00.862 +03:00 [DBG] [2019-06-19T19:02:00.8613368Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=5b552542-736b-49ec-8513-86b49cc7a328, Message='IdentityServer3.Core.Endpoints.CspReportController', Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:02:00.862 +03:00 [DBG] [2019-06-19T19:02:00.8623369Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=5b552542-736b-49ec-8513-86b49cc7a328, Message='IdentityServer3.Core.Endpoints.CspReportController', Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:02:00.862 +03:00 [DBG] [2019-06-19T19:02:00.8623369Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=5b552542-736b-49ec-8513-86b49cc7a328, Operation=CspReportController.ExecuteAsync
+2019-06-19 22:02:00.862 +03:00 [DBG] [2019-06-19T19:02:00.8623369Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=5b552542-736b-49ec-8513-86b49cc7a328, Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:02:00.863 +03:00 [DBG] [2019-06-19T19:02:00.8633362Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=5b552542-736b-49ec-8513-86b49cc7a328, Message='Selected action 'Post()'', Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:02:00.863 +03:00 [DBG] [2019-06-19T19:02:00.8633362Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=5b552542-736b-49ec-8513-86b49cc7a328, Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:02:00.864 +03:00 [DBG] [2019-06-19T19:02:00.8633362Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=5b552542-736b-49ec-8513-86b49cc7a328, Message='The authentication filter did not encounter an error or set a principal.', Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:02:00.864 +03:00 [DBG] [2019-06-19T19:02:00.8643369Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=5b552542-736b-49ec-8513-86b49cc7a328, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:02:00.865 +03:00 [DBG] [2019-06-19T19:02:00.8643369Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=5b552542-736b-49ec-8513-86b49cc7a328, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:02:00.865 +03:00 [DBG] [2019-06-19T19:02:00.8653390Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=5b552542-736b-49ec-8513-86b49cc7a328, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:02:00.865 +03:00 [DBG] [2019-06-19T19:02:00.8653390Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=5b552542-736b-49ec-8513-86b49cc7a328, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:02:00.866 +03:00 [DBG] [2019-06-19T19:02:00.8653390Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=5b552542-736b-49ec-8513-86b49cc7a328, Message='Action='Post()'', Operation=ApiControllerActionInvoker.InvokeActionAsync
+2019-06-19 22:02:00.866 +03:00 [DBG] [2019-06-19T19:02:00.8663372Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=5b552542-736b-49ec-8513-86b49cc7a328, Message='Invoking action 'Post()'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:02:00.866 +03:00 [INF] CSP Report endpoint requested
+2019-06-19 22:02:00.866 +03:00 [INF] CSP Report data: {"csp-report":{"blocked-uri":"inline","column-number":4153,"document-uri":"https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http%3A%2F%2Flocalhost%3A57161%2F&response_mode=form_post&response_type=code%20id_token%20token&scope=openid%20profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0","line-number":4,"original-policy":"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src *; report-uri https://localhost:44301/identity/csp/report","referrer":"https://localhost:44301/identity/login?signin=d61024fdc655bcb5bffa01194ff4832d","source-file":"https://localhost:44301/identity/connect/authorize?client_id=site1.mvc5&redirect_uri=http%3A%2F%2Flocalhost%3A57161%2F&response_mode=form_post&response_type=code%20id_token%20token&scope=openid%20profile&state=OpenIdConnect.AuthenticationProperties%3D22sZT8_x_gWWom5nPTnIHk7upnqwVfC20m5BUebw3Jj_0VnE5DvDST0djOz1j9ERH6duHmudz3bwbMCjjWb2s6IgAD4RuWW5zTQ3oMmk_e97nekUEnsVWWfRjynwi21_eAQFTPrrpe0871Muvz9bRMyPEMBneKtabYHD_fVm6PlGPiZSLS55SCInUeh41TvtL7GYu4TSFZyAcSpi7M6-xhobXe2gPcl7q1moBibEW_M&nonce=636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0","violated-directive":"script-src"}}
+2019-06-19 22:02:00.866 +03:00 [INF] Rendering 204
+2019-06-19 22:02:00.867 +03:00 [DBG] [2019-06-19T19:02:00.8663372Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=5b552542-736b-49ec-8513-86b49cc7a328, Message='Action returned 'System.Web.Http.Results.ResponseMessageResult'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:02:00.867 +03:00 [DBG] [2019-06-19T19:02:00.8673379Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=5b552542-736b-49ec-8513-86b49cc7a328, Operation=ApiControllerActionInvoker.InvokeActionAsync, Status=204 (NoContent)
+2019-06-19 22:02:00.867 +03:00 [DBG] [2019-06-19T19:02:00.8673379Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=5b552542-736b-49ec-8513-86b49cc7a328, Operation=CspReportController.ExecuteAsync, Status=204 (NoContent)
+2019-06-19 22:02:00.868 +03:00 [DBG] [2019-06-19T19:02:00.8673379Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=5b552542-736b-49ec-8513-86b49cc7a328, Operation=PassiveAuthenticationMessageHandler.SendAsync, Status=204 (NoContent)
+2019-06-19 22:02:00.868 +03:00 [DBG] [2019-06-19T19:02:00.8683369Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=5b552542-736b-49ec-8513-86b49cc7a328, Operation=DependencyScopeHandler.SendAsync, Status=204 (NoContent)
+2019-06-19 22:02:00.870 +03:00 [DBG] [2019-06-19T19:02:00.8683369Z] Sending response, Status=204 (NoContent), Method=POST, Url=https://localhost:44301/identity/csp/report, Id=5b552542-736b-49ec-8513-86b49cc7a328, Message='Content-type='none', content-length=unknown'
+2019-06-19 22:02:00.870 +03:00 [DBG] [2019-06-19T19:02:00.8703366Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=5b552542-736b-49ec-8513-86b49cc7a328, Operation=CspReportController.Dispose
+2019-06-19 22:02:00.871 +03:00 [DBG] [2019-06-19T19:02:00.8703366Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=5b552542-736b-49ec-8513-86b49cc7a328, Operation=CspReportController.Dispose
+2019-06-19 22:02:02.376 +03:00 [DBG] [2019-06-19T19:02:02.3760153Z] Request received, Method=POST, Url=https://localhost:44301/identity/connect/token, Id=047c2095-45f3-414c-a910-c0b90ed938fd, Message='https://localhost:44301/identity/connect/token'
+2019-06-19 22:02:02.376 +03:00 [DBG] [2019-06-19T19:02:02.3760153Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=DependencyScopeHandler.SendAsync
+2019-06-19 22:02:02.377 +03:00 [DBG] [2019-06-19T19:02:02.3760153Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=PassiveAuthenticationMessageHandler.SendAsync
+2019-06-19 22:02:02.377 +03:00 [DBG] [2019-06-19T19:02:02.3770128Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Message='Route='controller:TokenEndpoint,action:Post'', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:02:02.377 +03:00 [DBG] [2019-06-19T19:02:02.3770128Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Message='TokenEndpoint', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:02:02.378 +03:00 [DBG] [2019-06-19T19:02:02.3770128Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:02:02.378 +03:00 [DBG] [2019-06-19T19:02:02.3780133Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:02:02.386 +03:00 [DBG] [2019-06-19T19:02:02.3850106Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Message='IdentityServer3.Core.Endpoints.TokenEndpointController', Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:02:02.386 +03:00 [DBG] [2019-06-19T19:02:02.3860100Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Message='IdentityServer3.Core.Endpoints.TokenEndpointController', Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:02:02.387 +03:00 [DBG] [2019-06-19T19:02:02.3860100Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=TokenEndpointController.ExecuteAsync
+2019-06-19 22:02:02.388 +03:00 [DBG] [2019-06-19T19:02:02.3870091Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:02:02.388 +03:00 [DBG] [2019-06-19T19:02:02.3880142Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Message='Selected action 'Post()'', Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:02:02.389 +03:00 [DBG] [2019-06-19T19:02:02.3880142Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=PreventUnsupportedRequestMediaTypesAttribute.OnAuthorizationAsync
+2019-06-19 22:02:02.390 +03:00 [DBG] [2019-06-19T19:02:02.3890100Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=PreventUnsupportedRequestMediaTypesAttribute.OnAuthorizationAsync
+2019-06-19 22:02:02.390 +03:00 [DBG] [2019-06-19T19:02:02.3900090Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:02:02.391 +03:00 [DBG] [2019-06-19T19:02:02.3900090Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:02:02.391 +03:00 [DBG] [2019-06-19T19:02:02.3910104Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Message='Action filter for 'Post()'', Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:02:02.391 +03:00 [DBG] [2019-06-19T19:02:02.3910104Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:02:02.391 +03:00 [DBG] [2019-06-19T19:02:02.3910104Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Message='Action='Post()'', Operation=ApiControllerActionInvoker.InvokeActionAsync
+2019-06-19 22:02:02.392 +03:00 [DBG] [2019-06-19T19:02:02.3910104Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Message='Invoking action 'Post()'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:02:02.396 +03:00 [INF] Start token request
+2019-06-19 22:02:02.426 +03:00 [DBG] Start client validation
+2019-06-19 22:02:02.431 +03:00 [DBG] Start parsing Basic Authentication secret
+2019-06-19 22:02:02.431 +03:00 [DBG] Parser found secret: BasicAuthenticationSecretParser
+2019-06-19 22:02:02.431 +03:00 [INF] Secret id found: site1.mvc5
+2019-06-19 22:02:02.448 +03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2019-06-19 22:02:02.448 +03:00 [INF] Client validation success
+2019-06-19 22:02:02.457 +03:00 [INF] Start token request validation
+2019-06-19 22:02:02.466 +03:00 [INF] Start validation of authorization code token request
+2019-06-19 22:02:02.469 +03:00 [INF] Validation of authorization code token request success
+2019-06-19 22:02:02.479 +03:00 [INF] Token request validation success
+ {
+  "ClientId": "site1.mvc5",
+  "ClientName": "site1.mvc5",
+  "GrantType": "authorization_code",
+  "AuthorizationCode": "eefe521ebd5f703d839939945f8f6a24",
+  "Raw": {
+    "grant_type": "authorization_code",
+    "code": "eefe521ebd5f703d839939945f8f6a24",
+    "redirect_uri": "http://localhost:57161/"
+  }
+}
+2019-06-19 22:02:02.482 +03:00 [INF] Creating token response
+2019-06-19 22:02:02.485 +03:00 [INF] Processing authorization code request
+2019-06-19 22:02:02.489 +03:00 [DBG] Creating access token
+2019-06-19 22:02:02.489 +03:00 [DBG] Creating JWT access token
+2019-06-19 22:02:02.513 +03:00 [DBG] Creating identity token
+2019-06-19 22:02:02.513 +03:00 [INF] Getting claims for identity token for subject: {370425E3-C52B-4508-80D8-F91A08BF97A4}
+2019-06-19 22:02:02.516 +03:00 [DBG] Creating JWT identity token
+2019-06-19 22:02:02.539 +03:00 [INF] End token request
+2019-06-19 22:02:02.539 +03:00 [DBG] [2019-06-19T19:02:02.5397259Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Message='Action returned 'IdentityServer3.Core.Results.TokenResult'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:02:02.545 +03:00 [INF] Returning token response.
+2019-06-19 22:02:02.545 +03:00 [DBG] [2019-06-19T19:02:02.5457239Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=ApiControllerActionInvoker.InvokeActionAsync, Status=200 (OK)
+2019-06-19 22:02:02.546 +03:00 [DBG] [2019-06-19T19:02:02.5457239Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Message='Action filter for 'Post()'', Operation=NoCacheAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:02:02.546 +03:00 [DBG] [2019-06-19T19:02:02.5467236Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=NoCacheAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:02:02.546 +03:00 [DBG] [2019-06-19T19:02:02.5467236Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=TokenEndpointController.ExecuteAsync, Status=200 (OK)
+2019-06-19 22:02:02.546 +03:00 [DBG] [2019-06-19T19:02:02.5467236Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=PassiveAuthenticationMessageHandler.SendAsync, Status=200 (OK)
+2019-06-19 22:02:02.547 +03:00 [DBG] [2019-06-19T19:02:02.5467236Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=DependencyScopeHandler.SendAsync, Status=200 (OK)
+2019-06-19 22:02:02.547 +03:00 [DBG] [2019-06-19T19:02:02.5477232Z] Sending response, Status=200 (OK), Method=POST, Url=https://localhost:44301/identity/connect/token, Id=047c2095-45f3-414c-a910-c0b90ed938fd, Message='Content-type='application/json; charset=utf-8', content-length=1936'
+2019-06-19 22:02:02.548 +03:00 [DBG] [2019-06-19T19:02:02.5487215Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=TokenEndpointController.Dispose
+2019-06-19 22:02:02.548 +03:00 [DBG] [2019-06-19T19:02:02.5487215Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=047c2095-45f3-414c-a910-c0b90ed938fd, Operation=TokenEndpointController.Dispose
+2019-06-19 22:02:02.569 +03:00 [DBG] [2019-06-19T19:02:02.5685775Z] Request received, Method=GET, Url=https://localhost:44301/identity/connect/userinfo, Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Message='https://localhost:44301/identity/connect/userinfo'
+2019-06-19 22:02:02.569 +03:00 [DBG] [2019-06-19T19:02:02.5695813Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Operation=DependencyScopeHandler.SendAsync
+2019-06-19 22:02:02.570 +03:00 [DBG] [2019-06-19T19:02:02.5695813Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Operation=PassiveAuthenticationMessageHandler.SendAsync
+2019-06-19 22:02:02.570 +03:00 [DBG] [2019-06-19T19:02:02.5705842Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Message='Route='controller:UserInfoEndpoint'', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:02:02.571 +03:00 [DBG] [2019-06-19T19:02:02.5705842Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Message='UserInfoEndpoint', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:02:02.571 +03:00 [DBG] [2019-06-19T19:02:02.5715827Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:02:02.571 +03:00 [DBG] [2019-06-19T19:02:02.5715827Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:02:02.574 +03:00 [DBG] [2019-06-19T19:02:02.5745803Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Message='IdentityServer3.Core.Endpoints.UserInfoEndpointController', Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:02:02.575 +03:00 [DBG] [2019-06-19T19:02:02.5745803Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Message='IdentityServer3.Core.Endpoints.UserInfoEndpointController', Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:02:02.575 +03:00 [DBG] [2019-06-19T19:02:02.5755803Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Operation=UserInfoEndpointController.ExecuteAsync
+2019-06-19 22:02:02.575 +03:00 [DBG] [2019-06-19T19:02:02.5755803Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:02:02.575 +03:00 [DBG] [2019-06-19T19:02:02.5755803Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Message='Selected action 'GetUserInfo(HttpRequestMessage request)'', Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:02:02.576 +03:00 [DBG] [2019-06-19T19:02:02.5765795Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:02:02.576 +03:00 [DBG] [2019-06-19T19:02:02.5765795Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Message='Binding parameter 'request'', Operation=HttpRequestParameterBinding.ExecuteBindingAsync
+2019-06-19 22:02:02.577 +03:00 [DBG] [2019-06-19T19:02:02.5765795Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Message='Parameter 'request' bound to the value 'Method: GET, RequestUri: 'https://localhost:44301/identity/connect/userinfo', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:
+{
+  Accept: application/json
+  Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImEzck1VZ01Gdjl0UGNsTGE2eUYzekFrZnF1RSIsImtpZCI6ImEzck1VZ01Gdjl0UGNsTGE2eUYzekFrZnF1RSJ9.eyJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMwMS9pZGVudGl0eSIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzAxL2lkZW50aXR5L3Jlc291cmNlcyIsImV4cCI6MTU2MDk3NDUyMiwibmJmIjoxNTYwOTcwOTIyLCJjbGllbnRfaWQiOiJzaXRlMS5tdmM1Iiwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSJdLCJzdWIiOiJ7MzcwNDI1RTMtQzUyQi00NTA4LTgwRDgtRjkxQTA4QkY5N0E0fSIsImF1dGhfdGltZSI6MTU2MDk3MDkyMCwiaWRwIjoiaWRzcnYiLCJhbXIiOlsicGFzc3dvcmQiXX0.i07xfTMiDrCRl6iOI-0H30YmPDf6VGsMw2e_mzDomOkc9wWFLlb_k497YPZaoE1euW2ApMVkKv2oLNtBXhOAljGN9dl4wQ1YTgFg7OTK-awmT7QCJByHtHRL0eRR5pccOaQn5MoTl6Z7hHkcZoz2ymFsQQz-3ZVAfanEPVk1mExGzjLCcjrJvQsWXj7_tby_tW6Qo5o5bR_i6sqF4BR-O3ehN_XTthuHD67KOO63gz60LiU0BQ4r6EQPfNbizDXVYaro7Vzgvm5cyRqmgACagNfg0HSpwaZotFNyZVWzRtPGqypLqgCv7tsrkaEKtxFMhIiVver2v8zbrV3Cb4T3CA
+  Host: localhost:44301
+}'', Operation=HttpRequestParameterBinding.ExecuteBindingAsync
+2019-06-19 22:02:02.577 +03:00 [DBG] [2019-06-19T19:02:02.5775810Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Message='Model state is valid. Values: request=Method: GET, RequestUri: 'https://localhost:44301/identity/connect/userinfo', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:
+{
+  Accept: application/json
+  Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImEzck1VZ01Gdjl0UGNsTGE2eUYzekFrZnF1RSIsImtpZCI6ImEzck1VZ01Gdjl0UGNsTGE2eUYzekFrZnF1RSJ9.eyJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMwMS9pZGVudGl0eSIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzAxL2lkZW50aXR5L3Jlc291cmNlcyIsImV4cCI6MTU2MDk3NDUyMiwibmJmIjoxNTYwOTcwOTIyLCJjbGllbnRfaWQiOiJzaXRlMS5tdmM1Iiwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSJdLCJzdWIiOiJ7MzcwNDI1RTMtQzUyQi00NTA4LTgwRDgtRjkxQTA4QkY5N0E0fSIsImF1dGhfdGltZSI6MTU2MDk3MDkyMCwiaWRwIjoiaWRzcnYiLCJhbXIiOlsicGFzc3dvcmQiXX0.i07xfTMiDrCRl6iOI-0H30YmPDf6VGsMw2e_mzDomOkc9wWFLlb_k497YPZaoE1euW2ApMVkKv2oLNtBXhOAljGN9dl4wQ1YTgFg7OTK-awmT7QCJByHtHRL0eRR5pccOaQn5MoTl6Z7hHkcZoz2ymFsQQz-3ZVAfanEPVk1mExGzjLCcjrJvQsWXj7_tby_tW6Qo5o5bR_i6sqF4BR-O3ehN_XTthuHD67KOO63gz60LiU0BQ4r6EQPfNbizDXVYaro7Vzgvm5cyRqmgACagNfg0HSpwaZotFNyZVWzRtPGqypLqgCv7tsrkaEKtxFMhIiVver2v8zbrV3Cb4T3CA
+  Host: localhost:44301
+}', Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:02:02.577 +03:00 [DBG] [2019-06-19T19:02:02.5775810Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Message='Action filter for 'GetUserInfo(HttpRequestMessage request)'', Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:02:02.577 +03:00 [DBG] [2019-06-19T19:02:02.5775810Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:02:02.578 +03:00 [DBG] [2019-06-19T19:02:02.5785796Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Message='Action='GetUserInfo(request=Method: GET, RequestUri: 'https://localhost:44301/identity/connect/userinfo', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:
+{
+  Accept: application/json
+  Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImEzck1VZ01Gdjl0UGNsTGE2eUYzekFrZnF1RSIsImtpZCI6ImEzck1VZ01Gdjl0UGNsTGE2eUYzekFrZnF1RSJ9.eyJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMwMS9pZGVudGl0eSIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzAxL2lkZW50aXR5L3Jlc291cmNlcyIsImV4cCI6MTU2MDk3NDUyMiwibmJmIjoxNTYwOTcwOTIyLCJjbGllbnRfaWQiOiJzaXRlMS5tdmM1Iiwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSJdLCJzdWIiOiJ7MzcwNDI1RTMtQzUyQi00NTA4LTgwRDgtRjkxQTA4QkY5N0E0fSIsImF1dGhfdGltZSI6MTU2MDk3MDkyMCwiaWRwIjoiaWRzcnYiLCJhbXIiOlsicGFzc3dvcmQiXX0.i07xfTMiDrCRl6iOI-0H30YmPDf6VGsMw2e_mzDomOkc9wWFLlb_k497YPZaoE1euW2ApMVkKv2oLNtBXhOAljGN9dl4wQ1YTgFg7OTK-awmT7QCJByHtHRL0eRR5pccOaQn5MoTl6Z7hHkcZoz2ymFsQQz-3ZVAfanEPVk1mExGzjLCcjrJvQsWXj7_tby_tW6Qo5o5bR_i6sqF4BR-O3ehN_XTthuHD67KOO63gz60LiU0BQ4r6EQPfNbizDXVYaro7Vzgvm5cyRqmgACagNfg0HSpwaZotFNyZVWzRtPGqypLqgCv7tsrkaEKtxFMhIiVver2v8zbrV3Cb4T3CA
+  Host: localhost:44301
+})'', Operation=ApiControllerActionInvoker.InvokeActionAsync
+2019-06-19 22:02:02.578 +03:00 [DBG] [2019-06-19T19:02:02.5785796Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Message='Invoking action 'GetUserInfo(request=Method: GET, RequestUri: 'https://localhost:44301/identity/connect/userinfo', Version: 1.1, Content: System.Net.Http.StreamContent, Headers:
+{
+  Accept: application/json
+  Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImEzck1VZ01Gdjl0UGNsTGE2eUYzekFrZnF1RSIsImtpZCI6ImEzck1VZ01Gdjl0UGNsTGE2eUYzekFrZnF1RSJ9.eyJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMwMS9pZGVudGl0eSIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0MzAxL2lkZW50aXR5L3Jlc291cmNlcyIsImV4cCI6MTU2MDk3NDUyMiwibmJmIjoxNTYwOTcwOTIyLCJjbGllbnRfaWQiOiJzaXRlMS5tdmM1Iiwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSJdLCJzdWIiOiJ7MzcwNDI1RTMtQzUyQi00NTA4LTgwRDgtRjkxQTA4QkY5N0E0fSIsImF1dGhfdGltZSI6MTU2MDk3MDkyMCwiaWRwIjoiaWRzcnYiLCJhbXIiOlsicGFzc3dvcmQiXX0.i07xfTMiDrCRl6iOI-0H30YmPDf6VGsMw2e_mzDomOkc9wWFLlb_k497YPZaoE1euW2ApMVkKv2oLNtBXhOAljGN9dl4wQ1YTgFg7OTK-awmT7QCJByHtHRL0eRR5pccOaQn5MoTl6Z7hHkcZoz2ymFsQQz-3ZVAfanEPVk1mExGzjLCcjrJvQsWXj7_tby_tW6Qo5o5bR_i6sqF4BR-O3ehN_XTthuHD67KOO63gz60LiU0BQ4r6EQPfNbizDXVYaro7Vzgvm5cyRqmgACagNfg0HSpwaZotFNyZVWzRtPGqypLqgCv7tsrkaEKtxFMhIiVver2v8zbrV3Cb4T3CA
+  Host: localhost:44301
+})'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:02:02.583 +03:00 [INF] Start userinfo request
+2019-06-19 22:02:02.586 +03:00 [INF] Token found: AuthorizationHeader
+2019-06-19 22:02:02.593 +03:00 [INF] Start access token validation
+2019-06-19 22:02:02.662 +03:00 [INF] Token validation success
+{
+  "ValidateLifetime": true,
+  "AccessTokenType": "Jwt",
+  "ExpectedScope": "openid",
+  "Claims": {
+    "iss": "https://localhost:44301/identity",
+    "aud": "https://localhost:44301/identity/resources",
+    "exp": "1560974522",
+    "nbf": "1560970922",
+    "client_id": "site1.mvc5",
+    "scope": [
+      "openid",
+      "profile"
+    ],
+    "sub": "{370425E3-C52B-4508-80D8-F91A08BF97A4}",
+    "auth_time": "1560970920",
+    "idp": "idsrv",
+    "amr": "password"
+  }
+}
+2019-06-19 22:02:02.666 +03:00 [INF] Creating userinfo response
+2019-06-19 22:02:02.669 +03:00 [INF] Scopes in access token: openid profile
+2019-06-19 22:02:02.670 +03:00 [INF] Requested claim types: sub name family_name given_name middle_name nickname preferred_username profile picture website gender birthdate zoneinfo locale updated_at
+2019-06-19 22:02:02.674 +03:00 [INF] Profile service returned to the following claim types: name
+2019-06-19 22:02:02.674 +03:00 [INF] End userinfo request
+2019-06-19 22:02:02.675 +03:00 [DBG] [2019-06-19T19:02:02.6751027Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Message='Action returned 'IdentityServer3.Core.Results.UserInfoResult'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:02:02.677 +03:00 [INF] Returning userinfo response.
+2019-06-19 22:02:02.677 +03:00 [DBG] [2019-06-19T19:02:02.6771026Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Operation=ApiControllerActionInvoker.InvokeActionAsync, Status=200 (OK)
+2019-06-19 22:02:02.677 +03:00 [DBG] [2019-06-19T19:02:02.6771026Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Message='Action filter for 'GetUserInfo(HttpRequestMessage request)'', Operation=NoCacheAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:02:02.678 +03:00 [DBG] [2019-06-19T19:02:02.6771026Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Operation=NoCacheAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:02:02.678 +03:00 [DBG] [2019-06-19T19:02:02.6781015Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Operation=UserInfoEndpointController.ExecuteAsync, Status=200 (OK)
+2019-06-19 22:02:02.678 +03:00 [DBG] [2019-06-19T19:02:02.6781015Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Operation=PassiveAuthenticationMessageHandler.SendAsync, Status=200 (OK)
+2019-06-19 22:02:02.678 +03:00 [DBG] [2019-06-19T19:02:02.6781015Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Operation=DependencyScopeHandler.SendAsync, Status=200 (OK)
+2019-06-19 22:02:02.678 +03:00 [DBG] [2019-06-19T19:02:02.6781015Z] Sending response, Status=200 (OK), Method=GET, Url=https://localhost:44301/identity/connect/userinfo, Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Message='Content-type='application/json; charset=utf-8', content-length=unknown'
+2019-06-19 22:02:02.685 +03:00 [DBG] [2019-06-19T19:02:02.6850555Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Operation=UserInfoEndpointController.Dispose
+2019-06-19 22:02:02.685 +03:00 [DBG] [2019-06-19T19:02:02.6850555Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=916496e9-7433-458c-b0ed-9bf92c77a1c9, Operation=UserInfoEndpointController.Dispose
+2019-06-19 22:08:18.358 +03:00 [DBG] [2019-06-19T19:08:18.3581939Z] Request received, Method=GET, Url=https://localhost:44301/identity/connect/endsession?post_logout_redirect_uri=http:%2F%2Flocalhost:57161%2F&id_token_hint=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImEzck1VZ01Gdjl0UGNsTGE2eUYzekFrZnF1RSIsImtpZCI6ImEzck1VZ01Gdjl0UGNsTGE2eUYzekFrZnF1RSJ9.eyJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMwMS9pZGVudGl0eSIsImF1ZCI6InNpdGUxLm12YzUiLCJleHAiOjE1NjA5NzEyMjAsIm5iZiI6MTU2MDk3MDkyMCwibm9uY2UiOiI2MzY5NjU2NzcxMDYxMDU0MjQuTm1OallXWXhOR0V0TWpNM01TMDBPV1ZpTFdJNE16QXROekpsTmpOaE1ESmxZamRpWldZek1qQTVOall0TURSaU5DMDBORGsyTFRrNVl6UXRPVE5sTnpZMll6VmpaREZrIiwiaWF0IjoxNTYwOTcwOTIwLCJhdF9oYXNoIjoieEEtNHYwNjVDcnFsbEtYWXpaemkydyIsImNfaGFzaCI6InhHb2Y4dFlYdGlPUUR6b2diLUh4X1EiLCJzaWQiOiI1YmVhMTY4NWNiZjkzMjg5OGEwODQxOTc4MTFlMDU3MSIsInN1YiI6InszNzA0MjVFMy1DNTJCLTQ1MDgtODBEOC1GOTFBMDhCRjk3QTR9IiwiYXV0aF90aW1lIjoxNTYwOTcwOTIwLCJpZHAiOiJpZHNydiIsImFtciI6WyJwYXNzd29yZCJdfQ.YRcXj2EJQjQoOA2efrMzUf0zVq0oc92APuII6mR4IBDgq9WrD7RQSDKHfq-bZdr9e1GsJR5ygnaTi1qT9mA9p_i612SBuJlJbwNEX5qKl177MjXW1gibHUlTGtXZpnCA4cHbfzt_dlgnyUpQ1915O53d0GDcFQPaayl89f2CL-YODV1rjyZjGYFH9Tf44yd9tz5QGBsexUv9sv1z7K9YLKKAe228YyqwgDRGIZ6iV0tn3CWHkD0ieR7Y8pvHIOiicu_FJI-aPFWcbVBLEOHNel7uJwC0FCeFq4CGF-dqxygv3seqKtamErs1EkivlrV6toWia2M_w6qU1mtC4arx_A&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0, Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Message='https://localhost:44301/identity/connect/endsession?post_logout_redirect_uri=http:%2F%2Flocalhost:57161%2F&id_token_hint=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImEzck1VZ01Gdjl0UGNsTGE2eUYzekFrZnF1RSIsImtpZCI6ImEzck1VZ01Gdjl0UGNsTGE2eUYzekFrZnF1RSJ9.eyJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMwMS9pZGVudGl0eSIsImF1ZCI6InNpdGUxLm12YzUiLCJleHAiOjE1NjA5NzEyMjAsIm5iZiI6MTU2MDk3MDkyMCwibm9uY2UiOiI2MzY5NjU2NzcxMDYxMDU0MjQuTm1OallXWXhOR0V0TWpNM01TMDBPV1ZpTFdJNE16QXROekpsTmpOaE1ESmxZamRpWldZek1qQTVOall0TURSaU5DMDBORGsyTFRrNVl6UXRPVE5sTnpZMll6VmpaREZrIiwiaWF0IjoxNTYwOTcwOTIwLCJhdF9oYXNoIjoieEEtNHYwNjVDcnFsbEtYWXpaemkydyIsImNfaGFzaCI6InhHb2Y4dFlYdGlPUUR6b2diLUh4X1EiLCJzaWQiOiI1YmVhMTY4NWNiZjkzMjg5OGEwODQxOTc4MTFlMDU3MSIsInN1YiI6InszNzA0MjVFMy1DNTJCLTQ1MDgtODBEOC1GOTFBMDhCRjk3QTR9IiwiYXV0aF90aW1lIjoxNTYwOTcwOTIwLCJpZHAiOiJpZHNydiIsImFtciI6WyJwYXNzd29yZCJdfQ.YRcXj2EJQjQoOA2efrMzUf0zVq0oc92APuII6mR4IBDgq9WrD7RQSDKHfq-bZdr9e1GsJR5ygnaTi1qT9mA9p_i612SBuJlJbwNEX5qKl177MjXW1gibHUlTGtXZpnCA4cHbfzt_dlgnyUpQ1915O53d0GDcFQPaayl89f2CL-YODV1rjyZjGYFH9Tf44yd9tz5QGBsexUv9sv1z7K9YLKKAe228YyqwgDRGIZ6iV0tn3CWHkD0ieR7Y8pvHIOiicu_FJI-aPFWcbVBLEOHNel7uJwC0FCeFq4CGF-dqxygv3seqKtamErs1EkivlrV6toWia2M_w6qU1mtC4arx_A&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0'
+2019-06-19 22:08:18.359 +03:00 [DBG] [2019-06-19T19:08:18.3581939Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=DependencyScopeHandler.SendAsync
+2019-06-19 22:08:18.359 +03:00 [DBG] [2019-06-19T19:08:18.3591932Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=PassiveAuthenticationMessageHandler.SendAsync
+2019-06-19 22:08:18.359 +03:00 [DBG] [2019-06-19T19:08:18.3591932Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Message='Route='controller:EndSession,action:Logout'', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:08:18.360 +03:00 [DBG] [2019-06-19T19:08:18.3591932Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Message='EndSession', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:08:18.360 +03:00 [DBG] [2019-06-19T19:08:18.3601934Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:08:18.360 +03:00 [DBG] [2019-06-19T19:08:18.3601934Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:08:18.363 +03:00 [DBG] [2019-06-19T19:08:18.3631924Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Message='IdentityServer3.Core.Endpoints.EndSessionController', Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:08:18.364 +03:00 [DBG] [2019-06-19T19:08:18.3631924Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Message='IdentityServer3.Core.Endpoints.EndSessionController', Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:08:18.364 +03:00 [DBG] [2019-06-19T19:08:18.3641920Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=EndSessionController.ExecuteAsync
+2019-06-19 22:08:18.364 +03:00 [DBG] [2019-06-19T19:08:18.3641920Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:08:18.365 +03:00 [DBG] [2019-06-19T19:08:18.3641920Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Message='Selected action 'Logout()'', Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:08:18.365 +03:00 [DBG] [2019-06-19T19:08:18.3651912Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:08:18.365 +03:00 [DBG] [2019-06-19T19:08:18.3651912Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Message='The authentication filter did not encounter an error or set a principal.', Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:08:18.366 +03:00 [DBG] [2019-06-19T19:08:18.3651912Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:08:18.366 +03:00 [DBG] [2019-06-19T19:08:18.3661914Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:08:18.367 +03:00 [DBG] [2019-06-19T19:08:18.3661914Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:08:18.369 +03:00 [DBG] [2019-06-19T19:08:18.3671942Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:08:18.370 +03:00 [DBG] [2019-06-19T19:08:18.3691921Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Message='Action filter for 'Logout()'', Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:08:18.371 +03:00 [DBG] [2019-06-19T19:08:18.3701936Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:08:18.371 +03:00 [DBG] [2019-06-19T19:08:18.3711903Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Message='Action filter for 'Logout()'', Operation=SecurityHeadersAttribute.OnActionExecutingAsync
+2019-06-19 22:08:18.371 +03:00 [DBG] [2019-06-19T19:08:18.3711903Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=SecurityHeadersAttribute.OnActionExecutingAsync
+2019-06-19 22:08:18.372 +03:00 [DBG] [2019-06-19T19:08:18.3721923Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Message='Action='Logout()'', Operation=ApiControllerActionInvoker.InvokeActionAsync
+2019-06-19 22:08:18.372 +03:00 [DBG] [2019-06-19T19:08:18.3721923Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Message='Invoking action 'Logout()'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:08:18.377 +03:00 [INF] Start end session request
+2019-06-19 22:08:18.382 +03:00 [INF] Start end session request validation
+2019-06-19 22:08:18.389 +03:00 [INF] Start identity token validation
+2019-06-19 22:08:18.404 +03:00 [INF] Token validation success
+{
+  "ClientId": "site1.mvc5",
+  "ClientName": "site1.mvc5",
+  "ValidateLifetime": false,
+  "Claims": {
+    "iss": "https://localhost:44301/identity",
+    "aud": "site1.mvc5",
+    "exp": "1560971220",
+    "nbf": "1560970920",
+    "nonce": "636965677106105424.NmNjYWYxNGEtMjM3MS00OWViLWI4MzAtNzJlNjNhMDJlYjdiZWYzMjA5NjYtMDRiNC00NDk2LTk5YzQtOTNlNzY2YzVjZDFk",
+    "iat": "1560970920",
+    "at_hash": "xA-4v065CrqllKXYzZzi2w",
+    "c_hash": "xGof8tYXtiOQDzogb-Hx_Q",
+    "sid": "5bea1685cbf932898a084197811e0571",
+    "sub": "{370425E3-C52B-4508-80D8-F91A08BF97A4}",
+    "auth_time": "1560970920",
+    "idp": "idsrv",
+    "amr": "password"
+  }
+}
+2019-06-19 22:08:18.409 +03:00 [INF] End session request validation success
+{
+  "ClientId": "site1.mvc5",
+  "ClientName": "site1.mvc5",
+  "SubjectId": "unknown",
+  "PostLogOutUri": "http://localhost:57161/",
+  "Raw": {
+    "post_logout_redirect_uri": "http://localhost:57161/",
+    "id_token_hint": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImEzck1VZ01Gdjl0UGNsTGE2eUYzekFrZnF1RSIsImtpZCI6ImEzck1VZ01Gdjl0UGNsTGE2eUYzekFrZnF1RSJ9.eyJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMwMS9pZGVudGl0eSIsImF1ZCI6InNpdGUxLm12YzUiLCJleHAiOjE1NjA5NzEyMjAsIm5iZiI6MTU2MDk3MDkyMCwibm9uY2UiOiI2MzY5NjU2NzcxMDYxMDU0MjQuTm1OallXWXhOR0V0TWpNM01TMDBPV1ZpTFdJNE16QXROekpsTmpOaE1ESmxZamRpWldZek1qQTVOall0TURSaU5DMDBORGsyTFRrNVl6UXRPVE5sTnpZMll6VmpaREZrIiwiaWF0IjoxNTYwOTcwOTIwLCJhdF9oYXNoIjoieEEtNHYwNjVDcnFsbEtYWXpaemkydyIsImNfaGFzaCI6InhHb2Y4dFlYdGlPUUR6b2diLUh4X1EiLCJzaWQiOiI1YmVhMTY4NWNiZjkzMjg5OGEwODQxOTc4MTFlMDU3MSIsInN1YiI6InszNzA0MjVFMy1DNTJCLTQ1MDgtODBEOC1GOTFBMDhCRjk3QTR9IiwiYXV0aF90aW1lIjoxNTYwOTcwOTIwLCJpZHAiOiJpZHNydiIsImFtciI6WyJwYXNzd29yZCJdfQ.YRcXj2EJQjQoOA2efrMzUf0zVq0oc92APuII6mR4IBDgq9WrD7RQSDKHfq-bZdr9e1GsJR5ygnaTi1qT9mA9p_i612SBuJlJbwNEX5qKl177MjXW1gibHUlTGtXZpnCA4cHbfzt_dlgnyUpQ1915O53d0GDcFQPaayl89f2CL-YODV1rjyZjGYFH9Tf44yd9tz5QGBsexUv9sv1z7K9YLKKAe228YyqwgDRGIZ6iV0tn3CWHkD0ieR7Y8pvHIOiicu_FJI-aPFWcbVBLEOHNel7uJwC0FCeFq4CGF-dqxygv3seqKtamErs1EkivlrV6toWia2M_w6qU1mtC4arx_A",
+    "x-client-SKU": "ID_NET451",
+    "x-client-ver": "5.3.0.0"
+  }
+}
+2019-06-19 22:08:18.409 +03:00 [INF] End end session request
+2019-06-19 22:08:18.410 +03:00 [DBG] [2019-06-19T19:08:18.4101792Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Message='Action returned 'IdentityServer3.Core.Results.LogoutResult'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:08:18.412 +03:00 [INF] Redirecting to logout page
+2019-06-19 22:08:18.414 +03:00 [DBG] Protecting message: {"ClientId":"site1.mvc5","ReturnUrl":"http://localhost:57161/","Created":636965680984091777}
+2019-06-19 22:08:18.416 +03:00 [DBG] [2019-06-19T19:08:18.4151759Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=ApiControllerActionInvoker.InvokeActionAsync, Status=302 (Redirect)
+2019-06-19 22:08:18.416 +03:00 [DBG] [2019-06-19T19:08:18.4161768Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Message='Action filter for 'Logout()'', Operation=SecurityHeadersAttribute.OnActionExecutedAsync, Status=302 (Redirect)
+2019-06-19 22:08:18.416 +03:00 [DBG] [2019-06-19T19:08:18.4161768Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=SecurityHeadersAttribute.OnActionExecutedAsync, Status=302 (Redirect)
+2019-06-19 22:08:18.417 +03:00 [DBG] [2019-06-19T19:08:18.4161768Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Message='Action filter for 'Logout()'', Operation=NoCacheAttribute.OnActionExecutedAsync, Status=302 (Redirect)
+2019-06-19 22:08:18.417 +03:00 [DBG] [2019-06-19T19:08:18.4171780Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=NoCacheAttribute.OnActionExecutedAsync, Status=302 (Redirect)
+2019-06-19 22:08:18.418 +03:00 [DBG] [2019-06-19T19:08:18.4171780Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=EndSessionController.ExecuteAsync, Status=302 (Redirect)
+2019-06-19 22:08:18.418 +03:00 [DBG] [2019-06-19T19:08:18.4181764Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=PassiveAuthenticationMessageHandler.SendAsync, Status=302 (Redirect)
+2019-06-19 22:08:18.419 +03:00 [DBG] [2019-06-19T19:08:18.4181764Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=DependencyScopeHandler.SendAsync, Status=302 (Redirect)
+2019-06-19 22:08:18.420 +03:00 [DBG] [2019-06-19T19:08:18.4191745Z] Sending response, Status=302 (Redirect), Method=GET, Url=https://localhost:44301/identity/connect/endsession?post_logout_redirect_uri=http:%2F%2Flocalhost:57161%2F&id_token_hint=eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6ImEzck1VZ01Gdjl0UGNsTGE2eUYzekFrZnF1RSIsImtpZCI6ImEzck1VZ01Gdjl0UGNsTGE2eUYzekFrZnF1RSJ9.eyJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo0NDMwMS9pZGVudGl0eSIsImF1ZCI6InNpdGUxLm12YzUiLCJleHAiOjE1NjA5NzEyMjAsIm5iZiI6MTU2MDk3MDkyMCwibm9uY2UiOiI2MzY5NjU2NzcxMDYxMDU0MjQuTm1OallXWXhOR0V0TWpNM01TMDBPV1ZpTFdJNE16QXROekpsTmpOaE1ESmxZamRpWldZek1qQTVOall0TURSaU5DMDBORGsyTFRrNVl6UXRPVE5sTnpZMll6VmpaREZrIiwiaWF0IjoxNTYwOTcwOTIwLCJhdF9oYXNoIjoieEEtNHYwNjVDcnFsbEtYWXpaemkydyIsImNfaGFzaCI6InhHb2Y4dFlYdGlPUUR6b2diLUh4X1EiLCJzaWQiOiI1YmVhMTY4NWNiZjkzMjg5OGEwODQxOTc4MTFlMDU3MSIsInN1YiI6InszNzA0MjVFMy1DNTJCLTQ1MDgtODBEOC1GOTFBMDhCRjk3QTR9IiwiYXV0aF90aW1lIjoxNTYwOTcwOTIwLCJpZHAiOiJpZHNydiIsImFtciI6WyJwYXNzd29yZCJdfQ.YRcXj2EJQjQoOA2efrMzUf0zVq0oc92APuII6mR4IBDgq9WrD7RQSDKHfq-bZdr9e1GsJR5ygnaTi1qT9mA9p_i612SBuJlJbwNEX5qKl177MjXW1gibHUlTGtXZpnCA4cHbfzt_dlgnyUpQ1915O53d0GDcFQPaayl89f2CL-YODV1rjyZjGYFH9Tf44yd9tz5QGBsexUv9sv1z7K9YLKKAe228YyqwgDRGIZ6iV0tn3CWHkD0ieR7Y8pvHIOiicu_FJI-aPFWcbVBLEOHNel7uJwC0FCeFq4CGF-dqxygv3seqKtamErs1EkivlrV6toWia2M_w6qU1mtC4arx_A&x-client-SKU=ID_NET451&x-client-ver=5.3.0.0, Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Message='Content-type='none', content-length=unknown'
+2019-06-19 22:08:18.420 +03:00 [DBG] [2019-06-19T19:08:18.4201742Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=EndSessionController.Dispose
+2019-06-19 22:08:18.420 +03:00 [DBG] [2019-06-19T19:08:18.4201742Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=0f6e135c-dccb-4556-acba-9ae564a40a52, Operation=EndSessionController.Dispose
+2019-06-19 22:08:18.429 +03:00 [DBG] [2019-06-19T19:08:18.4291737Z] Request received, Method=GET, Url=https://localhost:44301/identity/logout?id=9a42706feed85dd08bca09b3e9cea3bd, Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='https://localhost:44301/identity/logout?id=9a42706feed85dd08bca09b3e9cea3bd'
+2019-06-19 22:08:18.430 +03:00 [DBG] [2019-06-19T19:08:18.4291737Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=DependencyScopeHandler.SendAsync
+2019-06-19 22:08:18.430 +03:00 [DBG] [2019-06-19T19:08:18.4301702Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=PassiveAuthenticationMessageHandler.SendAsync
+2019-06-19 22:08:18.430 +03:00 [DBG] [2019-06-19T19:08:18.4301702Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='Route='MS_SubRoutes:System.Web.Http.Routing.IHttpRouteData[]'', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:08:18.431 +03:00 [DBG] [2019-06-19T19:08:18.4301702Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='Authentication', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:08:18.431 +03:00 [DBG] [2019-06-19T19:08:18.4311704Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:08:18.431 +03:00 [DBG] [2019-06-19T19:08:18.4311704Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:08:18.432 +03:00 [DBG] [2019-06-19T19:08:18.4321718Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='IdentityServer3.Core.Endpoints.AuthenticationController', Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:08:18.432 +03:00 [DBG] [2019-06-19T19:08:18.4321718Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='IdentityServer3.Core.Endpoints.AuthenticationController', Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:08:18.433 +03:00 [DBG] [2019-06-19T19:08:18.4331694Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=AuthenticationController.ExecuteAsync
+2019-06-19 22:08:18.433 +03:00 [DBG] [2019-06-19T19:08:18.4331694Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:08:18.434 +03:00 [DBG] [2019-06-19T19:08:18.4331694Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='Selected action 'LogoutPrompt(String id)'', Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:08:18.436 +03:00 [DBG] [2019-06-19T19:08:18.4341701Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:08:18.437 +03:00 [DBG] [2019-06-19T19:08:18.4361696Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='The authentication filter did not encounter an error or set a principal.', Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:08:18.438 +03:00 [DBG] [2019-06-19T19:08:18.4371690Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:08:18.438 +03:00 [DBG] [2019-06-19T19:08:18.4381678Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:08:18.439 +03:00 [DBG] [2019-06-19T19:08:18.4381678Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=PreventUnsupportedRequestMediaTypesAttribute.OnAuthorizationAsync
+2019-06-19 22:08:18.439 +03:00 [DBG] [2019-06-19T19:08:18.4391697Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=PreventUnsupportedRequestMediaTypesAttribute.OnAuthorizationAsync
+2019-06-19 22:08:18.440 +03:00 [DBG] [2019-06-19T19:08:18.4391697Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:08:18.440 +03:00 [DBG] [2019-06-19T19:08:18.4401682Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='Binding parameter 'id'', Operation=ModelBinderParameterBinding.ExecuteBindingAsync
+2019-06-19 22:08:18.440 +03:00 [DBG] [2019-06-19T19:08:18.4401682Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='Parameter 'id' bound to the value '9a42706feed85dd08bca09b3e9cea3bd'', Operation=ModelBinderParameterBinding.ExecuteBindingAsync
+2019-06-19 22:08:18.441 +03:00 [DBG] [2019-06-19T19:08:18.4401682Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='Model state is valid. Values: id=9a42706feed85dd08bca09b3e9cea3bd', Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:08:18.441 +03:00 [DBG] [2019-06-19T19:08:18.4411672Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='Action filter for 'LogoutPrompt(String id)'', Operation=SecurityHeadersAttribute.OnActionExecutingAsync
+2019-06-19 22:08:18.441 +03:00 [DBG] [2019-06-19T19:08:18.4411672Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=SecurityHeadersAttribute.OnActionExecutingAsync
+2019-06-19 22:08:18.441 +03:00 [DBG] [2019-06-19T19:08:18.4411672Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='Action filter for 'LogoutPrompt(String id)'', Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:08:18.442 +03:00 [DBG] [2019-06-19T19:08:18.4411672Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:08:18.442 +03:00 [DBG] [2019-06-19T19:08:18.4421684Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='Action='LogoutPrompt(id=9a42706feed85dd08bca09b3e9cea3bd)'', Operation=ApiControllerActionInvoker.InvokeActionAsync
+2019-06-19 22:08:18.442 +03:00 [DBG] [2019-06-19T19:08:18.4421684Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='Invoking action 'LogoutPrompt(id=9a42706feed85dd08bca09b3e9cea3bd)'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:08:18.452 +03:00 [INF] Logout endpoint submitted
+2019-06-19 22:08:18.452 +03:00 [INF] Clearing cookies
+2019-06-19 22:08:18.462 +03:00 [INF] rendering logged out page
+2019-06-19 22:08:18.474 +03:00 [DBG] [2019-06-19T19:08:18.4731572Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='Action returned 'IdentityServer3.Core.Results.LoggedOutActionResult'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:08:18.482 +03:00 [DBG] [2019-06-19T19:08:18.4821540Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=ApiControllerActionInvoker.InvokeActionAsync, Status=200 (OK)
+2019-06-19 22:08:18.483 +03:00 [DBG] [2019-06-19T19:08:18.4821540Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='Action filter for 'LogoutPrompt(String id)'', Operation=NoCacheAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:08:18.483 +03:00 [DBG] [2019-06-19T19:08:18.4831529Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=NoCacheAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:08:18.484 +03:00 [DBG] [2019-06-19T19:08:18.4831529Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='Action filter for 'LogoutPrompt(String id)'', Operation=SecurityHeadersAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:08:18.486 +03:00 [DBG] [2019-06-19T19:08:18.4841529Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=SecurityHeadersAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:08:18.486 +03:00 [DBG] [2019-06-19T19:08:18.4861531Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=AuthenticationController.ExecuteAsync, Status=200 (OK)
+2019-06-19 22:08:18.488 +03:00 [DBG] [2019-06-19T19:08:18.4871548Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=PassiveAuthenticationMessageHandler.SendAsync, Status=200 (OK)
+2019-06-19 22:08:18.488 +03:00 [DBG] [2019-06-19T19:08:18.4881524Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=DependencyScopeHandler.SendAsync, Status=200 (OK)
+2019-06-19 22:08:18.489 +03:00 [DBG] [2019-06-19T19:08:18.4881524Z] Sending response, Status=200 (OK), Method=GET, Url=https://localhost:44301/identity/logout?id=9a42706feed85dd08bca09b3e9cea3bd, Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Message='Content-type='text/html; charset=utf-8', content-length=2382'
+2019-06-19 22:08:18.490 +03:00 [DBG] [2019-06-19T19:08:18.4901503Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=AuthenticationController.Dispose
+2019-06-19 22:08:18.491 +03:00 [DBG] [2019-06-19T19:08:18.4911509Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=fb912a28-c3e0-43a4-94c2-0a5d488d6961, Operation=AuthenticationController.Dispose
+2019-06-19 22:08:18.692 +03:00 [DBG] [2019-06-19T19:08:18.6920874Z] Request received, Method=POST, Url=https://localhost:44301/identity/csp/report, Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Message='https://localhost:44301/identity/csp/report'
+2019-06-19 22:08:18.693 +03:00 [DBG] [2019-06-19T19:08:18.6930872Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Operation=DependencyScopeHandler.SendAsync
+2019-06-19 22:08:18.693 +03:00 [DBG] [2019-06-19T19:08:18.6930872Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Operation=PassiveAuthenticationMessageHandler.SendAsync
+2019-06-19 22:08:18.693 +03:00 [DBG] [2019-06-19T19:08:18.6930872Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Message='Route='controller:CspReport'', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:08:18.694 +03:00 [DBG] [2019-06-19T19:08:18.6930872Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Message='CspReport', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:08:18.694 +03:00 [DBG] [2019-06-19T19:08:18.6940858Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:08:18.694 +03:00 [DBG] [2019-06-19T19:08:18.6940858Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:08:18.695 +03:00 [DBG] [2019-06-19T19:08:18.6940858Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Message='IdentityServer3.Core.Endpoints.CspReportController', Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:08:18.695 +03:00 [DBG] [2019-06-19T19:08:18.6950853Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Message='IdentityServer3.Core.Endpoints.CspReportController', Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:08:18.696 +03:00 [DBG] [2019-06-19T19:08:18.6950853Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Operation=CspReportController.ExecuteAsync
+2019-06-19 22:08:18.696 +03:00 [DBG] [2019-06-19T19:08:18.6960834Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:08:18.697 +03:00 [DBG] [2019-06-19T19:08:18.6960834Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Message='Selected action 'Post()'', Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:08:18.697 +03:00 [DBG] [2019-06-19T19:08:18.6970841Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:08:18.698 +03:00 [DBG] [2019-06-19T19:08:18.6970841Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Message='The authentication filter did not encounter an error or set a principal.', Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:08:18.698 +03:00 [DBG] [2019-06-19T19:08:18.6980828Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:08:18.698 +03:00 [DBG] [2019-06-19T19:08:18.6980828Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:08:18.699 +03:00 [DBG] [2019-06-19T19:08:18.6980828Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:08:18.699 +03:00 [DBG] [2019-06-19T19:08:18.6990826Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:08:18.700 +03:00 [DBG] [2019-06-19T19:08:18.6990826Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Message='Action='Post()'', Operation=ApiControllerActionInvoker.InvokeActionAsync
+2019-06-19 22:08:18.700 +03:00 [DBG] [2019-06-19T19:08:18.7000823Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Message='Invoking action 'Post()'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:08:18.700 +03:00 [INF] CSP Report endpoint requested
+2019-06-19 22:08:18.700 +03:00 [INF] CSP Report data: {"csp-report":{"blocked-uri":"inline","column-number":4153,"document-uri":"https://localhost:44301/identity/logout?id=9a42706feed85dd08bca09b3e9cea3bd","line-number":4,"original-policy":"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src *; report-uri https://localhost:44301/identity/csp/report","referrer":"http://localhost:57161/","source-file":"https://localhost:44301/identity/logout?id=9a42706feed85dd08bca09b3e9cea3bd","violated-directive":"script-src"}}
+2019-06-19 22:08:18.701 +03:00 [INF] Rendering 204
+2019-06-19 22:08:18.701 +03:00 [DBG] [2019-06-19T19:08:18.7010834Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Message='Action returned 'System.Web.Http.Results.ResponseMessageResult'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:08:18.702 +03:00 [DBG] [2019-06-19T19:08:18.7020827Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Operation=ApiControllerActionInvoker.InvokeActionAsync, Status=204 (NoContent)
+2019-06-19 22:08:18.702 +03:00 [DBG] [2019-06-19T19:08:18.7020827Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Operation=CspReportController.ExecuteAsync, Status=204 (NoContent)
+2019-06-19 22:08:18.703 +03:00 [DBG] [2019-06-19T19:08:18.7030818Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Operation=PassiveAuthenticationMessageHandler.SendAsync, Status=204 (NoContent)
+2019-06-19 22:08:18.703 +03:00 [DBG] [2019-06-19T19:08:18.7030818Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Operation=DependencyScopeHandler.SendAsync, Status=204 (NoContent)
+2019-06-19 22:08:18.704 +03:00 [DBG] [2019-06-19T19:08:18.7030818Z] Sending response, Status=204 (NoContent), Method=POST, Url=https://localhost:44301/identity/csp/report, Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Message='Content-type='none', content-length=unknown'
+2019-06-19 22:08:18.704 +03:00 [DBG] [2019-06-19T19:08:18.7040818Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Operation=CspReportController.Dispose
+2019-06-19 22:08:18.705 +03:00 [DBG] [2019-06-19T19:08:18.7040818Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=666a4af4-8e61-430d-ad14-5de8d020d52c, Operation=CspReportController.Dispose
+2019-06-19 22:08:18.792 +03:00 [DBG] [2019-06-19T19:08:18.7924409Z] Request received, Method=GET, Url=https://localhost:44301/identity/connect/endsessioncallback?sid=5bea1685cbf932898a084197811e0571, Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='https://localhost:44301/identity/connect/endsessioncallback?sid=5bea1685cbf932898a084197811e0571'
+2019-06-19 22:08:18.792 +03:00 [DBG] [2019-06-19T19:08:18.7924409Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=DependencyScopeHandler.SendAsync
+2019-06-19 22:08:18.793 +03:00 [DBG] [2019-06-19T19:08:18.7924409Z] Level=Info, Kind=Begin, Category='System.Web.Http.MessageHandlers', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=PassiveAuthenticationMessageHandler.SendAsync
+2019-06-19 22:08:18.793 +03:00 [DBG] [2019-06-19T19:08:18.7934452Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='Route='controller:EndSession,action:LogoutCallback'', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:08:18.793 +03:00 [DBG] [2019-06-19T19:08:18.7934452Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='EndSession', Operation=DefaultHttpControllerSelector.SelectController
+2019-06-19 22:08:18.794 +03:00 [DBG] [2019-06-19T19:08:18.7934452Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:08:18.794 +03:00 [DBG] [2019-06-19T19:08:18.7944388Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:08:18.795 +03:00 [DBG] [2019-06-19T19:08:18.7944388Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='IdentityServer3.Core.Endpoints.EndSessionController', Operation=DefaultHttpControllerActivator.Create
+2019-06-19 22:08:18.795 +03:00 [DBG] [2019-06-19T19:08:18.7954384Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='IdentityServer3.Core.Endpoints.EndSessionController', Operation=HttpControllerDescriptor.CreateController
+2019-06-19 22:08:18.795 +03:00 [DBG] [2019-06-19T19:08:18.7954384Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=EndSessionController.ExecuteAsync
+2019-06-19 22:08:18.795 +03:00 [DBG] [2019-06-19T19:08:18.7954384Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:08:18.795 +03:00 [DBG] [2019-06-19T19:08:18.7954384Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='Selected action 'LogoutCallback(String sid)'', Operation=ApiControllerActionSelector.SelectAction
+2019-06-19 22:08:18.796 +03:00 [DBG] [2019-06-19T19:08:18.7964377Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:08:18.796 +03:00 [DBG] [2019-06-19T19:08:18.7964377Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='The authentication filter did not encounter an error or set a principal.', Operation=HostAuthenticationAttribute.AuthenticateAsync
+2019-06-19 22:08:18.796 +03:00 [DBG] [2019-06-19T19:08:18.7964377Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:08:18.797 +03:00 [DBG] [2019-06-19T19:08:18.7964377Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=HostAuthenticationAttribute.ChallengeAsync
+2019-06-19 22:08:18.797 +03:00 [DBG] [2019-06-19T19:08:18.7974374Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:08:18.797 +03:00 [DBG] [2019-06-19T19:08:18.7974374Z] Level=Info, Kind=Begin, Category='System.Web.Http.ModelBinding', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='Binding parameter 'sid'', Operation=ModelBinderParameterBinding.ExecuteBindingAsync
+2019-06-19 22:08:18.797 +03:00 [DBG] [2019-06-19T19:08:18.7974374Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='Parameter 'sid' bound to the value '5bea1685cbf932898a084197811e0571'', Operation=ModelBinderParameterBinding.ExecuteBindingAsync
+2019-06-19 22:08:18.798 +03:00 [DBG] [2019-06-19T19:08:18.7974374Z] Level=Info, Kind=End, Category='System.Web.Http.ModelBinding', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='Model state is valid. Values: sid=5bea1685cbf932898a084197811e0571', Operation=HttpActionBinding.ExecuteBindingAsync
+2019-06-19 22:08:18.798 +03:00 [DBG] [2019-06-19T19:08:18.7984374Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='Action filter for 'LogoutCallback(String sid)'', Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:08:18.798 +03:00 [DBG] [2019-06-19T19:08:18.7984374Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=NoCacheAttribute.OnActionExecutingAsync
+2019-06-19 22:08:18.798 +03:00 [DBG] [2019-06-19T19:08:18.7984374Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='Action filter for 'LogoutCallback(String sid)'', Operation=SecurityHeadersAttribute.OnActionExecutingAsync
+2019-06-19 22:08:18.799 +03:00 [DBG] [2019-06-19T19:08:18.7984374Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=SecurityHeadersAttribute.OnActionExecutingAsync
+2019-06-19 22:08:18.799 +03:00 [DBG] [2019-06-19T19:08:18.7994367Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='Action='LogoutCallback(sid=5bea1685cbf932898a084197811e0571)'', Operation=ApiControllerActionInvoker.InvokeActionAsync
+2019-06-19 22:08:18.800 +03:00 [DBG] [2019-06-19T19:08:18.7994367Z] Level=Info, Kind=Begin, Category='System.Web.Http.Action', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='Invoking action 'LogoutCallback(sid=5bea1685cbf932898a084197811e0571)'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:08:18.804 +03:00 [INF] End session callback requested
+2019-06-19 22:08:18.812 +03:00 [DBG] No client end session iframe URLs
+2019-06-19 22:08:18.819 +03:00 [DBG] [2019-06-19T19:08:18.8183121Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='Action returned 'System.Web.Http.Results.ResponseMessageResult'', Operation=ReflectedHttpActionDescriptor.ExecuteAsync
+2019-06-19 22:08:18.819 +03:00 [DBG] [2019-06-19T19:08:18.8193116Z] Level=Info, Kind=End, Category='System.Web.Http.Action', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=ApiControllerActionInvoker.InvokeActionAsync, Status=200 (OK)
+2019-06-19 22:08:18.819 +03:00 [DBG] [2019-06-19T19:08:18.8193116Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='Action filter for 'LogoutCallback(String sid)'', Operation=SecurityHeadersAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:08:18.820 +03:00 [DBG] [2019-06-19T19:08:18.8193116Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=SecurityHeadersAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:08:18.820 +03:00 [DBG] [2019-06-19T19:08:18.8203105Z] Level=Info, Kind=Begin, Category='System.Web.Http.Filters', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='Action filter for 'LogoutCallback(String sid)'', Operation=NoCacheAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:08:18.820 +03:00 [DBG] [2019-06-19T19:08:18.8203105Z] Level=Info, Kind=End, Category='System.Web.Http.Filters', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=NoCacheAttribute.OnActionExecutedAsync, Status=200 (OK)
+2019-06-19 22:08:18.821 +03:00 [DBG] [2019-06-19T19:08:18.8203105Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=EndSessionController.ExecuteAsync, Status=200 (OK)
+2019-06-19 22:08:18.821 +03:00 [DBG] [2019-06-19T19:08:18.8213114Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=PassiveAuthenticationMessageHandler.SendAsync, Status=200 (OK)
+2019-06-19 22:08:18.821 +03:00 [DBG] [2019-06-19T19:08:18.8213114Z] Level=Info, Kind=End, Category='System.Web.Http.MessageHandlers', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=DependencyScopeHandler.SendAsync, Status=200 (OK)
+2019-06-19 22:08:18.822 +03:00 [DBG] [2019-06-19T19:08:18.8213114Z] Sending response, Status=200 (OK), Method=GET, Url=https://localhost:44301/identity/connect/endsessioncallback?sid=5bea1685cbf932898a084197811e0571, Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Message='Content-type='text/html; charset=utf-8', content-length=178'
+2019-06-19 22:08:18.823 +03:00 [DBG] [2019-06-19T19:08:18.8223096Z] Level=Info, Kind=Begin, Category='System.Web.Http.Controllers', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=EndSessionController.Dispose
+2019-06-19 22:08:18.823 +03:00 [DBG] [2019-06-19T19:08:18.8233099Z] Level=Info, Kind=End, Category='System.Web.Http.Controllers', Id=72794cf3-d62d-4783-8d4e-d61c515d1b3b, Operation=EndSessionController.Dispose

@@ -13,6 +13,8 @@
 
         Task<IdSrvClientDTO> GetByIdAsync(Guid id);
 
+        Task<IdSrvClientDTO> GetByNameAsync(string clientName);
+
         Task<RepositoryResponse> DeleteAsync(Guid id);
 
         Task<RepositoryResponse> CreateAsync(NewIdSrvClientDTO app);

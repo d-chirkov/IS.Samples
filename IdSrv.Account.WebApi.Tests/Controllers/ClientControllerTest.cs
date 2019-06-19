@@ -69,6 +69,48 @@
         }
 
         [Test]
+        public async Task GetByName_ReturnBadRequest_When_PassingNullName()
+        {
+            this.ClientRepository.Setup(v => v.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(null as IdSrvClientDTO);
+            var controller = new ClientController(this.ClientRepository.Object);
+            IHttpActionResult httpResult = await controller.GetByName(null);
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<BadRequestResult>(httpResult);
+        }
+
+        [Test]
+        public async Task GetByName_InvokeGetByNameFromRepository_With_PassedName()
+        {
+            this.ClientRepository.Setup(v => v.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(new IdSrvClientDTO());
+            var controller = new ClientController(this.ClientRepository.Object);
+            var name = "n";
+            await controller.GetByName(name);
+            this.ClientRepository.Verify(v => v.GetByNameAsync(name));
+        }
+
+        [Test]
+        public async Task GetByName_ReturnOkWithClientReceivedFromRepository_When_RepositoryReturnNotNull()
+        {
+            var client = new IdSrvClientDTO();
+            this.ClientRepository.Setup(v => v.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(client);
+            var controller = new ClientController(this.ClientRepository.Object);
+            IHttpActionResult httpResult = await controller.GetByName("n");
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<OkNegotiatedContentResult<IdSrvClientDTO>>(httpResult);
+            Assert.AreEqual(client, (httpResult as OkNegotiatedContentResult<IdSrvClientDTO>).Content);
+        }
+
+        [Test]
+        public async Task GetByName_ReturnNotFound_When_RepositoryReturnNull()
+        {
+            this.ClientRepository.Setup(v => v.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(null as IdSrvClientDTO);
+            var controller = new ClientController(this.ClientRepository.Object);
+            IHttpActionResult httpResult = await controller.GetByName("n1");
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<NotFoundResult>(httpResult);
+        }
+
+        [Test]
         public async Task GetAll_InvokeGetAllFromClientRepository()
         {
             this.ClientRepository.Setup(v => v.GetAllAsync()).ReturnsAsync(new List<IdSrvClientDTO>());
