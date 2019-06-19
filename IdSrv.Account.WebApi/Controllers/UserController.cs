@@ -9,7 +9,7 @@
     using IdSrv.Account.WebApi.Infrastructure.Abstractions;
     using IdSrv.Account.WebApi.Infrastructure.Exceptions;
 
-    [RoutePrefix("api/User")]
+    [RoutePrefix("Api/User")]
     public class UserController : ApiController
     {
         private IUserRepository UserRepository { get; set; }

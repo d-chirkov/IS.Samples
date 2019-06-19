@@ -69,7 +69,7 @@
         }
 
         [Test]
-        public async Task GetAll_InvokeGetAllFromRepository()
+        public async Task GetAll_InvokeGetAllFromUserRepository()
         {
             this.UserRepository.Setup(v => v.GetAllAsync()).ReturnsAsync(new List<IdSrvUserDTO>());
             var controller = new UserController(this.UserRepository.Object);
@@ -136,18 +136,6 @@
         }
 
         [Test]
-        public async Task Create_ReturnBadRequest_When_PassingNull()
-        {
-            this.UserRepository
-                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvUserDTO>()))
-                .ReturnsAsync(RepositoryResponse.Conflict);
-            var controller = new UserController(this.UserRepository.Object);
-            IHttpActionResult httpResult = await controller.Create(null);
-            Assert.NotNull(httpResult);
-            Assert.IsInstanceOf<BadRequestResult>(httpResult);
-        }
-
-        [Test]
         public async Task Create_ReturnOk_When_PassingDtoWithUsernameAndPassword_And_RepositoryReturnSuccess()
         {
             this.UserRepository
@@ -174,7 +162,7 @@
         }
 
         [Test]
-        public async Task Create_InvokeCreateFromRepository_With_PassedUser_When_PassingUserWithPassword()
+        public async Task Create_InvokeCreateFromRepository_With_PassedDto_When_PassingUserWithPassword()
         {
             this.UserRepository
                 .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvUserDTO>()))
@@ -427,16 +415,6 @@
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<NotFoundResult>(httpResult);
         }
-
-
-
-
-
-
-
-
-
-
 
         [Test]
         public async Task ChangeBlocking_ReturnBadRequest_When_PassingNull()

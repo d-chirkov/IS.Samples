@@ -24,7 +24,7 @@
         public async Task<IEnumerable<IdSrvUserDTO>> GetUsersAsync()
         {
             IEnumerable<IdSrvUserDTO> users = null;
-            HttpResponseMessage response = await this.Client.GetAsync("api/User/GetAll");
+            HttpResponseMessage response = await this.Client.GetAsync("Api/User/GetAll");
             if (response.IsSuccessStatusCode)
             {
                 users = await response.Content.ReadAsAsync<IEnumerable<IdSrvUserDTO>>();
@@ -34,25 +34,25 @@
 
         public async Task<bool> ChangePasswordForUserAsync(IdSrvUserPasswordDTO passwords)
         {
-            HttpResponseMessage response = await this.Client.PostAsJsonAsync("api/User/ChangePassword", passwords);
+            HttpResponseMessage response = await this.Client.PostAsJsonAsync("Api/User/ChangePassword", passwords);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> CreateUserAsync(NewIdSrvUserDTO newUser)
         {
-            HttpResponseMessage response = await this.Client.PutAsJsonAsync("api/User", newUser);
+            HttpResponseMessage response = await this.Client.PutAsJsonAsync("Api/User", newUser);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> DeleteUserAsync(Guid id)
         {
-            HttpResponseMessage response = await this.Client.DeleteAsync($"api/User/{id.ToString()}");
+            HttpResponseMessage response = await this.Client.DeleteAsync($"Api/User/{id.ToString()}");
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> ChangeBlock(IdSrvUserBlockDTO block)
         {
-            HttpResponseMessage response = await this.Client.PostAsJsonAsync("api/User/ChangeBlocking", block);
+            HttpResponseMessage response = await this.Client.PostAsJsonAsync("Api/User/ChangeBlocking", block);
             return response.IsSuccessStatusCode;
         }
     }

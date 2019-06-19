@@ -147,6 +147,7 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -154,6 +155,7 @@
     <Compile Include="Infrastructure\Abstractions\IClientRepository.cs" />
     <Compile Include="Infrastructure\Abstractions\IRepositoryConnection.cs" />
     <Compile Include="Infrastructure\Abstractions\IUserRepository.cs" />
+    <Compile Include="Infrastructure\Exceptions\ClientRepositoryException.cs" />
     <Compile Include="Infrastructure\Exceptions\UserRepositoryException.cs" />
     <Compile Include="Infrastructure\RepositoryResponse.cs" />
     <Compile Include="Infrastructure\SqlCeConnectionFactory.cs" />

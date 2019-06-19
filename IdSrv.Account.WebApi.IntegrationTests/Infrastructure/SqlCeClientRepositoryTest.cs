@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-    using System.Security.Cryptography;
     using System.Threading.Tasks;
     using IdSrv.Account.Models;
     using IdSrv.Account.WebApi.Infrastructure;

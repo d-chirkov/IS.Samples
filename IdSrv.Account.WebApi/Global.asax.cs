@@ -24,6 +24,10 @@
                 .RegisterType<SqlCeUserRepository>()
                 .As<IUserRepository>()
                 .InstancePerRequest();
+            builder
+                .RegisterType<SqlCeClientRepository>()
+                .As<IClientRepository>()
+                .InstancePerRequest();
 
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
