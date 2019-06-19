@@ -11,43 +11,43 @@
 
     public class RestUserService : IUserService
     {
-        public HttpClient Client { get; set; }
+        private HttpClient HttpClient { get; set; }
 
         public RestUserService(string restServiceUri)
         {
-            this.Client = new HttpClient();
-            this.Client.BaseAddress = new Uri(restServiceUri);
-            this.Client.DefaultRequestHeaders.Accept.Clear();
-            this.Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            this.HttpClient = new HttpClient();
+            this.HttpClient.BaseAddress = new Uri(restServiceUri);
+            this.HttpClient.DefaultRequestHeaders.Accept.Clear();
+            this.HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         public async Task<IEnumerable<IdSrvUserDTO>> GetUsersAsync()
         {
-            HttpResponseMessage response = await this.Client.GetAsync("GetAll");
+            HttpResponseMessage response = await this.HttpClient.GetAsync("GetAll");
             return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IEnumerable<IdSrvUserDTO>>() : null;
         }
 
         public async Task<bool> ChangePasswordForUserAsync(IdSrvUserPasswordDTO passwords)
         {
-            HttpResponseMessage response = await this.Client.PostAsJsonAsync("ChangePassword", passwords);
+            HttpResponseMessage response = await this.HttpClient.PostAsJsonAsync("ChangePassword", passwords);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> CreateUserAsync(NewIdSrvUserDTO newUser)
         {
-            HttpResponseMessage response = await this.Client.PutAsJsonAsync("", newUser);
+            HttpResponseMessage response = await this.HttpClient.PutAsJsonAsync("", newUser);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> DeleteUserAsync(Guid id)
         {
-            HttpResponseMessage response = await this.Client.DeleteAsync($"{id.ToString()}");
+            HttpResponseMessage response = await this.HttpClient.DeleteAsync($"{id.ToString()}");
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> ChangeBlock(IdSrvUserBlockDTO block)
         {
-            HttpResponseMessage response = await this.Client.PostAsJsonAsync("ChangeBlocking", block);
+            HttpResponseMessage response = await this.HttpClient.PostAsJsonAsync("ChangeBlocking", block);
             return response.IsSuccessStatusCode;
         }
     }

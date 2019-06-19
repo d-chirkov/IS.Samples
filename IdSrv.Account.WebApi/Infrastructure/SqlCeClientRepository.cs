@@ -34,6 +34,20 @@
             }
         }
 
+        public async Task<IEnumerable<string>> GetAllUrisAsync()
+        {
+            using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                return await db
+                    .Query("Clients")
+                    .Select("Uri")
+                    .WhereNotNull("Uri")
+                    .GetAsync<string>();
+            }
+        }
+
         public async Task<IdSrvClientDTO> GetByIdAsync(Guid id)
         {
             using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())

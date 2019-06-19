@@ -145,6 +145,41 @@
         }
 
         [Test]
+        public async Task GetAllUrisAsync_ReturnAllUris_When_Invoked()
+        {
+            await this.InsertDefaultClient(1);
+            await this.InsertDefaultClient(2, false);
+            await this.InsertDefaultClient(3);
+            var repository = new SqlCeClientRepository(this.ConnectionFactory);
+            IEnumerable<string> uris = await repository.GetAllUrisAsync();
+            Assert.IsNotNull(uris);
+            Assert.AreEqual(2, uris.Count());
+            Assert.Contains("u1", uris.ToList());
+            Assert.Contains("u3", uris.ToList());
+        }
+
+        [Test]
+        public async Task GetAllUrisAsync_ReturnEmptyList_When_NoClientInDb()
+        {
+            var repository = new SqlCeClientRepository(this.ConnectionFactory);
+            IEnumerable<string> uris = await repository.GetAllUrisAsync();
+            Assert.IsNotNull(uris);
+            Assert.AreEqual(0, uris.Count());
+        }
+
+        [Test]
+        public async Task GetAllUrisAsync_ReturnEmptyList_When_NoClientWithUriInDb()
+        {
+            await this.InsertDefaultClient(1, false);
+            await this.InsertDefaultClient(2, false);
+            await this.InsertDefaultClient(3, false);
+            var repository = new SqlCeClientRepository(this.ConnectionFactory);
+            IEnumerable<string> uris = await repository.GetAllUrisAsync();
+            Assert.IsNotNull(uris);
+            Assert.AreEqual(0, uris.Count());
+        }
+
+        [Test]
         public async Task GetByIdAsync_ReturnClient_When_PassingExistingId_And_ClientInDbContainsUri()
         {
             Guid id = await this.InsertDefaultClient(1);

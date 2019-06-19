@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdSrv.Account.WebApi.Tests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdSrv.Account.WebApi.IntegrationTests", "IdSrv.Account.WebApi.IntegrationTests\IdSrv.Account.WebApi.IntegrationTests.csproj", "{7FCFBE65-56F5-4ACF-8DD8-7C56EC2D5BE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdSrv.Server", "IdSrv.Server\IdSrv.Server.csproj", "{51202867-20BC-4148-AFF5-35D00DD8C54B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -209,6 +211,18 @@ Global
 		{7FCFBE65-56F5-4ACF-8DD8-7C56EC2D5BE9}.Release|x64.Build.0 = Release|Any CPU
 		{7FCFBE65-56F5-4ACF-8DD8-7C56EC2D5BE9}.Release|x86.ActiveCfg = Release|Any CPU
 		{7FCFBE65-56F5-4ACF-8DD8-7C56EC2D5BE9}.Release|x86.Build.0 = Release|Any CPU
+		{51202867-20BC-4148-AFF5-35D00DD8C54B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51202867-20BC-4148-AFF5-35D00DD8C54B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51202867-20BC-4148-AFF5-35D00DD8C54B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{51202867-20BC-4148-AFF5-35D00DD8C54B}.Debug|x64.Build.0 = Debug|Any CPU
+		{51202867-20BC-4148-AFF5-35D00DD8C54B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{51202867-20BC-4148-AFF5-35D00DD8C54B}.Debug|x86.Build.0 = Debug|Any CPU
+		{51202867-20BC-4148-AFF5-35D00DD8C54B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51202867-20BC-4148-AFF5-35D00DD8C54B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51202867-20BC-4148-AFF5-35D00DD8C54B}.Release|x64.ActiveCfg = Release|Any CPU
+		{51202867-20BC-4148-AFF5-35D00DD8C54B}.Release|x64.Build.0 = Release|Any CPU
+		{51202867-20BC-4148-AFF5-35D00DD8C54B}.Release|x86.ActiveCfg = Release|Any CPU
+		{51202867-20BC-4148-AFF5-35D00DD8C54B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

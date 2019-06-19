@@ -9,6 +9,8 @@
     {
         Task<IEnumerable<IdSrvClientDTO>> GetAllAsync();
 
+        Task<IEnumerable<string>> GetAllUrisAsync();
+
         Task<IdSrvClientDTO> GetByIdAsync(Guid id);
 
         Task<RepositoryResponse> DeleteAsync(Guid id);

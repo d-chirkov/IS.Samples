@@ -112,6 +112,49 @@
         }
 
         [Test]
+        public async Task GetAllUris_InvokeGetAllUrisFromClientRepository()
+        {
+            this.ClientRepository.Setup(v => v.GetAllUrisAsync()).ReturnsAsync(new List<string>());
+            var controller = new ClientController(this.ClientRepository.Object);
+            await controller.GetAllUris();
+            this.ClientRepository.Verify(v => v.GetAllUrisAsync());
+        }
+
+        [Test]
+        public async Task GetAllUris_ReturnOkWithUrisReceivedFromRepository_When_RepositoryReturnNotNull()
+        {
+            var uris = new List<string> { "a", "b" };
+            this.ClientRepository.Setup(v => v.GetAllUrisAsync()).ReturnsAsync(uris);
+            var controller = new ClientController(this.ClientRepository.Object);
+            IHttpActionResult httpResult = await controller.GetAllUris();
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<OkNegotiatedContentResult<IEnumerable<string>>>(httpResult);
+            Assert.AreEqual(uris, (httpResult as OkNegotiatedContentResult<IEnumerable<string>>).Content);
+        }
+
+        [Test]
+        public async Task GetAllUris_ReturnOkWithEmptyUrisList_When_RepositoryReturnNotNullEmptyUrisList()
+        {
+            var uris = new List<string> { };
+            this.ClientRepository.Setup(v => v.GetAllUrisAsync()).ReturnsAsync(uris);
+            var controller = new ClientController(this.ClientRepository.Object);
+            IHttpActionResult httpResult = await controller.GetAllUris();
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<OkNegotiatedContentResult<IEnumerable<string>>>(httpResult);
+            Assert.AreEqual(uris, (httpResult as OkNegotiatedContentResult<IEnumerable<string>>).Content);
+        }
+
+        [Test]
+        public async Task GetAllUris_ReturnNotFound_When_RepositoryReturnNull()
+        {
+            this.ClientRepository.Setup(v => v.GetAllUrisAsync()).ReturnsAsync(null as IEnumerable<string>);
+            var controller = new ClientController(this.ClientRepository.Object);
+            IHttpActionResult httpResult = await controller.GetAllUris();
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<NotFoundResult>(httpResult);
+        }
+
+        [Test]
         public async Task Create_ReturnBadRequest_When_PassingNullDto()
         {
             this.ClientRepository

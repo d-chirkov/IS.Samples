@@ -28,6 +28,14 @@
         }
 
         [HttpGet]
+        [Route("GetAllUris")]
+        public async Task<IHttpActionResult> GetAllUris()
+        {
+            IEnumerable<string> uris = await this.ClientRepository.GetAllUrisAsync();
+            return uris != null ? this.Ok(uris) : this.NotFound() as IHttpActionResult;
+        }
+
+        [HttpGet]
         public async Task<IHttpActionResult> Get(Guid id)
         {
             IdSrvClientDTO client = await this.ClientRepository.GetByIdAsync(id);
