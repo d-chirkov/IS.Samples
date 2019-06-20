@@ -1,10 +1,4 @@
-﻿using IdSrv.Server;
-using Microsoft.Owin;
-
-// Сервер аутентификации является OWIN-based, добавляем ссылку
-[assembly: OwinStartup(typeof(Startup))]
-
-namespace IdSrv.Server.Services
+﻿namespace IdSrv.Server.Services
 {
     using IdentityServer3.Core.Models;
     using IdentityServer3.Core.Services.Default;
@@ -12,7 +6,7 @@ namespace IdSrv.Server.Services
     using System.IO;
     using System.Threading.Tasks;
 
-    public class CustomViewService : DefaultViewService
+    internal class CustomViewService : DefaultViewService
     {
         public CustomViewService(DefaultViewServiceOptions config, IViewLoader viewLoader)
             : base(config, viewLoader)

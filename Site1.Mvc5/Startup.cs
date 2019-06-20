@@ -52,6 +52,7 @@ namespace Site1.Mvc5
                 .UseCookieAuthentication(new CookieAuthenticationOptions
                 {
                     AuthenticationType = "Cookies",
+                    ExpireTimeSpan = TimeSpan.FromMinutes(14)
                 })
                 .UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
                 {
@@ -74,6 +75,7 @@ namespace Site1.Mvc5
                     PostLogoutRedirectUri = ownUri,
                     SignInAsAuthenticationType = "Cookies",
                     UseTokenLifetime = false,
+
                     // Фактически обработчики различных событий
                     Notifications = new OpenIdConnectAuthenticationNotifications()
                     {

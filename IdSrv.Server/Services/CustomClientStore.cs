@@ -3,33 +3,27 @@
     using IdentityServer3.Core.Models;
     using IdentityServer3.Core.Services;
     using IdSrv.Account.Models;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Net.Http;
-    using System.Net.Http.Headers;
     using System.Threading.Tasks;
-    using System.Web;
+    using IdSrv.Server.Repositories.Abstractions;
 
-    public class RestClientStore : IClientStore
+    internal class CustomClientStore : IClientStore
     {
         private bool IsWindowsAuth { get; set; }
 
-        private HttpClient HttpClient { get; set; }
+        private IClientRepository ClientRepository { get; set; }
 
-        public RestClientStore(string restServiceUri, bool isWindowsAuth = false)
+        public CustomClientStore(IClientRepository clientRepository, bool isWindowsAuth = false)
         {
             this.IsWindowsAuth = isWindowsAuth;
-            this.HttpClient = new HttpClient();
-            this.HttpClient.BaseAddress = new Uri(restServiceUri);
-            this.HttpClient.DefaultRequestHeaders.Accept.Clear();
-            this.HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            this.ClientRepository = clientRepository;
         }
 
         public async Task<Client> FindClientByIdAsync(string clientId)
         {
-            IdSrvClientDTO clientFromRest = await this.GetClientByIdAsync(clientId);
-            if (clientFromRest == null)
+            IdSrvClientDTO clientFromRepo = await this.ClientRepository.GetClientByIdAsync(clientId);
+            if (clientFromRepo == null || clientFromRepo.IsBlocked)
             {
                 return null;
             }
@@ -37,15 +31,15 @@
             var client = new Client
             {
                 Enabled = true,
-                ClientName = clientFromRest.Name,
+                ClientName = clientFromRepo.Name,
 
                 // ID клиента, также указывается в настройках самого клиента, см. конфигарцию в классе Startup
                 // проектов Site1 и Site2
-                ClientId = clientFromRest.Id.ToString(),
+                ClientId = clientFromRepo.Id.ToString(),
 
                 ClientSecrets = new List<Secret>
                 {
-                    new Secret(clientFromRest.Secret.Sha256()),
+                    new Secret(clientFromRepo.Secret.Sha256()),
                 },
 
                 Flow = Flows.ResourceOwner,
@@ -66,20 +60,20 @@
                 // Scope-ы в данном примере не освещаются, по идее с помощью них можно разделить 
                 // клиентов (сайты) на области и рудить ими по-отдельности, допускать пользователей
                 // в разные области. Для текущих целей пока не нужно.
-                AllowAccessToAllScopes = true
+                AllowAccessToAllScopes = true,
             };
 
             // Если строка с uri пустая, значит это wpf-клиент (или нечто подобное, то есть не сайт)
             // Поэтому ставим другой Flow, и добавляем редиректы 
             // (конечно, это можно сделать красивее, но для демонстрации оставил так)
-            if (clientFromRest.Uri != null)
+            if (clientFromRepo.Uri != null)
             {
                 client.Flow = Flows.Hybrid;
                 // Адрес сайта, куда будет редиректить после входа (по идее должен совпадать с адресом
                 // самого сайта)
-                client.RedirectUris = new List<string> { clientFromRest.Uri };
+                client.RedirectUris = new List<string> { clientFromRepo.Uri };
                 // Адрес, на который редиректит после выхода
-                client.PostLogoutRedirectUris = (await this.GetAllUrisAsync()).ToList();
+                client.PostLogoutRedirectUris = (await this.ClientRepository.GetAllUrisAsync()).ToList();
             }
             // Если это wpf-клиент и при этом используется windows аутентификация, то необходимо изменить некоторые параметры
             else if (this.IsWindowsAuth)
@@ -89,22 +83,6 @@
             }
 
             return client;
-        }
-
-        private async Task<IdSrvClientDTO> GetClientByIdAsync(string clientId)
-        {
-            if (!Guid.TryParse(clientId, out Guid result))
-            {
-                return null;
-            }
-            HttpResponseMessage response = await this.HttpClient.GetAsync(clientId);
-            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvClientDTO>() : null;
-        }
-
-        private async Task<IEnumerable<string>> GetAllUrisAsync()
-        {
-            HttpResponseMessage response = await this.HttpClient.GetAsync("GetAllUris");
-            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IEnumerable<string>>() : null;
         }
     }
 }

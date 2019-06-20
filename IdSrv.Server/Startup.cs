@@ -13,6 +13,7 @@ namespace IdSrv.Server
     using IdentityServer3.Core.Services.Default;
     using Services;
     using Serilog;
+    using IdSrv.Server.Repositories;
 
     public class Startup
     {
@@ -23,11 +24,16 @@ namespace IdSrv.Server
             {
                 var factory = new IdentityServerServiceFactory().UseInMemoryScopes(StandardScopes.All);
 
-                var clientStore = new RestClientStore("https://localhost:44397/Api/Client/");
+                var clientRepository = new RestClientRepository("https://localhost:44397/Api/Client/");
+                var clientStore = new CustomClientStore(clientRepository);
                 factory.ClientStore = new Registration<IClientStore>(resolver => clientStore);
 
-                var userService = new RestUserService("https://localhost:44397/Api/User/");
+                var userRepository = new RestUserRepository("https://localhost:44397/Api/User/");
+                var userService = new CustomUserService(userRepository);
                 factory.UserService = new Registration<IUserService>(resolver => userService);
+
+                var sessionValidator = new CustomAuthenticationSessionValidator(userRepository);
+                factory.AuthenticationSessionValidator = new Registration<IAuthenticationSessionValidator>(resolver => sessionValidator);
 
                 // Устанавливаем наш CustomViewService, чтобы после выхода пользователя в сообщении не выводилось
                 // неправильное имя клиентского приложения (выводится то, на котором был произведён вход).
@@ -66,7 +72,7 @@ namespace IdSrv.Server
                         CookieOptions = new IdentityServer3.Core.Configuration.CookieOptions
                         {
                             // Время жизни сессий клиентов
-                            ExpireTimeSpan = TimeSpan.FromMinutes(5),
+                            ExpireTimeSpan = TimeSpan.FromMinutes(14),
                         }
                     },
                 });
