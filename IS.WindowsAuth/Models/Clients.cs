@@ -45,6 +45,38 @@ namespace IS.WindowsAuth.Models
                 {
                     Enabled = true,
 
+                    ClientName = "SiteN",
+
+                    ClientId = "78f36f55-784d-4895-8913-f9a76b807a5c",
+
+                    ClientSecrets = new List<Secret>
+                    {
+                        new Secret("123".Sha256()),
+                    },
+
+                    Flow = Flows.Hybrid,
+
+                    IdentityTokenLifetime = 30,
+
+                    RequireConsent = false,
+
+                    RedirectUris = new List<string>
+                    {
+                        "http://localhost:57161/"
+                    },
+
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        "http://localhost:57161/"
+                    },
+
+                    AllowAccessToAllScopes = true
+                },
+
+                new Client
+                {
+                    Enabled = true,
+
                     ClientName = "Site1",
                     
                     ClientId = "site2",
@@ -113,7 +145,7 @@ namespace IS.WindowsAuth.Models
 
                     ClientName = "Desktop",
 
-                    ClientId = "desktop1",
+                    ClientId = "9bf3b01c-9689-4db2-87a2-09fd390df550",
 
                     ClientSecrets = new List<Secret>
                     {

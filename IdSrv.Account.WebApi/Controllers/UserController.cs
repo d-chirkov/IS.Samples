@@ -34,6 +34,14 @@
             return user != null ? this.Ok(user) : this.NotFound() as IHttpActionResult;
         }
 
+        [HttpGet]
+        [Route("GetByUserName")]
+        public async Task<IHttpActionResult> GetByUserName(string userName)
+        {
+            IdSrvUserDTO user = await this.UserRepository.GetByUserNameAsync(userName);
+            return user != null ? this.Ok(user) : this.NotFound() as IHttpActionResult;
+        }
+
         [HttpPost]
         [Route("GetByAuthInfo")]
         public async Task<IHttpActionResult> GetByAuthInfo(IdSrvUserAuthDTO authInfo)

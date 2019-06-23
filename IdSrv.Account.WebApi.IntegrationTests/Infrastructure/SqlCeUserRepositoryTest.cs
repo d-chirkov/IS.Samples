@@ -325,6 +325,96 @@
         }
 
         [Test]
+        public async Task GetByUserNameAsync_ReturnUserFromDb_When_PassingExistingUserNameForUserWithPassword()
+        {
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            Guid searchingId = Guid.Empty;
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2",
+                    PasswordHash = this.GetB64PasswordHash("p2", "s2"),
+                    PasswordSalt = "s2"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u3",
+                    PasswordHash = this.GetB64PasswordHash("p3", "s3"),
+                    PasswordSalt = "s3"
+                });
+                searchingId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
+            }
+            var repository = new SqlCeUserRepository(connectionFactory);
+            IdSrvUserDTO user = await repository.GetByUserNameAsync("u2");
+            Assert.IsNotNull(user);
+            Assert.AreEqual(user.Id, searchingId);
+            Assert.AreEqual(user.UserName, "u2");
+        }
+
+        [Test]
+        public async Task GetByUserNameAsync_ReturnUserFromDb_When_PassingExistingUserNameForUserWithoutPassword()
+        {
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            Guid searchingId = Guid.Empty;
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u2"
+                });
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u3",
+                    PasswordHash = this.GetB64PasswordHash("p3", "s3"),
+                    PasswordSalt = "s3"
+                });
+                searchingId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
+            }
+            var repository = new SqlCeUserRepository(connectionFactory);
+            IdSrvUserDTO user = await repository.GetByUserNameAsync("u2");
+            Assert.IsNotNull(user);
+            Assert.AreEqual(user.Id, searchingId);
+            Assert.AreEqual(user.UserName, "u2");
+        }
+
+        [Test]
+        public async Task GetByIdAsync_ReturnNull_When_PassingNotExistingUserName()
+        {
+            var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
+            using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                await db.Query("Users").InsertAsync(new
+                {
+                    UserName = "u1",
+                    PasswordHash = this.GetB64PasswordHash("p1", "s1"),
+                    PasswordSalt = "s1"
+                });
+            }
+            var repository = new SqlCeUserRepository(connectionFactory);
+            IdSrvUserDTO user = await repository.GetByUserNameAsync("u2");
+            Assert.IsNull(user);
+        }
+
+        [Test]
         public void GetByAuthInfoAsync_ThrowsArgumentNullException_When_ArgIsNullOrContainsAnyNull()
         {
             var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);

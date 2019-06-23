@@ -14,10 +14,13 @@
 
         private IClientRepository ClientRepository { get; set; }
 
-        public CustomClientStore(IClientRepository clientRepository, bool isWindowsAuth = false)
+        private IEnumerable<Scope> Scopes { get; set; }
+
+        public CustomClientStore(IClientRepository clientRepository, IEnumerable<Scope> scopes, bool isWindowsAuth = false)
         {
             this.IsWindowsAuth = isWindowsAuth;
             this.ClientRepository = clientRepository;
+            this.Scopes = scopes;
         }
 
         public async Task<Client> FindClientByIdAsync(string clientId)
@@ -52,15 +55,19 @@
                 // класс Startup.
                 IdentityTokenLifetime = 5 * 60,
 
+                AccessTokenType = AccessTokenType.Reference,
+
                 // При входе на сайте через сервер аутентификации в первый раз у пользователя
                 // спрашивают, какие данные сайт может использовать (например, может ли сайт просматривать
                 // профиль пользователя). Для текущих целей не нужно, поэтому пропускаем.
                 RequireConsent = false,
 
+                AllowedScopes = this.Scopes.Select(s => s.Name).ToList()
+
                 // Scope-ы в данном примере не освещаются, по идее с помощью них можно разделить 
                 // клиентов (сайты) на области и рудить ими по-отдельности, допускать пользователей
                 // в разные области. Для текущих целей пока не нужно.
-                AllowAccessToAllScopes = true,
+                //AllowAccessToAllScopes = true,
             };
 
             // Если строка с uri пустая, значит это wpf-клиент (или нечто подобное, то есть не сайт)

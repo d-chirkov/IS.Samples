@@ -47,6 +47,20 @@
             }
         }
 
+        public async Task<IdSrvUserDTO> GetByUserNameAsync(string userName)
+        {
+            using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                return await db
+                    .Query("Users")
+                    .Select("Id", "UserName", "IsBlocked")
+                    .Where(new { UserName = userName })
+                    .FirstOrDefaultAsync<IdSrvUserDTO>();
+            }
+        }
+
         public async Task<IdSrvUserDTO> GetByAuthInfoAsync(IdSrvUserAuthDTO userAuth)
         {
             if (userAuth == null || userAuth.UserName == null || userAuth.Password == null)

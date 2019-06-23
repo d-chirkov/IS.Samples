@@ -1,4 +1,5 @@
-﻿using Site1.Mvc5.Models;
+﻿using IdentityModel.Client;
+using Site1.Mvc5.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace Site1.Mvc5.Attributes
         {
             this.checkLocalAccess = checkLocalAccess;
         }
+
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             var authorized = base.AuthorizeCore(httpContext);
@@ -23,6 +25,13 @@ namespace Site1.Mvc5.Attributes
                 // The user is not authenticated
                 return false;
             }
+
+            if (this.AccessIsBlocked(httpContext))
+            {
+                httpContext.Request.GetOwinContext().Authentication.SignOut();
+                return false;
+            }
+
             if (this.checkLocalAccess)
             {
                 string idsrvUserId = (httpContext.Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
@@ -45,6 +54,25 @@ namespace Site1.Mvc5.Attributes
                     httpContext.Response.Redirect("~/Account/AccessDenied");
                 }
                 return userProfile != null;
+            }
+            return true;
+        }
+
+        private bool AccessIsBlocked(HttpContextBase httpContext)
+        {
+            string userLogin = (httpContext.Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
+                    ?.FindFirst(OidcClaimTypes.Name)
+                    ?.Value;
+            string accessToken = (httpContext.Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
+                    ?.FindFirst("access_token")
+                    ?.Value;
+            var userInfoClient = new UserInfoClient(new Uri("https://localhost:44363/identity/connect/userinfo"), accessToken);
+            var userInfoResponse = userInfoClient.GetAsync().Result;
+            if (userInfoResponse != null &&
+                !userInfoResponse.IsError && 
+                userInfoResponse.Claims.Where(c => c.Item1 == "name").FirstOrDefault()?.Item2 == userLogin)
+            {
+                return false;
             }
             return true;
         }

@@ -2,6 +2,7 @@
 // (IdentityModel нужен для добавления секрета приложения-клиента)
 
 using IdentityModel.Client;
+using IdentityServer3.AccessTokenValidation;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
@@ -9,11 +10,12 @@ using Microsoft.Owin.Security.OpenIdConnect;
 using Owin;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Helpers;
+using System.IdentityModel.Tokens;
 
 // Конфигурация происходит в классе Startup, фактически добавляется middleware, так что добавляем ссылку на owin
 [assembly: OwinStartup(typeof(Site1.Mvc5.Startup))]
@@ -33,7 +35,7 @@ namespace Site1.Mvc5
             // Это нужно для защиты от CSRF-атак
             AntiForgeryConfig.UniqueClaimTypeIdentifier = OidcClaimTypes.Subject;
             // А это нужно, чтобы ключи Claims-ов пользователя имели адекыватные названия
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
+            JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
 
             // Собственный адрес
             string ownUri = "http://localhost:57161/";
@@ -81,32 +83,20 @@ namespace Site1.Mvc5
                     {
                         AuthorizationCodeReceived = async n =>
                         {
-                            // use the code to get the access and refresh token
-                            var tokenClient = new TokenClient(
-                                idsrvUri + "/connect/token",
-                                clientId,
-                                clientSecret);
-
-                            var tokenResponse = await tokenClient.RequestAuthorizationCodeAsync(n.Code, n.RedirectUri);
-
-                            if (tokenResponse.IsError)
-                            {
-                                throw new Exception(tokenResponse.Error);
-                            }
-
                             // use the access token to retrieve claims from userinfo
-                            var userInfoClient = new UserInfoClient(new Uri(idsrvUri + "/connect/userinfo").ToString());
-                            var userInfoResponse = await userInfoClient.GetAsync(tokenResponse.AccessToken);
+                            var userInfoClient = new UserInfoClient(new Uri(idsrvUri + "/connect/userinfo"), n.ProtocolMessage.AccessToken);
+                            var userInfoResponse = await userInfoClient.GetAsync();
 
                             // Создаём claims-ы пользователя, которые в дальнейшем будут видны в методах контроллера
                             var id = new ClaimsIdentity(n.AuthenticationTicket.Identity.AuthenticationType);
                             id.AddClaims(n.AuthenticationTicket.Identity.Claims);
 
                             // имя пользователя (логин)
-                            id.AddClaim(userInfoResponse.Claims.First(c => c.Type == OidcClaimTypes.Name));
+                            id.AddClaim(new Claim("name", userInfoResponse.Claims.FirstOrDefault(c => c.Item1 == "name").Item2));
 
                             // и id_token (нужен для logout-а)
                             id.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
+                            id.AddClaim(new Claim("access_token", n.ProtocolMessage.AccessToken));
                             n.AuthenticationTicket = new AuthenticationTicket(id, n.AuthenticationTicket.Properties);
                         },
 
@@ -114,7 +104,7 @@ namespace Site1.Mvc5
                         RedirectToIdentityProvider = n =>
                         {
                             // Это взято из примера: https://identityserver.github.io/Documentation/docsv2/overview/mvcGettingStarted.html
-                            if (n.ProtocolMessage.RequestType == Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectRequestType.Logout)
+                            if (n.ProtocolMessage.RequestType == Microsoft.IdentityModel.Protocols.OpenIdConnectRequestType.LogoutRequest)
                             {
                                 // Вот тут нам нужен id_token, который мы добавляли в claims-ы пользователя чуть выше
                                 var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
@@ -141,6 +131,15 @@ namespace Site1.Mvc5
                     }
                 });
 
+            //app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
+            //{
+            //    Authority = "https://localhost:44363/identity",
+            //    RequiredScopes = new[] { "api1" },
+            //    DelayLoadMetadata = true,
+
+            //    ClientId = "api1",
+            //    ClientSecret = "secret"
+            //});
         }
     }
 }

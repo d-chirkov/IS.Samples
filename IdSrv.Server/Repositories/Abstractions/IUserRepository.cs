@@ -8,5 +8,7 @@
         Task<IdSrvUserDTO> GetUserByUserNameAndPasswordAsync(string userName, string password);
 
         Task<IdSrvUserDTO> GetUserByIdAsync(string id);
+
+        Task<IdSrvUserDTO> GetUserByUserNameAsync(string userName);
     }
 }

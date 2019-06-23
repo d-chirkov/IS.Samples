@@ -1,6 +1,7 @@
 ﻿using IdentityModel.Client;
 using System;
 using System.Collections.Generic;
+using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,15 +32,16 @@ namespace WpfApp1
             this.IsEnabled = false;
             // адрес сервера аутентификации
             // Для пользователей из IS {
-            //string idsrvUri = "https://localhost:44301/identity";
+            //string idsrvUri = "https://localhost:44363/identity";
             //}
 
             // Для windows пользователей {
-            string idsrvUri = "https://localhost:44384/identity";
+            string idsrvUri = "https://localhost:44363/winidentity";
+            //string idsrvUri = "https://localhost:44384/identity";
             //}
 
 
-            string clientId = "desktop1";
+            string clientId = "9bf3b01c-9689-4db2-87a2-09fd390df550";
             string clientSecret = "secret3";
 
             var client = new TokenClient(
@@ -53,7 +55,13 @@ namespace WpfApp1
 
             // Для windows аутентификации через IS.WindowsAuth {
             var creds = new Dictionary<string, string>();
-            creds.Add("name", this.loginTextBox.Text);
+            string userName = this.loginTextBox.Text;
+            if (!userName.Contains("\\"))
+            {
+                var pc = new PrincipalContext(ContextType.Machine);
+                userName = pc.ConnectedServer + "\\" + userName;
+            }
+            creds.Add("name", userName);
             creds.Add("password", this.passwordTextBox.Password);
             var tokenResponse = await client.RequestCustomGrantAsync("winauth", "profile", creds);
             //}

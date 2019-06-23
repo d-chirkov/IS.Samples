@@ -4,6 +4,7 @@
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
+    using System.Web;
     using IdSrv.Account.Models;
     using IdSrv.Server.Repositories.Abstractions;
 
@@ -35,6 +36,12 @@
             }
 
             return null;
+        }
+
+        public async Task<IdSrvUserDTO> GetUserByUserNameAsync(string userName)
+        {
+            HttpResponseMessage response = await this.HttpClient.GetAsync($"GetByUserName?userName={HttpUtility.UrlEncode(userName)}");
+            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvUserDTO>() : null;
         }
     }
 }

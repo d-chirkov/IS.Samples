@@ -69,6 +69,38 @@
         }
 
         [Test]
+        public async Task GetByUserName_InvokeGetByUserNameFromRepository_With_PassedId()
+        {
+            this.UserRepository.Setup(v => v.GetByUserNameAsync(It.IsAny<string>())).ReturnsAsync(new IdSrvUserDTO());
+            var controller = new UserController(this.UserRepository.Object);
+            var userName = "u";
+            await controller.GetByUserName(userName);
+            this.UserRepository.Verify(v => v.GetByUserNameAsync(userName));
+        }
+
+        [Test]
+        public async Task GetByUserName_ReturnOkWithUserReceivedFromRepository_When_RepositoryReturnNotNull()
+        {
+            var user = new IdSrvUserDTO();
+            this.UserRepository.Setup(v => v.GetByUserNameAsync(It.IsAny<string>())).ReturnsAsync(user);
+            var controller = new UserController(this.UserRepository.Object);
+            IHttpActionResult httpResult = await controller.GetByUserName("u");
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<OkNegotiatedContentResult<IdSrvUserDTO>>(httpResult);
+            Assert.AreEqual(user, (httpResult as OkNegotiatedContentResult<IdSrvUserDTO>).Content);
+        }
+
+        [Test]
+        public async Task GetByUserName_ReturnNotFound_When_RepositoryReturnNull()
+        {
+            this.UserRepository.Setup(v => v.GetByUserNameAsync(It.IsAny<string>())).ReturnsAsync(null as IdSrvUserDTO);
+            var controller = new UserController(this.UserRepository.Object);
+            IHttpActionResult httpResult = await controller.GetByUserName("u");
+            Assert.NotNull(httpResult);
+            Assert.IsInstanceOf<NotFoundResult>(httpResult);
+        }
+
+        [Test]
         public async Task GetAll_InvokeGetAllFromUserRepository()
         {
             this.UserRepository.Setup(v => v.GetAllAsync()).ReturnsAsync(new List<IdSrvUserDTO>());

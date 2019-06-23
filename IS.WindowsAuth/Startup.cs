@@ -36,8 +36,9 @@ namespace IS.WindowsAuth
             var factory = new IdentityServerServiceFactory()
                 .UseInMemoryScopes(Scopes.Get());
 
-            var clientStore = new ISClientStore(useWinAuth: true);
-            factory.ClientStore = new Registration<IClientStore>(resolver => clientStore);
+            //var clientStore = new ISClientStore(useWinAuth: true);
+            factory.UseInMemoryClients(Clients.Get());
+            //factory.ClientStore = new Registration<IClientStore>(resolver => clientStore);
             factory.UserService = new Registration<IUserService>(typeof(ExternalRegistrationUserService));
             factory.CustomGrantValidators.Add(new Registration<ICustomGrantValidator, CustomGrantValidator>());
 
