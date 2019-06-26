@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdSrv.Account.WebApi.Integr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdSrv.Server", "IdSrv.Server\IdSrv.Server.csproj", "{51202867-20BC-4148-AFF5-35D00DD8C54B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdSrv.Connector", "IdSrv.Connector\IdSrv.Connector.csproj", "{68E30698-172D-43F9-960C-ACB26B67175A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -223,6 +225,18 @@ Global
 		{51202867-20BC-4148-AFF5-35D00DD8C54B}.Release|x64.Build.0 = Release|Any CPU
 		{51202867-20BC-4148-AFF5-35D00DD8C54B}.Release|x86.ActiveCfg = Release|Any CPU
 		{51202867-20BC-4148-AFF5-35D00DD8C54B}.Release|x86.Build.0 = Release|Any CPU
+		{68E30698-172D-43F9-960C-ACB26B67175A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68E30698-172D-43F9-960C-ACB26B67175A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68E30698-172D-43F9-960C-ACB26B67175A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{68E30698-172D-43F9-960C-ACB26B67175A}.Debug|x64.Build.0 = Debug|Any CPU
+		{68E30698-172D-43F9-960C-ACB26B67175A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{68E30698-172D-43F9-960C-ACB26B67175A}.Debug|x86.Build.0 = Debug|Any CPU
+		{68E30698-172D-43F9-960C-ACB26B67175A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68E30698-172D-43F9-960C-ACB26B67175A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68E30698-172D-43F9-960C-ACB26B67175A}.Release|x64.ActiveCfg = Release|Any CPU
+		{68E30698-172D-43F9-960C-ACB26B67175A}.Release|x64.Build.0 = Release|Any CPU
+		{68E30698-172D-43F9-960C-ACB26B67175A}.Release|x86.ActiveCfg = Release|Any CPU
+		{68E30698-172D-43F9-960C-ACB26B67175A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

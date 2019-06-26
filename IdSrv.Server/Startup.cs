@@ -17,7 +17,6 @@ namespace IdSrv.Server
     using Serilog;
     using IdSrv.Server.Repositories;
     using System.Collections.Generic;
-    using IdentityServer3.AccessTokenValidation;
     using IdentityServer.WindowsAuthentication.Configuration;
     using System.Threading.Tasks;
     using IdentityServer3.Core;
@@ -156,8 +155,6 @@ namespace IdSrv.Server
             factory.Register(new Registration<IUserRepository>(r => userRepository));
             factory.Register(new Registration<IClientRepository>(r => clientRepository));
             factory.ClientStore = new Registration<IClientStore>(resolver => clientStore);
-            //var tokenHandleStore = new CustomTokenHandleStore(userRepository, clientRepository);
-            //factory.TokenHandleStore = new Registration<ITokenHandleStore>(resolver => tokenHandleStore);
             factory.UserService = new Registration<IUserService>(typeof(ExternalRegistrationUserService));
             factory.CustomGrantValidators.Add(new Registration<ICustomGrantValidator, CustomGrantValidator>());
 
