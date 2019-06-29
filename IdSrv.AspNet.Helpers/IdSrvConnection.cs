@@ -80,14 +80,18 @@
             if (!httpContext.Items.Contains("idsrv_user_claims"))
             {
                 var userInfoClient = GetUserInfoClient(httpContext);
-                var userInfoResponse = userInfoClient.GetAsync().Result;
-                AddUserClaimsToContext(userInfoResponse, httpContext);
+                if (userInfoClient != null)
+                {
+                    var userInfoResponse = userInfoClient.GetAsync().Result;
+                    AddUserClaimsToContext(userInfoResponse, httpContext);
+                }
             }
             return httpContext.Items["idsrv_user_claims"] as IEnumerable<Tuple<string, string>>;
         }
 
         private static UserInfoClient GetUserInfoClient(HttpContextBase httpContext)
         {
+            var claims = (httpContext.Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal);
             string accessToken = (httpContext.Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
                        ?.FindFirst("access_token")
                        ?.Value;

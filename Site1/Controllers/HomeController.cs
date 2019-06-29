@@ -1,5 +1,4 @@
-﻿using IdentityServer3.Core;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 
@@ -9,7 +8,7 @@ namespace Site1.Controllers
     {
         public ActionResult Index()
         {
-            string userName = (Request.GetOwinContext().Authentication.User as ClaimsPrincipal)?.FindFirst(Constants.ClaimTypes.Name)?.Value;
+            string userName = (Request.GetOwinContext().Authentication.User as ClaimsPrincipal)?.FindFirst("name")?.Value;
             return View(userName as object);
         }
 
@@ -23,7 +22,7 @@ namespace Site1.Controllers
 
             // Получение идентификатора пользователя. Мы его не указывали как отдельный Claim, потому что
             // он автоматически копируется в Claim-ы пользователя
-            string userId = (user as ClaimsPrincipal).FindFirst(Constants.ClaimTypes.Subject).Value;
+            string userId = (user as ClaimsPrincipal).FindFirst("sub").Value;
 
             // Проверка, что пользователь имеет доступ к сайту. Если нет, то редиректим на страницу AccessDenied
             // Имеет смысл обернуть AuthorizeAttribute, чтобы проверка была там.
@@ -35,7 +34,7 @@ namespace Site1.Controllers
             // Получение логина пользователя, его мы отдельно указывали в Claim-ах пользователя 
             // по ключу given_name
             // Но при использовании секрета клиента надо дополнительно запрашивать его у IdentityServer, скоро сделаю
-            string userName = (user as ClaimsPrincipal).FindFirst(Constants.ClaimTypes.Name).Value;
+            string userName = (user as ClaimsPrincipal).FindFirst("name").Value;
 
             return View(userName as object);
         }
@@ -53,7 +52,7 @@ namespace Site1.Controllers
             }
             Response.AddHeader("REFRESH", $"2;{redirectToUrl}");
             ClaimsPrincipal user = Request.GetOwinContext().Authentication.User;
-            string userName = user.FindFirst(Constants.ClaimTypes.Name).Value;
+            string userName = user.FindFirst("name").Value;
             return View(userName as object);
         }
 
