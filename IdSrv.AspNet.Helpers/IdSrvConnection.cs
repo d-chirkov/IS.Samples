@@ -105,7 +105,7 @@
 
         private static void AddUserClaimsToContext(UserInfoResponse response, HttpContextBase httpContext)
         {
-            if (response != null && !response.IsError && response.Claims != null)
+            if (response != null && !response.IsError && response.Claims != null && response.Claims.Count() > 0)
             {
                 httpContext.Items.Add("idsrv_user_claims", response.Claims);
             }
