@@ -1,14 +1,13 @@
-﻿using Site1.Mvc5.Attributes;
-using Site1.Mvc5.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Web;
-using System.Web.Mvc;
+﻿using System;
 using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using IdSrv.AspNet.Helpers;
+using Site1.Mvc5.Attributes;
+using Site1.Mvc5.Models;
 
 namespace Site1.Mvc5.Controllers
 {
@@ -17,38 +16,36 @@ namespace Site1.Mvc5.Controllers
         [LocalAuthorize(false)]
         public ActionResult SignIn(string returnUrl)
         {
-            return Redirect((returnUrl != null && Url.IsLocalUrl(returnUrl)) ? returnUrl : "~/");
+            return this.Redirect((returnUrl != null && this.Url.IsLocalUrl(returnUrl)) ? returnUrl : "~/");
         }
 
         [LocalAuthorize(false)]
         public void SignOut()
         {
-            Request.GetOwinContext().Authentication.SignOut();
+            this.Request.GetOwinContext().Authentication.SignOut();
         }
 
         [LocalAuthorize(false)]
-        public ActionResult AccessDenied()
+        public async Task<ActionResult> AccessDenied()
         {
-            string userName = (Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
-                ?.FindFirst(OidcClaimTypes.Name)
-                ?.Value;
-            return View((object)userName);
+            string userName = await IdSrvConnection.GetUserNameAsync(this.HttpContext);
+            return this.View((object)userName);
         }
 
         [HttpGet]
         [LocalAuthorize(true)]
         public ActionResult Register()
         {
-            return View();
+            return this.View();
         }
 
         [HttpPost]
         [LocalAuthorize(true)]
         public async Task<ActionResult> Register(RegisterForm registerForm)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View(registerForm);
+                return this.View(registerForm);
             }
             NewUser newUser = null;
             using (var client = new HttpClient())
@@ -60,13 +57,13 @@ namespace Site1.Mvc5.Controllers
                     new MediaTypeWithQualityHeaderValue("application/json"));
 
                 HttpResponseMessage response = await client.PostAsJsonAsync(
-                   "api/register/user", new { Name = registerForm.Login, Password = registerForm.Password});
+                   "api/register/user", new { Name = registerForm.Login, Password = registerForm.Password });
                 if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Conflict)
                 {
-                    ModelState.AddModelError("Couldn't create", "Не удалось зарегистрировать нового пользователя на SSO сервере");
-                    return View(registerForm);
+                    this.ModelState.AddModelError("Couldn't create", "Не удалось зарегистрировать нового пользователя на SSO сервере");
+                    return this.View(registerForm);
                 }
-                ViewBag.AlreadyExists = response.StatusCode == HttpStatusCode.Conflict;
+                this.ViewBag.AlreadyExists = response.StatusCode == HttpStatusCode.Conflict;
                 newUser = await response.Content.ReadAsAsync<NewUser>();
             }
             using (var context = new AccountsContext())
@@ -75,11 +72,11 @@ namespace Site1.Mvc5.Controllers
                 // Тут моет рухнуть с исключением, никак пока не обрабатываю
                 await context.SaveChangesAsync();
             }
-            ViewBag.Name = newUser.Name;
-            return View("UserCreated");
+            this.ViewBag.Name = newUser.Name;
+            return this.View("UserCreated");
         }
 
-        class NewUser
+        private class NewUser
         {
             public string Id { get; set; }
 

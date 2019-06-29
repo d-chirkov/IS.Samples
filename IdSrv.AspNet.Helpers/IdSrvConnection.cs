@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web;
-    using Flurl;
     using IdentityModel.Client;
 
     public static class IdSrvConnection
@@ -14,88 +13,134 @@
 
         public static bool UseAutoLogout { get; set; } = false;
 
-        public static async Task<bool> IsAccessBlocked(HttpContextBase httpContext)
+        public static async Task<bool> IsAccessBlockedAsync(HttpContextBase httpContext)
         {
-            string userLogin = (httpContext.Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
-                    ?.FindFirst("name")
-                    ?.Value;
-            var userClaims = await LoadAndGetUserClaims(httpContext);
-            if (userClaims != null && userClaims.Where(c => c.Item1 == "name").FirstOrDefault()?.Item2 == userLogin)
-            {
-                return false;
-            }
-            if (UseAutoLogout)
-            {
-                httpContext.Request.GetOwinContext().Authentication.SignOut();
-            }
-            return true;
+            string userName = GetUserNameFromContext(httpContext);
+            string claimsUserName = GetUserNameFromClaims(await LoadAndGetUserClaimsAsync(httpContext));
+            return userName == null ? false : claimsUserName != userName;
         }
 
-        public static async Task<string> GetUserName(HttpContextBase httpContext)
+        public static bool IsAccessBlocked(HttpContextBase httpContext)
         {
-            string userLogin = (httpContext.Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
-                    ?.FindFirst("name")
-                    ?.Value;
-            var userClaims = await LoadAndGetUserClaims(httpContext);
-            if (userClaims != null && userClaims.Where(c => c.Item1 == "name").FirstOrDefault()?.Item2 == userLogin)
-            {
-                return userLogin;
-            }
-            if (UseAutoLogout)
-            {
-                httpContext.Request.GetOwinContext().Authentication.SignOut();
-            }
-            return null;
+            string userName = GetUserNameFromContext(httpContext);
+            return userName == null ? false : GetUserNameFromClaims(LoadAndGetUserClaims(httpContext)) != userName;
         }
 
-        public static async Task<string> GetUserId(HttpContextBase httpContext)
+        public static async Task<string> GetUserNameAsync(HttpContextBase httpContext)
         {
-            string userId = (httpContext.Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
-                    ?.FindFirst("sub")
-                    ?.Value;
-            var userClaims = await LoadAndGetUserClaims(httpContext);
-            if (userClaims != null && userClaims.Where(c => c.Item1 == "sub").FirstOrDefault()?.Item2 == userId)
-            {
-                return userId;
-            }
-            if (UseAutoLogout)
-            {
-                httpContext.Request.GetOwinContext().Authentication.SignOut();
-            }
-            return null;
+            string userName = GetUserNameFromContext(httpContext);
+            return
+                userName == null ? null :
+                GetUserNameFromClaims(await LoadAndGetUserClaimsAsync(httpContext)) == userName ? userName :
+                null;
         }
 
-        public static async Task<IEnumerable<Tuple<string, string>>> GetUserClaims(HttpContextBase httpContext)
+        public static string GetUserName(HttpContextBase httpContext)
         {
-            var userClaims = await LoadAndGetUserClaims(httpContext);
-            if (userClaims == null && UseAutoLogout)
-            {
-                httpContext.Request.GetOwinContext().Authentication.SignOut();
-            }
-            return userClaims;
+            string userName = GetUserNameFromContext(httpContext);
+            return
+                userName == null ? null :
+                GetUserNameFromClaims(LoadAndGetUserClaims(httpContext)) == userName ? userName :
+                null;
         }
 
-        private static async Task<IEnumerable<Tuple<string, string>>> LoadAndGetUserClaims(HttpContextBase httpContext)
+        public static async Task<string> GetUserIdAsync(HttpContextBase httpContext)
+        {
+            return await IsAccessBlockedAsync(httpContext) ? null : GetUserIdFromContext(httpContext);
+        }
+
+        public static string GetUserId(HttpContextBase httpContext)
+        {
+            return IsAccessBlocked(httpContext) ? null : GetUserIdFromContext(httpContext);
+        }
+
+        public static async Task<IEnumerable<Tuple<string, string>>> GetUserClaimsAsync(HttpContextBase httpContext)
+        {
+            return await LoadAndGetUserClaimsAsync(httpContext);
+        }
+
+        public static IEnumerable<Tuple<string, string>> GetUserClaims(HttpContextBase httpContext)
+        {
+            return LoadAndGetUserClaims(httpContext);
+        }
+
+        private static async Task<IEnumerable<Tuple<string, string>>> LoadAndGetUserClaimsAsync(HttpContextBase httpContext)
         {
             if (!httpContext.Items.Contains("idsrv_user_claims"))
             {
-                string accessToken = (httpContext.Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
-                        ?.FindFirst("access_token")
-                        ?.Value;
-                var userInfoClient = new UserInfoClient(new Uri(Url.Combine(IdSrvAddress, "/connect/userinfo")), accessToken);
+                var userInfoClient = GetUserInfoClient(httpContext);
                 var userInfoResponse = await userInfoClient.GetAsync();
-                if (userInfoResponse != null &&
-                    !userInfoResponse.IsError &&
-                    userInfoResponse.Claims != null)
-                {
-                    httpContext.Items.Add("idsrv_user_claims", userInfoResponse.Claims);
-                }
-                else
-                {
-                    return null;
-                }
+                AddUserClaimsToContext(userInfoResponse, httpContext);
             }
             return httpContext.Items["idsrv_user_claims"] as IEnumerable<Tuple<string, string>>;
+        }
+
+        private static IEnumerable<Tuple<string, string>> LoadAndGetUserClaims(HttpContextBase httpContext)
+        {
+            if (!httpContext.Items.Contains("idsrv_user_claims"))
+            {
+                var userInfoClient = GetUserInfoClient(httpContext);
+                var userInfoResponse = userInfoClient.GetAsync().Result;
+                AddUserClaimsToContext(userInfoResponse, httpContext);
+            }
+            return httpContext.Items["idsrv_user_claims"] as IEnumerable<Tuple<string, string>>;
+        }
+
+        private static UserInfoClient GetUserInfoClient(HttpContextBase httpContext)
+        {
+            string accessToken = (httpContext.Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
+                       ?.FindFirst("access_token")
+                       ?.Value;
+            if (accessToken == null)
+            {
+                return null;
+            }
+            var userInfoClient = new UserInfoClient(new Uri(IdSrvAddress + "/connect/userinfo"), accessToken);
+            return userInfoClient;
+        }
+
+        private static void AddUserClaimsToContext(UserInfoResponse response, HttpContextBase httpContext)
+        {
+            if (response != null && !response.IsError && response.Claims != null)
+            {
+                httpContext.Items.Add("idsrv_user_claims", response.Claims);
+            }
+            else if (UseAutoLogout)
+            {
+                httpContext.Request.GetOwinContext().Authentication.SignOut();
+            }
+        }
+
+        private static string GetUserIdFromContext(HttpContextBase httpContext)
+        {
+            return GetValueFromContext(httpContext, "sub");
+        }
+
+        private static string GetUserNameFromContext(HttpContextBase httpContext)
+        {
+            return GetValueFromContext(httpContext, "name");
+        }
+
+        private static string GetValueFromContext(HttpContextBase httpContext, string valueName)
+        {
+            return (httpContext.Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
+                    ?.FindFirst(valueName)
+                    ?.Value;
+        }
+
+        private static string GetUserIdFromClaims(IEnumerable<Tuple<string, string>> claims)
+        {
+            return GetValueFromClaims(claims, "sub");
+        }
+
+        private static string GetUserNameFromClaims(IEnumerable<Tuple<string, string>> claims)
+        {
+            return GetValueFromClaims(claims, "name");
+        }
+
+        private static string GetValueFromClaims(IEnumerable<Tuple<string, string>> claims, string valueName)
+        {
+            return claims?.Where(c => c.Item1 == valueName).FirstOrDefault()?.Item2;
         }
     }
 }

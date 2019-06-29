@@ -4,6 +4,7 @@
 using Microsoft.Owin;
 using Owin;
 using IdSrv.Connector;
+using IdSrv.AspNet.Helpers;
 
 // Конфигурация происходит в классе Startup, фактически добавляется middleware, так что добавляем ссылку на owin
 [assembly: OwinStartup(typeof(Site1.Mvc5.Startup))]
@@ -20,11 +21,15 @@ namespace Site1.Mvc5
     {
         public void Configuration(IAppBuilder app)
         {
+            string idsrvAddress = "https://localhost:44363/identity";
             app
-                .UseAuthServer("https://localhost:44363/identity")
+                .UseAuthServer(idsrvAddress)
                 .WithClientId("78f36f55-784d-4895-8913-f9a76b807a5c")
                 .WithClientSecret("123")
                 .WithOwnAddress("http://localhost:57161/");
+
+            IdSrvConnection.IdSrvAddress = idsrvAddress;
+            IdSrvConnection.UseAutoLogout = true;
         }
     }
 }

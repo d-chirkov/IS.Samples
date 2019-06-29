@@ -70,7 +70,7 @@
 
         private async Task<bool> IsTokenValid(Token result)
         {
-            if (result.SubjectId == null || result.ClientId == null)
+            if (result == null || result.SubjectId == null || result.ClientId == null)
             {
                 return false;
             }
