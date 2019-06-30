@@ -8,6 +8,7 @@
     using System.Threading.Tasks;
     using System.Web.Helpers;
     using IdentityModel.Client;
+    using Microsoft.Owin.Extensions;
     using Microsoft.Owin.Security;
     using Microsoft.Owin.Security.Cookies;
     using Microsoft.Owin.Security.OpenIdConnect;
@@ -158,6 +159,10 @@
                     }
                 });
 
+            if (config.UseWebForms)
+            {
+                app.UseStageMarker(PipelineStage.Authenticate);
+            }
 
             // Api может пригодиться в будущем, на всякий случай оставил, чтобы не затерялось в истории комитов
 

@@ -10,6 +10,8 @@
 
         public string OwnAddress { get; set; }
 
+        public bool UseWebForms { get; set; } = false;
+
         public bool IsComplete {
             get
             {
