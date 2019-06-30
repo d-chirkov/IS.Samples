@@ -26,8 +26,13 @@
         public async Task<Client> FindClientByIdAsync(string clientId)
         {
             IdSrvClientDTO clientFromRepo = await this.ClientRepository.GetClientByIdAsync(clientId);
+            
             if (clientFromRepo == null || clientFromRepo.IsBlocked)
             {
+                // Проверку можно вывести в ...UserService, тогда по идее пользователи будут узнавать, что их блокировали
+                // только тогда, когда введут учетные данные. Но будет и плюс: так как клиент в наличии, то редирет
+                // при блокировке будет работать (сейчас если пользователь работает на сайте и клиент заблокируют,
+                // то авторедиректа не будет, так как самого клиента как бы нет)
                 return null;
             }
 
@@ -64,7 +69,7 @@
 
                 AllowedScopes = this.Scopes.Select(s => s.Name).ToList()
 
-                // Scope-ы в данном примере не освещаются, по идее с помощью них можно разделить 
+                // Scope-ы в данном примере не освещаются, по идее с помощью них  можно разделить 
                 // клиентов (сайты) на области и рудить ими по-отдельности, допускать пользователей
                 // в разные области. Для текущих целей пока не нужно.
                 //AllowAccessToAllScopes = true,
