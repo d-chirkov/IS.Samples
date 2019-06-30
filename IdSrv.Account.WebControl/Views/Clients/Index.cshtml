@@ -1,0 +1,116 @@
+﻿@model IEnumerable<IdSrv.Account.Models.IdSrvClientDTO>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+            $("#temp-message").fadeTo(1000, 200).slideUp(200, function () {
+                $("#temp-message").remove();
+            });
+        });
+    </script>
+    
+}
+
+<div class="container center-block">
+
+    @if (TempData.ContainsKey("_IsError"))
+    {
+        bool? isError = TempData["_IsError"] as bool?;
+        string errorClass = isError.HasValue && isError.Value ? "warning" : "success";
+        <div id="temp-message" class="alert alert-@errorClass alert-dismissible fade show row col-sm-offset-3 col-sm-4 text-center" style="position:fixed">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            @(TempData["_Message"] as string)
+        </div>
+    }
+
+
+    <h2 class="row col-md-12">Клиенты</h2>
+    <br />
+    <table class="table row">
+        <tr class="row">
+            <th class="col-md-3">
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th class="col-md-2">
+                @Html.DisplayName("Клиент")
+            </th>
+            <th class="col-md-2">
+                @Html.DisplayName("Секрет")
+            </th>
+            <th class="col-md-5">
+                @Html.DisplayName("Uri")
+            </th>
+            <td class="col-md-3">
+                @Html.ActionLink("Создать", "Create", "Clients", new { @class = "btn btn-default pull-right" })
+            </td>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr class="row @(item.IsBlocked ? "danger" : "")">
+            <td class="col-md-3">
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td class="col-md-2">
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td class="col-md-2">
+                @Html.DisplayFor(modelItem => item.Secret)
+            </td>
+            <td class="col-md-5">
+                @Html.DisplayFor(modelItem => item.Uri)
+            </td>
+            <td class="col-md-3">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle pull-right" type="button" data-toggle="dropdown"> 
+                        Действия <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            @Html.ActionLink("Изменить", "Update", new { id = item.Id }, new { @class = "btn btn-link" })
+                        </li>
+                        <li>
+                            @using (Html.BeginForm("Delete", "Clients", FormMethod.Post))
+                            {
+                                @Html.Hidden("id", item.Id)
+                                <input type="submit" value="Удалить" class="form-control btn btn-link" />
+                            }
+                        </li>
+                        @if (item.IsBlocked)
+                        {
+                            <li>
+                                @using (Html.BeginForm("Unblock", "Clients", FormMethod.Post))
+                                {
+                                    @Html.Hidden("id", item.Id)
+                                    <input type="submit" value="Разблокировать" class="form-control btn btn-link" />
+                                }
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                @using (Html.BeginForm("Block", "Clients", FormMethod.Post))
+                                {
+                                    @Html.Hidden("id", item.Id)
+                                    <input type="submit" value="Блокировать" class="form-control btn btn-link" />
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div> 
+            
+            </td>
+        </tr>
+    }
+    </table>
+
+</div>
+
+
+
+
+

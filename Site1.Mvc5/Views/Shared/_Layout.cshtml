@@ -1,7 +1,5 @@
 ﻿@{ 
-    string userName = (Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)?
-        .FindFirst(OidcClaimTypes.Name)?
-        .Value;
+    string userName = IdSrv.AspNet.Helpers.IdSrvConnection.GetUserName(Context);
 }
 
 <!DOCTYPE html>

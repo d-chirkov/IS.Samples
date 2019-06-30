@@ -1,85 +1,96 @@
-﻿using Site1.Mvc5.Attributes;
-using Site1.Mvc5.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Web;
-using System.Web.Mvc;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-
-namespace Site1.Mvc5.Controllers
+﻿namespace Site1.Mvc5.Controllers
 {
+    using System;
+    using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Threading.Tasks;
+    using System.Web;
+    using System.Web.Mvc;
+    using IdSrv.AspNet.Helpers;
+    using Site1.Mvc5.Attributes;
+    using Site1.Mvc5.Models;
+    using IdSrv.Account.Models;
+
     public class AccountController : Controller
     {
         [LocalAuthorize(false)]
         public ActionResult SignIn(string returnUrl)
         {
-            return Redirect((returnUrl != null && Url.IsLocalUrl(returnUrl)) ? returnUrl : "~/");
+            return this.Redirect((returnUrl != null && this.Url.IsLocalUrl(returnUrl)) ? returnUrl : "~/");
         }
 
         [LocalAuthorize(false)]
         public void SignOut()
         {
-            Request.GetOwinContext().Authentication.SignOut();
+            this.Request.GetOwinContext().Authentication.SignOut();
         }
 
         [LocalAuthorize(false)]
-        public ActionResult AccessDenied()
+        public async Task<ActionResult> AccessDenied()
         {
-            string userName = (Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
-                ?.FindFirst(OidcClaimTypes.Name)
-                ?.Value;
-            return View((object)userName);
+            string userName = await IdSrvConnection.GetUserNameAsync(this.HttpContext);
+            return this.View((object)userName);
         }
 
         [HttpGet]
         [LocalAuthorize(true)]
         public ActionResult Register()
         {
-            return View();
+            return this.View();
         }
 
         [HttpPost]
         [LocalAuthorize(true)]
         public async Task<ActionResult> Register(RegisterForm registerForm)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return View(registerForm);
+                return this.View(registerForm);
             }
-            NewUser newUser = null;
+            this.ViewBag.AlreadyExists = false;
+            NewUser createdUser = null;
+            var userDto = new NewIdSrvUserDTO { UserName = registerForm.Login, Password = registerForm.Password };
             using (var client = new HttpClient())
             {
                 // Update port # in the following line.
-                client.BaseAddress = new Uri("https://localhost:44301");
+                client.BaseAddress = new Uri("https://localhost:44397/Api/User/");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpResponseMessage response = await client.PostAsJsonAsync(
-                   "api/register/user", new { Name = registerForm.Login, Password = registerForm.Password});
+                HttpResponseMessage response = await client.PutAsJsonAsync("", userDto);
                 if (response.StatusCode != HttpStatusCode.OK && response.StatusCode != HttpStatusCode.Conflict)
                 {
-                    ModelState.AddModelError("Couldn't create", "Не удалось зарегистрировать нового пользователя на SSO сервере");
-                    return View(registerForm);
+                    this.ModelState.AddModelError("Couldn't create", "Не удалось зарегистрировать нового пользователя на SSO сервере");
+                    return this.View(registerForm);
                 }
-                ViewBag.AlreadyExists = response.StatusCode == HttpStatusCode.Conflict;
-                newUser = await response.Content.ReadAsAsync<NewUser>();
+
+                if (response.StatusCode == HttpStatusCode.Conflict)
+                {
+                    this.ViewBag.AlreadyExists = true;
+                }
+
+                response = await client.GetAsync($"GetByUserName?userName={HttpUtility.UrlEncode(userDto.UserName)}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    this.ModelState.AddModelError("Couldn't create", "Ошибка при чтении созданного пользователя на SSO сервере");
+                    return this.View(registerForm);
+                }
+                var createdUserDto = await response.Content.ReadAsAsync<IdSrvUserDTO>();
+                createdUser = new NewUser { Id = createdUserDto.Id.ToString(), Name = createdUserDto.UserName };
             }
             using (var context = new AccountsContext())
             {
-                context.UserProfiles.Add(new UserProfile { IdSrvId = newUser.Id, Login = newUser.Name });
+                context.UserProfiles.Add(new UserProfile { IdSrvId = createdUser.Id, Login = createdUser.Name });
                 // Тут моет рухнуть с исключением, никак пока не обрабатываю
                 await context.SaveChangesAsync();
             }
-            ViewBag.Name = newUser.Name;
-            return View("UserCreated");
+            this.ViewBag.Name = createdUser.Name;
+            return this.View("UserCreated");
         }
 
-        class NewUser
+        private class NewUser
         {
             public string Id { get; set; }
 

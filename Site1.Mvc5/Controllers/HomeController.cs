@@ -1,36 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Site1.Mvc5.Attributes;
-using Site1.Mvc5.Models;
-
-namespace Site1.Mvc5.Controllers
+﻿namespace Site1.Mvc5.Controllers
 {
+    using System.Linq;
+    using System.Web.Mvc;
+    using Site1.Mvc5.Attributes;
+    using Site1.Mvc5.Models;
+    using IdSrv.AspNet.Helpers;
+    using System.Threading.Tasks;
+
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
-            return View();
+            return this.View();
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            this.ViewBag.Message = "Your application description page.";
 
-            return View();
+            return this.View();
         }
 
         [LocalAuthorize(true)]
-        public ActionResult UserProfile()
+        public async Task<ActionResult> UserProfile()
         {
-            string idsrvUserId = (Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
-                ?.FindFirst(OidcClaimTypes.Subject)
-                ?.Value;
-            string userLogin = (Request.GetOwinContext().Authentication.User as System.Security.Claims.ClaimsPrincipal)
-                ?.FindFirst(OidcClaimTypes.Name)
-                ?.Value;
+            string idsrvUserId = await IdSrvConnection.GetUserIdAsync(this.HttpContext);
+            string userLogin = await IdSrvConnection.GetUserNameAsync(this.HttpContext);
 
             UserProfile userProfile = null;
             using (var context = new AccountsContext())
@@ -41,9 +36,9 @@ namespace Site1.Mvc5.Controllers
             }
             if (userProfile == null)
             {
-                return HttpNotFound();
+                return this.HttpNotFound();
             }
-            return View(userProfile);
+            return this.View(userProfile);
         }
     }
 }

@@ -1,0 +1,47 @@
+﻿@{ 
+    string userName = IdSrv.AspNet.Helpers.IdSrvConnection.GetUserName(Context);
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                @Html.ActionLink("IdSrv WebControl", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Users", "Index", "Users")</li>
+                    <li>@Html.ActionLink("Clients", "Index", "Clients")</li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (userName == null)
+                    {
+                        <li>@Html.ActionLink("Войти", "SignIn", "Home", new { returnUrl = @Request.Url.AbsolutePath }, null)</li>
+                    } else
+                    {
+                        <li>@Html.ActionLink(userName, "Index", "Home")</li>
+                        <li>@Html.ActionLink("Выйти", "SignOut", "Home")</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
