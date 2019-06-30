@@ -1,30 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
-namespace IdSrv.Account.WebControl.Controllers
+﻿namespace IdSrv.Account.WebControl.Controllers
 {
+    using System.Web;
+    using System.Web.Mvc;
+
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
-            return View();
+            return this.View();
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            this.ViewBag.Message = "Your application description page.";
 
-            return View();
+            return this.View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            this.ViewBag.Message = "Your contact page.";
 
-            return View();
+            return this.View();
+        }
+
+        [Authorize]
+        public ActionResult SignIn(string returnUrl)
+        {
+            return this.Redirect((returnUrl != null && this.Url.IsLocalUrl(returnUrl)) ? returnUrl : "~/");
+        }
+
+        [Authorize]
+        public void SignOut()
+        {
+            this.Request.GetOwinContext().Authentication.SignOut();
         }
     }
 }

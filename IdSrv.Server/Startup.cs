@@ -104,7 +104,7 @@ namespace IdSrv.Server
                         CookieOptions = new IdentityServer3.Core.Configuration.CookieOptions
                         {
                             // Время жизни сессий клиентов
-                            ExpireTimeSpan = TimeSpan.FromMinutes(14),
+                            ExpireTimeSpan = TimeSpan.FromMinutes(60),
                         }
                     }
                 });
@@ -182,7 +182,7 @@ namespace IdSrv.Server
                         CookieOptions = new IdentityServer3.Core.Configuration.CookieOptions
                         {
                             // Время жизни сессий клиентов
-                            ExpireTimeSpan = TimeSpan.FromMinutes(5)
+                            ExpireTimeSpan = TimeSpan.FromMinutes(60)
                         }
                     },
 

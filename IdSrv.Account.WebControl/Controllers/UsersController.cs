@@ -7,6 +7,7 @@
     using IdSrv.Account.Models;
     using IdSrv.Account.WebControl.Infrastructure.Abstractions;
 
+    [Authorize]
     public class UsersController : Controller
     {
         private IUserService userService { get; set; }
