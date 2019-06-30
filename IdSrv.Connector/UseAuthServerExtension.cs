@@ -56,6 +56,13 @@
             return TryConfigureAuthServer(app, config);
         }
 
+        public static IAppBuilder WithWebForms(this IAppBuilder app)
+        {
+            AuthServerConfiguration config = GetConfigurationFor(app);
+            config.UseWebForms = true;
+            return TryConfigureAuthServer(app, config);
+        }
+
         private static IAppBuilder TryConfigureAuthServer(IAppBuilder app, AuthServerConfiguration config)
         {
             if (!config.IsComplete)
