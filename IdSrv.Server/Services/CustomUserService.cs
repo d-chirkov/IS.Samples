@@ -48,6 +48,13 @@
         public override async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             IdSrvUserDTO user = await this.UserRepository.GetUserByIdAsync(context.Subject.GetSubjectId());
+            await this.Logger?.ProfileDataAccessedAsync(
+                userId: user?.Id.ToString(),
+                userName: user?.UserName,
+                clientId: context.Client?.ClientId,
+                clientName: context.Client?.ClientName,
+                isBlocked: user != null ? user.IsBlocked : false);
+
             if (user != null)
             {
                 if (!user.IsBlocked)
@@ -58,12 +65,6 @@
                         new Claim(Constants.ClaimTypes.Name, user.UserName.ToString())
                     };
                 }
-                await this.Logger?.ProfileDataAccessedAsync(
-                    userId: user.Id.ToString(),
-                    userName: user.UserName,
-                    clientId: context.Client.ClientId,
-                    clientName: context.Client.ClientName,
-                    isBlocked: user.IsBlocked);
             }
         }
 

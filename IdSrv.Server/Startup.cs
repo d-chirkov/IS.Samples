@@ -21,6 +21,8 @@ namespace IdSrv.Server
     using System.Threading.Tasks;
     using IdentityServer3.Core;
     using IdSrv.Server.Repositories.Abstractions;
+    using IdSrv.Server.Loggers.Abstractions;
+    using IdSrv.Server.Loggers;
 
     public class Startup
     {
@@ -31,7 +33,7 @@ namespace IdSrv.Server
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                .WriteTo.File($"{AppDomain.CurrentDomain.BaseDirectory}\\IS.Log.txt")
+                .WriteTo.File($"{AppDomain.CurrentDomain.BaseDirectory}\\IdSrv.Server.System.log")
                 .CreateLogger();
         }
 
@@ -59,7 +61,8 @@ namespace IdSrv.Server
                 factory.ClientStore = new Registration<IClientStore>(resolver => clientStore);
 
                 var userRepository = new RestUserRepository("https://localhost:44397/Api/User/");
-                var userService = new CustomUserService(userRepository);
+                var logger = new FileAuthLogger($"{AppDomain.CurrentDomain.BaseDirectory}\\IdSrv.Server.identity.log");
+                var userService = new CustomUserService(userRepository, logger);
                 factory.UserService = new Registration<IUserService>(resolver => userService);
 
                 // Устанавливаем наш CustomViewService, чтобы после выхода пользователя в сообщении не выводилось
@@ -146,6 +149,8 @@ namespace IdSrv.Server
             var clientRepository = new RestClientRepository("https://localhost:44397/Api/Client/");
             var userRepository = new RestUserRepository("https://localhost:44397/Api/User/");
             var clientStore = new CustomClientStore(clientRepository, scopes, isWindowsAuth: true);
+            var logger = new FileAuthLogger($"{AppDomain.CurrentDomain.BaseDirectory}\\IdSrv.Server.winidentity.log");
+            factory.Register(new Registration<IAuthLogger>(r => logger));
             factory.Register(new Registration<IUserRepository>(r => userRepository));
             factory.Register(new Registration<IClientRepository>(r => clientRepository));
             factory.ClientStore = new Registration<IClientStore>(resolver => clientStore);

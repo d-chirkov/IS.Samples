@@ -145,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Loggers\Abstractions\IAuthLogger.cs" />
+    <Compile Include="Loggers\FileAuthLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Abstractions\IClientRepository .cs" />
     <Compile Include="Repositories\Abstractions\IUserRepository.cs" />
