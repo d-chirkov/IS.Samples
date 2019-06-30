@@ -46,12 +46,20 @@
 
         public static async Task<string> GetUserIdAsync(HttpContextBase httpContext)
         {
-            return await IsAccessBlockedAsync(httpContext) ? null : GetUserIdFromContext(httpContext);
+            string userId = GetUserIdFromContext(httpContext);
+            return
+                userId == null ? null :
+                GetUserIdFromClaims(await LoadAndGetUserClaimsAsync(httpContext)) == userId ? userId :
+                null;
         }
 
         public static string GetUserId(HttpContextBase httpContext)
         {
-            return IsAccessBlocked(httpContext) ? null : GetUserIdFromContext(httpContext);
+            string userId = GetUserIdFromContext(httpContext);
+            return
+                userId == null ? null :
+                GetUserIdFromClaims(LoadAndGetUserClaims(httpContext)) == userId ? userId :
+                null;
         }
 
         public static async Task<IEnumerable<Tuple<string, string>>> GetUserClaimsAsync(HttpContextBase httpContext)

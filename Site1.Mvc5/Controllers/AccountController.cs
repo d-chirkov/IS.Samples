@@ -48,6 +48,7 @@
             {
                 return this.View(registerForm);
             }
+            this.ViewBag.AlreadyExists = false;
             NewUser createdUser = null;
             var userDto = new NewIdSrvUserDTO { UserName = registerForm.Login, Password = registerForm.Password };
             using (var client = new HttpClient())

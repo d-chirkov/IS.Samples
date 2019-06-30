@@ -151,9 +151,7 @@
     <Compile Include="Repositories\RestUserRepository.cs" />
     <Compile Include="Services\CustomGrantValidator.cs" />
     <Compile Include="Services\CustomTokenHandleStore.cs" />
-    <Compile Include="Services\CustomTokenValidator.cs" />
     <Compile Include="Services\CustomViewService.cs" />
-    <Compile Include="Services\CustomAuthenticationSessionValidator.cs" />
     <Compile Include="Services\CustomUserService.cs" />
     <Compile Include="Services\CustomClientStore.cs" />
     <Compile Include="Services\ExternalRegistrationUserService.cs" />

@@ -35,7 +35,7 @@
             IdSrvUserDTO user = await this.UserRepository.GetUserByIdAsync(context.Subject.GetSubjectId());
             if (user != null && context.RequestedClaimTypes.Contains(Constants.ClaimTypes.Name))
             {
-                // Единственный claim который есть у пользователя в рамках примера - его username
+                context.IssuedClaims = new[] { new Claim(Constants.ClaimTypes.Subject, user.Id.ToString()) };
                 context.IssuedClaims = new[] { new Claim(Constants.ClaimTypes.Name, user.UserName) };
             }
         }

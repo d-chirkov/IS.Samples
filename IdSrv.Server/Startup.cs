@@ -157,6 +157,7 @@ namespace IdSrv.Server
             factory.ClientStore = new Registration<IClientStore>(resolver => clientStore);
             factory.UserService = new Registration<IUserService>(typeof(ExternalRegistrationUserService));
             factory.CustomGrantValidators.Add(new Registration<ICustomGrantValidator, CustomGrantValidator>());
+            factory.ViewService = new DefaultViewServiceRegistration<CustomViewService>();
 
             app.Map("/winidentity", idsrvApp =>
             {

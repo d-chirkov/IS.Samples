@@ -13,14 +13,6 @@
 
     internal class ExternalRegistrationUserService : UserServiceBase
     {
-        public class WindowsUser
-        {
-            public string Subject { get; set; }
-            public string Provider { get; set; }
-            public string ProviderID { get; set; }
-            public List<Claim> Claims { get; set; }
-        }
-
         public IUserRepository UserRepository { get; set; }
 
         public ExternalRegistrationUserService(IUserRepository userRepository)
@@ -38,14 +30,10 @@
             IdSrvUserDTO user = await this.UserRepository.GetUserByUserNameAsync(userName);
             if (user != null && !user.IsBlocked)
             {
-                var windowsUser = new WindowsUser
-                {
-                    Subject = user.Id.ToString(),
-                    Provider = context.ExternalIdentity.Provider,
-                    ProviderID = context.ExternalIdentity.ProviderId,
-                    Claims = new List<Claim> { new Claim(Constants.ClaimTypes.Name, userName) }
-                };
-                context.AuthenticateResult = new AuthenticateResult(windowsUser.Subject, userName, identityProvider: windowsUser.Provider);
+                context.AuthenticateResult = new AuthenticateResult(
+                    user.Id.ToString(), 
+                    userName, 
+                    identityProvider: context.ExternalIdentity.Provider);
             }
             else
             {
