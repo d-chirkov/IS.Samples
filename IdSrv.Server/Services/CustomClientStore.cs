@@ -27,18 +27,14 @@
         {
             IdSrvClientDTO clientFromRepo = await this.ClientRepository.GetClientByIdAsync(clientId);
             
-            if (clientFromRepo == null || clientFromRepo.IsBlocked)
+            if (clientFromRepo == null)
             {
-                // Проверку можно вывести в ...UserService, тогда по идее пользователи будут узнавать, что их блокировали
-                // только тогда, когда введут учетные данные. Но будет и плюс: так как клиент в наличии, то редирет
-                // при блокировке будет работать (сейчас если пользователь работает на сайте и клиент заблокируют,
-                // то авторедиректа не будет, так как самого клиента как бы нет)
                 return null;
             }
 
             var client = new Client
             {
-                Enabled = true,
+                Enabled = !clientFromRepo.IsBlocked,
                 ClientName = clientFromRepo.Name,
 
                 // ID клиента, также указывается в настройках самого клиента, см. конфигарцию в классе Startup

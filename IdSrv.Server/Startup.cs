@@ -62,12 +62,6 @@ namespace IdSrv.Server
                 var userService = new CustomUserService(userRepository);
                 factory.UserService = new Registration<IUserService>(resolver => userService);
 
-                var tokenHandleStore = new CustomTokenHandleStore(userRepository, clientRepository);
-                factory.TokenHandleStore = new Registration<ITokenHandleStore>(resolver => tokenHandleStore);
-
-                //var sessionValidator = new CustomAuthenticationSessionValidator(userRepository);
-                //factory.AuthenticationSessionValidator = new Registration<IAuthenticationSessionValidator>(resolver => sessionValidator);
-
                 // Устанавливаем наш CustomViewService, чтобы после выхода пользователя в сообщении не выводилось
                 // неправильное имя клиентского приложения (выводится то, на котором был произведён вход).
                 factory.ViewService = new DefaultViewServiceRegistration<CustomViewService>();

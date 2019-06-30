@@ -9,14 +9,18 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
     using IdSrv.Server.Repositories.Abstractions;
+    using IdSrv.Server.Loggers.Abstractions;
+    using System.Collections.Generic;
 
     internal class CustomUserService : UserServiceBase
     {
         private IUserRepository UserRepository { get; set; }
+        private IAuthLogger Logger { get; set; }
 
-        public CustomUserService(IUserRepository userRepository)
+        public CustomUserService(IUserRepository userRepository, IAuthLogger logger = null)
         {
             this.UserRepository = userRepository;
+            this.Logger = logger;
         }
 
         public override async Task AuthenticateLocalAsync(LocalAuthenticationContext context)
@@ -27,16 +31,51 @@
                 context.AuthenticateResult = user.IsBlocked ?
                     new AuthenticateResult(errorMessage: $"User \"{user.UserName}\" is blocked") :
                     new AuthenticateResult(user.Id.ToString(), user.UserName);
+                await this.Logger?.UserSignedInAsync(
+                    userId: user.Id.ToString(), 
+                    userName: user.UserName, 
+                    clientId: context.SignInMessage.ClientId, 
+                    isBlocked: user.IsBlocked);
+            }
+            else
+            {
+                await this.Logger?.UnsuccessfulSigningInAsync(
+                    userName: context.UserName,
+                    clientId: context.SignInMessage.ClientId);
             }
         }
 
         public override async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             IdSrvUserDTO user = await this.UserRepository.GetUserByIdAsync(context.Subject.GetSubjectId());
-            if (user != null && context.RequestedClaimTypes.Contains(Constants.ClaimTypes.Name))
+            if (user != null)
             {
-                context.IssuedClaims = new[] { new Claim(Constants.ClaimTypes.Subject, user.Id.ToString()) };
-                context.IssuedClaims = new[] { new Claim(Constants.ClaimTypes.Name, user.UserName) };
+                if (!user.IsBlocked)
+                {
+                    context.IssuedClaims = new List<Claim>
+                    {
+                        new Claim(Constants.ClaimTypes.Subject, user.Id.ToString()),
+                        new Claim(Constants.ClaimTypes.Name, user.UserName.ToString())
+                    };
+                }
+                await this.Logger?.ProfileDataAccessedAsync(
+                    userId: user.Id.ToString(),
+                    userName: user.UserName,
+                    clientId: context.Client.ClientId,
+                    clientName: context.Client.ClientName,
+                    isBlocked: user.IsBlocked);
+            }
+        }
+
+        public override async Task SignOutAsync(SignOutContext context)
+        {
+            string userId = context.Subject?.Claims?.FirstOrDefault(c => c.Type == Constants.ClaimTypes.Subject)?.Value;
+            if (userId != null && context.ClientId != null)
+            {
+                await this.Logger?.UserSignedOutAsync(
+                    userId: userId,
+                    userName: context.Subject?.Claims?.FirstOrDefault(c => c.Type == Constants.ClaimTypes.Name)?.Value,
+                    clientId: context.ClientId);
             }
         }
     }

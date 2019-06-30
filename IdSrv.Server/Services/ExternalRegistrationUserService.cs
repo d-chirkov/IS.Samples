@@ -9,15 +9,18 @@
     using IdentityServer3.Core.Models;
     using IdentityServer3.Core.Services.Default;
     using IdSrv.Account.Models;
+    using IdSrv.Server.Loggers.Abstractions;
     using IdSrv.Server.Repositories.Abstractions;
 
     internal class ExternalRegistrationUserService : UserServiceBase
     {
         public IUserRepository UserRepository { get; set; }
+        private IAuthLogger Logger { get; set; }
 
-        public ExternalRegistrationUserService(IUserRepository userRepository)
+        public ExternalRegistrationUserService(IUserRepository userRepository, IAuthLogger logger = null)
         {
             this.UserRepository = userRepository;
+            this.Logger = logger;
         }
 
         public override async Task AuthenticateExternalAsync(ExternalAuthenticationContext context)
@@ -25,33 +28,68 @@
             string userName = context.ExternalIdentity.Claims.FirstOrDefault(x => x.Type == Constants.ClaimTypes.Name)?.Value;
             if (userName == null)
             {
+                await this.Logger?.UnsuccessfulSigningInAsync(
+                    userName: userName,
+                    clientId: context.SignInMessage.ClientId);
                 return;
             }
             IdSrvUserDTO user = await this.UserRepository.GetUserByUserNameAsync(userName);
             if (user != null && !user.IsBlocked)
             {
-                context.AuthenticateResult = new AuthenticateResult(
-                    user.Id.ToString(), 
-                    userName, 
-                    identityProvider: context.ExternalIdentity.Provider);
+
+                context.AuthenticateResult = user.IsBlocked ?
+                    new AuthenticateResult($"User is \"{userName}\" blocked") :
+                    new AuthenticateResult(
+                        user.Id.ToString(), 
+                        userName, 
+                        identityProvider: context.ExternalIdentity.Provider);
+
+                await this.Logger?.UserSignedInAsync(
+                    userId: user.Id.ToString(),
+                    clientId: context.SignInMessage.ClientId,
+                    userName: user.UserName,
+                    isBlocked: user.IsBlocked);
             }
             else
             {
-                context.AuthenticateResult = new AuthenticateResult($"User is \"{userName}\" blocked");
+                context.AuthenticateResult = new AuthenticateResult($"User is \"{userName}\" not registered");
+                await this.Logger?.NotRegisteredUserTryToSignInAsync(
+                    userName: user.UserName,
+                    clientId: context.SignInMessage.ClientId);
             }
         }
 
         public override async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             IdSrvUserDTO user = await this.UserRepository.GetUserByIdAsync(context.Subject.GetSubjectId());
-            if (user != null && !user.IsBlocked)
+            if (user != null)
             {
-                var userClaims = new List<Claim>
+                if (!user.IsBlocked)
                 {
-                    new Claim(Constants.ClaimTypes.Subject, user.Id.ToString()),
-                    new Claim(Constants.ClaimTypes.Name, user.UserName.ToString())
-                };
-                context.IssuedClaims = userClaims.Where(x => context.RequestedClaimTypes.Contains(x.Type));
+                    context.IssuedClaims = new List<Claim>
+                    {
+                        new Claim(Constants.ClaimTypes.Subject, user.Id.ToString()),
+                        new Claim(Constants.ClaimTypes.Name, user.UserName.ToString())
+                    };
+                }
+                await this.Logger?.ProfileDataAccessedAsync(
+                    userId: user.Id.ToString(),
+                    userName: user.UserName,
+                    clientId: context.Client.ClientId,
+                    clientName: context.Client.ClientName,
+                    isBlocked: user.IsBlocked);
+            }
+        }
+
+        public override async Task SignOutAsync(SignOutContext context)
+        {
+            string userId = context.Subject?.Claims?.FirstOrDefault(c => c.Type == Constants.ClaimTypes.Subject)?.Value;
+            if (userId != null && context.ClientId != null)
+            {
+                await this.Logger?.UserSignedOutAsync(
+                    userId: userId,
+                    userName: context.Subject?.Claims?.FirstOrDefault(c => c.Type == Constants.ClaimTypes.Name)?.Value,
+                    clientId: context.ClientId);
             }
         }
     }

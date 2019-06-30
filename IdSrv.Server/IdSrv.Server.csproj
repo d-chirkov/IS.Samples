@@ -144,13 +144,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Loggers\Abstractions\IAuthLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Abstractions\IClientRepository .cs" />
     <Compile Include="Repositories\Abstractions\IUserRepository.cs" />
     <Compile Include="Repositories\RestClientRepository.cs" />
     <Compile Include="Repositories\RestUserRepository.cs" />
     <Compile Include="Services\CustomGrantValidator.cs" />
-    <Compile Include="Services\CustomTokenHandleStore.cs" />
     <Compile Include="Services\CustomViewService.cs" />
     <Compile Include="Services\CustomUserService.cs" />
     <Compile Include="Services\CustomClientStore.cs" />
