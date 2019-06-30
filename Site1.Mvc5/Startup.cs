@@ -29,7 +29,7 @@ namespace Site1.Mvc5
                 .WithOwnAddress("http://localhost:57161/");
 
             IdSrvConnection.IdSrvAddress = idsrvAddress;
-            IdSrvConnection.UseAutoLogout = true;
+            IdSrvConnection.UseAutoLogoutWhenNoAccess = true;
         }
     }
 }

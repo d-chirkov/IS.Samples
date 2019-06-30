@@ -21,7 +21,7 @@ namespace Site2.Mvc5
                .WithOwnAddress("http://localhost:51573/");
 
             IdSrvConnection.IdSrvAddress = idsrvAddress;
-            IdSrvConnection.UseAutoLogout = true;
+            IdSrvConnection.UseAutoLogoutWhenNoAccess = true;
         }
     }
 }

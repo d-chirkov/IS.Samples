@@ -11,7 +11,7 @@
     {
         public static string IdSrvAddress { get; set; }
 
-        public static bool UseAutoLogout { get; set; } = false;
+        public static bool UseAutoLogoutWhenNoAccess { get; set; } = false;
 
         public static async Task<bool> IsAccessBlockedAsync(HttpContextBase httpContext)
         {
@@ -109,7 +109,7 @@
             {
                 httpContext.Items.Add("idsrv_user_claims", response.Claims);
             }
-            else if (UseAutoLogout)
+            else if (UseAutoLogoutWhenNoAccess)
             {
                 httpContext.Request.GetOwinContext().Authentication.SignOut();
             }

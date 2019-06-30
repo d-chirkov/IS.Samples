@@ -106,12 +106,20 @@
                             var userInfoClient = new UserInfoClient(uriToUserInfo, n.ProtocolMessage.AccessToken);
                             var userInfoResponse = await userInfoClient.GetAsync();
 
+                            string userName = userInfoResponse?.Claims?.FirstOrDefault(c => c.Item1 == "name")?.Item2;
+
+                            if (userName == null)
+                            {
+                                n.OwinContext.Authentication.SignOut();
+                                return;
+                            }
+
                             // Создаём claims-ы пользователя, которые в дальнейшем будут видны в методах контроллера
                             var id = new ClaimsIdentity(n.AuthenticationTicket.Identity.AuthenticationType);
                             id.AddClaims(n.AuthenticationTicket.Identity.Claims);
 
                             // имя пользователя (логин)
-                            id.AddClaim(new Claim("name", userInfoResponse.Claims.FirstOrDefault(c => c.Item1 == "name").Item2));
+                            id.AddClaim(new Claim("name", userName));
 
                             // и id_token (нужен для logout-а)
                             id.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
