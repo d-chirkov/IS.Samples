@@ -11,6 +11,10 @@
 
 Остальные проекты - примеры клиентов.
 
+# Запуск:
+
+IdSrv.Account.WebApi -> IdSrv.Server -> любой клиент или WebControl
+
 # Интеграция существующего сайта:
 - Необходимо установить сборки Microsoft.Owin.Host.SystemWeb, IdSrv.Connector, IdSrv.AspNet.Helpers
 - Залезаем в Web.config, среди прочего должны быть такие строки:
