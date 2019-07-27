@@ -25,7 +25,7 @@
 
         public async Task<Client> FindClientByIdAsync(string clientId)
         {
-            IdSrvClientDTO clientFromRepo = await this.ClientRepository.GetClientByIdAsync(clientId);
+            IdSrvClientDto clientFromRepo = await this.ClientRepository.GetClientByIdAsync(clientId);
             
             if (clientFromRepo == null)
             {

@@ -39,7 +39,7 @@
         [Test]
         public async Task Get_InvokeGetByIdFromRepository_With_PassedId()
         {
-            this.ClientRepository.Setup(v => v.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(new IdSrvClientDTO());
+            this.ClientRepository.Setup(v => v.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(new IdSrvClientDto());
             var controller = new ClientController(this.ClientRepository.Object);
             var id = new Guid();
             await controller.Get(id);
@@ -49,19 +49,19 @@
         [Test]
         public async Task Get_ReturnOkWithClientReceivedFromRepository_When_RepositoryReturnNotNull()
         {
-            var client = new IdSrvClientDTO();
+            var client = new IdSrvClientDto();
             this.ClientRepository.Setup(v => v.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(client);
             var controller = new ClientController(this.ClientRepository.Object);
             IHttpActionResult httpResult = await controller.Get(new Guid());
             Assert.NotNull(httpResult);
-            Assert.IsInstanceOf<OkNegotiatedContentResult<IdSrvClientDTO>>(httpResult);
-            Assert.AreEqual(client, (httpResult as OkNegotiatedContentResult<IdSrvClientDTO>).Content);
+            Assert.IsInstanceOf<OkNegotiatedContentResult<IdSrvClientDto>>(httpResult);
+            Assert.AreEqual(client, (httpResult as OkNegotiatedContentResult<IdSrvClientDto>).Content);
         }
 
         [Test]
         public async Task Get_ReturnNotFound_When_RepositoryReturnNull()
         {
-            this.ClientRepository.Setup(v => v.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(null as IdSrvClientDTO);
+            this.ClientRepository.Setup(v => v.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(null as IdSrvClientDto);
             var controller = new ClientController(this.ClientRepository.Object);
             IHttpActionResult httpResult = await controller.Get(new Guid());
             Assert.NotNull(httpResult);
@@ -71,7 +71,7 @@
         [Test]
         public async Task GetByName_ReturnBadRequest_When_PassingNullName()
         {
-            this.ClientRepository.Setup(v => v.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(null as IdSrvClientDTO);
+            this.ClientRepository.Setup(v => v.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(null as IdSrvClientDto);
             var controller = new ClientController(this.ClientRepository.Object);
             IHttpActionResult httpResult = await controller.GetByName(null);
             Assert.NotNull(httpResult);
@@ -81,7 +81,7 @@
         [Test]
         public async Task GetByName_InvokeGetByNameFromRepository_With_PassedName()
         {
-            this.ClientRepository.Setup(v => v.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(new IdSrvClientDTO());
+            this.ClientRepository.Setup(v => v.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(new IdSrvClientDto());
             var controller = new ClientController(this.ClientRepository.Object);
             var name = "n";
             await controller.GetByName(name);
@@ -91,19 +91,19 @@
         [Test]
         public async Task GetByName_ReturnOkWithClientReceivedFromRepository_When_RepositoryReturnNotNull()
         {
-            var client = new IdSrvClientDTO();
+            var client = new IdSrvClientDto();
             this.ClientRepository.Setup(v => v.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(client);
             var controller = new ClientController(this.ClientRepository.Object);
             IHttpActionResult httpResult = await controller.GetByName("n");
             Assert.NotNull(httpResult);
-            Assert.IsInstanceOf<OkNegotiatedContentResult<IdSrvClientDTO>>(httpResult);
-            Assert.AreEqual(client, (httpResult as OkNegotiatedContentResult<IdSrvClientDTO>).Content);
+            Assert.IsInstanceOf<OkNegotiatedContentResult<IdSrvClientDto>>(httpResult);
+            Assert.AreEqual(client, (httpResult as OkNegotiatedContentResult<IdSrvClientDto>).Content);
         }
 
         [Test]
         public async Task GetByName_ReturnNotFound_When_RepositoryReturnNull()
         {
-            this.ClientRepository.Setup(v => v.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(null as IdSrvClientDTO);
+            this.ClientRepository.Setup(v => v.GetByNameAsync(It.IsAny<string>())).ReturnsAsync(null as IdSrvClientDto);
             var controller = new ClientController(this.ClientRepository.Object);
             IHttpActionResult httpResult = await controller.GetByName("n1");
             Assert.NotNull(httpResult);
@@ -113,7 +113,7 @@
         [Test]
         public async Task GetAll_InvokeGetAllFromClientRepository()
         {
-            this.ClientRepository.Setup(v => v.GetAllAsync()).ReturnsAsync(new List<IdSrvClientDTO>());
+            this.ClientRepository.Setup(v => v.GetAllAsync()).ReturnsAsync(new List<IdSrvClientDto>());
             var controller = new ClientController(this.ClientRepository.Object);
             await controller.GetAll();
             this.ClientRepository.Verify(v => v.GetAllAsync());
@@ -122,31 +122,31 @@
         [Test]
         public async Task GetAll_ReturnOkWithClientsReceivedFromRepository_When_RepositoryReturnNotNull()
         {
-            var clients = new List<IdSrvClientDTO> { new IdSrvClientDTO(), new IdSrvClientDTO() };
+            var clients = new List<IdSrvClientDto> { new IdSrvClientDto(), new IdSrvClientDto() };
             this.ClientRepository.Setup(v => v.GetAllAsync()).ReturnsAsync(clients);
             var controller = new ClientController(this.ClientRepository.Object);
             IHttpActionResult httpResult = await controller.GetAll();
             Assert.NotNull(httpResult);
-            Assert.IsInstanceOf<OkNegotiatedContentResult<IEnumerable<IdSrvClientDTO>>>(httpResult);
-            Assert.AreEqual(clients, (httpResult as OkNegotiatedContentResult<IEnumerable<IdSrvClientDTO>>).Content);
+            Assert.IsInstanceOf<OkNegotiatedContentResult<IEnumerable<IdSrvClientDto>>>(httpResult);
+            Assert.AreEqual(clients, (httpResult as OkNegotiatedContentResult<IEnumerable<IdSrvClientDto>>).Content);
         }
 
         [Test]
         public async Task GetAll_ReturnOkWithEmptyClientsList_When_RepositoryReturnNotNullEmptyClientsList()
         {
-            var clients = new List<IdSrvClientDTO> { };
+            var clients = new List<IdSrvClientDto> { };
             this.ClientRepository.Setup(v => v.GetAllAsync()).ReturnsAsync(clients);
             var controller = new ClientController(this.ClientRepository.Object);
             IHttpActionResult httpResult = await controller.GetAll();
             Assert.NotNull(httpResult);
-            Assert.IsInstanceOf<OkNegotiatedContentResult<IEnumerable<IdSrvClientDTO>>>(httpResult);
-            Assert.AreEqual(clients, (httpResult as OkNegotiatedContentResult<IEnumerable<IdSrvClientDTO>>).Content);
+            Assert.IsInstanceOf<OkNegotiatedContentResult<IEnumerable<IdSrvClientDto>>>(httpResult);
+            Assert.AreEqual(clients, (httpResult as OkNegotiatedContentResult<IEnumerable<IdSrvClientDto>>).Content);
         }
 
         [Test]
         public async Task GetAll_ReturnNotFound_When_RepositoryReturnNull()
         {
-            this.ClientRepository.Setup(v => v.GetAllAsync()).ReturnsAsync(null as IEnumerable<IdSrvClientDTO>);
+            this.ClientRepository.Setup(v => v.GetAllAsync()).ReturnsAsync(null as IEnumerable<IdSrvClientDto>);
             var controller = new ClientController(this.ClientRepository.Object);
             IHttpActionResult httpResult = await controller.GetAll();
             Assert.NotNull(httpResult);
@@ -200,7 +200,7 @@
         public async Task Create_ReturnBadRequest_When_PassingNullDto()
         {
             this.ClientRepository
-                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDTO>()))
+                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.Conflict);
             var controller = new ClientController(this.ClientRepository.Object);
             IHttpActionResult httpResult = await controller.Create(null);
@@ -212,10 +212,10 @@
         public async Task Create_ReturnBadRequest_When_PassingDtoWithNullName()
         {
             this.ClientRepository
-                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDTO>()))
+                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.Conflict);
             var controller = new ClientController(this.ClientRepository.Object);
-            IHttpActionResult httpResult = await controller.Create(new NewIdSrvClientDTO { Secret = "s" });
+            IHttpActionResult httpResult = await controller.Create(new NewIdSrvClientDto { Secret = "s" });
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<BadRequestResult>(httpResult);
         }
@@ -224,10 +224,10 @@
         public async Task Create_ReturnBadRequest_When_PassingDtoWithNullSecret()
         {
             this.ClientRepository
-                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDTO>()))
+                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.Conflict);
             var controller = new ClientController(this.ClientRepository.Object);
-            IHttpActionResult httpResult = await controller.Create(new NewIdSrvClientDTO { Name = "n" });
+            IHttpActionResult httpResult = await controller.Create(new NewIdSrvClientDto { Name = "n" });
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<BadRequestResult>(httpResult);
         }
@@ -236,10 +236,10 @@
         public async Task Create_ReturnOk_When_PassingDtoWithNameAndSecret_And_RepositoryReturnSuccess()
         {
             this.ClientRepository
-                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDTO>()))
+                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new ClientController(this.ClientRepository.Object);
-            var newClientDto = new NewIdSrvClientDTO { Name = "u", Secret = "p" };
+            var newClientDto = new NewIdSrvClientDto { Name = "u", Secret = "p" };
             IHttpActionResult httpResult = await controller.Create(newClientDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<OkResult>(httpResult);
@@ -249,10 +249,10 @@
         public async Task Create_ReturnOk_When_PassingDtoWithNameAndSecretAndUri_And_RepositoryReturnSuccess()
         {
             this.ClientRepository
-                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDTO>()))
+                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new ClientController(this.ClientRepository.Object);
-            var newClientDto = new NewIdSrvClientDTO { Name = "u", Secret = "p", Uri = "u" };
+            var newClientDto = new NewIdSrvClientDto { Name = "u", Secret = "p", Uri = "u" };
             IHttpActionResult httpResult = await controller.Create(newClientDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<OkResult>(httpResult);
@@ -262,10 +262,10 @@
         public async Task Create_InvokeCreateFromRepository_With_PassedDto_When_PassingNameAndSecretInDto()
         {
             this.ClientRepository
-                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDTO>()))
+                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new ClientController(this.ClientRepository.Object);
-            var clientDto = new NewIdSrvClientDTO { Name = "u", Secret = "p" };
+            var clientDto = new NewIdSrvClientDto { Name = "u", Secret = "p" };
             IHttpActionResult httpResult = await controller.Create(clientDto);
             this.ClientRepository.Verify(v => v.CreateAsync(clientDto));
         }
@@ -274,10 +274,10 @@
         public async Task Create_InvokeCreateFromRepository_With_PassedDto_When_PassingNameAndSecretAndUriInDto()
         {
             this.ClientRepository
-                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDTO>()))
+                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new ClientController(this.ClientRepository.Object);
-            var clientDto = new NewIdSrvClientDTO { Name = "u", Secret = "p", Uri = "u" };
+            var clientDto = new NewIdSrvClientDto { Name = "u", Secret = "p", Uri = "u" };
             IHttpActionResult httpResult = await controller.Create(clientDto);
             this.ClientRepository.Verify(v => v.CreateAsync(clientDto));
         }
@@ -286,10 +286,10 @@
         public async Task Create_ReturnConflict_When_RepositoryReturnConflict()
         {
             this.ClientRepository
-                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDTO>()))
+                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.Conflict);
             var controller = new ClientController(this.ClientRepository.Object);
-            var clientDto = new NewIdSrvClientDTO { Name = "u", Secret = "p" };
+            var clientDto = new NewIdSrvClientDto { Name = "u", Secret = "p" };
             IHttpActionResult httpResult = await controller.Create(clientDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<ConflictResult>(httpResult);
@@ -299,10 +299,10 @@
         public void Create_ThrowsClientRepositoryException_When_RepositoryReturnNotFound()
         {
             this.ClientRepository
-                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDTO>()))
+                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.NotFound);
             var controller = new ClientController(this.ClientRepository.Object);
-            var clientDto = new NewIdSrvClientDTO { Name = "u", Secret = "p" };
+            var clientDto = new NewIdSrvClientDto { Name = "u", Secret = "p" };
             Assert.ThrowsAsync<ClientRepositoryException>(() => controller.Create(clientDto));
         }
 
@@ -310,10 +310,10 @@
         public void Create_ThrowsClientRepositoryException_When_RepositoryReturnUnexpetedResponse()
         {
             this.ClientRepository
-                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDTO>()))
+                .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvClientDto>()))
                 .ReturnsAsync(this.UnexpectedRepositoryResponse);
             var controller = new ClientController(this.ClientRepository.Object);
-            var clientDto = new NewIdSrvClientDTO { Name = "u", Secret = "p" };
+            var clientDto = new NewIdSrvClientDto { Name = "u", Secret = "p" };
             Assert.ThrowsAsync<ClientRepositoryException>(() => controller.Create(clientDto));
         }
 
@@ -321,7 +321,7 @@
         public async Task Update_ReturnBadRequest_When_PassingNullDto()
         {
             this.ClientRepository
-                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDTO>()))
+                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.Conflict);
             var controller = new ClientController(this.ClientRepository.Object);
             IHttpActionResult httpResult = await controller.Update(null);
@@ -333,10 +333,10 @@
         public async Task Update_ReturnBadRequest_When_PassingDtoWithNullName()
         {
             this.ClientRepository
-                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDTO>()))
+                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.Conflict);
             var controller = new ClientController(this.ClientRepository.Object);
-            IHttpActionResult httpResult = await controller.Update(new UpdateIdSrvClientDTO { Secret = "s" });
+            IHttpActionResult httpResult = await controller.Update(new UpdateIdSrvClientDto { Secret = "s" });
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<BadRequestResult>(httpResult);
         }
@@ -345,10 +345,10 @@
         public async Task Update_ReturnBadRequest_When_PassingDtoWithNullSecret()
         {
             this.ClientRepository
-                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDTO>()))
+                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.Conflict);
             var controller = new ClientController(this.ClientRepository.Object);
-            IHttpActionResult httpResult = await controller.Update(new UpdateIdSrvClientDTO { Name = "n" });
+            IHttpActionResult httpResult = await controller.Update(new UpdateIdSrvClientDto { Name = "n" });
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<BadRequestResult>(httpResult);
         }
@@ -357,10 +357,10 @@
         public async Task Update_ReturnOk_When_PassingDtoWithNameAndSecret_And_RepositoryReturnSuccess()
         {
             this.ClientRepository
-                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDTO>()))
+                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new ClientController(this.ClientRepository.Object);
-            var clientDto = new UpdateIdSrvClientDTO { Name = "u", Secret = "p" };
+            var clientDto = new UpdateIdSrvClientDto { Name = "u", Secret = "p" };
             IHttpActionResult httpResult = await controller.Update(clientDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<OkResult>(httpResult);
@@ -370,10 +370,10 @@
         public async Task Update_ReturnOk_When_PassingDtoWithNameAndSecretAndUri_And_RepositoryReturnSuccess()
         {
             this.ClientRepository
-                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDTO>()))
+                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new ClientController(this.ClientRepository.Object);
-            var clientDto = new UpdateIdSrvClientDTO { Name = "u", Secret = "p", Uri = "u" };
+            var clientDto = new UpdateIdSrvClientDto { Name = "u", Secret = "p", Uri = "u" };
             IHttpActionResult httpResult = await controller.Update(clientDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<OkResult>(httpResult);
@@ -383,10 +383,10 @@
         public async Task Update_InvokeUpdateFromRepository_With_PassedDto_When_PassingNameAndSecretInDto()
         {
             this.ClientRepository
-                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDTO>()))
+                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new ClientController(this.ClientRepository.Object);
-            var clientDto = new UpdateIdSrvClientDTO { Name = "u", Secret = "p" };
+            var clientDto = new UpdateIdSrvClientDto { Name = "u", Secret = "p" };
             IHttpActionResult httpResult = await controller.Update(clientDto);
             this.ClientRepository.Verify(v => v.UpdateAsync(clientDto));
         }
@@ -395,10 +395,10 @@
         public async Task Update_InvokeUpdateFromRepository_With_PassedDto_When_PassingNameAndSecretAndUriInDto()
         {
             this.ClientRepository
-                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDTO>()))
+                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new ClientController(this.ClientRepository.Object);
-            var clientDto = new UpdateIdSrvClientDTO { Name = "u", Secret = "p", Uri = "u" };
+            var clientDto = new UpdateIdSrvClientDto { Name = "u", Secret = "p", Uri = "u" };
             IHttpActionResult httpResult = await controller.Update(clientDto);
             this.ClientRepository.Verify(v => v.UpdateAsync(clientDto));
         }
@@ -407,10 +407,10 @@
         public async Task Update_ReturnConflict_When_RepositoryReturnConflict()
         {
             this.ClientRepository
-                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDTO>()))
+                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.Conflict);
             var controller = new ClientController(this.ClientRepository.Object);
-            var clientDto = new UpdateIdSrvClientDTO { Name = "u", Secret = "p" };
+            var clientDto = new UpdateIdSrvClientDto { Name = "u", Secret = "p" };
             IHttpActionResult httpResult = await controller.Update(clientDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<ConflictResult>(httpResult);
@@ -420,10 +420,10 @@
         public async Task Update_ReturnNotFound_When_RepositoryReturnNotFound()
         {
             this.ClientRepository
-                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDTO>()))
+                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDto>()))
                 .ReturnsAsync(RepositoryResponse.NotFound);
             var controller = new ClientController(this.ClientRepository.Object);
-            var clientDto = new UpdateIdSrvClientDTO { Name = "u", Secret = "p" };
+            var clientDto = new UpdateIdSrvClientDto { Name = "u", Secret = "p" };
             IHttpActionResult httpResult = await controller.Update(clientDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<NotFoundResult>(httpResult);
@@ -433,10 +433,10 @@
         public void Update_ThrowsClientRepositoryException_When_RepositoryReturnUnexpetedResponse()
         {
             this.ClientRepository
-                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDTO>()))
+                .Setup(v => v.UpdateAsync(It.IsAny<UpdateIdSrvClientDto>()))
                 .ReturnsAsync(this.UnexpectedRepositoryResponse);
             var controller = new ClientController(this.ClientRepository.Object);
-            var clientDto = new UpdateIdSrvClientDTO { Name = "u", Secret = "p" };
+            var clientDto = new UpdateIdSrvClientDto { Name = "u", Secret = "p" };
             Assert.ThrowsAsync<ClientRepositoryException>(() => controller.Update(clientDto));
         }
 
@@ -490,7 +490,7 @@
         public async Task ChangeBlocking_ReturnBadRequest_When_PassingNull()
         {
             this.ClientRepository
-                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvClientBlockDTO>()))
+                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvClientBlockDto>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new ClientController(this.ClientRepository.Object);
             IHttpActionResult httpResult = await controller.ChangeBlocking(null);
@@ -502,10 +502,10 @@
         public async Task ChangeBlocking_ReturnOk_When_RepositoryReturnSuccess()
         {
             this.ClientRepository
-                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvClientBlockDTO>()))
+                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvClientBlockDto>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new ClientController(this.ClientRepository.Object);
-            IHttpActionResult httpResult = await controller.ChangeBlocking(new IdSrvClientBlockDTO());
+            IHttpActionResult httpResult = await controller.ChangeBlocking(new IdSrvClientBlockDto());
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<OkResult>(httpResult);
         }
@@ -514,10 +514,10 @@
         public async Task ChangeBlocking_InvokeChangeBlockingAsyncFromRepository_With_PassedBlock()
         {
             this.ClientRepository
-                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvClientBlockDTO>()))
+                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvClientBlockDto>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new ClientController(this.ClientRepository.Object);
-            var blockDto = new IdSrvClientBlockDTO();
+            var blockDto = new IdSrvClientBlockDto();
             IHttpActionResult httpResult = await controller.ChangeBlocking(blockDto);
             this.ClientRepository.Verify(v => v.ChangeBlockingAsync(blockDto));
         }
@@ -526,10 +526,10 @@
         public async Task ChangeBlocking_ReturnNotFound_When_RepositoryReturnNotFound()
         {
             this.ClientRepository
-                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvClientBlockDTO>()))
+                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvClientBlockDto>()))
                 .ReturnsAsync(RepositoryResponse.NotFound);
             var controller = new ClientController(this.ClientRepository.Object);
-            var blockDto = new IdSrvClientBlockDTO();
+            var blockDto = new IdSrvClientBlockDto();
             IHttpActionResult httpResult = await controller.ChangeBlocking(blockDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<NotFoundResult>(httpResult);
@@ -539,10 +539,10 @@
         public void ChangeBlocking_ThrowsClientRepositoryException_When_RepositoryReturnConflict()
         {
             this.ClientRepository
-                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvClientBlockDTO>()))
+                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvClientBlockDto>()))
                 .ReturnsAsync(RepositoryResponse.Conflict);
             var controller = new ClientController(this.ClientRepository.Object);
-            var blockDto = new IdSrvClientBlockDTO();
+            var blockDto = new IdSrvClientBlockDto();
             Assert.ThrowsAsync<ClientRepositoryException>(() => controller.ChangeBlocking(blockDto));
         }
 
@@ -550,10 +550,10 @@
         public void ChangeBlocking_ThrowsClientRepositoryException_When_RepositoryReturnUnexpectedResponse()
         {
             this.ClientRepository
-                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvClientBlockDTO>()))
+                .Setup(v => v.ChangeBlockingAsync(It.IsAny<IdSrvClientBlockDto>()))
                 .ReturnsAsync(this.UnexpectedRepositoryResponse);
             var controller = new ClientController(this.ClientRepository.Object);
-            var blockDto = new IdSrvClientBlockDTO();
+            var blockDto = new IdSrvClientBlockDto();
             Assert.ThrowsAsync<ClientRepositoryException>(() => controller.ChangeBlocking(blockDto));
         }
     }

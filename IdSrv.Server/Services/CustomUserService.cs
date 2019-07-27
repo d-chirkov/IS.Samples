@@ -25,7 +25,7 @@
 
         public override async Task AuthenticateLocalAsync(LocalAuthenticationContext context)
         {
-            IdSrvUserDTO user = await this.UserRepository.GetUserByUserNameAndPasswordAsync(context.UserName, context.Password);
+            IdSrvUserDto user = await this.UserRepository.GetUserByUserNameAndPasswordAsync(context.UserName, context.Password);
             if (user != null)
             {
                 context.AuthenticateResult = user.IsBlocked ?
@@ -47,7 +47,7 @@
 
         public override async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            IdSrvUserDTO user = await this.UserRepository.GetUserByIdAsync(context.Subject.GetSubjectId());
+            IdSrvUserDto user = await this.UserRepository.GetUserByIdAsync(context.Subject.GetSubjectId());
             await this.Logger?.ProfileDataAccessedAsync(
                 userId: user?.Id.ToString(),
                 userName: user?.UserName,

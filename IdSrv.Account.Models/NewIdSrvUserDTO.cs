@@ -2,7 +2,7 @@
 
 namespace IdSrv.Account.Models
 {
-    public class NewIdSrvUserDTO
+    public class NewIdSrvUserDto
     {
         [Required]
         public string UserName { get; set; }

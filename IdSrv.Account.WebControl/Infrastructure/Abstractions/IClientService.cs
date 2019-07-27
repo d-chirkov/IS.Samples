@@ -7,16 +7,16 @@
 
     public interface IClientService
     {
-        Task<IEnumerable<IdSrvClientDTO>> GetClientsAsync();
+        Task<IEnumerable<IdSrvClientDto>> GetClientsAsync();
 
-        Task<IdSrvClientDTO> GetClientByIdAsync(Guid id);
+        Task<IdSrvClientDto> GetClientByIdAsync(Guid id);
 
-        Task<bool> CreateClientAsync(NewIdSrvClientDTO newClient);
+        Task<bool> CreateClientAsync(NewIdSrvClientDto newClient);
 
-        Task<bool> UpdateClientAsync(UpdateIdSrvClientDTO client);
+        Task<bool> UpdateClientAsync(UpdateIdSrvClientDto client);
 
         Task<bool> DeleteClientAsync(Guid id);
 
-        Task<bool> ChangeBlock(IdSrvClientBlockDTO block);
+        Task<bool> ChangeBlock(IdSrvClientBlockDto block);
     }
 }

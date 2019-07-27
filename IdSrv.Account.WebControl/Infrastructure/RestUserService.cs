@@ -21,19 +21,19 @@
             this.HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<IEnumerable<IdSrvUserDTO>> GetUsersAsync()
+        public async Task<IEnumerable<IdSrvUserDto>> GetUsersAsync()
         {
             HttpResponseMessage response = await this.HttpClient.GetAsync("GetAll");
-            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IEnumerable<IdSrvUserDTO>>() : null;
+            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IEnumerable<IdSrvUserDto>>() : null;
         }
 
-        public async Task<bool> ChangePasswordForUserAsync(IdSrvUserPasswordDTO passwords)
+        public async Task<bool> ChangePasswordForUserAsync(IdSrvUserPasswordDto passwords)
         {
             HttpResponseMessage response = await this.HttpClient.PostAsJsonAsync("ChangePassword", passwords);
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> CreateUserAsync(NewIdSrvUserDTO newUser)
+        public async Task<bool> CreateUserAsync(NewIdSrvUserDto newUser)
         {
             HttpResponseMessage response = await this.HttpClient.PutAsJsonAsync("", newUser);
             return response.IsSuccessStatusCode;
@@ -45,7 +45,7 @@
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> ChangeBlock(IdSrvUserBlockDTO block)
+        public async Task<bool> ChangeBlock(IdSrvUserBlockDto block)
         {
             HttpResponseMessage response = await this.HttpClient.PostAsJsonAsync("ChangeBlocking", block);
             return response.IsSuccessStatusCode;

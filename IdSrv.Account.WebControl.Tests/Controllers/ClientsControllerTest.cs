@@ -35,7 +35,7 @@
         [Test]
         public async Task Index_ReturnViewWithClients_When_ClientServiceReturnAnyClientsCollection()
         {
-            Func<IEnumerable<IdSrvClientDTO>, Task> testWhenServiceReturns = async (clients) =>
+            Func<IEnumerable<IdSrvClientDto>, Task> testWhenServiceReturns = async (clients) =>
             {
                 this.ClientServiceMock.Setup(v => v.GetClientsAsync()).ReturnsAsync(clients);
                 var controller = new ClientsController(this.ClientServiceMock.Object);
@@ -43,15 +43,15 @@
                 object actualClients = controller.ViewData.Model;
                 Assert.NotNull(viewResult);
                 Assert.IsEmpty(viewResult.ViewName);
-                Assert.IsInstanceOf<IEnumerable<IdSrvClientDTO>>(actualClients);
+                Assert.IsInstanceOf<IEnumerable<IdSrvClientDto>>(actualClients);
                 Assert.AreEqual(clients, actualClients);
             };
             await testWhenServiceReturns(new[]
             {
-                new IdSrvClientDTO (),
-                new IdSrvClientDTO ()
+                new IdSrvClientDto (),
+                new IdSrvClientDto ()
             });
-            await testWhenServiceReturns(new IdSrvClientDTO[] { });
+            await testWhenServiceReturns(new IdSrvClientDto[] { });
         }
 
         [Test]
@@ -65,7 +65,7 @@
         [Test]
         public async Task Create_CallServiceCreateClient_When_PassingNewClient()
         {
-            var newClient = new NewIdSrvClientDTO { Name = "c", Secret = "s" };
+            var newClient = new NewIdSrvClientDto { Name = "c", Secret = "s" };
             this.ClientServiceMock.Setup(v => v.CreateClientAsync(newClient)).ReturnsAsync(true);
             var controller = new ClientsController(this.ClientServiceMock.Object);
             await controller.Create(newClient);
@@ -76,10 +76,10 @@
         public async Task Create_RedirectToIndex_When_ClientServiceCanCreateClientUri()
         {
             this.ClientServiceMock
-                .Setup(v => v.CreateClientAsync(It.IsAny<NewIdSrvClientDTO>()))
+                .Setup(v => v.CreateClientAsync(It.IsAny<NewIdSrvClientDto>()))
                 .Returns(Task.FromResult(true));
             var controller = new ClientsController(this.ClientServiceMock.Object);
-            ActionResult result = await controller.Create(new NewIdSrvClientDTO { Name = "c", Secret = "s" });
+            ActionResult result = await controller.Create(new NewIdSrvClientDto { Name = "c", Secret = "s" });
             Assert.IsInstanceOf<RedirectToRouteResult>(result);
             Assert.AreEqual(nameof(controller.Index), (result as RedirectToRouteResult).RouteValues["action"]);
         }
@@ -87,9 +87,9 @@
         [Test]
         public async Task Create_ReturnSelf_With_InvalilModelState_And_PassedModel_When_ClientServiceCanNotCreateClient()
         {
-            var newClient = new NewIdSrvClientDTO { Name = "n", Secret = "s" };
+            var newClient = new NewIdSrvClientDto { Name = "n", Secret = "s" };
             this.ClientServiceMock
-                .Setup(v => v.CreateClientAsync(It.IsAny<NewIdSrvClientDTO>()))
+                .Setup(v => v.CreateClientAsync(It.IsAny<NewIdSrvClientDto>()))
                 .Returns(Task.FromResult(false));
             var controller = new ClientsController(this.ClientServiceMock.Object);
             ActionResult result = await controller.Create(newClient);
@@ -104,9 +104,9 @@
         [Test]
         public async Task Create_ReturnSelf_With_InvalilModelState_And_PassedModel_When_ModelIsInvalid()
         {
-            var newClient = new NewIdSrvClientDTO { };
+            var newClient = new NewIdSrvClientDto { };
             this.ClientServiceMock
-                .Setup(v => v.CreateClientAsync(It.IsAny<NewIdSrvClientDTO>()))
+                .Setup(v => v.CreateClientAsync(It.IsAny<NewIdSrvClientDto>()))
                 .Returns(Task.FromResult(false));
             var controller = new ClientsController(this.ClientServiceMock.Object);
             controller.ModelState.AddModelError("", "");
@@ -123,7 +123,7 @@
         public async Task Update_ReturnSelf_With_ClientReturnedFromRepo_OfType_UpdateIdSrvClientDTO_When_PassingClientId()
         {
             var clientId = Guid.NewGuid();
-            var client = new IdSrvClientDTO()
+            var client = new IdSrvClientDto()
             {
                 Id = Guid.NewGuid(),
                 Name = "n",
@@ -140,8 +140,8 @@
             var viewResult = result as ViewResult;
             Assert.NotNull(viewResult);
             Assert.AreEqual(string.Empty, viewResult.ViewName);
-            Assert.IsInstanceOf<UpdateIdSrvClientDTO>(controller.ViewData.Model);
-            var model = controller.ViewData.Model as UpdateIdSrvClientDTO;
+            Assert.IsInstanceOf<UpdateIdSrvClientDto>(controller.ViewData.Model);
+            var model = controller.ViewData.Model as UpdateIdSrvClientDto;
             Assert.AreEqual(client.Id, model.Id);
             Assert.AreEqual(client.Name, model.Name);
             Assert.AreEqual(client.Secret, model.Secret);
@@ -152,7 +152,7 @@
         public async Task Update_CallServiceGetClientById_When_PassingClientId()
         {
             var clientId = Guid.NewGuid();
-            var client = new IdSrvClientDTO();
+            var client = new IdSrvClientDto();
             this.ClientServiceMock
                 .Setup(v => v.GetClientByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(client);
@@ -166,7 +166,7 @@
         {
             this.ClientServiceMock
                 .Setup(v => v.GetClientByIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync(null as IdSrvClientDTO);
+                .ReturnsAsync(null as IdSrvClientDto);
             var controller = new ClientsController(this.ClientServiceMock.Object);
             ActionResult result = await controller.Update(Guid.NewGuid());
             Assert.IsInstanceOf<RedirectToRouteResult>(result);
@@ -178,7 +178,7 @@
         [Test]
         public async Task Update_CallServiceUpdateForClient_When_PassingModel()
         {
-            var model = new UpdateIdSrvClientDTO();
+            var model = new UpdateIdSrvClientDto();
             this.ClientServiceMock.Setup(v => v.UpdateClientAsync(model)).ReturnsAsync(true);
             var controller = new ClientsController(this.ClientServiceMock.Object);
             await controller.Update(model);
@@ -188,9 +188,9 @@
         [Test]
         public async Task Update_RedirectToIndex_With_TempDataContainsNoError_When_ServiceReturnTrue()
         {
-            this.ClientServiceMock.Setup(v => v.UpdateClientAsync(It.IsAny<UpdateIdSrvClientDTO>())).ReturnsAsync(true);
+            this.ClientServiceMock.Setup(v => v.UpdateClientAsync(It.IsAny<UpdateIdSrvClientDto>())).ReturnsAsync(true);
             var controller = new ClientsController(this.ClientServiceMock.Object);
-            ActionResult result = await controller.Update(new UpdateIdSrvClientDTO());
+            ActionResult result = await controller.Update(new UpdateIdSrvClientDto());
             Assert.IsInstanceOf<RedirectToRouteResult>(result);
             var redirectResult = result as RedirectToRouteResult;
             Assert.NotNull(redirectResult);
@@ -202,8 +202,8 @@
         [Test]
         public async Task Update_ReturnSelf_With_InvalidModel_When_ServiceReturnFalse()
         {
-            var model = new UpdateIdSrvClientDTO() { Id = Guid.NewGuid() };
-            this.ClientServiceMock.Setup(v => v.UpdateClientAsync(It.IsAny<UpdateIdSrvClientDTO>())).ReturnsAsync(false);
+            var model = new UpdateIdSrvClientDto() { Id = Guid.NewGuid() };
+            this.ClientServiceMock.Setup(v => v.UpdateClientAsync(It.IsAny<UpdateIdSrvClientDto>())).ReturnsAsync(false);
             var controller = new ClientsController(this.ClientServiceMock.Object);
             ActionResult result = await controller.Update(model);
             Assert.IsInstanceOf<ViewResult>(result);
@@ -211,8 +211,8 @@
             Assert.NotNull(viewResult);
             Assert.IsEmpty(viewResult.ViewName);
             object modelFromController = controller.ViewData.Model;
-            Assert.IsInstanceOf<UpdateIdSrvClientDTO>(modelFromController);
-            var actualModel = modelFromController as UpdateIdSrvClientDTO;
+            Assert.IsInstanceOf<UpdateIdSrvClientDto>(modelFromController);
+            var actualModel = modelFromController as UpdateIdSrvClientDto;
             Assert.AreEqual(actualModel, model);
             Assert.IsFalse(controller.ModelState.IsValid);
         }
@@ -220,8 +220,8 @@
         [Test]
         public async Task Update_ReturnSelf_With_InvalidModel_When_PassingInvalidModel()
         {
-            var model = new UpdateIdSrvClientDTO() { Id = Guid.NewGuid() };
-            this.ClientServiceMock.Setup(v => v.UpdateClientAsync(It.IsAny<UpdateIdSrvClientDTO>())).ReturnsAsync(true);
+            var model = new UpdateIdSrvClientDto() { Id = Guid.NewGuid() };
+            this.ClientServiceMock.Setup(v => v.UpdateClientAsync(It.IsAny<UpdateIdSrvClientDto>())).ReturnsAsync(true);
             var controller = new ClientsController(this.ClientServiceMock.Object);
             controller.ModelState.AddModelError("", "");
             ActionResult result = await controller.Update(model);
@@ -230,8 +230,8 @@
             Assert.NotNull(viewResult);
             Assert.IsEmpty(viewResult.ViewName);
             object modelFromController = controller.ViewData.Model;
-            Assert.IsInstanceOf<UpdateIdSrvClientDTO>(modelFromController);
-            var actualModel = modelFromController as UpdateIdSrvClientDTO;
+            Assert.IsInstanceOf<UpdateIdSrvClientDto>(modelFromController);
+            var actualModel = modelFromController as UpdateIdSrvClientDto;
             Assert.AreEqual(actualModel, model);
             Assert.IsFalse(controller.ModelState.IsValid);
         }
@@ -284,11 +284,11 @@
         public async Task Block_CallServiceChangeBlock()
         {
             var ClientId = new Guid();
-            IdSrvClientBlockDTO block = null;
+            IdSrvClientBlockDto block = null;
             this.ClientServiceMock
-                .Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDTO>()))
+                .Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDto>()))
                 .ReturnsAsync(true)
-                .Callback<IdSrvClientBlockDTO>(r => block = r); ;
+                .Callback<IdSrvClientBlockDto>(r => block = r); ;
             var controller = new ClientsController(this.ClientServiceMock.Object);
             await controller.Block(ClientId);
             Assert.NotNull(block);
@@ -302,7 +302,7 @@
             Func<bool, Task> testWithServiceReturns = async (bool what) =>
             {
                 var ClientId = new Guid();
-                this.ClientServiceMock.Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDTO>())).ReturnsAsync(what);
+                this.ClientServiceMock.Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDto>())).ReturnsAsync(what);
                 var controller = new ClientsController(this.ClientServiceMock.Object);
                 ActionResult result = await controller.Block(ClientId);
                 Assert.IsInstanceOf<RedirectToRouteResult>(result);
@@ -319,7 +319,7 @@
             Func<bool, Task> testWithServiceReturns = async (bool what) =>
             {
                 var ClientId = new Guid();
-                this.ClientServiceMock.Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDTO>())).ReturnsAsync(what);
+                this.ClientServiceMock.Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDto>())).ReturnsAsync(what);
                 var controller = new ClientsController(this.ClientServiceMock.Object);
                 await controller.Block(ClientId);
                 Assert.IsTrue(controller.TempData.ContainsKey("_IsError"));
@@ -334,11 +334,11 @@
         public async Task Unblock_CallServiceChangeBlock()
         {
             var ClientId = new Guid();
-            IdSrvClientBlockDTO block = null;
+            IdSrvClientBlockDto block = null;
             this.ClientServiceMock
-                .Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDTO>()))
+                .Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDto>()))
                 .ReturnsAsync(true)
-                .Callback<IdSrvClientBlockDTO>(r => block = r); ;
+                .Callback<IdSrvClientBlockDto>(r => block = r); ;
             var controller = new ClientsController(this.ClientServiceMock.Object);
             await controller.Unblock(ClientId);
             Assert.NotNull(block);
@@ -352,7 +352,7 @@
             Func<bool, Task> testWithServiceReturns = async (bool what) =>
             {
                 var ClientId = new Guid();
-                this.ClientServiceMock.Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDTO>())).ReturnsAsync(what);
+                this.ClientServiceMock.Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDto>())).ReturnsAsync(what);
                 var controller = new ClientsController(this.ClientServiceMock.Object);
                 ActionResult result = await controller.Unblock(ClientId);
                 Assert.IsInstanceOf<RedirectToRouteResult>(result);
@@ -369,7 +369,7 @@
             Func<bool, Task> testWithServiceReturns = async (bool what) =>
             {
                 var ClientId = new Guid();
-                this.ClientServiceMock.Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDTO>())).ReturnsAsync(what);
+                this.ClientServiceMock.Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDto>())).ReturnsAsync(what);
                 var controller = new ClientsController(this.ClientServiceMock.Object);
                 await controller.Unblock(ClientId);
                 Assert.IsTrue(controller.TempData.ContainsKey("_IsError"));

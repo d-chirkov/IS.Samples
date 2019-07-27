@@ -33,7 +33,7 @@
                     clientId: context.SignInMessage.ClientId);
                 return;
             }
-            IdSrvUserDTO user = await this.UserRepository.GetUserByUserNameAsync(userName);
+            IdSrvUserDto user = await this.UserRepository.GetUserByUserNameAsync(userName);
             if (user != null && !user.IsBlocked)
             {
 
@@ -61,7 +61,7 @@
 
         public override async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            IdSrvUserDTO user = await this.UserRepository.GetUserByIdAsync(context.Subject.GetSubjectId());
+            IdSrvUserDto user = await this.UserRepository.GetUserByIdAsync(context.Subject.GetSubjectId());
             await this.Logger?.ProfileDataAccessedAsync(
                 userId: user?.Id.ToString(),
                 userName: user?.UserName,

@@ -7,14 +7,14 @@
 
     public interface IUserService
     {
-        Task<IEnumerable<IdSrvUserDTO>> GetUsersAsync();
+        Task<IEnumerable<IdSrvUserDto>> GetUsersAsync();
 
-        Task<bool> CreateUserAsync(NewIdSrvUserDTO newUser);
+        Task<bool> CreateUserAsync(NewIdSrvUserDto newUser);
 
-        Task<bool> ChangePasswordForUserAsync(IdSrvUserPasswordDTO passwords);
+        Task<bool> ChangePasswordForUserAsync(IdSrvUserPasswordDto passwords);
 
         Task<bool> DeleteUserAsync(Guid id);
 
-        Task<bool> ChangeBlock(IdSrvUserBlockDTO block);
+        Task<bool> ChangeBlock(IdSrvUserBlockDto block);
     }
 }

@@ -91,7 +91,7 @@
                     Uri = "u",
                     Secret = "s"
                 });
-                IdSrvClientDTO client = await db.Query("Clients").Where(new { Name = "n" }).FirstOrDefaultAsync<IdSrvClientDTO>();
+                IdSrvClientDto client = await db.Query("Clients").Where(new { Name = "n" }).FirstOrDefaultAsync<IdSrvClientDto>();
                 Assert.IsFalse(client.IsBlocked);
             }
         }
@@ -109,7 +109,7 @@
                     Name = "n",
                     Secret = "s"
                 });
-                IdSrvClientDTO client = await db.Query("Clients").Where(new { Name = "n" }).FirstOrDefaultAsync<IdSrvClientDTO>();
+                IdSrvClientDto client = await db.Query("Clients").Where(new { Name = "n" }).FirstOrDefaultAsync<IdSrvClientDto>();
                 Assert.IsNull(client.Uri);
             }
         }
@@ -122,7 +122,7 @@
             ids[1] = await this.InsertDefaultClient(2, false);
             ids[2] = await this.InsertDefaultClient(3, isBlocked: true);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            IEnumerable<IdSrvClientDTO> clients = await repository.GetAllAsync();
+            IEnumerable<IdSrvClientDto> clients = await repository.GetAllAsync();
             Assert.IsNotNull(clients);
             Assert.AreEqual(3, clients.Count());
             for (int i = 1; i <= 3; ++i)
@@ -139,7 +139,7 @@
         public async Task GetAllAsync_ReturnEmptyList_When_NoClientInDb()
         {
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            IEnumerable<IdSrvClientDTO> clients = await repository.GetAllAsync();
+            IEnumerable<IdSrvClientDto> clients = await repository.GetAllAsync();
             Assert.IsNotNull(clients);
             Assert.AreEqual(0, clients.Count());
         }
@@ -186,7 +186,7 @@
             Guid id = await this.InsertDefaultClient(2);
             await this.InsertDefaultClient(3);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            IdSrvClientDTO client = await repository.GetByIdAsync(id);
+            IdSrvClientDto client = await repository.GetByIdAsync(id);
             Assert.AreEqual(id, client.Id);
             Assert.AreEqual($"n2", client.Name);
             Assert.AreEqual($"u2", client.Uri);
@@ -200,7 +200,7 @@
             Guid id = await this.InsertDefaultClient(2, false);
             await this.InsertDefaultClient(3);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            IdSrvClientDTO client = await repository.GetByIdAsync(id);
+            IdSrvClientDto client = await repository.GetByIdAsync(id);
             Assert.AreEqual(id, client.Id);
             Assert.AreEqual($"n2", client.Name);
             Assert.AreEqual(null, client.Uri);
@@ -211,7 +211,7 @@
         public async Task GetByIdAsync_ReturnNull_When_DbNotContainAnyClients()
         {
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            IdSrvClientDTO client = await repository.GetByIdAsync(Guid.NewGuid());
+            IdSrvClientDto client = await repository.GetByIdAsync(Guid.NewGuid());
             Assert.IsNull(client);
         }
 
@@ -228,7 +228,7 @@
                 notExistingId = Guid.NewGuid();
             }
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            IdSrvClientDTO client = await repository.GetByIdAsync(notExistingId);
+            IdSrvClientDto client = await repository.GetByIdAsync(notExistingId);
             Assert.IsNull(client);
         }
 
@@ -246,7 +246,7 @@
             Guid id = await this.InsertDefaultClient(2);
             await this.InsertDefaultClient(3);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            IdSrvClientDTO client = await repository.GetByNameAsync("n2");
+            IdSrvClientDto client = await repository.GetByNameAsync("n2");
             Assert.AreEqual(id, client.Id);
             Assert.AreEqual($"n2", client.Name);
             Assert.AreEqual($"u2", client.Uri);
@@ -260,7 +260,7 @@
             Guid id = await this.InsertDefaultClient(2, false);
             await this.InsertDefaultClient(3);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            IdSrvClientDTO client = await repository.GetByNameAsync("n2");
+            IdSrvClientDto client = await repository.GetByNameAsync("n2");
             Assert.AreEqual(id, client.Id);
             Assert.AreEqual($"n2", client.Name);
             Assert.AreEqual(null, client.Uri);
@@ -271,7 +271,7 @@
         public async Task GetByNameAsync_ReturnNull_When_DbNotContainAnyClients()
         {
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            IdSrvClientDTO client = await repository.GetByNameAsync("n2");
+            IdSrvClientDto client = await repository.GetByNameAsync("n2");
             Assert.IsNull(client);
         }
 
@@ -282,7 +282,7 @@
             await this.InsertDefaultClient(2, false);
             await this.InsertDefaultClient(3, isBlocked: true);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            IdSrvClientDTO client = await repository.GetByNameAsync("n4");
+            IdSrvClientDto client = await repository.GetByNameAsync("n4");
             Assert.IsNull(client);
         }
 
@@ -424,14 +424,14 @@
         public void CreateAsync_ThrowsArgumentNullException_When_PassingNullName()
         {
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            Assert.ThrowsAsync<ArgumentNullException>(() => repository.CreateAsync(new NewIdSrvClientDTO { Secret = "s" }));
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.CreateAsync(new NewIdSrvClientDto { Secret = "s" }));
         }
 
         [Test]
         public void CreateAsync_ThrowsArgumentNullException_When_PassingNullSecret()
         {
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            Assert.ThrowsAsync<ArgumentNullException>(() => repository.CreateAsync(new NewIdSrvClientDTO { Name = "n" }));
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.CreateAsync(new NewIdSrvClientDto { Name = "n" }));
         }
 
         [Test]
@@ -441,16 +441,16 @@
             await this.InsertDefaultClient(2);
             await this.InsertDefaultClient(3);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            RepositoryResponse response = await repository.CreateAsync(new NewIdSrvClientDTO { Name = "n", Secret = "s" });
+            RepositoryResponse response = await repository.CreateAsync(new NewIdSrvClientDto { Name = "n", Secret = "s" });
             Assert.AreEqual(RepositoryResponse.Success, response);
             using (IDbConnection connection = await this.ConnectionFactory.GetConnectionAsync())
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
                 this.ConnectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
-                IEnumerable<IdSrvClientDTO> clients = await db.Query("Clients").GetAsync<IdSrvClientDTO>();
+                IEnumerable<IdSrvClientDto> clients = await db.Query("Clients").GetAsync<IdSrvClientDto>();
                 Assert.AreEqual(4, clients.Count());
-                IdSrvClientDTO createdClient = clients.Where(c => c.Name == "n").FirstOrDefault();
+                IdSrvClientDto createdClient = clients.Where(c => c.Name == "n").FirstOrDefault();
                 Assert.IsNotNull(createdClient);
                 Assert.AreEqual("n", createdClient.Name);
                 Assert.AreEqual("s", createdClient.Secret);
@@ -463,16 +463,16 @@
         public async Task CreateAsync_ReturnSuccess_And_CreateNotBlockedUserInDb_When_PassingClientWithoutUri_And_DbNotContainsAnyClient()
         {
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            RepositoryResponse response = await repository.CreateAsync(new NewIdSrvClientDTO { Name = "n", Secret = "s" });
+            RepositoryResponse response = await repository.CreateAsync(new NewIdSrvClientDto { Name = "n", Secret = "s" });
             Assert.AreEqual(RepositoryResponse.Success, response);
             using (IDbConnection connection = await this.ConnectionFactory.GetConnectionAsync())
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
                 this.ConnectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
-                IEnumerable<IdSrvClientDTO> clients = await db.Query("Clients").GetAsync<IdSrvClientDTO>();
+                IEnumerable<IdSrvClientDto> clients = await db.Query("Clients").GetAsync<IdSrvClientDto>();
                 Assert.AreEqual(1, clients.Count());
-                IdSrvClientDTO createdClient = clients.ElementAt(0);
+                IdSrvClientDto createdClient = clients.ElementAt(0);
                 Assert.AreEqual("n", createdClient.Name);
                 Assert.AreEqual("s", createdClient.Secret);
                 Assert.IsNull(createdClient.Uri);
@@ -487,16 +487,16 @@
             await this.InsertDefaultClient(2);
             await this.InsertDefaultClient(3);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            RepositoryResponse response = await repository.CreateAsync(new NewIdSrvClientDTO { Name = "n", Secret = "s", Uri = "u" });
+            RepositoryResponse response = await repository.CreateAsync(new NewIdSrvClientDto { Name = "n", Secret = "s", Uri = "u" });
             Assert.AreEqual(RepositoryResponse.Success, response);
             using (IDbConnection connection = await this.ConnectionFactory.GetConnectionAsync())
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
                 this.ConnectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
-                IEnumerable<IdSrvClientDTO> clients = await db.Query("Clients").GetAsync<IdSrvClientDTO>();
+                IEnumerable<IdSrvClientDto> clients = await db.Query("Clients").GetAsync<IdSrvClientDto>();
                 Assert.AreEqual(4, clients.Count());
-                IdSrvClientDTO createdClient = clients.Where(c => c.Name == "n").FirstOrDefault();
+                IdSrvClientDto createdClient = clients.Where(c => c.Name == "n").FirstOrDefault();
                 Assert.IsNotNull(createdClient);
                 Assert.AreEqual("n", createdClient.Name);
                 Assert.AreEqual("s", createdClient.Secret);
@@ -509,16 +509,16 @@
         public async Task CreateAsync_ReturnSuccess_And_CreateNotBlockedUserInDb_When_PassingClientWithUri_And_DbNotContainsAnyClient()
         {
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            RepositoryResponse response = await repository.CreateAsync(new NewIdSrvClientDTO { Name = "n", Secret = "s", Uri = "u" });
+            RepositoryResponse response = await repository.CreateAsync(new NewIdSrvClientDto { Name = "n", Secret = "s", Uri = "u" });
             Assert.AreEqual(RepositoryResponse.Success, response);
             using (IDbConnection connection = await this.ConnectionFactory.GetConnectionAsync())
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
                 this.ConnectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
-                IEnumerable<IdSrvClientDTO> clients = await db.Query("Clients").GetAsync<IdSrvClientDTO>();
+                IEnumerable<IdSrvClientDto> clients = await db.Query("Clients").GetAsync<IdSrvClientDto>();
                 Assert.AreEqual(1, clients.Count());
-                IdSrvClientDTO createdClient = clients.ElementAt(0);
+                IdSrvClientDto createdClient = clients.ElementAt(0);
                 Assert.AreEqual("n", createdClient.Name);
                 Assert.AreEqual("s", createdClient.Secret);
                 Assert.AreEqual("u", createdClient.Uri);
@@ -534,14 +534,14 @@
             ids[1] = await this.InsertDefaultClient(2);
             ids[2] = await this.InsertDefaultClient(3);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            RepositoryResponse response = await repository.CreateAsync(new NewIdSrvClientDTO { Name = "n1", Secret = "s", Uri = "u" });
+            RepositoryResponse response = await repository.CreateAsync(new NewIdSrvClientDto { Name = "n1", Secret = "s", Uri = "u" });
             Assert.AreEqual(RepositoryResponse.Conflict, response);
             using (IDbConnection connection = await this.ConnectionFactory.GetConnectionAsync())
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
                 this.ConnectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
-                IEnumerable<IdSrvClientDTO> clients = await db.Query("Clients").GetAsync<IdSrvClientDTO>();
+                IEnumerable<IdSrvClientDto> clients = await db.Query("Clients").GetAsync<IdSrvClientDto>();
                 Assert.AreEqual(3, clients.Count());
                 for (int i = 1; i <= 3; ++i)
                 {
@@ -565,14 +565,14 @@
         public void UpdateAsync_ThrowsArgumentNullException_When_PassingNullName()
         {
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            Assert.ThrowsAsync<ArgumentNullException>(() => repository.UpdateAsync(new UpdateIdSrvClientDTO { Secret = "s" }));
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.UpdateAsync(new UpdateIdSrvClientDto { Secret = "s" }));
         }
 
         [Test]
         public void UpdateAsync_ThrowsArgumentNullException_When_PassingNullSecret()
         {
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            Assert.ThrowsAsync<ArgumentNullException>(() => repository.UpdateAsync(new UpdateIdSrvClientDTO { Name = "n" }));
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.UpdateAsync(new UpdateIdSrvClientDto { Name = "n" }));
         }
 
         [Test]
@@ -583,7 +583,7 @@
             ids[1] = await this.InsertDefaultClient(2);
             ids[2] = await this.InsertDefaultClient(3);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            RepositoryResponse response = await repository.UpdateAsync(new UpdateIdSrvClientDTO
+            RepositoryResponse response = await repository.UpdateAsync(new UpdateIdSrvClientDto
             {
                 Id = ids[1],
                 Name = "n",
@@ -595,7 +595,7 @@
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
                 this.ConnectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
-                IEnumerable<IdSrvClientDTO> clients = await db.Query("Clients").GetAsync<IdSrvClientDTO>();
+                IEnumerable<IdSrvClientDto> clients = await db.Query("Clients").GetAsync<IdSrvClientDto>();
                 Assert.AreEqual(3, clients.Count());
                 for (int i = 1; i <= 3; ++i)
                 {
@@ -616,7 +616,7 @@
             ids[1] = await this.InsertDefaultClient(2);
             ids[2] = await this.InsertDefaultClient(3);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            RepositoryResponse response = await repository.UpdateAsync(new UpdateIdSrvClientDTO
+            RepositoryResponse response = await repository.UpdateAsync(new UpdateIdSrvClientDto
             {
                 Id = ids[1],
                 Name = "n",
@@ -629,7 +629,7 @@
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
                 this.ConnectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
-                IEnumerable<IdSrvClientDTO> clients = await db.Query("Clients").GetAsync<IdSrvClientDTO>();
+                IEnumerable<IdSrvClientDto> clients = await db.Query("Clients").GetAsync<IdSrvClientDto>();
                 Assert.AreEqual(3, clients.Count());
                 for (int i = 1; i <= 3; ++i)
                 {
@@ -646,7 +646,7 @@
         public async Task UpdateAsync_ReturnNotFound_When_PassingNotExisintClientId_And_DbNotContainsAnyClient()
         {
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            RepositoryResponse response = await repository.UpdateAsync(new UpdateIdSrvClientDTO
+            RepositoryResponse response = await repository.UpdateAsync(new UpdateIdSrvClientDto
             {
                 Id = Guid.NewGuid(),
                 Name = "n",
@@ -658,7 +658,7 @@
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
                 this.ConnectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
-                IEnumerable<IdSrvClientDTO> clients = await db.Query("Clients").GetAsync<IdSrvClientDTO>();
+                IEnumerable<IdSrvClientDto> clients = await db.Query("Clients").GetAsync<IdSrvClientDto>();
                 Assert.AreEqual(0, clients.Count());
             }
         }
@@ -677,7 +677,7 @@
                 notExisintGuid = Guid.NewGuid();
             }
 
-            RepositoryResponse response = await repository.UpdateAsync(new UpdateIdSrvClientDTO
+            RepositoryResponse response = await repository.UpdateAsync(new UpdateIdSrvClientDto
             {
                 Id = notExisintGuid,
                 Name = "n",
@@ -691,7 +691,7 @@
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
                 this.ConnectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
-                IEnumerable<IdSrvClientDTO> clients = await db.Query("Clients").GetAsync<IdSrvClientDTO>();
+                IEnumerable<IdSrvClientDto> clients = await db.Query("Clients").GetAsync<IdSrvClientDto>();
                 Assert.AreEqual(3, clients.Count());
                 for (int i = 1; i <= 3; ++i)
                 {
@@ -712,7 +712,7 @@
             ids[1] = await this.InsertDefaultClient(2);
             ids[2] = await this.InsertDefaultClient(3);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            RepositoryResponse response = await repository.UpdateAsync(new UpdateIdSrvClientDTO
+            RepositoryResponse response = await repository.UpdateAsync(new UpdateIdSrvClientDto
             {
                 Id = ids[1],
                 Name = "n3",
@@ -726,7 +726,7 @@
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
                 this.ConnectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
-                IEnumerable<IdSrvClientDTO> clients = await db.Query("Clients").GetAsync<IdSrvClientDTO>();
+                IEnumerable<IdSrvClientDto> clients = await db.Query("Clients").GetAsync<IdSrvClientDto>();
                 Assert.AreEqual(3, clients.Count());
                 for (int i = 1; i <= 3; ++i)
                 {
@@ -754,7 +754,7 @@
             ids[1] = await this.InsertDefaultClient(2);
             ids[2] = await this.InsertDefaultClient(3);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvClientBlockDTO
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvClientBlockDto
             {
                 Id = ids[1],
                 IsBlocked = true
@@ -766,7 +766,7 @@
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
                 this.ConnectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
-                IEnumerable<IdSrvClientDTO> clients = await db.Query("Clients").GetAsync<IdSrvClientDTO>();
+                IEnumerable<IdSrvClientDto> clients = await db.Query("Clients").GetAsync<IdSrvClientDto>();
                 Assert.AreEqual(3, clients.Count());
                 for (int i = 1; i <= 3; ++i)
                 {
@@ -787,7 +787,7 @@
             ids[1] = await this.InsertDefaultClient(2);
             ids[2] = await this.InsertDefaultClient(3);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvClientBlockDTO
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvClientBlockDto
             {
                 Id = ids[1],
                 IsBlocked = false
@@ -799,7 +799,7 @@
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
                 this.ConnectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
-                IEnumerable<IdSrvClientDTO> clients = await db.Query("Clients").GetAsync<IdSrvClientDTO>();
+                IEnumerable<IdSrvClientDto> clients = await db.Query("Clients").GetAsync<IdSrvClientDto>();
                 Assert.AreEqual(3, clients.Count());
                 for (int i = 1; i <= 3; ++i)
                 {
@@ -820,7 +820,7 @@
             ids[1] = await this.InsertDefaultClient(2, isBlocked: true);
             ids[2] = await this.InsertDefaultClient(3);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvClientBlockDTO
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvClientBlockDto
             {
                 Id = ids[1],
                 IsBlocked = false
@@ -832,7 +832,7 @@
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
                 this.ConnectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
-                IEnumerable<IdSrvClientDTO> clients = await db.Query("Clients").GetAsync<IdSrvClientDTO>();
+                IEnumerable<IdSrvClientDto> clients = await db.Query("Clients").GetAsync<IdSrvClientDto>();
                 Assert.AreEqual(3, clients.Count());
                 for (int i = 1; i <= 3; ++i)
                 {
@@ -853,7 +853,7 @@
             ids[1] = await this.InsertDefaultClient(2, isBlocked: true);
             ids[2] = await this.InsertDefaultClient(3);
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvClientBlockDTO
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvClientBlockDto
             {
                 Id = ids[1],
                 IsBlocked = true
@@ -865,7 +865,7 @@
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
                 this.ConnectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
-                IEnumerable<IdSrvClientDTO> clients = await db.Query("Clients").GetAsync<IdSrvClientDTO>();
+                IEnumerable<IdSrvClientDto> clients = await db.Query("Clients").GetAsync<IdSrvClientDto>();
                 Assert.AreEqual(3, clients.Count());
                 for (int i = 1; i <= 3; ++i)
                 {
@@ -892,7 +892,7 @@
                 notExisintGuid = Guid.NewGuid();
             }
 
-            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvClientBlockDTO
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvClientBlockDto
             {
                 Id = notExisintGuid,
                 IsBlocked = true
@@ -904,7 +904,7 @@
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
                 this.ConnectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
-                IEnumerable<IdSrvClientDTO> clients = await db.Query("Clients").GetAsync<IdSrvClientDTO>();
+                IEnumerable<IdSrvClientDto> clients = await db.Query("Clients").GetAsync<IdSrvClientDto>();
                 Assert.AreEqual(3, clients.Count());
                 for (int i = 1; i <= 3; ++i)
                 {
@@ -921,7 +921,7 @@
         public async Task ChangeBlockingAsync_ReturnNotFound_And_DoNotChangeClientsInDb_When_ClientDbIsEmpty()
         {
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
-            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvClientBlockDTO
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvClientBlockDto
             {
                 Id = Guid.NewGuid(),
                 IsBlocked = true
@@ -933,7 +933,7 @@
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
                 this.ConnectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
-                IEnumerable<IdSrvClientDTO> clients = await db.Query("Clients").GetAsync<IdSrvClientDTO>();
+                IEnumerable<IdSrvClientDto> clients = await db.Query("Clients").GetAsync<IdSrvClientDto>();
                 Assert.AreEqual(0, clients.Count());
             }
         }

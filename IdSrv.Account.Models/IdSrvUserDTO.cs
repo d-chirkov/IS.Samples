@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class IdSrvUserDTO
+    public class IdSrvUserDto
     {
         public Guid Id { get; set; }
 

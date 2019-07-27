@@ -1,4 +1,4 @@
-﻿@model IdSrv.Account.Models.UpdateIdSrvClientDTO
+﻿@model IdSrv.Account.Models.UpdateIdSrvClientDto
 
 @{
     ViewBag.Title = "Update";
@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>UpdateIdSrvClientDTO</h4>
+        <h4>UpdateIdSrvClientDto</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)

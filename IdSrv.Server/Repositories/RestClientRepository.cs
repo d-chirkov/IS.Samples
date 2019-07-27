@@ -20,14 +20,14 @@
             this.HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<IdSrvClientDTO> GetClientByIdAsync(string clientId)
+        public async Task<IdSrvClientDto> GetClientByIdAsync(string clientId)
         {
             if (!Guid.TryParse(clientId, out Guid result))
             {
                 return null;
             }
             HttpResponseMessage response = await this.HttpClient.GetAsync(clientId);
-            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvClientDTO>() : null;
+            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvClientDto>() : null;
         }
 
         public async Task<IEnumerable<string>> GetAllUrisAsync()

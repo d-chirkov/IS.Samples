@@ -21,25 +21,25 @@
             this.HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<IEnumerable<IdSrvClientDTO>> GetClientsAsync()
+        public async Task<IEnumerable<IdSrvClientDto>> GetClientsAsync()
         {
             HttpResponseMessage response = await this.HttpClient.GetAsync("GetAll");
-            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IEnumerable<IdSrvClientDTO>>() : null;
+            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IEnumerable<IdSrvClientDto>>() : null;
         }
 
-        public async Task<IdSrvClientDTO> GetClientByIdAsync(Guid id)
+        public async Task<IdSrvClientDto> GetClientByIdAsync(Guid id)
         {
             HttpResponseMessage response = await this.HttpClient.GetAsync($"{id.ToString()}");
-            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvClientDTO>() : null;
+            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvClientDto>() : null;
         }
 
-        public async Task<bool> CreateClientAsync(NewIdSrvClientDTO newClient)
+        public async Task<bool> CreateClientAsync(NewIdSrvClientDto newClient)
         {
             HttpResponseMessage response = await this.HttpClient.PutAsJsonAsync("", newClient);
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> UpdateClientAsync(UpdateIdSrvClientDTO client)
+        public async Task<bool> UpdateClientAsync(UpdateIdSrvClientDto client)
         {
             HttpResponseMessage response = await this.HttpClient.PostAsJsonAsync("Update", client);
             return response.IsSuccessStatusCode;
@@ -51,7 +51,7 @@
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> ChangeBlock(IdSrvClientBlockDTO block)
+        public async Task<bool> ChangeBlock(IdSrvClientBlockDto block)
         {
             HttpResponseMessage response = await this.HttpClient.PostAsJsonAsync("ChangeBlocking", block);
             return response.IsSuccessStatusCode;

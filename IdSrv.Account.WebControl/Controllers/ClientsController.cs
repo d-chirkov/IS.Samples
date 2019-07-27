@@ -20,7 +20,7 @@
         [HttpGet]
         public async Task<ViewResult> Index()
         {
-            IEnumerable<IdSrvClientDTO> clients = await this.ClientService.GetClientsAsync();
+            IEnumerable<IdSrvClientDto> clients = await this.ClientService.GetClientsAsync();
             return this.View(clients);
         }
 
@@ -31,7 +31,7 @@
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(NewIdSrvClientDTO client)
+        public async Task<ActionResult> Create(NewIdSrvClientDto client)
         {
             if (!this.ModelState.IsValid)
             {
@@ -48,12 +48,12 @@
         [HttpGet]
         public async Task<ActionResult> Update(Guid id)
         {
-            IdSrvClientDTO client = await this.ClientService.GetClientByIdAsync(id);
+            IdSrvClientDto client = await this.ClientService.GetClientByIdAsync(id);
             if (client == null)
             {
                 return this.ViewError("Такого клиента не существует") as ActionResult; ;
             }
-            var updateClient = new UpdateIdSrvClientDTO
+            var updateClient = new UpdateIdSrvClientDto
             {
                 Id = client.Id,
                 Name = client.Name,
@@ -64,7 +64,7 @@
         }
 
         [HttpPost]
-        public async Task<ActionResult> Update(UpdateIdSrvClientDTO client)
+        public async Task<ActionResult> Update(UpdateIdSrvClientDto client)
         {
             if (!this.ModelState.IsValid)
             {
@@ -90,7 +90,7 @@
         [Route("/Clients/Block")]
         public async Task<ActionResult> Block(Guid id)
         {
-            bool blocked = await this.ClientService.ChangeBlock(new IdSrvClientBlockDTO { Id = id, IsBlocked = true });
+            bool blocked = await this.ClientService.ChangeBlock(new IdSrvClientBlockDto { Id = id, IsBlocked = true });
             return blocked ? 
                 this.ViewSuccess("Клиент заблокирован") : 
                 this.ViewError("Не удалось заблокировать клиента");
@@ -100,7 +100,7 @@
         [Route("/Clients/Unblock")]
         public async Task<ActionResult> Unblock(Guid id)
         {
-            bool unblocked = await this.ClientService.ChangeBlock(new IdSrvClientBlockDTO { Id = id, IsBlocked = false });
+            bool unblocked = await this.ClientService.ChangeBlock(new IdSrvClientBlockDto { Id = id, IsBlocked = false });
             return unblocked ?
                 this.ViewSuccess("Клиент разблокирован") :
                 this.ViewError("Не удалось разблокировать клиента");

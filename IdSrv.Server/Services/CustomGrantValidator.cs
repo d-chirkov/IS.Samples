@@ -43,8 +43,8 @@ namespace IdSrv.Server.Services
         public async Task<CustomGrantValidationResult> ValidateAsync(ValidatedTokenRequest request)
         {
             string userName = request.Raw.Get("name");
-            IdSrvUserDTO user = await this.UserRepository.GetUserByUserNameAsync(userName);
-            IdSrvClientDTO client = await this.ClientRepository.GetClientByIdAsync(request.Client.ClientId);
+            IdSrvUserDto user = await this.UserRepository.GetUserByUserNameAsync(userName);
+            IdSrvClientDto client = await this.ClientRepository.GetClientByIdAsync(request.Client.ClientId);
             string password = request.Raw.Get("password");
 
             // Выполняем проверку учетки пользователя
