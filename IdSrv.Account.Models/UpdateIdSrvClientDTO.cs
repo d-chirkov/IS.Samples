@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class UpdateIdSrvClientDTO
+    public class UpdateIdSrvClientDto
     {
         public Guid Id { get; set; }
 

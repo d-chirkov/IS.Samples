@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class IdSrvClientBlockDTO
+    public class IdSrvClientBlockDto
     {
         public Guid Id { get; set; }
 

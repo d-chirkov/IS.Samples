@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class IdSrvUserPasswordDTO
+    public class IdSrvUserPasswordDto
     {
         public Guid Id { get; set; }
 

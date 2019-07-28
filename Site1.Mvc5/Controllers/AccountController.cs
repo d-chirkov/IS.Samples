@@ -50,7 +50,7 @@
             }
             this.ViewBag.AlreadyExists = false;
             NewUser createdUser = null;
-            var userDto = new NewIdSrvUserDTO { UserName = registerForm.Login, Password = registerForm.Password };
+            var userDto = new NewIdSrvUserDto { UserName = registerForm.Login, Password = registerForm.Password };
             using (var client = new HttpClient())
             {
                 // Update port # in the following line.
@@ -77,7 +77,7 @@
                     this.ModelState.AddModelError("Couldn't create", "Ошибка при чтении созданного пользователя на SSO сервере");
                     return this.View(registerForm);
                 }
-                var createdUserDto = await response.Content.ReadAsAsync<IdSrvUserDTO>();
+                var createdUserDto = await response.Content.ReadAsAsync<IdSrvUserDto>();
                 createdUser = new NewUser { Id = createdUserDto.Id.ToString(), Name = createdUserDto.UserName };
             }
             using (var context = new AccountsContext())

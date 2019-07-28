@@ -62,7 +62,7 @@
             var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             var repository = new SqlCeUserRepository(connectionFactory);
             Assert.ThrowsAsync<ArgumentNullException>(() => repository.CreateAsync(null));
-            Assert.ThrowsAsync<ArgumentNullException>(() => repository.CreateAsync(new NewIdSrvUserDTO
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.CreateAsync(new NewIdSrvUserDto
             {
                 UserName = null,
                 Password = "p"
@@ -76,7 +76,7 @@
             string userPassword = "p1";
             var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             var repository = new SqlCeUserRepository(connectionFactory);
-            var user = new NewIdSrvUserDTO { UserName = userName, Password = userPassword };
+            var user = new NewIdSrvUserDto { UserName = userName, Password = userPassword };
             RepositoryResponse response = await repository.CreateAsync(user);
             Assert.AreEqual(RepositoryResponse.Success, response);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
@@ -102,7 +102,7 @@
             string userName = "u1";
             var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             var repository = new SqlCeUserRepository(connectionFactory);
-            var user = new NewIdSrvUserDTO { UserName = userName };
+            var user = new NewIdSrvUserDto { UserName = userName };
             RepositoryResponse response = await repository.CreateAsync(user);
             Assert.AreEqual(RepositoryResponse.Success, response);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
@@ -127,7 +127,7 @@
             string userPassword = "p1";
             var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             var repository = new SqlCeUserRepository(connectionFactory);
-            var user = new NewIdSrvUserDTO { UserName = userName, Password = userPassword };
+            var user = new NewIdSrvUserDto { UserName = userName, Password = userPassword };
             RepositoryResponse response = await repository.CreateAsync(user);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -147,7 +147,7 @@
             string userName = "u1";
             var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             var repository = new SqlCeUserRepository(connectionFactory);
-            var user = new NewIdSrvUserDTO { UserName = userName };
+            var user = new NewIdSrvUserDto { UserName = userName };
             RepositoryResponse response = await repository.CreateAsync(user);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -166,8 +166,8 @@
         {
             var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             var repository = new SqlCeUserRepository(connectionFactory);
-            await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
-            RepositoryResponse response = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p2" });
+            await repository.CreateAsync(new NewIdSrvUserDto { UserName = "u1", Password = "p1" });
+            RepositoryResponse response = await repository.CreateAsync(new NewIdSrvUserDto { UserName = "u1", Password = "p2" });
             Assert.AreEqual(RepositoryResponse.Conflict, response);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -209,7 +209,7 @@
                 });
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            IEnumerable<IdSrvUserDTO> users = await repository.GetAllAsync();
+            IEnumerable<IdSrvUserDto> users = await repository.GetAllAsync();
             Assert.IsNotNull(users);
             Assert.AreEqual(3, users.Count());
             Assert.AreEqual(users.ElementAt(0).UserName, "u1");
@@ -222,7 +222,7 @@
         {
             var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             var repository = new SqlCeUserRepository(connectionFactory);
-            IEnumerable<IdSrvUserDTO> users = await repository.GetAllAsync();
+            IEnumerable<IdSrvUserDto> users = await repository.GetAllAsync();
             Assert.IsNotNull(users);
             Assert.AreEqual(users.Count(), 0);
         }
@@ -257,7 +257,7 @@
                 searchingId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            IdSrvUserDTO user = await repository.GetByIdAsync(searchingId);
+            IdSrvUserDto user = await repository.GetByIdAsync(searchingId);
             Assert.IsNotNull(user);
             Assert.AreEqual(user.Id, searchingId);
             Assert.AreEqual(user.UserName, "u2");
@@ -291,7 +291,7 @@
                 searchingId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            IdSrvUserDTO user = await repository.GetByIdAsync(searchingId);
+            IdSrvUserDto user = await repository.GetByIdAsync(searchingId);
             Assert.IsNotNull(user);
             Assert.AreEqual(user.Id, searchingId);
             Assert.AreEqual(user.UserName, "u2");
@@ -320,7 +320,7 @@
                 searchingId = Guid.NewGuid();
             } while (searchingId == existingId);
             var repository = new SqlCeUserRepository(connectionFactory);
-            IdSrvUserDTO user = await repository.GetByIdAsync(searchingId);
+            IdSrvUserDto user = await repository.GetByIdAsync(searchingId);
             Assert.IsNull(user);
         }
 
@@ -354,7 +354,7 @@
                 searchingId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            IdSrvUserDTO user = await repository.GetByUserNameAsync("u2");
+            IdSrvUserDto user = await repository.GetByUserNameAsync("u2");
             Assert.IsNotNull(user);
             Assert.AreEqual(user.Id, searchingId);
             Assert.AreEqual(user.UserName, "u2");
@@ -388,7 +388,7 @@
                 searchingId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            IdSrvUserDTO user = await repository.GetByUserNameAsync("u2");
+            IdSrvUserDto user = await repository.GetByUserNameAsync("u2");
             Assert.IsNotNull(user);
             Assert.AreEqual(user.Id, searchingId);
             Assert.AreEqual(user.UserName, "u2");
@@ -410,7 +410,7 @@
                 });
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            IdSrvUserDTO user = await repository.GetByUserNameAsync("u2");
+            IdSrvUserDto user = await repository.GetByUserNameAsync("u2");
             Assert.IsNull(user);
         }
 
@@ -420,17 +420,17 @@
             var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             var repository = new SqlCeUserRepository(connectionFactory);
             Assert.ThrowsAsync<ArgumentNullException>(() => repository.GetByAuthInfoAsync(null));
-            Assert.ThrowsAsync<ArgumentNullException>(() => repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.GetByAuthInfoAsync(new IdSrvUserAuthDto
             {
                 UserName = null,
                 Password = "p"
             }));
-            Assert.ThrowsAsync<ArgumentNullException>(() => repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.GetByAuthInfoAsync(new IdSrvUserAuthDto
             {
                 UserName = "a",
                 Password = null
             }));
-            Assert.ThrowsAsync<ArgumentNullException>(() => repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.GetByAuthInfoAsync(new IdSrvUserAuthDto
             {
                 UserName = null,
                 Password = null
@@ -471,7 +471,7 @@
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u2", Password = "p2" });
+            IdSrvUserDto user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDto { UserName = "u2", Password = "p2" });
             Assert.IsNotNull(user);
             Assert.AreEqual(user.Id, userId);
             Assert.AreEqual(user.UserName, "u2");
@@ -511,7 +511,7 @@
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u3" }).FirstAsync<Guid>();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u3", Password = "p3" });
+            IdSrvUserDto user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDto { UserName = "u3", Password = "p3" });
             Assert.IsNull(user);
         }
 
@@ -541,7 +541,7 @@
                 });
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u4", Password = "p4" });
+            IdSrvUserDto user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDto { UserName = "u4", Password = "p4" });
             Assert.IsNull(user);
         }
 
@@ -573,7 +573,7 @@
                 });
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u2", Password = "p4" });
+            IdSrvUserDto user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDto { UserName = "u2", Password = "p4" });
             Assert.IsNull(user);
         }
 
@@ -603,7 +603,7 @@
                 });
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u2", Password = "p4" });
+            IdSrvUserDto user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDto { UserName = "u2", Password = "p4" });
             Assert.IsNull(user);
         }
 
@@ -613,7 +613,7 @@
             var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             var repository = new SqlCeUserRepository(connectionFactory);
             Assert.ThrowsAsync<ArgumentNullException>(() => repository.ChangePasswordAsync(null));
-            Assert.ThrowsAsync<ArgumentNullException>(() => repository.ChangePasswordAsync(new IdSrvUserPasswordDTO
+            Assert.ThrowsAsync<ArgumentNullException>(() => repository.ChangePasswordAsync(new IdSrvUserPasswordDto
             {
                 Id = Guid.NewGuid(),
                 Password = null
@@ -650,7 +650,7 @@
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            RepositoryResponse response = await repository.ChangePasswordAsync(new IdSrvUserPasswordDTO
+            RepositoryResponse response = await repository.ChangePasswordAsync(new IdSrvUserPasswordDto
             {
                 Id = userId,
                 Password = "p4"
@@ -698,7 +698,7 @@
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            RepositoryResponse response = await repository.ChangePasswordAsync(new IdSrvUserPasswordDTO
+            RepositoryResponse response = await repository.ChangePasswordAsync(new IdSrvUserPasswordDto
             {
                 Id = userId,
                 Password = "p4"
@@ -752,7 +752,7 @@
                 notExistingId = Guid.NewGuid();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            RepositoryResponse response = await repository.ChangePasswordAsync(new IdSrvUserPasswordDTO
+            RepositoryResponse response = await repository.ChangePasswordAsync(new IdSrvUserPasswordDto
             {
                 Id = notExistingId,
                 Password = "p4"
@@ -918,7 +918,7 @@
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
                 Id = userId,
                 IsBlocked = true
@@ -967,7 +967,7 @@
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
                 Id = userId,
                 IsBlocked = true
@@ -1018,7 +1018,7 @@
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
                 Id = userId,
                 IsBlocked = false
@@ -1067,7 +1067,7 @@
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
                 Id = userId,
                 IsBlocked = false
@@ -1118,7 +1118,7 @@
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
                 Id = userId,
                 IsBlocked = true
@@ -1167,7 +1167,7 @@
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
                 Id = userId,
                 IsBlocked = true
@@ -1218,7 +1218,7 @@
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
                 Id = userId,
                 IsBlocked = false
@@ -1267,7 +1267,7 @@
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
                 Id = userId,
                 IsBlocked = false
@@ -1320,7 +1320,7 @@
                 notExistingId = Guid.NewGuid();
             }
             var repository = new SqlCeUserRepository(connectionFactory);
-            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO
+            RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
                 Id = notExistingId,
                 IsBlocked = true
@@ -1337,19 +1337,19 @@
         {
             var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             var repository = new SqlCeUserRepository(connectionFactory);
-            RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
+            RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDto { UserName = "u1", Password = "p1" });
             Assert.AreEqual(RepositoryResponse.Success, result);
-            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u1", Password = "p1" });
+            IdSrvUserDto user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDto { UserName = "u1", Password = "p1" });
             Assert.IsNotNull(user);
             Assert.AreEqual("u1", user.UserName);
             Assert.IsFalse(user.IsBlocked);
             Guid storedId = user.Id;
-            IEnumerable<IdSrvUserDTO> users = await repository.GetAllAsync();
+            IEnumerable<IdSrvUserDto> users = await repository.GetAllAsync();
             Assert.IsNotNull(users);
             Assert.AreEqual(1, users.Count());
             result = await repository.DeleteAsync(storedId);
             Assert.AreEqual(RepositoryResponse.Success, result);
-            user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u1", Password = "p1" });
+            user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDto { UserName = "u1", Password = "p1" });
             Assert.IsNull(user);
             user = await repository.GetByIdAsync(storedId);
             Assert.IsNull(user);
@@ -1363,18 +1363,18 @@
         {
             var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             var repository = new SqlCeUserRepository(connectionFactory);
-            RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
+            RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDto { UserName = "u1", Password = "p1" });
             Assert.AreEqual(RepositoryResponse.Success, result);
-            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u1", Password = "p1" });
+            IdSrvUserDto user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDto { UserName = "u1", Password = "p1" });
             Assert.IsNotNull(user);
             Assert.AreEqual("u1", user.UserName);
             Assert.IsFalse(user.IsBlocked);
-            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO { Id = user.Id, IsBlocked = true});
+            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto { Id = user.Id, IsBlocked = true});
             Assert.AreEqual(RepositoryResponse.Success, result);
             user = await repository.GetByIdAsync(user.Id);
             Assert.IsNotNull(user);
             Assert.IsTrue(user.IsBlocked);
-            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO { Id = user.Id, IsBlocked = false });
+            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto { Id = user.Id, IsBlocked = false });
             Assert.AreEqual(RepositoryResponse.Success, result);
             user = await repository.GetByIdAsync(user.Id);
             Assert.IsNotNull(user);
@@ -1386,17 +1386,17 @@
         {
             var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             var repository = new SqlCeUserRepository(connectionFactory);
-            RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
+            RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDto { UserName = "u1", Password = "p1" });
             Assert.AreEqual(RepositoryResponse.Success, result);
-            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u1", Password = "p1" });
+            IdSrvUserDto user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDto { UserName = "u1", Password = "p1" });
             Assert.IsNotNull(user);
             Assert.AreEqual("u1", user.UserName);
             Assert.IsFalse(user.IsBlocked);
-            result = await repository.ChangePasswordAsync(new IdSrvUserPasswordDTO { Id = user.Id, Password = "p2" });
+            result = await repository.ChangePasswordAsync(new IdSrvUserPasswordDto { Id = user.Id, Password = "p2" });
             Assert.AreEqual(RepositoryResponse.Success, result);
-            user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u1", Password = "p1" });
+            user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDto { UserName = "u1", Password = "p1" });
             Assert.IsNull(user);
-            user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u1", Password = "p2" });
+            user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDto { UserName = "u1", Password = "p2" });
             Assert.IsNotNull(user);
             Assert.AreEqual("u1", user.UserName);
             Assert.IsFalse(user.IsBlocked);
@@ -1407,24 +1407,24 @@
         {
             var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             var repository = new SqlCeUserRepository(connectionFactory);
-            RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
+            RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDto { UserName = "u1", Password = "p1" });
             Assert.AreEqual(RepositoryResponse.Success, result);
-            result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u2", Password = "p2" });
+            result = await repository.CreateAsync(new NewIdSrvUserDto { UserName = "u2", Password = "p2" });
             Assert.AreEqual(RepositoryResponse.Success, result);
-            result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p2" });
+            result = await repository.CreateAsync(new NewIdSrvUserDto { UserName = "u1", Password = "p2" });
             Assert.AreEqual(RepositoryResponse.Conflict, result);
 
-            IEnumerable<IdSrvUserDTO> users = await repository.GetAllAsync();
+            IEnumerable<IdSrvUserDto> users = await repository.GetAllAsync();
             Assert.IsNotNull(users);
             Assert.AreEqual(2, users.Count());
-            IdSrvUserDTO user1 = users.OrderBy(u => u.UserName).ElementAt(0);
-            IdSrvUserDTO user2 = users.OrderBy(u => u.UserName).ElementAt(1);
+            IdSrvUserDto user1 = users.OrderBy(u => u.UserName).ElementAt(0);
+            IdSrvUserDto user2 = users.OrderBy(u => u.UserName).ElementAt(1);
             Assert.AreEqual("u1", user1.UserName);
             Assert.AreEqual("u2", user2.UserName);
             Assert.IsFalse(user1.IsBlocked);
             Assert.IsFalse(user2.IsBlocked);
 
-            IdSrvUserDTO user = await repository.GetByIdAsync(user1.Id);
+            IdSrvUserDto user = await repository.GetByIdAsync(user1.Id);
             Assert.IsNotNull(user);
             Assert.AreEqual("u1", user.UserName);
             Assert.IsFalse(user.IsBlocked);
@@ -1460,32 +1460,32 @@
         {
             var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
             var repository = new SqlCeUserRepository(connectionFactory);
-            RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDTO { UserName = "u1", Password = "p1" });
+            RepositoryResponse result = await repository.CreateAsync(new NewIdSrvUserDto { UserName = "u1", Password = "p1" });
             Assert.AreEqual(RepositoryResponse.Success, result);
 
-            IdSrvUserDTO user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDTO { UserName = "u1", Password = "p1" });
+            IdSrvUserDto user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDto { UserName = "u1", Password = "p1" });
             Assert.IsNotNull(user);
             Assert.AreEqual("u1", user.UserName);
             Assert.IsFalse(user.IsBlocked);
 
-            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO { Id = user.Id, IsBlocked = true });
+            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto { Id = user.Id, IsBlocked = true });
             Assert.AreEqual(RepositoryResponse.Success, result);
 
             user = await repository.GetByIdAsync(user.Id);
             Assert.IsNotNull(user);
             Assert.IsTrue(user.IsBlocked);
 
-            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO { Id = user.Id, IsBlocked = true });
+            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto { Id = user.Id, IsBlocked = true });
             Assert.AreEqual(RepositoryResponse.Success, result);
 
             user = await repository.GetByIdAsync(user.Id);
             Assert.IsNotNull(user);
             Assert.IsTrue(user.IsBlocked);
 
-            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO { Id = user.Id, IsBlocked = false });
+            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto { Id = user.Id, IsBlocked = false });
             Assert.AreEqual(RepositoryResponse.Success, result);
 
-            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDTO { Id = user.Id, IsBlocked = false });
+            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto { Id = user.Id, IsBlocked = false });
             Assert.AreEqual(RepositoryResponse.Success, result);
 
             user = await repository.GetByIdAsync(user.Id);

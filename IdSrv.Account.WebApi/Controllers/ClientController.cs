@@ -23,7 +23,7 @@
         [Route("GetAll")]
         public async Task<IHttpActionResult> GetAll()
         {
-            IEnumerable<IdSrvClientDTO> clients = await this.ClientRepository.GetAllAsync();
+            IEnumerable<IdSrvClientDto> clients = await this.ClientRepository.GetAllAsync();
             return clients != null ? this.Ok(clients) : this.NotFound() as IHttpActionResult;
         }
 
@@ -38,7 +38,7 @@
         [HttpGet]
         public async Task<IHttpActionResult> Get(Guid id)
         {
-            IdSrvClientDTO client = await this.ClientRepository.GetByIdAsync(id);
+            IdSrvClientDto client = await this.ClientRepository.GetByIdAsync(id);
             return client != null ? this.Ok(client) : this.NotFound() as IHttpActionResult;
         }
 
@@ -51,12 +51,12 @@
                 return this.BadRequest();
             }
 
-            IdSrvClientDTO client = await this.ClientRepository.GetByNameAsync(name);
+            IdSrvClientDto client = await this.ClientRepository.GetByNameAsync(name);
             return client != null ? this.Ok(client) : this.NotFound() as IHttpActionResult;
         }
 
         [HttpPut]
-        public async Task<IHttpActionResult> Create(NewIdSrvClientDTO client)
+        public async Task<IHttpActionResult> Create(NewIdSrvClientDto client)
         {
             if (client == null || client.Name == null || client.Secret == null)
             {
@@ -72,7 +72,7 @@
 
         [HttpPost]
         [Route("Update")]
-        public async Task<IHttpActionResult> Update(UpdateIdSrvClientDTO client)
+        public async Task<IHttpActionResult> Update(UpdateIdSrvClientDto client)
         {
             if (client == null || client.Name == null || client.Secret == null)
             {
@@ -89,7 +89,7 @@
 
         [HttpPost]
         [Route("ChangeBlocking")]
-        public async Task<IHttpActionResult> ChangeBlocking(IdSrvClientBlockDTO block)
+        public async Task<IHttpActionResult> ChangeBlocking(IdSrvClientBlockDto block)
         {
             if (block == null)
             {

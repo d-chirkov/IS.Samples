@@ -7,20 +7,20 @@
 
     public interface IClientRepository
     {
-        Task<IEnumerable<IdSrvClientDTO>> GetAllAsync();
+        Task<IEnumerable<IdSrvClientDto>> GetAllAsync();
 
         Task<IEnumerable<string>> GetAllUrisAsync();
 
-        Task<IdSrvClientDTO> GetByIdAsync(Guid id);
+        Task<IdSrvClientDto> GetByIdAsync(Guid id);
 
-        Task<IdSrvClientDTO> GetByNameAsync(string clientName);
+        Task<IdSrvClientDto> GetByNameAsync(string clientName);
 
         Task<RepositoryResponse> DeleteAsync(Guid id);
 
-        Task<RepositoryResponse> CreateAsync(NewIdSrvClientDTO app);
+        Task<RepositoryResponse> CreateAsync(NewIdSrvClientDto app);
 
-        Task<RepositoryResponse> UpdateAsync(UpdateIdSrvClientDTO app);
+        Task<RepositoryResponse> UpdateAsync(UpdateIdSrvClientDto app);
 
-        Task<RepositoryResponse> ChangeBlockingAsync(IdSrvClientBlockDTO block);
+        Task<RepositoryResponse> ChangeBlockingAsync(IdSrvClientBlockDto block);
     }
 }

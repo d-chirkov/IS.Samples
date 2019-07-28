@@ -20,7 +20,7 @@
         [HttpGet]
         public async Task<ViewResult> Index()
         {
-            IEnumerable<IdSrvUserDTO> users = await this.userService.GetUsersAsync();
+            IEnumerable<IdSrvUserDto> users = await this.userService.GetUsersAsync();
             return this.View(users);
         }
 
@@ -31,7 +31,7 @@
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(NewIdSrvUserDTO user)
+        public async Task<ActionResult> Create(NewIdSrvUserDto user)
         {
             if (!this.ModelState.IsValid)
             {
@@ -48,15 +48,15 @@
         [HttpGet]
         public ViewResult ChangePassword(Guid id)
         {
-            return this.View(new IdSrvUserPasswordDTO { Id = id });
+            return this.View(new IdSrvUserPasswordDto { Id = id });
         }
 
         [HttpPost]
-        public async Task<ActionResult> ChangePassword(IdSrvUserPasswordDTO passwords)
+        public async Task<ActionResult> ChangePassword(IdSrvUserPasswordDto passwords)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View(new IdSrvUserPasswordDTO { Id = passwords.Id });
+                return this.View(new IdSrvUserPasswordDto { Id = passwords.Id });
             }
             bool changed = await this.userService.ChangePasswordForUserAsync(passwords);
             if (!changed)
@@ -65,7 +65,7 @@
             }
             return changed ? 
                     this.ViewSuccess("Пароль успешно изменён") :
-                    this.View(new IdSrvUserPasswordDTO { Id = passwords.Id }) as ActionResult;
+                    this.View(new IdSrvUserPasswordDto { Id = passwords.Id }) as ActionResult;
         }
 
         [HttpPost]
@@ -80,7 +80,7 @@
         [Route("/Users/Block")]
         public async Task<ActionResult> Block(Guid id)
         {
-            bool blocked = await this.userService.ChangeBlock(new IdSrvUserBlockDTO { Id = id, IsBlocked = true });
+            bool blocked = await this.userService.ChangeBlock(new IdSrvUserBlockDto { Id = id, IsBlocked = true });
             return blocked ? 
                 this.ViewSuccess("Пользователь заблокирован") : 
                 this.ViewError("Не удалось заблокировать пользователя");
@@ -90,7 +90,7 @@
         [Route("/Users/Unblock")]
         public async Task<ActionResult> Unblock(Guid id)
         {
-            bool unblocked = await this.userService.ChangeBlock(new IdSrvUserBlockDTO { Id = id, IsBlocked = false });
+            bool unblocked = await this.userService.ChangeBlock(new IdSrvUserBlockDto { Id = id, IsBlocked = false });
             return unblocked ?
                 this.ViewSuccess("Пользователь разблокирован") :
                 this.ViewError("Не удалось разблокировать пользователя");

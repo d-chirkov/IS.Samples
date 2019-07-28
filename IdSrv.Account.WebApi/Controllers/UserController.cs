@@ -23,14 +23,14 @@
         [Route("GetAll")]
         public async Task<IHttpActionResult> GetAll()
         {
-            IEnumerable<IdSrvUserDTO> users = await this.UserRepository.GetAllAsync();
+            IEnumerable<IdSrvUserDto> users = await this.UserRepository.GetAllAsync();
             return users != null ? this.Ok(users) : this.NotFound() as IHttpActionResult;
         }
 
         [HttpGet]
         public async Task<IHttpActionResult> Get(Guid id)
         {
-            IdSrvUserDTO user = await this.UserRepository.GetByIdAsync(id);
+            IdSrvUserDto user = await this.UserRepository.GetByIdAsync(id);
             return user != null ? this.Ok(user) : this.NotFound() as IHttpActionResult;
         }
 
@@ -38,13 +38,13 @@
         [Route("GetByUserName")]
         public async Task<IHttpActionResult> GetByUserName(string userName)
         {
-            IdSrvUserDTO user = await this.UserRepository.GetByUserNameAsync(userName);
+            IdSrvUserDto user = await this.UserRepository.GetByUserNameAsync(userName);
             return user != null ? this.Ok(user) : this.NotFound() as IHttpActionResult;
         }
 
         [HttpPost]
         [Route("GetByAuthInfo")]
-        public async Task<IHttpActionResult> GetByAuthInfo(IdSrvUserAuthDTO authInfo)
+        public async Task<IHttpActionResult> GetByAuthInfo(IdSrvUserAuthDto authInfo)
         {
             // This action check credentials only for simple users, not windows users.
             // So it's necessary to get password from client
@@ -53,12 +53,12 @@
                 return this.BadRequest();
             }
 
-            IdSrvUserDTO user = await this.UserRepository.GetByAuthInfoAsync(authInfo);
+            IdSrvUserDto user = await this.UserRepository.GetByAuthInfoAsync(authInfo);
             return user != null ? this.Ok(user) : this.NotFound() as IHttpActionResult;
         }
 
         [HttpPut]
-        public async Task<IHttpActionResult> Create(NewIdSrvUserDTO user)
+        public async Task<IHttpActionResult> Create(NewIdSrvUserDto user)
         {
             // Password can be null for windows users
             if (user == null || user.UserName == null)
@@ -75,7 +75,7 @@
 
         [HttpPost]
         [Route("ChangePassword")]
-        public async Task<IHttpActionResult> ChangePassword(IdSrvUserPasswordDTO password)
+        public async Task<IHttpActionResult> ChangePassword(IdSrvUserPasswordDto password)
         {
             if (password == null || password.Password == null)
             {
@@ -91,7 +91,7 @@
 
         [HttpPost]
         [Route("ChangeBlocking")]
-        public async Task<IHttpActionResult> ChangeBlocking(IdSrvUserBlockDTO block)
+        public async Task<IHttpActionResult> ChangeBlocking(IdSrvUserBlockDto block)
         {
             if (block == null)
             {

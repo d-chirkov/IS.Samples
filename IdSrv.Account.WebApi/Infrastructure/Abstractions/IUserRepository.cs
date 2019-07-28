@@ -7,20 +7,20 @@
 
     public interface IUserRepository
     {
-        Task<IEnumerable<IdSrvUserDTO>> GetAllAsync();
+        Task<IEnumerable<IdSrvUserDto>> GetAllAsync();
 
-        Task<IdSrvUserDTO> GetByIdAsync(Guid id);
+        Task<IdSrvUserDto> GetByIdAsync(Guid id);
 
-        Task<IdSrvUserDTO> GetByUserNameAsync(string userName);
+        Task<IdSrvUserDto> GetByUserNameAsync(string userName);
 
-        Task<IdSrvUserDTO> GetByAuthInfoAsync(IdSrvUserAuthDTO userAuth);
+        Task<IdSrvUserDto> GetByAuthInfoAsync(IdSrvUserAuthDto userAuth);
 
-        Task<RepositoryResponse> CreateAsync(NewIdSrvUserDTO user);
+        Task<RepositoryResponse> CreateAsync(NewIdSrvUserDto user);
 
         Task<RepositoryResponse> DeleteAsync(Guid id);
 
-        Task<RepositoryResponse> ChangePasswordAsync(IdSrvUserPasswordDTO password);
+        Task<RepositoryResponse> ChangePasswordAsync(IdSrvUserPasswordDto password);
 
-        Task<RepositoryResponse> ChangeBlockingAsync(IdSrvUserBlockDTO block);
+        Task<RepositoryResponse> ChangeBlockingAsync(IdSrvUserBlockDto block);
     }
 }

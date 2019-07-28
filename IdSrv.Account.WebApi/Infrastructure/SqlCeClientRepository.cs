@@ -21,7 +21,7 @@
             this.DatabaseConnectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
         }
 
-        public async Task<IEnumerable<IdSrvClientDTO>> GetAllAsync()
+        public async Task<IEnumerable<IdSrvClientDto>> GetAllAsync()
         {
             using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
             {
@@ -30,7 +30,7 @@
                 return await db
                     .Query("Clients")
                     .Select("Id", "Name", "Uri", "Secret", "IsBlocked")
-                    .GetAsync<IdSrvClientDTO>();
+                    .GetAsync<IdSrvClientDto>();
             }
         }
 
@@ -48,7 +48,7 @@
             }
         }
 
-        public async Task<IdSrvClientDTO> GetByIdAsync(Guid id)
+        public async Task<IdSrvClientDto> GetByIdAsync(Guid id)
         {
             using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
             {
@@ -58,11 +58,11 @@
                     .Query("Clients")
                     .Where(new { Id = id })
                     .Select("Id", "Name", "Uri", "Secret", "IsBlocked")
-                    .FirstOrDefaultAsync<IdSrvClientDTO>();
+                    .FirstOrDefaultAsync<IdSrvClientDto>();
             }
         }
 
-        public async Task<IdSrvClientDTO> GetByNameAsync(string clientName)
+        public async Task<IdSrvClientDto> GetByNameAsync(string clientName)
         {
             if (clientName == null)
             {
@@ -77,7 +77,7 @@
                     .Query("Clients")
                     .Where(new { Name = clientName })
                     .Select("Id", "Name", "Uri", "Secret", "IsBlocked")
-                    .FirstOrDefaultAsync<IdSrvClientDTO>();
+                    .FirstOrDefaultAsync<IdSrvClientDto>();
             }
         }
 
@@ -92,7 +92,7 @@
             }
         }
 
-        public async Task<RepositoryResponse> CreateAsync(NewIdSrvClientDTO client)
+        public async Task<RepositoryResponse> CreateAsync(NewIdSrvClientDto client)
         {
             if (client == null || client.Name == null || client.Secret == null)
             {
@@ -114,7 +114,7 @@
             }
         }
 
-        public async Task<RepositoryResponse> UpdateAsync(UpdateIdSrvClientDTO client)
+        public async Task<RepositoryResponse> UpdateAsync(UpdateIdSrvClientDto client)
         {
             if (client == null || client.Name == null || client.Secret == null)
             {
@@ -136,7 +136,7 @@
             }
         }
 
-        public async Task<RepositoryResponse> ChangeBlockingAsync(IdSrvClientBlockDTO block)
+        public async Task<RepositoryResponse> ChangeBlockingAsync(IdSrvClientBlockDto block)
         {
             if (block == null)
             {

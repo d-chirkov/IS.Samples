@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class IdSrvUserAuthDTO
+    public class IdSrvUserAuthDto
     {
         [Required]
         public string UserName { get; set; }

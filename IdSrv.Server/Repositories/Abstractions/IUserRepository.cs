@@ -5,10 +5,10 @@
 
     internal interface IUserRepository
     {
-        Task<IdSrvUserDTO> GetUserByUserNameAndPasswordAsync(string userName, string password);
+        Task<IdSrvUserDto> GetUserByUserNameAndPasswordAsync(string userName, string password);
 
-        Task<IdSrvUserDTO> GetUserByIdAsync(string id);
+        Task<IdSrvUserDto> GetUserByIdAsync(string id);
 
-        Task<IdSrvUserDTO> GetUserByUserNameAsync(string userName);
+        Task<IdSrvUserDto> GetUserByUserNameAsync(string userName);
     }
 }

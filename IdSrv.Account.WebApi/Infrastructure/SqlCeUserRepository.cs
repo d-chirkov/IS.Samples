@@ -20,7 +20,7 @@
             this.DatabaseConnectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
         }
 
-        public async Task<IEnumerable<IdSrvUserDTO>> GetAllAsync()
+        public async Task<IEnumerable<IdSrvUserDto>> GetAllAsync()
         {
             using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
             {
@@ -29,11 +29,11 @@
                 return await db
                     .Query("Users")
                     .Select("Id", "UserName", "IsBlocked")
-                    .GetAsync<IdSrvUserDTO>();
+                    .GetAsync<IdSrvUserDto>();
             }
         }
 
-        public async Task<IdSrvUserDTO> GetByIdAsync(Guid id)
+        public async Task<IdSrvUserDto> GetByIdAsync(Guid id)
         {
             using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
             {
@@ -43,11 +43,11 @@
                     .Query("Users")
                     .Select("Id", "UserName", "IsBlocked")
                     .Where(new { Id = id })
-                    .FirstOrDefaultAsync<IdSrvUserDTO>();
+                    .FirstOrDefaultAsync<IdSrvUserDto>();
             }
         }
 
-        public async Task<IdSrvUserDTO> GetByUserNameAsync(string userName)
+        public async Task<IdSrvUserDto> GetByUserNameAsync(string userName)
         {
             using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
             {
@@ -57,11 +57,11 @@
                     .Query("Users")
                     .Select("Id", "UserName", "IsBlocked")
                     .Where(new { UserName = userName })
-                    .FirstOrDefaultAsync<IdSrvUserDTO>();
+                    .FirstOrDefaultAsync<IdSrvUserDto>();
             }
         }
 
-        public async Task<IdSrvUserDTO> GetByAuthInfoAsync(IdSrvUserAuthDTO userAuth)
+        public async Task<IdSrvUserDto> GetByAuthInfoAsync(IdSrvUserAuthDto userAuth)
         {
             if (userAuth == null || userAuth.UserName == null || userAuth.Password == null)
             {
@@ -86,12 +86,12 @@
                 string passwordSaltFromDb = userInDb.PasswordSalt;
                 string calculatedPasswordHash = this.GetB64PasswordHashFrom(userAuth.Password, passwordSaltFromDb);
                 return calculatedPasswordHash == passwordHashFromDb ?
-                    new IdSrvUserDTO { Id = userInDb.Id, UserName = userInDb.UserName, IsBlocked = userInDb.IsBlocked } :
+                    new IdSrvUserDto { Id = userInDb.Id, UserName = userInDb.UserName, IsBlocked = userInDb.IsBlocked } :
                     null;
             }
         }
 
-        public async Task<RepositoryResponse> ChangePasswordAsync(IdSrvUserPasswordDTO password)
+        public async Task<RepositoryResponse> ChangePasswordAsync(IdSrvUserPasswordDto password)
         {
             if (password == null || password.Password == null)
             {
@@ -115,7 +115,7 @@
             }
         }
 
-        public async Task<RepositoryResponse> ChangeBlockingAsync(IdSrvUserBlockDTO block)
+        public async Task<RepositoryResponse> ChangeBlockingAsync(IdSrvUserBlockDto block)
         {
             if (block == null)
             {
@@ -133,7 +133,7 @@
             }
         }
 
-        public async Task<RepositoryResponse> CreateAsync(NewIdSrvUserDTO user)
+        public async Task<RepositoryResponse> CreateAsync(NewIdSrvUserDto user)
         {
             if (user == null || user.UserName == null)
             {

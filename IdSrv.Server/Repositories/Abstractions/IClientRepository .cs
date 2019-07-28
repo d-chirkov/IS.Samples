@@ -6,7 +6,7 @@
 
     internal interface IClientRepository
     {
-        Task<IdSrvClientDTO> GetClientByIdAsync(string clientId);
+        Task<IdSrvClientDto> GetClientByIdAsync(string clientId);
 
         Task<IEnumerable<string>> GetAllUrisAsync();
     }

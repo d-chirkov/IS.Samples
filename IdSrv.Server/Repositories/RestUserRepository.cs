@@ -20,28 +20,28 @@
             this.HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<IdSrvUserDTO> GetUserByUserNameAndPasswordAsync(string userName, string password)
+        public async Task<IdSrvUserDto> GetUserByUserNameAndPasswordAsync(string userName, string password)
         {
-            var authInfo = new IdSrvUserAuthDTO { UserName = userName, Password = password };
+            var authInfo = new IdSrvUserAuthDto { UserName = userName, Password = password };
             HttpResponseMessage response = await this.HttpClient.PostAsJsonAsync("GetByAuthInfo", authInfo);
-            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvUserDTO>() : null;
+            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvUserDto>() : null;
         }
 
-        public async Task<IdSrvUserDTO> GetUserByIdAsync(string id)
+        public async Task<IdSrvUserDto> GetUserByIdAsync(string id)
         {
             if (Guid.TryParse(id, out Guid result))
             {
                 HttpResponseMessage response = await this.HttpClient.GetAsync($"{result.ToString()}");
-                return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvUserDTO>() : null;
+                return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvUserDto>() : null;
             }
 
             return null;
         }
 
-        public async Task<IdSrvUserDTO> GetUserByUserNameAsync(string userName)
+        public async Task<IdSrvUserDto> GetUserByUserNameAsync(string userName)
         {
             HttpResponseMessage response = await this.HttpClient.GetAsync($"GetByUserName?userName={HttpUtility.UrlEncode(userName)}");
-            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvUserDTO>() : null;
+            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvUserDto>() : null;
         }
     }
 }
