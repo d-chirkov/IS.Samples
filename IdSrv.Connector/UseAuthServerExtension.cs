@@ -118,7 +118,7 @@
 
                             if (userName == null)
                             {
-                                n.OwinContext.Authentication.SignOut();
+                                //n.OwinContext.Authentication.SignOut();
                                 return;
                             }
 
