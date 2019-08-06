@@ -7,9 +7,14 @@ using WebActivatorEx;
 
 namespace IdSrv.Account.WebApi
 {
-
+    /// <summary>
+    /// Конфигурация дла swagger.
+    /// </summary>
     public class SwaggerConfig
     {
+        /// <summary>
+        /// Регистрирует swagger.
+        /// </summary>
         public static void Register()
         {
             GlobalConfiguration.Configuration

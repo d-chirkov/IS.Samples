@@ -10,8 +10,14 @@
     using IdSrv.Account.WebApi.Infrastructure;
     using IdSrv.Account.WebApi.Infrastructure.Abstractions;
 
+    /// <summary>
+    /// Главный класс приложения, содержит точку входа сервиса.
+    /// </summary>
     public class WebApiApplication : System.Web.HttpApplication
     {
+        /// <summary>
+        /// Точка входа в приложение, вызывается сервером IIS при старте сервиса.
+        /// </summary>
         protected void Application_Start()
         {
             var builder = new ContainerBuilder();
@@ -42,6 +48,12 @@
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
 
+        /// <summary>
+        /// Получить строку подключения к базе данных.
+        /// </summary>
+        /// <returns>
+        /// Строкуа подключения ADO.NET.
+        /// </returns>
         private string GetConnectionStringToDb()
         {
             string pathToSqlCeDatabase = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Databases\idsrv_accounts.sdf");

@@ -9,16 +9,33 @@
     using IdSrv.Account.WebApi.Infrastructure.Abstractions;
     using IdSrv.Account.WebApi.Infrastructure.Exceptions;
 
+    /// <summary>
+    /// Контроллер для управления пользователями identity server-а.
+    /// </summary>
     [RoutePrefix("Api/User")]
     public class UserController : ApiController
     {
-        private IUserRepository UserRepository { get; set; }
-
+        /// <summary>
+        /// Создаёт экземпляр контроллера.
+        /// </summary>
+        /// <param name="userRepository">Репозиторий пользователей.</param>
         public UserController(IUserRepository userRepository)
         {
             this.UserRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
+        /// <summary>
+        /// Получает или задает репозиторий пользователей.
+        /// </summary>
+        private IUserRepository UserRepository { get; set; }
+
+        /// <summary>
+        /// Получить всех пользователей.
+        /// </summary>
+        /// <returns>
+        /// Ok со списком объектов IdSrvUserDto,
+        /// либо NotFound, если получить такой список из репозитория не удалось.
+        /// </returns>
         [HttpGet]
         [Route("GetAll")]
         public async Task<IHttpActionResult> GetAll()
@@ -27,6 +44,14 @@
             return users != null ? this.Ok(users) : this.NotFound() as IHttpActionResult;
         }
 
+        /// <summary>
+        /// Получить пользователя по идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор пользователя.</param>
+        /// <returns>
+        /// Ok с dto типа IdSrvUserDto,
+        /// либо NotFound, если такой пользователь не найден в репозитории.
+        /// </returns>
         [HttpGet]
         public async Task<IHttpActionResult> Get(Guid id)
         {
@@ -34,6 +59,14 @@
             return user != null ? this.Ok(user) : this.NotFound() as IHttpActionResult;
         }
 
+        /// <summary>
+        /// Получить пользователя по логину.
+        /// </summary>
+        /// <param name="userName">Логин пользователя.</param>
+        /// <returns>
+        /// Ok с dto типа IdSrvUserDto,
+        /// либо NotFound, если такой пользователь не найден в репозитории.
+        /// </returns>
         [HttpGet]
         [Route("GetByUserName")]
         public async Task<IHttpActionResult> GetByUserName(string userName)
@@ -42,6 +75,16 @@
             return user != null ? this.Ok(user) : this.NotFound() as IHttpActionResult;
         }
 
+        /// <summary>
+        /// Получить пользователя по его аутентификационным данным (логину и паролю).
+        /// Данные метод необходим для проверки аутентификационных данных.
+        /// </summary>
+        /// <param name="authInfo">Аутентификационные данные пользователя.</param>
+        /// <returns>
+        /// Ok с dto типа IdSrvUserDto,
+        /// либо NotFound, если такой пользователь не найден в репозитории, т.е. 
+        /// логин и/или пароль не верные.
+        /// </returns>
         [HttpPost]
         [Route("GetByAuthInfo")]
         public async Task<IHttpActionResult> GetByAuthInfo(IdSrvUserAuthDto authInfo)
@@ -57,6 +100,15 @@
             return user != null ? this.Ok(user) : this.NotFound() as IHttpActionResult;
         }
 
+        /// <summary>
+        /// Создать пользователя в репозитории.
+        /// </summary>
+        /// <param name="user">Dto с данными для создания пользователя.</param>
+        /// <returns>
+        /// Ok, если пользователь успешно создан, Conflict в противном случае.
+        /// Если пользвоаетеля не удалось создать, то это означает, что пользователь
+        /// с такими данными (логином) уже существует в репозитории.
+        /// </returns>
         [HttpPut]
         public async Task<IHttpActionResult> Create(NewIdSrvUserDto user)
         {
@@ -73,6 +125,14 @@
                 throw new UserRepositoryException();
         }
 
+        /// <summary>
+        /// Сменить пароль пользователя.
+        /// </summary>
+        /// <param name="password">Dto с идентификатором пользователя и новым паролем для него.</param>
+        /// <returns>
+        /// Ok, если пароль был успешно изменён в репозитории;
+        /// NotFound, если пользователь с таким идентификатором не найден.
+        /// </returns>
         [HttpPost]
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(IdSrvUserPasswordDto password)
@@ -89,6 +149,14 @@
                 throw new UserRepositoryException();
         }
 
+        /// <summary>
+        /// Изменить статус блокировки пользователя.
+        /// </summary>
+        /// <param name="block">Dto с новым статусом блокироваки.</param>
+        /// <returns>
+        /// Ok, если статус блокироваки изменён в репозитории;
+        /// NotFound, если такого пользователя не найдено.
+        /// </returns>
         [HttpPost]
         [Route("ChangeBlocking")]
         public async Task<IHttpActionResult> ChangeBlocking(IdSrvUserBlockDto block)
@@ -105,6 +173,14 @@
                 throw new UserRepositoryException();
         }
 
+        /// <summary>
+        /// Удалить пользователя по идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор пользователя.</param>
+        /// <returns>
+        /// Ok, если пользователь успешно удалён из репозитория;
+        /// NotFound, если пользователь с таким идентификатором не найден.
+        /// </returns>
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(Guid id)
         {

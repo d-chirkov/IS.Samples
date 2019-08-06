@@ -2,20 +2,22 @@
 {
     using System.Web.Http;
 
+    /// <summary>
+    /// Конфигурация маршрутов WebApi.
+    /// </summary>
     public static class WebApiConfig
     {
+        /// <summary>
+        /// Регистрирует маршруты к контроллерам сервиса.
+        /// </summary>
+        /// <param name="config">Конфигурация HttpConfiguration.</param>
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-
-            // Web API routes
             config.MapHttpAttributeRoutes();
-
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
-                defaults: new { controller = "Values", id = RouteParameter.Optional }
-            );
+                defaults: new { controller = "Values", id = RouteParameter.Optional });
         }
     }
 }

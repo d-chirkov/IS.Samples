@@ -9,16 +9,33 @@
     using IdSrv.Account.WebApi.Infrastructure.Abstractions;
     using IdSrv.Account.WebApi.Infrastructure.Exceptions;
 
+    /// <summary>
+    /// Контроллер для управления клиентами identity server-а.
+    /// </summary>
     [RoutePrefix("Api/Client")]
     public class ClientController : ApiController
     {
-        private IClientRepository ClientRepository { get; set; }
-
+        /// <summary>
+        /// Создаёт экземпляр контроллера.
+        /// </summary>
+        /// <param name="clientRepository">Репозиторий клиентов.</param>
         public ClientController(IClientRepository clientRepository)
         {
             this.ClientRepository = clientRepository ?? throw new ArgumentNullException(nameof(clientRepository));
         }
 
+        /// <summary>
+        /// Получает или задает репозиторий клиентов.
+        /// </summary>
+        private IClientRepository ClientRepository { get; set; }
+
+        /// <summary>
+        /// Получить всех клиентов.
+        /// </summary>
+        /// <returns>
+        /// Ok со списком объектов <see cref="IdSrvClientDto"/>,
+        /// либо NotFound, если получить такой список из репозитория не удалось.
+        /// </returns>
         [HttpGet]
         [Route("GetAll")]
         public async Task<IHttpActionResult> GetAll()
@@ -27,6 +44,13 @@
             return clients != null ? this.Ok(clients) : this.NotFound() as IHttpActionResult;
         }
 
+        /// <summary>
+        /// Получить список всех uri клиентов.
+        /// </summary>
+        /// <returns>
+        /// Ok со списков объектов uri в виде строк,
+        /// либо NotFound, если получить такой список из репозитория не удалось.
+        /// </returns>
         [HttpGet]
         [Route("GetAllUris")]
         public async Task<IHttpActionResult> GetAllUris()
@@ -35,6 +59,14 @@
             return uris != null ? this.Ok(uris) : this.NotFound() as IHttpActionResult;
         }
 
+        /// <summary>
+        /// Получить клиента по идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор клиента.</param>
+        /// <returns>
+        /// Ok с dto типа <see cref="IdSrvClientDto"/>,
+        /// либо NotFound, если такой клиент не найден в репозитории.
+        /// </returns>
         [HttpGet]
         public async Task<IHttpActionResult> Get(Guid id)
         {
@@ -42,6 +74,14 @@
             return client != null ? this.Ok(client) : this.NotFound() as IHttpActionResult;
         }
 
+        /// <summary>
+        /// Получить клиента по его имени.
+        /// </summary>
+        /// <param name="name">Имя клиента.</param>
+        /// <returns>
+        /// Ok с dto типа <see cref="IdSrvClientDto"/>,
+        /// либо NotFound, если такой клиент не найден в репозитории.
+        /// </returns>
         [HttpGet]
         [Route("GetByName")]
         public async Task<IHttpActionResult> GetByName(string name)
@@ -55,6 +95,15 @@
             return client != null ? this.Ok(client) : this.NotFound() as IHttpActionResult;
         }
 
+        /// <summary>
+        /// Создать клиента в репозитории.
+        /// </summary>
+        /// <param name="client">Dto с данными для создания клиента.</param>
+        /// <returns>
+        /// Ok, если клиент успешно создан, Conflict в противном случае.
+        /// Если клиента не удалось создать, то это означает, что клиент с такими данными (именем)
+        /// уже существует в репозитории.
+        /// </returns>
         [HttpPut]
         public async Task<IHttpActionResult> Create(NewIdSrvClientDto client)
         {
@@ -70,6 +119,15 @@
                 throw new ClientRepositoryException();
         }
 
+        /// <summary>
+        /// Обновить информаци о клиенте.
+        /// </summary>
+        /// <param name="client">Dto с данными об обновлении</param>
+        /// <returns>
+        /// Ok, если данные успешно обновлены в репозитории;
+        /// NotFound, если обновлемый клиент не найден в репозитории;
+        /// Conflict, если новые данные конфликтуют с уже существующим клиентом (имя клиента).
+        /// </returns>
         [HttpPost]
         [Route("Update")]
         public async Task<IHttpActionResult> Update(UpdateIdSrvClientDto client)
@@ -87,6 +145,14 @@
                 throw new ClientRepositoryException();
         }
 
+        /// <summary>
+        /// Изменить статус блокировки клиента.
+        /// </summary>
+        /// <param name="block">Dto с новым статусом блокироваки.</param>
+        /// <returns>
+        /// Ok, если статус блокироваки изменён в репозитории;
+        /// NotFound, если такого клиента не найдено.
+        /// </returns>
         [HttpPost]
         [Route("ChangeBlocking")]
         public async Task<IHttpActionResult> ChangeBlocking(IdSrvClientBlockDto block)
@@ -103,6 +169,14 @@
                 throw new ClientRepositoryException();
         }
 
+        /// <summary>
+        /// Удалить клиента по идентификатору.
+        /// </summary>
+        /// <param name="id">Идентификатор клиента.</param>
+        /// <returns>
+        /// Ok, если клиент успешно удалён из репозитория;
+        /// NotFound, если клиент с таким идентификатором не найден.
+        /// </returns>
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(Guid id)
         {

@@ -1,26 +1,35 @@
 ﻿namespace IdSrv.Account.WebApi.Infrastructure
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
     using System.Data;
     using System.Data.SqlServerCe;
-    using System.Security.Cryptography;
     using System.Threading.Tasks;
     using IdSrv.Account.Models;
     using IdSrv.Account.WebApi.Infrastructure.Abstractions;
     using SqlKata.Compilers;
     using SqlKata.Execution;
 
+    /// <summary>
+    /// Реализация <see cref="IClientRepository"/> для работы с SqlCe.
+    /// </summary>
     public class SqlCeClientRepository : IClientRepository
     {
-        public SqlCeConnectionFactory DatabaseConnectionFactory { get; set; }
-
+        /// <summary>
+        /// Инициализирует репозиторий.
+        /// </summary>
+        /// <param name="connectionFactory">Фабрика подключний к базе данных SqlCe.</param>
         public SqlCeClientRepository(SqlCeConnectionFactory connectionFactory)
         {
             this.DatabaseConnectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
         }
 
+        /// <summary>
+        /// Получает или задает фабрику подключений к базе данных SqlCe.
+        /// </summary>
+        public SqlCeConnectionFactory DatabaseConnectionFactory { get; set; }
+
+        /// <inheritdoc/>
         public async Task<IEnumerable<IdSrvClientDto>> GetAllAsync()
         {
             using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
@@ -34,6 +43,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<string>> GetAllUrisAsync()
         {
             using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
@@ -48,6 +58,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public async Task<IdSrvClientDto> GetByIdAsync(Guid id)
         {
             using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
@@ -62,6 +73,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public async Task<IdSrvClientDto> GetByNameAsync(string clientName)
         {
             if (clientName == null)
@@ -81,6 +93,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public async Task<RepositoryResponse> DeleteAsync(Guid id)
         {
             using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
@@ -92,12 +105,14 @@
             }
         }
 
+        /// <inheritdoc/>
         public async Task<RepositoryResponse> CreateAsync(NewIdSrvClientDto client)
         {
             if (client == null || client.Name == null || client.Secret == null)
             {
                 throw new ArgumentNullException(nameof(client));
             }
+
             using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
             {
                 var compiler = new SqlServerCompiler();
@@ -114,12 +129,14 @@
             }
         }
 
+        /// <inheritdoc/>
         public async Task<RepositoryResponse> UpdateAsync(UpdateIdSrvClientDto client)
         {
             if (client == null || client.Name == null || client.Secret == null)
             {
                 throw new ArgumentNullException(nameof(client));
             }
+
             using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
             {
                 var compiler = new SqlServerCompiler();
@@ -136,12 +153,14 @@
             }
         }
 
+        /// <inheritdoc/>
         public async Task<RepositoryResponse> ChangeBlockingAsync(IdSrvClientBlockDto block)
         {
             if (block == null)
             {
                 throw new ArgumentNullException(nameof(block));
             }
+
             using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
             {
                 var compiler = new SqlServerCompiler();
