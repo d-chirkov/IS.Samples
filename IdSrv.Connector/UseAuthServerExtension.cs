@@ -14,20 +14,25 @@
     using Microsoft.Owin.Security.OpenIdConnect;
     using Owin;
 
+    /// <summary>
+    /// Набор exntension методов для <see cref="IAppBuilder"/>, позволяющих настривать клиента
+    /// в стиле fluent api.
+    /// </summary>
     public static class UseAuthServerExtension
     {
+        /// <summary>
+        /// Получает или задает для временную структуру конфигурации <see cref="AuthServerConfiguration"/> для каждого
+        /// экзмепляра <see cref="IAppBuilder"/>.
+        /// </summary>
         private static Dictionary<IAppBuilder, AuthServerConfiguration> Configurations { get; set; } =
             new Dictionary<IAppBuilder, AuthServerConfiguration>();
 
-        private static AuthServerConfiguration GetConfigurationFor(IAppBuilder app)
-        {
-            if (!Configurations.ContainsKey(app))
-            {
-                Configurations[app] = new AuthServerConfiguration();
-            }
-            return Configurations[app];
-        }
-
+        /// <summary>
+        /// Установить URI-адрес identity server.
+        /// </summary>
+        /// <param name="app">Сборщик приложения.</param>
+        /// <param name="address">URI-адрес identity server.</param>
+        /// <returns><paramref name="app"/>.</returns>
         public static IAppBuilder UseAuthServer(this IAppBuilder app, string address)
         {
             AuthServerConfiguration config = GetConfigurationFor(app);
@@ -35,6 +40,12 @@
             return TryConfigureAuthServer(app, config);
         }
 
+        /// <summary>
+        /// Установить идентификатор клиента identity server.
+        /// </summary>
+        /// <param name="app">Сборщик приложения.</param>
+        /// <param name="clientId">Идентификатор клиента identity server.</param>
+        /// <returns><paramref name="app"/>.</returns>
         public static IAppBuilder WithClientId(this IAppBuilder app, string clientId)
         {
             AuthServerConfiguration config = GetConfigurationFor(app);
@@ -42,6 +53,12 @@
             return TryConfigureAuthServer(app, config);
         }
 
+        /// <summary>
+        /// Установить секрет клиента identity server.
+        /// </summary>
+        /// <param name="app">Сборщик приложения.</param>
+        /// <param name="clientSecret">Секрет клиента identity server.</param>
+        /// <returns><paramref name="app"/>.</returns>
         public static IAppBuilder WithClientSecret(this IAppBuilder app, string clientSecret)
         {
             AuthServerConfiguration config = GetConfigurationFor(app);
@@ -49,6 +66,12 @@
             return TryConfigureAuthServer(app, config);
         }
 
+        /// <summary>
+        /// Установить собственный URL-адрес клиента identity server.
+        /// </summary>
+        /// <param name="app">Сборщик приложения.</param>
+        /// <param name="ownAddress">Собственный URL-адрес клиента identity server.</param>
+        /// <returns><paramref name="app"/>.</returns>
         public static IAppBuilder WithOwnAddress(this IAppBuilder app, string ownAddress)
         {
             AuthServerConfiguration config = GetConfigurationFor(app);
@@ -56,6 +79,11 @@
             return TryConfigureAuthServer(app, config);
         }
 
+        /// <summary>
+        /// Сконфигурировать в случае, когда клиент использует WebForms.
+        /// </summary>
+        /// <param name="app">Сборщик приложения.</param>
+        /// <returns><paramref name="app"/>.</returns>
         public static IAppBuilder WithWebForms(this IAppBuilder app)
         {
             AuthServerConfiguration config = GetConfigurationFor(app);
@@ -63,6 +91,29 @@
             return TryConfigureAuthServer(app, config);
         }
 
+        /// <summary>
+        /// Получить временную конфигурацию, заполняемую между вызовами методов fluent api для данного сборщика прилоежния.
+        /// </summary>
+        /// <param name="app">Сборщик приложения.</param>
+        /// <returns>Временная конфигурация клиента.</returns>
+        private static AuthServerConfiguration GetConfigurationFor(IAppBuilder app)
+        {
+            if (!Configurations.ContainsKey(app))
+            {
+                Configurations[app] = new AuthServerConfiguration();
+            }
+
+            return Configurations[app];
+        }
+
+        /// <summary>
+        /// Произвести попытку подключить клиента к identity server с текущей временной конфигурацией.
+        /// Ничего не делает, если конфигурация ещё не заполнена, то есть
+        /// <see cref="AuthServerConfiguration.IsComplete"/> возвращает false.
+        /// </summary>
+        /// <param name="app">Сборщик приложения.</param>
+        /// <param name="config">Временная конфиграция клиента для данного сборщика приложения.</param>
+        /// <returns><paramref name="app"/>.</returns>
         private static IAppBuilder TryConfigureAuthServer(IAppBuilder app, AuthServerConfiguration config)
         {
             if (!config.IsComplete)
@@ -72,15 +123,16 @@
 
             // Это нужно для защиты от CSRF-атак
             AntiForgeryConfig.UniqueClaimTypeIdentifier = "sub";
+
             // А это нужно, чтобы ключи Claims-ов пользователя имели адекыватные названия
             JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
 
             app
-                // Используем cookie аутентификацию
                 .UseCookieAuthentication(new CookieAuthenticationOptions
                 {
+                    // Используем cookie аутентификацию
                     AuthenticationType = "Cookies",
-                    ExpireTimeSpan = TimeSpan.FromMinutes(14)
+                    ExpireTimeSpan = TimeSpan.FromMinutes(14),
                 })
                 .UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
                 {
@@ -118,7 +170,7 @@
 
                             if (userName == null)
                             {
-                                //n.OwinContext.Authentication.SignOut();
+                                // n.OwinContext.Authentication.SignOut();
                                 return;
                             }
 
@@ -162,7 +214,7 @@
                             }
 
                             return Task.FromResult(0);
-                        }
+                        },
                     }
                 });
 
@@ -171,17 +223,17 @@
                 app.UseStageMarker(PipelineStage.Authenticate);
             }
 
-            // Api может пригодиться в будущем, на всякий случай оставил, чтобы не затерялось в истории комитов
+            /* Api может пригодиться в будущем, на всякий случай оставил, чтобы не затерялось в истории комитов
 
-            //app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
-            //{
-            //    Authority = "https://localhost:44363/identity",
-            //    RequiredScopes = new[] { "api1" },
-            //    DelayLoadMetadata = true,
+            app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
+            {
+                Authority = "https://localhost:44363/identity",
+                RequiredScopes = new[] { "api1" },
+                DelayLoadMetadata = true,
 
-            //    ClientId = "api1",
-            //    ClientSecret = "secret"
-            //});
+                ClientId = "api1",
+                ClientSecret = "secret"
+            });*/
 
             return app;
         }

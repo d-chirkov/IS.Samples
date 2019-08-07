@@ -15,8 +15,9 @@
     [TestFixture]
     internal class UserControllerTest
     {
-        private Mock<IUserRepository> UserRepository { get; set; }
         public RepositoryResponse UnexpectedRepositoryResponse { get; set; } = (RepositoryResponse)100;
+
+        private Mock<IUserRepository> UserRepository { get; set; }
 
         [SetUp]
         public void SetUp()
@@ -187,7 +188,7 @@
                 .Setup(v => v.CreateAsync(It.IsAny<NewIdSrvUserDto>()))
                 .ReturnsAsync(RepositoryResponse.Success);
             var controller = new UserController(this.UserRepository.Object);
-            var newUserDto = new NewIdSrvUserDto { UserName = "u"};
+            var newUserDto = new NewIdSrvUserDto { UserName = "u" };
             IHttpActionResult httpResult = await controller.Create(newUserDto);
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<OkResult>(httpResult);

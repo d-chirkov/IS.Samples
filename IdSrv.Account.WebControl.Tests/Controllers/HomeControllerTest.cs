@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using IdSrv.Account.WebControl;
-using IdSrv.Account.WebControl.Controllers;
-
-namespace IdSrv.Account.WebControl.Tests.Controllers
+﻿namespace IdSrv.Account.WebControl.Tests.Controllers
 {
+    using System.Web.Mvc;
+    using IdSrv.Account.WebControl.Controllers;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class HomeControllerTest
     {

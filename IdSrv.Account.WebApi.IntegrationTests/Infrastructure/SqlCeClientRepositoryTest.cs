@@ -19,33 +19,6 @@
 
         public SqlCeConnectionFactory ConnectionFactory { get; set; }
 
-        private async Task<Guid> InsertDefaultClient(int number, bool hasUri = true, bool isBlocked = false)
-        {
-            using (IDbConnection connection = await this.ConnectionFactory.GetConnectionAsync())
-            {
-                var compiler = new SqlServerCompiler();
-                var db = new QueryFactory(connection, compiler);
-                return await this.InsertClient(
-                    $"n{number}", 
-                    (hasUri ? $"u{number}" : null), 
-                    $"p{number}", 
-                    isBlocked, 
-                    db);
-            }
-        }
-
-        private async Task<Guid> InsertClient(string name, string uri, string secret, bool isBlocked, QueryFactory db)
-        {
-            await db.Query("Clients").InsertAsync(new
-            {
-                Name = name,
-                Uri = uri,
-                Secret = secret,
-                IsBlocked = isBlocked
-            });
-            return await db.Query("Clients").Select("Id").Where(new { Name = name }).FirstAsync<Guid>();
-        }
-
         [SetUp]
         public async Task SetUp()
         {
@@ -227,6 +200,7 @@
             {
                 notExistingId = Guid.NewGuid();
             }
+
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
             IdSrvClientDto client = await repository.GetByIdAsync(notExistingId);
             Assert.IsNull(client);
@@ -306,6 +280,7 @@
             {
                 notExistingId = Guid.NewGuid();
             }
+
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
             RepositoryResponse response = await repository.DeleteAsync(notExistingId);
             Assert.AreEqual(RepositoryResponse.NotFound, response);
@@ -323,6 +298,7 @@
             {
                 notExistingId = Guid.NewGuid();
             }
+
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
             RepositoryResponse response = await repository.DeleteAsync(ids[1]);
             Assert.AreEqual(RepositoryResponse.Success, response);
@@ -348,6 +324,7 @@
             {
                 notExistingId = Guid.NewGuid();
             }
+
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
             RepositoryResponse response = await repository.DeleteAsync(ids[0]);
             Assert.AreEqual(RepositoryResponse.Success, response);
@@ -373,6 +350,7 @@
             {
                 notExistingId = Guid.NewGuid();
             }
+
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
             RepositoryResponse response = await repository.DeleteAsync(ids[2]);
             Assert.AreEqual(RepositoryResponse.Success, response);
@@ -398,6 +376,7 @@
             {
                 notExistingId = Guid.NewGuid();
             }
+
             var repository = new SqlCeClientRepository(this.ConnectionFactory);
             RepositoryResponse response = await repository.DeleteAsync(ids[0]);
             Assert.AreEqual(RepositoryResponse.Success, response);
@@ -940,6 +919,31 @@
 
         #endregion
 
-        // TODO: add scenario tests
+        private async Task<Guid> InsertDefaultClient(int number, bool hasUri = true, bool isBlocked = false)
+        {
+            using (IDbConnection connection = await this.ConnectionFactory.GetConnectionAsync())
+            {
+                var compiler = new SqlServerCompiler();
+                var db = new QueryFactory(connection, compiler);
+                return await this.InsertClient(
+                    $"n{number}",
+                    hasUri ? $"u{number}" : null,
+                    $"p{number}",
+                    isBlocked,
+                    db);
+            }
+        }
+
+        private async Task<Guid> InsertClient(string name, string uri, string secret, bool isBlocked, QueryFactory db)
+        {
+            await db.Query("Clients").InsertAsync(new
+            {
+                Name = name,
+                Uri = uri,
+                Secret = secret,
+                IsBlocked = isBlocked
+            });
+            return await db.Query("Clients").Select("Id").Where(new { Name = name }).FirstAsync<Guid>();
+        }
     }
 }

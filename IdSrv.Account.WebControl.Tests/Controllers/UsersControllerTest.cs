@@ -48,8 +48,8 @@
             };
             await testWhenServiceReturns(new[]
             {
-                new IdSrvUserDto (),
-                new IdSrvUserDto ()
+                new IdSrvUserDto(),
+                new IdSrvUserDto()
             });
             await testWhenServiceReturns(new IdSrvUserDto[] { });
         }
@@ -96,6 +96,7 @@
             Assert.IsFalse(controller.ModelState.IsValid);
             Assert.AreEqual(controller.ViewData.Model, newUser);
         }
+
         [Test]
         public void UpdatePassword_ReturnSelf_With_ModelContainsPassedUserIdAndNullPassword_When_NoArgs()
         {
@@ -211,7 +212,7 @@
             this.UserServiceMock
                 .Setup(v => v.ChangeBlock(It.IsAny<IdSrvUserBlockDto>()))
                 .ReturnsAsync(true)
-                .Callback<IdSrvUserBlockDto>(r => block = r); ;
+                .Callback<IdSrvUserBlockDto>(r => block = r);
             var controller = new UsersController(this.UserServiceMock.Object);
             await controller.Block(userId);
             Assert.NotNull(block);
@@ -261,7 +262,7 @@
             this.UserServiceMock
                 .Setup(v => v.ChangeBlock(It.IsAny<IdSrvUserBlockDto>()))
                 .ReturnsAsync(true)
-                .Callback<IdSrvUserBlockDto>(r => block = r); ;
+                .Callback<IdSrvUserBlockDto>(r => block = r);
             var controller = new UsersController(this.UserServiceMock.Object);
             await controller.Unblock(userId);
             Assert.NotNull(block);
@@ -302,6 +303,7 @@
             await testWithServiceReturns(true);
             await testWithServiceReturns(false);
         }
+
         // TODO: обработка ошибок сервиса, если он вернёт null или кинет исключение
     }
 }

@@ -57,8 +57,7 @@
                     {
                         Assert.AreEqual(ConnectionState.Open, connection.State);
                     }
-                }
-            );
+                });
         }
     }
 }

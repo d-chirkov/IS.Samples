@@ -1,19 +1,22 @@
 ﻿namespace IdSrv.Account.WebControl
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Optimization;
     using System.Web.Routing;
     using Autofac;
-    using IdSrv.Account.WebControl.Infrastructure.Abstractions;
-    using IdSrv.Account.WebControl.Infrastructure;
     using Autofac.Integration.Mvc;
+    using IdSrv.Account.WebControl.Infrastructure;
+    using IdSrv.Account.WebControl.Infrastructure.Abstractions;
 
+    /// <summary>
+    /// Главный класс приложения, содержит точку входа сервиса.
+    /// </summary>
     public class MvcApplication : HttpApplication
     {
+        /// <summary>
+        /// Точка входа в приложение, вызывается сервером IIS при старте сервиса.
+        /// </summary>
         protected void Application_Start()
         {
             var builder = new ContainerBuilder();
@@ -28,7 +31,6 @@
 
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
-            // Set the dependency resolver to be Autofac.
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 

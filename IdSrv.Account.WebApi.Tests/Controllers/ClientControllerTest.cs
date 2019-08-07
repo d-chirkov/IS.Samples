@@ -15,8 +15,9 @@
     [TestFixture]
     internal class ClientControllerTest
     {
-        private Mock<IClientRepository> ClientRepository { get; set; }
         public RepositoryResponse UnexpectedRepositoryResponse { get; set; } = (RepositoryResponse)100;
+
+        private Mock<IClientRepository> ClientRepository { get; set; }
 
         [SetUp]
         public void SetUp()

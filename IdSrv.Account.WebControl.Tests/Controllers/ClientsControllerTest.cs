@@ -48,8 +48,8 @@
             };
             await testWhenServiceReturns(new[]
             {
-                new IdSrvClientDto (),
-                new IdSrvClientDto ()
+                new IdSrvClientDto(),
+                new IdSrvClientDto()
             });
             await testWhenServiceReturns(new IdSrvClientDto[] { });
         }
@@ -109,7 +109,7 @@
                 .Setup(v => v.CreateClientAsync(It.IsAny<NewIdSrvClientDto>()))
                 .Returns(Task.FromResult(false));
             var controller = new ClientsController(this.ClientServiceMock.Object);
-            controller.ModelState.AddModelError("", "");
+            controller.ModelState.AddModelError(string.Empty, string.Empty);
             ActionResult result = await controller.Create(newClient);
             Assert.IsInstanceOf<ViewResult>(result);
             var viewResult = result as ViewResult;
@@ -223,7 +223,7 @@
             var model = new UpdateIdSrvClientDto() { Id = Guid.NewGuid() };
             this.ClientServiceMock.Setup(v => v.UpdateClientAsync(It.IsAny<UpdateIdSrvClientDto>())).ReturnsAsync(true);
             var controller = new ClientsController(this.ClientServiceMock.Object);
-            controller.ModelState.AddModelError("", "");
+            controller.ModelState.AddModelError(string.Empty, string.Empty);
             ActionResult result = await controller.Update(model);
             Assert.IsInstanceOf<ViewResult>(result);
             var viewResult = result as ViewResult;
@@ -239,7 +239,7 @@
         [Test]
         public async Task Delete_CallServiceDeleteClient()
         {
-            var clientId = new Guid();
+            var clientId = Guid.NewGuid();
             this.ClientServiceMock.Setup(v => v.DeleteClientAsync(clientId)).ReturnsAsync(true);
             var controller = new ClientsController(this.ClientServiceMock.Object);
             await controller.Delete(clientId);
@@ -251,7 +251,7 @@
         {
             Func<bool, Task> testWithServiceReturns = async (bool what) =>
             {
-                var clientId = new Guid();
+                var clientId = Guid.NewGuid();
                 this.ClientServiceMock.Setup(v => v.DeleteClientAsync(clientId)).ReturnsAsync(what);
                 var controller = new ClientsController(this.ClientServiceMock.Object);
                 ActionResult result = await controller.Delete(clientId);
@@ -268,7 +268,7 @@
         {
             Func<bool, Task> testWithServiceReturns = async (bool status) =>
             {
-                var ClientId = new Guid();
+                var ClientId = Guid.NewGuid();
                 this.ClientServiceMock.Setup(v => v.DeleteClientAsync(ClientId)).ReturnsAsync(status);
                 var controller = new ClientsController(this.ClientServiceMock.Object);
                 await controller.Delete(ClientId);
@@ -283,16 +283,16 @@
         [Test]
         public async Task Block_CallServiceChangeBlock()
         {
-            var ClientId = new Guid();
+            var clientId = Guid.NewGuid();
             IdSrvClientBlockDto block = null;
             this.ClientServiceMock
                 .Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDto>()))
                 .ReturnsAsync(true)
-                .Callback<IdSrvClientBlockDto>(r => block = r); ;
+                .Callback<IdSrvClientBlockDto>(r => block = r);
             var controller = new ClientsController(this.ClientServiceMock.Object);
-            await controller.Block(ClientId);
+            await controller.Block(clientId);
             Assert.NotNull(block);
-            Assert.AreEqual(ClientId, block.Id);
+            Assert.AreEqual(clientId, block.Id);
             Assert.IsTrue(block.IsBlocked);
         }
 
@@ -301,10 +301,10 @@
         {
             Func<bool, Task> testWithServiceReturns = async (bool what) =>
             {
-                var ClientId = new Guid();
+                var clientId = Guid.NewGuid();
                 this.ClientServiceMock.Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDto>())).ReturnsAsync(what);
                 var controller = new ClientsController(this.ClientServiceMock.Object);
-                ActionResult result = await controller.Block(ClientId);
+                ActionResult result = await controller.Block(clientId);
                 Assert.IsInstanceOf<RedirectToRouteResult>(result);
                 var redirectResult = result as RedirectToRouteResult;
                 Assert.AreEqual(nameof(controller.Index), redirectResult.RouteValues["action"]);
@@ -318,10 +318,10 @@
         {
             Func<bool, Task> testWithServiceReturns = async (bool what) =>
             {
-                var ClientId = new Guid();
+                var clientId = Guid.NewGuid();
                 this.ClientServiceMock.Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDto>())).ReturnsAsync(what);
                 var controller = new ClientsController(this.ClientServiceMock.Object);
-                await controller.Block(ClientId);
+                await controller.Block(clientId);
                 Assert.IsTrue(controller.TempData.ContainsKey("_IsError"));
                 Assert.IsInstanceOf<bool?>(controller.TempData["_IsError"]);
                 Assert.AreEqual(!what, controller.TempData["_IsError"] as bool?);
@@ -333,16 +333,16 @@
         [Test]
         public async Task Unblock_CallServiceChangeBlock()
         {
-            var ClientId = new Guid();
+            var clientId = Guid.NewGuid();
             IdSrvClientBlockDto block = null;
             this.ClientServiceMock
                 .Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDto>()))
                 .ReturnsAsync(true)
-                .Callback<IdSrvClientBlockDto>(r => block = r); ;
+                .Callback<IdSrvClientBlockDto>(r => block = r);
             var controller = new ClientsController(this.ClientServiceMock.Object);
-            await controller.Unblock(ClientId);
+            await controller.Unblock(clientId);
             Assert.NotNull(block);
-            Assert.AreEqual(ClientId, block.Id);
+            Assert.AreEqual(clientId, block.Id);
             Assert.IsFalse(block.IsBlocked);
         }
 
@@ -351,10 +351,10 @@
         {
             Func<bool, Task> testWithServiceReturns = async (bool what) =>
             {
-                var ClientId = new Guid();
+                var clientId = Guid.NewGuid();
                 this.ClientServiceMock.Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDto>())).ReturnsAsync(what);
                 var controller = new ClientsController(this.ClientServiceMock.Object);
-                ActionResult result = await controller.Unblock(ClientId);
+                ActionResult result = await controller.Unblock(clientId);
                 Assert.IsInstanceOf<RedirectToRouteResult>(result);
                 var redirectResult = result as RedirectToRouteResult;
                 Assert.AreEqual(nameof(controller.Index), redirectResult.RouteValues["action"]);
@@ -368,10 +368,10 @@
         {
             Func<bool, Task> testWithServiceReturns = async (bool what) =>
             {
-                var ClientId = new Guid();
+                var clientId = Guid.NewGuid();
                 this.ClientServiceMock.Setup(v => v.ChangeBlock(It.IsAny<IdSrvClientBlockDto>())).ReturnsAsync(what);
                 var controller = new ClientsController(this.ClientServiceMock.Object);
-                await controller.Unblock(ClientId);
+                await controller.Unblock(clientId);
                 Assert.IsTrue(controller.TempData.ContainsKey("_IsError"));
                 Assert.IsInstanceOf<bool?>(controller.TempData["_IsError"]);
                 Assert.AreEqual(!what, controller.TempData["_IsError"] as bool?);
@@ -379,6 +379,7 @@
             await testWithServiceReturns(true);
             await testWithServiceReturns(false);
         }
+
         // TODO: обработка ошибок сервиса, если он вернёт null или кинет исключение
     }
 }

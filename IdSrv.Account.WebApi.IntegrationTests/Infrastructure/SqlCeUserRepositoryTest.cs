@@ -18,13 +18,6 @@
     {
         public string TestConnectionString { get; set; } = $"Data Source={TestHelper.GetPathToTestDb()}";
 
-        private string GetB64PasswordHash(string password, string salt)
-        {
-            SHA512 sha512 = new SHA512Managed();
-            byte[] rawPasswordHash = sha512.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password + salt));
-            return Convert.ToBase64String(rawPasswordHash);
-        }
-
         [SetUp]
         public async Task SetUp()
         {
@@ -208,6 +201,7 @@
                     UserName = "u3",
                 });
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             IEnumerable<IdSrvUserDto> users = await repository.GetAllAsync();
             Assert.IsNotNull(users);
@@ -256,6 +250,7 @@
                 });
                 searchingId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDto user = await repository.GetByIdAsync(searchingId);
             Assert.IsNotNull(user);
@@ -290,6 +285,7 @@
                 });
                 searchingId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDto user = await repository.GetByIdAsync(searchingId);
             Assert.IsNotNull(user);
@@ -314,11 +310,13 @@
                 });
                 existingId = await db.Query("Users").Select("Id").Where(new { UserName = "u1" }).FirstAsync<Guid>();
             }
+
             Guid searchingId;
             do
             {
                 searchingId = Guid.NewGuid();
-            } while (searchingId == existingId);
+            }
+            while (searchingId == existingId);
             var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDto user = await repository.GetByIdAsync(searchingId);
             Assert.IsNull(user);
@@ -353,6 +351,7 @@
                 });
                 searchingId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDto user = await repository.GetByUserNameAsync("u2");
             Assert.IsNotNull(user);
@@ -387,6 +386,7 @@
                 });
                 searchingId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDto user = await repository.GetByUserNameAsync("u2");
             Assert.IsNotNull(user);
@@ -409,6 +409,7 @@
                     PasswordSalt = "s1"
                 });
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDto user = await repository.GetByUserNameAsync("u2");
             Assert.IsNull(user);
@@ -470,6 +471,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDto user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDto { UserName = "u2", Password = "p2" });
             Assert.IsNotNull(user);
@@ -510,6 +512,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u3" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDto user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDto { UserName = "u3", Password = "p3" });
             Assert.IsNull(user);
@@ -540,6 +543,7 @@
                     UserName = "u3"
                 });
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDto user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDto { UserName = "u4", Password = "p4" });
             Assert.IsNull(user);
@@ -572,6 +576,7 @@
                     PasswordSalt = "s3"
                 });
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDto user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDto { UserName = "u2", Password = "p4" });
             Assert.IsNull(user);
@@ -602,6 +607,7 @@
                     PasswordSalt = "s3"
                 });
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             IdSrvUserDto user = await repository.GetByAuthInfoAsync(new IdSrvUserAuthDto { UserName = "u2", Password = "p4" });
             Assert.IsNull(user);
@@ -633,27 +639,28 @@
                 {
                     UserName = "u1",
                     PasswordHash = this.GetB64PasswordHash("p1", "s1"),
-                    PasswordSalt = "s1"
+                    PasswordSalt = "s1",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u2",
                     PasswordHash = this.GetB64PasswordHash("p2", "s2"),
-                    PasswordSalt = "s2"
+                    PasswordSalt = "s2",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u3",
                     PasswordHash = this.GetB64PasswordHash("p3", "s3"),
-                    PasswordSalt = "s3"
+                    PasswordSalt = "s3",
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangePasswordAsync(new IdSrvUserPasswordDto
             {
                 Id = userId,
-                Password = "p4"
+                Password = "p4",
             });
             Assert.AreEqual(RepositoryResponse.Success, response);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
@@ -683,26 +690,28 @@
                 {
                     UserName = "u1",
                     PasswordHash = this.GetB64PasswordHash("p1", "s1"),
-                    PasswordSalt = "s1"
+                    PasswordSalt = "s1",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
-                    UserName = "u2"
+                    UserName = "u2",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u3",
                     PasswordHash = this.GetB64PasswordHash("p3", "s3"),
-                    PasswordSalt = "s3"
+                    PasswordSalt = "s3",
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangePasswordAsync(new IdSrvUserPasswordDto
             {
                 Id = userId,
-                Password = "p4"
+                Password = "p4",
             });
+
             Assert.AreEqual(RepositoryResponse.NotFound, response);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
@@ -732,13 +741,13 @@
                 {
                     UserName = "u1",
                     PasswordHash = this.GetB64PasswordHash("p1", "s1"),
-                    PasswordSalt = "s1"
+                    PasswordSalt = "s1",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u2",
                     PasswordHash = this.GetB64PasswordHash("p2", "s2"),
-                    PasswordSalt = "s2"
+                    PasswordSalt = "s2",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
@@ -746,16 +755,18 @@
                 });
                 existingIds = (await db.Query("Users").Select("Id").GetAsync<Guid>()).ToList();
             }
+
             var notExistingId = Guid.NewGuid();
             while (existingIds.Contains(notExistingId))
             {
                 notExistingId = Guid.NewGuid();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangePasswordAsync(new IdSrvUserPasswordDto
             {
                 Id = notExistingId,
-                Password = "p4"
+                Password = "p4",
             });
             Assert.AreEqual(RepositoryResponse.NotFound, response);
         }
@@ -773,22 +784,23 @@
                 {
                     UserName = "u1",
                     PasswordHash = this.GetB64PasswordHash("p1", "s1"),
-                    PasswordSalt = "s1"
+                    PasswordSalt = "s1",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u2",
                     PasswordHash = this.GetB64PasswordHash("p2", "s2"),
-                    PasswordSalt = "s2"
+                    PasswordSalt = "s2",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u3",
                     PasswordHash = this.GetB64PasswordHash("p3", "s3"),
-                    PasswordSalt = "s3"
+                    PasswordSalt = "s3",
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.DeleteAsync(userId);
             Assert.AreEqual(RepositoryResponse.Success, response);
@@ -817,20 +829,21 @@
                 {
                     UserName = "u1",
                     PasswordHash = this.GetB64PasswordHash("p1", "s1"),
-                    PasswordSalt = "s1"
+                    PasswordSalt = "s1",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
-                    UserName = "u2"
+                    UserName = "u2",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u3",
                     PasswordHash = this.GetB64PasswordHash("p3", "s3"),
-                    PasswordSalt = "s3"
+                    PasswordSalt = "s3",
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.DeleteAsync(userId);
             Assert.AreEqual(RepositoryResponse.Success, response);
@@ -859,21 +872,23 @@
                 {
                     UserName = "u1",
                     PasswordHash = this.GetB64PasswordHash("p1", "s1"),
-                    PasswordSalt = "s1"
+                    PasswordSalt = "s1",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u2",
                     PasswordHash = this.GetB64PasswordHash("p2", "s2"),
-                    PasswordSalt = "s2"
+                    PasswordSalt = "s2",
                 });
                 existingIds = (await db.Query("Users").Select("Id").GetAsync<Guid>()).ToList();
             }
+
             var notExistingId = Guid.NewGuid();
             while (existingIds.Contains(notExistingId))
             {
                 notExistingId = Guid.NewGuid();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.DeleteAsync(notExistingId);
             Assert.AreEqual(RepositoryResponse.NotFound, response);
@@ -917,6 +932,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
@@ -966,6 +982,7 @@
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
@@ -1000,23 +1017,24 @@
                 {
                     UserName = "u1",
                     PasswordHash = this.GetB64PasswordHash("p1", "s1"),
-                    PasswordSalt = "s1"
+                    PasswordSalt = "s1",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u2",
                     PasswordHash = this.GetB64PasswordHash("p2", "s2"),
                     PasswordSalt = "s2",
-                    IsBlocked = true
+                    IsBlocked = true,
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u3",
                     PasswordHash = this.GetB64PasswordHash("p3", "s3"),
-                    PasswordSalt = "s3"
+                    PasswordSalt = "s3",
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
@@ -1051,26 +1069,27 @@
                 {
                     UserName = "u1",
                     PasswordHash = this.GetB64PasswordHash("p1", "s1"),
-                    PasswordSalt = "s1"
+                    PasswordSalt = "s1",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u2",
-                    IsBlocked = true
+                    IsBlocked = true,
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u3",
                     PasswordHash = this.GetB64PasswordHash("p3", "s3"),
-                    PasswordSalt = "s3"
+                    PasswordSalt = "s3",
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
                 Id = userId,
-                IsBlocked = false
+                IsBlocked = false,
             });
             Assert.AreEqual(RepositoryResponse.Success, response);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
@@ -1100,28 +1119,29 @@
                 {
                     UserName = "u1",
                     PasswordHash = this.GetB64PasswordHash("p1", "s1"),
-                    PasswordSalt = "s1"
+                    PasswordSalt = "s1",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u2",
                     PasswordHash = this.GetB64PasswordHash("p2", "s2"),
                     PasswordSalt = "s2",
-                    IsBlocked = true
+                    IsBlocked = true,
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u3",
                     PasswordHash = this.GetB64PasswordHash("p3", "s3"),
-                    PasswordSalt = "s3"
+                    PasswordSalt = "s3",
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
                 Id = userId,
-                IsBlocked = true
+                IsBlocked = true,
             });
             Assert.AreEqual(RepositoryResponse.Success, response);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
@@ -1151,26 +1171,27 @@
                 {
                     UserName = "u1",
                     PasswordHash = this.GetB64PasswordHash("p1", "s1"),
-                    PasswordSalt = "s1"
+                    PasswordSalt = "s1",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u2",
-                    IsBlocked = true
+                    IsBlocked = true,
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u3",
                     PasswordHash = this.GetB64PasswordHash("p3", "s3"),
-                    PasswordSalt = "s3"
+                    PasswordSalt = "s3",
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
                 Id = userId,
-                IsBlocked = true
+                IsBlocked = true,
             });
             Assert.AreEqual(RepositoryResponse.Success, response);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
@@ -1200,28 +1221,29 @@
                 {
                     UserName = "u1",
                     PasswordHash = this.GetB64PasswordHash("p1", "s1"),
-                    PasswordSalt = "s1"
+                    PasswordSalt = "s1",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u2",
                     PasswordHash = this.GetB64PasswordHash("p2", "s2"),
                     PasswordSalt = "s2",
-                    IsBlocked = false
+                    IsBlocked = false,
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u3",
                     PasswordHash = this.GetB64PasswordHash("p3", "s3"),
-                    PasswordSalt = "s3"
+                    PasswordSalt = "s3",
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
                 Id = userId,
-                IsBlocked = false
+                IsBlocked = false,
             });
             Assert.AreEqual(RepositoryResponse.Success, response);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
@@ -1251,26 +1273,27 @@
                 {
                     UserName = "u1",
                     PasswordHash = this.GetB64PasswordHash("p1", "s1"),
-                    PasswordSalt = "s1"
+                    PasswordSalt = "s1",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u2",
-                    IsBlocked = false
+                    IsBlocked = false,
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u3",
                     PasswordHash = this.GetB64PasswordHash("p3", "s3"),
-                    PasswordSalt = "s3"
+                    PasswordSalt = "s3",
                 });
                 userId = await db.Query("Users").Select("Id").Where(new { UserName = "u2" }).FirstAsync<Guid>();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
                 Id = userId,
-                IsBlocked = false
+                IsBlocked = false,
             });
             Assert.AreEqual(RepositoryResponse.Success, response);
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
@@ -1291,7 +1314,7 @@
         public async Task ChangeBlockingAsync_ReturnNotFound_When_PassingNotExistingUser()
         {
             var connectionFactory = new SqlCeConnectionFactory(this.TestConnectionString);
-            List<Guid> existingIds = new List<Guid>();
+            var existingIds = new List<Guid>();
             using (IDbConnection connection = await connectionFactory.GetConnectionAsync())
             {
                 var compiler = new SqlServerCompiler();
@@ -1300,25 +1323,27 @@
                 {
                     UserName = "u1",
                     PasswordHash = this.GetB64PasswordHash("p1", "s1"),
-                    PasswordSalt = "s1"
+                    PasswordSalt = "s1",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
-                    UserName = "u2"
+                    UserName = "u2",
                 });
                 await db.Query("Users").InsertAsync(new
                 {
                     UserName = "u3",
                     PasswordHash = this.GetB64PasswordHash("p3", "s3"),
-                    PasswordSalt = "s3"
+                    PasswordSalt = "s3",
                 });
                 existingIds = (await db.Query("Users").Select("Id").GetAsync<Guid>()).ToList();
             }
+
             var notExistingId = Guid.NewGuid();
             while (existingIds.Contains(notExistingId))
             {
                 notExistingId = Guid.NewGuid();
             }
+
             var repository = new SqlCeUserRepository(connectionFactory);
             RepositoryResponse response = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto
             {
@@ -1369,7 +1394,7 @@
             Assert.IsNotNull(user);
             Assert.AreEqual("u1", user.UserName);
             Assert.IsFalse(user.IsBlocked);
-            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto { Id = user.Id, IsBlocked = true});
+            result = await repository.ChangeBlockingAsync(new IdSrvUserBlockDto { Id = user.Id, IsBlocked = true });
             Assert.AreEqual(RepositoryResponse.Success, result);
             user = await repository.GetByIdAsync(user.Id);
             Assert.IsNotNull(user);
@@ -1493,8 +1518,13 @@
             Assert.IsFalse(user.IsBlocked);
         }
 
-        // TODO: add more scenarious
-
         #endregion
+
+        private string GetB64PasswordHash(string password, string salt)
+        {
+            SHA512 sha512 = new SHA512Managed();
+            byte[] rawPasswordHash = sha512.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password + salt));
+            return Convert.ToBase64String(rawPasswordHash);
+        }
     }
 }
