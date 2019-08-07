@@ -1,27 +1,28 @@
 ﻿namespace IdSrv.Server.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
     using IdentityServer3.Core;
     using IdentityServer3.Core.Extensions;
     using IdentityServer3.Core.Models;
     using IdentityServer3.Core.Services.Default;
     using IdSrv.Account.Models;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
-    using IdSrv.Server.Repositories.Abstractions;
     using IdSrv.Server.Loggers.Abstractions;
-    using System.Collections.Generic;
+    using IdSrv.Server.Repositories.Abstractions;
 
     internal class CustomUserService : UserServiceBase
     {
-        private IUserRepository UserRepository { get; set; }
-        private IAuthLogger Logger { get; set; }
-
         public CustomUserService(IUserRepository userRepository, IAuthLogger logger = null)
         {
             this.UserRepository = userRepository;
             this.Logger = logger;
         }
+
+        private IUserRepository UserRepository { get; set; }
+
+        private IAuthLogger Logger { get; set; }
 
         public override async Task AuthenticateLocalAsync(LocalAuthenticationContext context)
         {
@@ -32,9 +33,9 @@
                     new AuthenticateResult(errorMessage: $"User \"{user.UserName}\" is blocked") :
                     new AuthenticateResult(user.Id.ToString(), user.UserName);
                 await this.Logger?.UserSignedInAsync(
-                    userId: user.Id.ToString(), 
-                    userName: user.UserName, 
-                    clientId: context.SignInMessage.ClientId, 
+                    userId: user.Id.ToString(),
+                    userName: user.UserName,
+                    clientId: context.SignInMessage.ClientId,
                     isBlocked: user.IsBlocked);
             }
             else
@@ -62,7 +63,7 @@
                     context.IssuedClaims = new List<Claim>
                     {
                         new Claim(Constants.ClaimTypes.Subject, user.Id.ToString()),
-                        new Claim(Constants.ClaimTypes.Name, user.UserName.ToString())
+                        new Claim(Constants.ClaimTypes.Name, user.UserName.ToString()),
                     };
                 }
             }

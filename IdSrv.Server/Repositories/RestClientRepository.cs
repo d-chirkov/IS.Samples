@@ -10,8 +10,6 @@
 
     internal class RestClientRepository : IClientRepository
     {
-        private HttpClient HttpClient { get; set; }
-
         public RestClientRepository(string restServiceUri)
         {
             this.HttpClient = new HttpClient();
@@ -20,12 +18,15 @@
             this.HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
+        private HttpClient HttpClient { get; set; }
+
         public async Task<IdSrvClientDto> GetClientByIdAsync(string clientId)
         {
             if (!Guid.TryParse(clientId, out Guid result))
             {
                 return null;
             }
+
             HttpResponseMessage response = await this.HttpClient.GetAsync(clientId);
             return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvClientDto>() : null;
         }

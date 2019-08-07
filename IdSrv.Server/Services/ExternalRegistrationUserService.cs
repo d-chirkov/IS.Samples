@@ -14,14 +14,15 @@
 
     internal class ExternalRegistrationUserService : UserServiceBase
     {
-        public IUserRepository UserRepository { get; set; }
-        private IAuthLogger Logger { get; set; }
-
         public ExternalRegistrationUserService(IUserRepository userRepository, IAuthLogger logger = null)
         {
             this.UserRepository = userRepository;
             this.Logger = logger;
         }
+
+        public IUserRepository UserRepository { get; set; }
+
+        private IAuthLogger Logger { get; set; }
 
         public override async Task AuthenticateExternalAsync(ExternalAuthenticationContext context)
         {
@@ -33,15 +34,15 @@
                     clientId: context.SignInMessage.ClientId);
                 return;
             }
+
             IdSrvUserDto user = await this.UserRepository.GetUserByUserNameAsync(userName);
             if (user != null && !user.IsBlocked)
             {
-
                 context.AuthenticateResult = user.IsBlocked ?
                     new AuthenticateResult($"User is \"{userName}\" blocked") :
                     new AuthenticateResult(
-                        user.Id.ToString(), 
-                        userName, 
+                        user.Id.ToString(),
+                        userName,
                         identityProvider: context.ExternalIdentity.Provider);
 
                 await this.Logger?.UserSignedInAsync(
@@ -76,7 +77,7 @@
                     context.IssuedClaims = new List<Claim>
                     {
                         new Claim(Constants.ClaimTypes.Subject, user.Id.ToString()),
-                        new Claim(Constants.ClaimTypes.Name, user.UserName.ToString())
+                        new Claim(Constants.ClaimTypes.Name, user.UserName.ToString()),
                     };
                 }
             }

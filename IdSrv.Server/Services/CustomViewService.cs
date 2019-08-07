@@ -1,10 +1,10 @@
 ﻿namespace IdSrv.Server.Services
 {
+    using System.IO;
+    using System.Threading.Tasks;
     using IdentityServer3.Core.Models;
     using IdentityServer3.Core.Services.Default;
     using IdentityServer3.Core.ViewModels;
-    using System.IO;
-    using System.Threading.Tasks;
 
     internal class CustomViewService : DefaultViewService
     {

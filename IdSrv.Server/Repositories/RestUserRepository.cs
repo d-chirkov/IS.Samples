@@ -10,8 +10,6 @@
 
     internal class RestUserRepository : IUserRepository
     {
-        private HttpClient HttpClient { get; set; }
-
         public RestUserRepository(string restServiceUri)
         {
             this.HttpClient = new HttpClient();
@@ -19,6 +17,8 @@
             this.HttpClient.DefaultRequestHeaders.Accept.Clear();
             this.HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
+
+        private HttpClient HttpClient { get; set; }
 
         public async Task<IdSrvUserDto> GetUserByUserNameAndPasswordAsync(string userName, string password)
         {

@@ -9,7 +9,6 @@
 // В IIS Express это ставится через Property проекты (там уже стоит Enabled, но по-умолчанию оно выключено)
 // Для развёртывания на полноценном IIS - смотрим Web.config и комментарий в нём (строка 18)
 
-
 namespace IdSrv.Server.Services
 {
     using System.DirectoryServices.AccountManagement;
@@ -23,22 +22,23 @@ namespace IdSrv.Server.Services
 
     internal class CustomGrantValidator : ICustomGrantValidator
     {
-        public string GrantType => "winauth";
-
-        public IUserRepository UserRepository { get; set; }
-
-        public IClientRepository ClientRepository { get; set; }
-        private IAuthLogger Logger { get; set; }
-
         public CustomGrantValidator(
-            IUserRepository userRepository, 
-            IClientRepository clientRepository, 
+            IUserRepository userRepository,
+            IClientRepository clientRepository,
             IAuthLogger logger = null)
         {
             this.UserRepository = userRepository;
             this.ClientRepository = clientRepository;
             this.Logger = logger;
         }
+
+        public string GrantType => "winauth";
+
+        public IUserRepository UserRepository { get; set; }
+
+        public IClientRepository ClientRepository { get; set; }
+
+        private IAuthLogger Logger { get; set; }
 
         public async Task<CustomGrantValidationResult> ValidateAsync(ValidatedTokenRequest request)
         {
@@ -55,16 +55,16 @@ namespace IdSrv.Server.Services
             {
                 isCredentialValid = pc.ValidateCredentials(userName, password);
             }
+
             var authResult = new AuthenticateResult(
                 subject: user != null ? user.Id.ToString() : "-",
-                name: userName
-            );
+                name: userName);
             var grantResult = new CustomGrantValidationResult
             {
                 IsError = !isCredentialValid,
                 Error = authResult.ErrorMessage,
                 ErrorDescription = authResult.ErrorMessage,
-                Principal = authResult.User
+                Principal = authResult.User,
             };
             if (isCredentialValid)
             {

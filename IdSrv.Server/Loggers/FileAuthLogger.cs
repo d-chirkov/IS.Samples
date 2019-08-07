@@ -7,12 +7,12 @@
 
     public class FileAuthLogger : IAuthLogger
     {
-        private string PathToFile { get; set; }
-
         public FileAuthLogger(string pathToFile)
         {
             this.PathToFile = pathToFile ?? throw new ArgumentNullException(nameof(pathToFile));
         }
+
+        private string PathToFile { get; set; }
 
         public Task NotRegisteredUserTryToSignInAsync(string userName, string clientId, string clientName = null)
         {
@@ -27,7 +27,7 @@
         public Task ProfileDataAccessedAsync(string userId, string clientId, string userName = null, string clientName = null, bool isBlocked = false)
         {
             string output = $"{this.GetTimeString()} [INF] access to user data";
-            if (userId != null) output += $", user-id: {userId}" + (isBlocked ? " [BLOCKED]" : "");
+            if (userId != null) output += $", user-id: {userId}" + (isBlocked ? " [BLOCKED]" : string.Empty);
             if (userName != null) output += $", user-name: {userName}";
             if (clientId != null) output += $", client-id: {clientId}";
             if (clientName != null) output += $", client-name: {clientName}";
@@ -48,7 +48,7 @@
         public Task UserSignedInAsync(string userId, string clientId, string userName = null, string clientName = null, bool isBlocked = false)
         {
             string output = $"{this.GetTimeString()} [INF] successufuly signed in";
-            if (userId != null) output += $", user-id: {userId}" + (isBlocked ? " [BLOCKED]" : "");
+            if (userId != null) output += $", user-id: {userId}" + (isBlocked ? " [BLOCKED]" : string.Empty);
             if (userName != null) output += $", user-name: {userName}";
             if (clientId != null) output += $", client-id: {clientId}";
             if (clientName != null) output += $", client-name: {clientName}";

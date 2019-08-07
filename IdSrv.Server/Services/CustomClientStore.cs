@@ -1,21 +1,15 @@
 ﻿namespace IdSrv.Server.Services
 {
-    using IdentityServer3.Core.Models;
-    using IdentityServer3.Core.Services;
-    using IdSrv.Account.Models;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using IdentityServer3.Core.Models;
+    using IdentityServer3.Core.Services;
+    using IdSrv.Account.Models;
     using IdSrv.Server.Repositories.Abstractions;
 
     internal class CustomClientStore : IClientStore
     {
-        private bool IsWindowsAuth { get; set; }
-
-        private IClientRepository ClientRepository { get; set; }
-
-        private IEnumerable<Scope> Scopes { get; set; }
-
         public CustomClientStore(IClientRepository clientRepository, IEnumerable<Scope> scopes, bool isWindowsAuth = false)
         {
             this.IsWindowsAuth = isWindowsAuth;
@@ -23,10 +17,16 @@
             this.Scopes = scopes;
         }
 
+        private bool IsWindowsAuth { get; set; }
+
+        private IClientRepository ClientRepository { get; set; }
+
+        private IEnumerable<Scope> Scopes { get; set; }
+
         public async Task<Client> FindClientByIdAsync(string clientId)
         {
             IdSrvClientDto clientFromRepo = await this.ClientRepository.GetClientByIdAsync(clientId);
-            
+
             if (clientFromRepo == null)
             {
                 return null;
@@ -63,12 +63,12 @@
                 // профиль пользователя). Для текущих целей не нужно, поэтому пропускаем.
                 RequireConsent = false,
 
-                AllowedScopes = this.Scopes.Select(s => s.Name).ToList()
+                AllowedScopes = this.Scopes.Select(s => s.Name).ToList(),
 
                 // Scope-ы в данном примере не освещаются, по идее с помощью них  можно разделить 
                 // клиентов (сайты) на области и рудить ими по-отдельности, допускать пользователей
                 // в разные области. Для текущих целей пока не нужно.
-                //AllowAccessToAllScopes = true,
+                // AllowAccessToAllScopes = true,
             };
 
             // Если строка с uri пустая, значит это wpf-клиент (или нечто подобное, то есть не сайт)
@@ -77,15 +77,17 @@
             if (clientFromRepo.Uri != null)
             {
                 client.Flow = Flows.Hybrid;
+
                 // Адрес сайта, куда будет редиректить после входа (по идее должен совпадать с адресом
                 // самого сайта)
                 client.RedirectUris = new List<string> { clientFromRepo.Uri };
+
                 // Адрес, на который редиректит после выхода
                 client.PostLogoutRedirectUris = (await this.ClientRepository.GetAllUrisAsync()).ToList();
             }
-            // Если это wpf-клиент и при этом используется windows аутентификация, то необходимо изменить некоторые параметры
             else if (this.IsWindowsAuth)
             {
+                // Если это wpf-клиент и при этом используется windows аутентификация, то необходимо изменить некоторые параметры
                 client.Flow = Flows.Custom;
                 client.AllowedCustomGrantTypes = new List<string> { "winauth" };
             }
