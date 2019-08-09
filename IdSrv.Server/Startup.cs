@@ -24,8 +24,15 @@ namespace IdSrv.Server
     using Owin;
     using Serilog;
 
+    /// <summary>
+    /// Класс для настройки Owin.
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Сконфигурировать приложение Owin.
+        /// </summary>
+        /// <param name="app">Сборщик приложения.</param>
         public void Configuration(IAppBuilder app)
         {
             this.ConfigureIdentityServer(app);
@@ -37,6 +44,10 @@ namespace IdSrv.Server
                 .CreateLogger();
         }
 
+        /// <summary>
+        /// Сконфигурировать приложение Owin для работы с windows-аутентификацией через URI /was.
+        /// </summary>
+        /// <param name="app">Owin-приложение.</param>
         private static void ConfigureWindowsTokenProvider(IAppBuilder app)
         {
             app.UseWindowsAuthenticationService(new WindowsAuthenticationOptions
@@ -47,6 +58,11 @@ namespace IdSrv.Server
             });
         }
 
+        /// <summary>
+        /// Получить сертификат для identity server, путь к сертификату жёстко прописан внутри кода
+        /// метода (надо поменять, тестовая реализация).
+        /// </summary>
+        /// <returns>Считанный сертификат.</returns>
         private static X509Certificate2 LoadCertificate()
         {
             // Тестовый сертификат, взят с сайта identityserver3, можно ставить свой.
@@ -54,6 +70,10 @@ namespace IdSrv.Server
                 string.Format(@"{0}\bin\idsrv3test.pfx", AppDomain.CurrentDomain.BaseDirectory), "idsrv3test");
         }
 
+        /// <summary>
+        /// Настроить Owin-приложение как identity server для работы с обычными (не windows) пользователями.
+        /// </summary>
+        /// <param name="app">Owin-приложение.</param>
         private void ConfigureIdentityServer(IAppBuilder app)
         {
             // Настраиваем сервер аутентификации
@@ -141,6 +161,10 @@ namespace IdSrv.Server
             });*/
         }
 
+        /// <summary>
+        /// Настроить Owin-приложение как identity server для работы с windows пользователями.
+        /// </summary>
+        /// <param name="app">Owin-приложение.</param>
         private void ConfigureWindowsIdentityServer(IAppBuilder app)
         {
             app.Map("/windows", Startup.ConfigureWindowsTokenProvider);
@@ -223,6 +247,13 @@ namespace IdSrv.Server
             app.UseIdentityServer(options);
         }
 
+        /// <summary>
+        /// Сконфирировать провайдеры для windows-аутентификации (ws-federation).
+        /// Метод передаётся как callback в <see cref="IdentityServerOptions.AuthenticationOptions"/>, поле
+        /// IdentityProviders и вызывается самим identity server.
+        /// </summary>
+        /// <param name="app">Owin-приложение</param>
+        /// <param name="signInAsType">Используется внутри identity server</param>
         private void ConfigureIdentityProviders(IAppBuilder app, string signInAsType)
         {
             var options = new WsFederationAuthenticationOptions

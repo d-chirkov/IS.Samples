@@ -8,8 +8,30 @@
     using IdSrv.Account.Models;
     using IdSrv.Server.Repositories.Abstractions;
 
+    /// <summary>
+    /// Хранилище клиентов identity server. Класс необходим для расширения поведения identity server
+    /// для того, чтобы он получал клиентов из собственного репозитория клиентов.
+    /// Реализация <see cref="IClientStore"/> - интерфейса identity server для получения
+    /// информации о клиентах.
+    /// </summary>
     internal class CustomClientStore : IClientStore
     {
+        /// <summary>
+        /// Инициализирует хранилище клиентов.
+        /// </summary>
+        /// <param name="clientRepository">
+        /// Репозиторий клиентов (например, rest-клиент).
+        /// </param>
+        /// <param name="scopes">
+        /// Набор scope-ов, который назначается всем клиентам.
+        /// <see cref="Scope"/> - класс как часть api identity server, за информацией по ним
+        /// см. документацию.
+        /// </param>
+        /// <param name="isWindowsAuth">
+        /// Используется ли хранилище для работы с windows-клиентами (wpf, winforms).
+        /// Один объект хранилища может работать либо только с не windows-клиентам (то есть с сайтам),
+        /// либо только с windows-клинетами (то есть с приложениями).
+        /// </param>
         public CustomClientStore(IClientRepository clientRepository, IEnumerable<Scope> scopes, bool isWindowsAuth = false)
         {
             this.IsWindowsAuth = isWindowsAuth;
@@ -17,12 +39,27 @@
             this.Scopes = scopes;
         }
 
+        /// <summary>
+        /// Получает или задает значение, показывающее, работает ли хранилище с windows-клиентами.
+        /// Если выставлено в true, то хранилище может работать только с windows-клиентами.
+        /// Если выставлено в false, то хранилище может работать только с не windows-клиентами, 
+        /// то есть только с сайтами.
+        /// </summary>
         private bool IsWindowsAuth { get; set; }
 
+        /// <summary>
+        /// Получает или задает репозиторий клиентов, через который хранилище получает
+        /// информацию о клиентах.
+        /// </summary>
         private IClientRepository ClientRepository { get; set; }
 
+        /// <summary>
+        /// Получает или задает набор scope-ов - объектов типа <see cref="Scope"/>.
+        /// Данные scope-ы будут назначаться всем клиентам.
+        /// </summary>
         private IEnumerable<Scope> Scopes { get; set; }
 
+        /// <inheritdoc/>
         public async Task<Client> FindClientByIdAsync(string clientId)
         {
             IdSrvClientDto clientFromRepo = await this.ClientRepository.GetClientByIdAsync(clientId);
@@ -65,8 +102,8 @@
 
                 AllowedScopes = this.Scopes.Select(s => s.Name).ToList(),
 
-                // Scope-ы в данном примере не освещаются, по идее с помощью них  можно разделить 
-                // клиентов (сайты) на области и рудить ими по-отдельности, допускать пользователей
+                // Scope-ы в данном примере не освещаются, по идее с помощью них  можно разделить
+                // клиентов (сайты) на области и рулить ими по-отдельности, допускать пользователей
                 // в разные области. Для текущих целей пока не нужно.
                 // AllowAccessToAllScopes = true,
             };

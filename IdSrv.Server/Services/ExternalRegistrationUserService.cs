@@ -12,18 +12,37 @@
     using IdSrv.Server.Loggers.Abstractions;
     using IdSrv.Server.Repositories.Abstractions;
 
+    /// <summary>
+    /// Реализация <see cref="UserServiceBase"/> для windows-пользователей.
+    /// Данный класс не общается с контроллером домена, а просто работает с результатом
+    /// вызова <see cref="CustomGrantValidator"/>. Включает дополнительную логику для проверки,
+    /// что пользователь сущетсвует, не заблокирован и т.п.
+    /// Используется только сайтами, во время входа через прилоежния методы данного класса не выполняются.
+    /// </summary>
     internal class ExternalRegistrationUserService : UserServiceBase
     {
+        /// <summary>
+        /// Инициализировать сервис пользователей.
+        /// </summary>
+        /// <param name="userRepository">Репозиторий пользователей.</param>
+        /// <param name="logger">Логгер для логирования операций входа и выхода пользователей.</param>
         public ExternalRegistrationUserService(IUserRepository userRepository, IAuthLogger logger = null)
         {
             this.UserRepository = userRepository;
             this.Logger = logger;
         }
 
-        public IUserRepository UserRepository { get; set; }
+        /// <summary>
+        /// Получает или задает репозиторий пользователей.
+        /// </summary>
+        private IUserRepository UserRepository { get; set; }
 
+        /// <summary>
+        /// Получает или задает логгер для логирования операций входа и выхода пользователей.
+        /// </summary>
         private IAuthLogger Logger { get; set; }
 
+        /// <inheritdoc/>
         public override async Task AuthenticateExternalAsync(ExternalAuthenticationContext context)
         {
             string userName = context.ExternalIdentity.Claims.FirstOrDefault(x => x.Type == Constants.ClaimTypes.Name)?.Value;
@@ -60,6 +79,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public override async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             IdSrvUserDto user = await this.UserRepository.GetUserByIdAsync(context.Subject.GetSubjectId());
@@ -83,6 +103,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public override async Task SignOutAsync(SignOutContext context)
         {
             string userId = context.Subject?.Claims?.FirstOrDefault(c => c.Type == Constants.ClaimTypes.Subject)?.Value;
