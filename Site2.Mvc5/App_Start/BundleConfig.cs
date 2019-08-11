@@ -1,11 +1,18 @@
-﻿using System.Web;
-using System.Web.Optimization;
-
-namespace Site2.Mvc5
+﻿namespace Site2.Mvc5
 {
+    using System.Web.Optimization;
+
+    /// <summary>
+    /// Конфигурация для свертков (js, css). Стандартная реализация из шаблона.
+    /// </summary>
     public class BundleConfig
     {
-        // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
+        /// <summary>
+        /// Добавить новые свёртки в колекцию.
+        /// </summary>
+        /// <param name="bundles">
+        /// Коллекция свёртков, является выходным параметром.
+        /// </param>
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
