@@ -1,17 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
-namespace Site3.WebForms
+﻿namespace Site3.WebForms
 {
+    using System;
+    using System.Web;
+
+    /// <summary>
+    /// Страница выхода пользователя. Ничего не выводит, просто передаресует на identity server для выхода.
+    /// Сам identity server после этого переадресует на домашнюю страницу этого сайта.
+    /// </summary>
     public partial class Logout : System.Web.UI.Page
     {
+        /// <summary>
+        /// Обработчик события загрузки страницы.
+        /// </summary>
+        /// <param name="sender">Отправитель сообщения.</param>
+        /// <param name="e">Аргументы сообщения.</param>
+        /// <remarks>
+        /// Аргументу тут не нужны, по факту метод просто вызывает методы выхода Owin-контекста,
+        /// который переадресует на identity server.
+        /// </remarks>
         protected void Page_Load(object sender, EventArgs e)
         {
-            Request.GetOwinContext().Authentication.SignOut();
+            this.Request.GetOwinContext().Authentication.SignOut();
         }
     }
 }

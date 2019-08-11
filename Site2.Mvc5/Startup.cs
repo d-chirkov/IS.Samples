@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using IdSrv.AspNet.Helpers;
+﻿using IdSrv.AspNet.Helpers;
 using IdSrv.Connector;
 using Microsoft.Owin;
 using Owin;

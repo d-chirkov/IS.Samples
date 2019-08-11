@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WpfApp1
+﻿namespace WpfApp1
 {
-    static class CurrentUserProvider
+    /// <summary>
+    /// Место для хранения глобальных для всего приложения переменных.
+    /// </summary>
+    internal static class CurrentUserProvider
     {
+        /// <summary>
+        /// Получает или задает логин пользователя, вошедшего в приложение.
+        /// </summary>
         public static string UserName { get; set; } = null;
     }
 }
