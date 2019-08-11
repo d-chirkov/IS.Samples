@@ -1,24 +1,21 @@
-﻿// ВАЖНО: в зависимостях стоит версия IdentityModel 2.6.0 - далеко не самая свежая, но для .Net Framework 4.5.1 новее нет
-// (IdentityModel нужен для добавления секрета приложения-клиента)
-
+﻿using IdSrv.AspNet.Helpers;
+using IdSrv.Connector;
 using Microsoft.Owin;
 using Owin;
-using IdSrv.Connector;
-using IdSrv.AspNet.Helpers;
 
-// Конфигурация происходит в классе Startup, фактически добавляется middleware, так что добавляем ссылку на owin
 [assembly: OwinStartup(typeof(Site1.Mvc5.Startup))]
 
 namespace Site1.Mvc5
 {
-    public static class OidcClaimTypes
-    {
-        public const string Subject = "sub";
-        public const string Name = "name";
-    }
-
+    /// <summary>
+    /// Класс для настройки Owin.
+    /// </summary>
     public partial class Startup
     {
+        /// <summary>
+        /// Сконфигурировать приложение Owin.
+        /// </summary>
+        /// <param name="app">Сборщик приложения.</param>
         public void Configuration(IAppBuilder app)
         {
             string idsrvAddress = "https://localhost:44363/identity";
