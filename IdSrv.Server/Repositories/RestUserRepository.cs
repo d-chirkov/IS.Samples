@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using System.Web;
     using IdSrv.Account.Models;
+    using IdSrv.Account.WebApi.RestClient;
     using IdSrv.Server.Repositories.Abstractions;
 
     /// <summary>
@@ -14,29 +15,27 @@
     internal class RestUserRepository : IUserRepository
     {
         /// <summary>
-        /// Инициализирует объект. При этом создаётся и настривается объект <see cref="HttpClient"/>,
-        /// но подключение не устанавливается.
+        /// Инициализирует репозиторий для работы с пользователями в WebApi.
         /// </summary>
-        /// <param name="restServiceUri">URI-адрес WebApi.</param>
-        public RestUserRepository(string restServiceUri)
+        /// <param name="restClient">
+        /// Сгенерированный nswag-ом rest клиент.
+        /// </param>
+        public RestUserRepository(IUserRestClient restClient)
         {
-            this.HttpClient = new HttpClient();
-            this.HttpClient.BaseAddress = new Uri(restServiceUri);
-            this.HttpClient.DefaultRequestHeaders.Accept.Clear();
-            this.HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            this.RestClient = restClient;
         }
 
         /// <summary>
-        /// Получает или задает http-клиента.
+        /// Получает или задает rest-клиента для WebApi,
+        /// предоставляющего доступ к пользователям identity server.
         /// </summary>
-        private HttpClient HttpClient { get; set; }
+        private IUserRestClient RestClient { get; set; }
 
         /// <inheritdoc/>
         public async Task<IdSrvUserDto> GetUserByUserNameAndPasswordAsync(string userName, string password)
         {
             var authInfo = new IdSrvUserAuthDto { UserName = userName, Password = password };
-            HttpResponseMessage response = await this.HttpClient.PostAsJsonAsync("GetByAuthInfo", authInfo);
-            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvUserDto>() : null;
+            return await RestApiHelpers.CallValueApi(() => this.RestClient.GetByAuthInfoAsync(authInfo));
         }
 
         /// <inheritdoc/>
@@ -44,8 +43,7 @@
         {
             if (Guid.TryParse(id, out Guid result))
             {
-                HttpResponseMessage response = await this.HttpClient.GetAsync($"{result.ToString()}");
-                return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvUserDto>() : null;
+                return await RestApiHelpers.CallValueApi(() => this.RestClient.GetAsync(result));
             }
 
             return null;
@@ -54,8 +52,7 @@
         /// <inheritdoc/>
         public async Task<IdSrvUserDto> GetUserByUserNameAsync(string userName)
         {
-            HttpResponseMessage response = await this.HttpClient.GetAsync($"GetByUserName?userName={HttpUtility.UrlEncode(userName)}");
-            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvUserDto>() : null;
+            return await RestApiHelpers.CallValueApi(() => this.RestClient.GetByUserNameAsync(userName));
         }
     }
 }

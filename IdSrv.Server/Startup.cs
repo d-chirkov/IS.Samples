@@ -15,6 +15,7 @@ namespace IdSrv.Server
     using IdentityServer3.Core.Models;
     using IdentityServer3.Core.Services;
     using IdentityServer3.Core.Services.Default;
+    using IdSrv.Account.WebApi.RestClient;
     using IdSrv.Server.Loggers;
     using IdSrv.Server.Loggers.Abstractions;
     using IdSrv.Server.Repositories;
@@ -30,11 +31,17 @@ namespace IdSrv.Server
     public class Startup
     {
         /// <summary>
+        /// Получает или задает URL-адрес WebApi-сервиса для доступа к клиентам и пользователям identity server.
+        /// </summary>
+        public string WebApiURL { get; set; }
+
+        /// <summary>
         /// Сконфигурировать приложение Owin.
         /// </summary>
         /// <param name="app">Сборщик приложения.</param>
         public void Configuration(IAppBuilder app)
         {
+            this.WebApiURL = "https://localhost:44397";
             this.ConfigureIdentityServer(app);
             this.ConfigureWindowsIdentityServer(app);
 
@@ -95,11 +102,11 @@ namespace IdSrv.Server
 
                     var factory = new IdentityServerServiceFactory().UseInMemoryScopes(scopes);
 
-                    var clientRepository = new RestClientRepository("https://localhost:44397/Api/Client/");
+                    var clientRepository = new RestClientRepository(new ClientRestClient(this.WebApiURL));
                     var clientStore = new CustomClientStore(clientRepository, scopes);
                     factory.ClientStore = new Registration<IClientStore>(resolver => clientStore);
 
-                    var userRepository = new RestUserRepository("https://localhost:44397/Api/User/");
+                    var userRepository = new RestUserRepository(new UserRestClient(this.WebApiURL));
                     var logger = new FileAuthLogger($"{AppDomain.CurrentDomain.BaseDirectory}\\IdSrv.Server.identity.log");
                     var userService = new CustomUserService(userRepository, logger);
                     factory.UserService = new Registration<IUserService>(resolver => userService);
@@ -189,8 +196,8 @@ namespace IdSrv.Server
             var factory = new IdentityServerServiceFactory()
                 .UseInMemoryScopes(scopes);
 
-            var clientRepository = new RestClientRepository("https://localhost:44397/Api/Client/");
-            var userRepository = new RestUserRepository("https://localhost:44397/Api/User/");
+            var clientRepository = new RestClientRepository(new ClientRestClient(this.WebApiURL));
+            var userRepository = new RestUserRepository(new UserRestClient(this.WebApiURL));
             var clientStore = new CustomClientStore(clientRepository, scopes, isWindowsAuth: true);
             var logger = new FileAuthLogger($"{AppDomain.CurrentDomain.BaseDirectory}\\IdSrv.Server.winidentity.log");
             factory.Register(new Registration<IAuthLogger>(r => logger));

@@ -2,10 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Net.Http;
-    using System.Net.Http.Headers;
     using System.Threading.Tasks;
     using IdSrv.Account.Models;
+    using IdSrv.Account.WebApi.RestClient;
     using IdSrv.Server.Repositories.Abstractions;
 
     /// <summary>
@@ -14,40 +13,37 @@
     internal class RestClientRepository : IClientRepository
     {
         /// <summary>
-        /// Инициализирует объект. При этом создаётся и настривается объект <see cref="HttpClient"/>,
-        /// но подключение не устанавливается.
+        /// Инициализирует репозиторий для работы с клиентами в WebApi.
         /// </summary>
-        /// <param name="restServiceUri">URI-адрес WebApi.</param>
-        public RestClientRepository(string restServiceUri)
+        /// <param name="restClient">
+        /// Сгенерированный nswag-ом rest клиент.
+        /// </param>
+        public RestClientRepository(IClientRestClient restClient)
         {
-            this.HttpClient = new HttpClient();
-            this.HttpClient.BaseAddress = new Uri(restServiceUri);
-            this.HttpClient.DefaultRequestHeaders.Accept.Clear();
-            this.HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            this.RestClient = restClient;
         }
 
         /// <summary>
-        /// Получает или задает http-клиента.
+        /// Получает или задает rest-клиента для WebApi,
+        /// предоставляющего доступ к клиентам identity server.
         /// </summary>
-        private HttpClient HttpClient { get; set; }
+        private IClientRestClient RestClient { get; set; }
 
         /// <inheritdoc/>
         public async Task<IdSrvClientDto> GetClientByIdAsync(string clientId)
         {
-            if (!Guid.TryParse(clientId, out Guid result))
+            if (Guid.TryParse(clientId, out Guid result))
             {
-                return null;
+                return await RestApiHelpers.CallValueApi(() => this.RestClient.GetAsync(result));
             }
 
-            HttpResponseMessage response = await this.HttpClient.GetAsync(clientId);
-            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IdSrvClientDto>() : null;
+            return null;
         }
 
         /// <inheritdoc/>
         public async Task<IEnumerable<string>> GetAllUrisAsync()
         {
-            HttpResponseMessage response = await this.HttpClient.GetAsync("GetAllUris");
-            return response.IsSuccessStatusCode ? await response.Content.ReadAsAsync<IEnumerable<string>>() : null;
+            return await RestApiHelpers.CallValueApi(() => this.RestClient.GetAllUrisAsync());
         }
     }
 }
