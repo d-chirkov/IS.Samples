@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdSrv.Account.Models", "IdS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdSrv.Account.WebApi.Tests", "IdSrv.Account.WebApi.Tests\IdSrv.Account.WebApi.Tests.csproj", "{767E353D-17A9-4831-869F-23BAEFE43035}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdSrv.Account.WebApi.IntegrationTests", "IdSrv.Account.WebApi.IntegrationTests\IdSrv.Account.WebApi.IntegrationTests.csproj", "{7FCFBE65-56F5-4ACF-8DD8-7C56EC2D5BE9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdSrv.Account.WebApi.Integration.Tests", "IdSrv.Account.WebApi.Integration.Tests\IdSrv.Account.WebApi.Integration.Tests.csproj", "{7FCFBE65-56F5-4ACF-8DD8-7C56EC2D5BE9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdSrv.Server", "IdSrv.Server\IdSrv.Server.csproj", "{51202867-20BC-4148-AFF5-35D00DD8C54B}"
 EndProject

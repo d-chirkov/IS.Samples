@@ -145,16 +145,6 @@
         }
 
         [Test]
-        public async Task GetAll_ReturnNotFound_When_RepositoryReturnNull()
-        {
-            this.ClientRepository.Setup(v => v.GetAllAsync()).ReturnsAsync(null as IEnumerable<IdSrvClientDto>);
-            var controller = new ClientController(this.ClientRepository.Object);
-            IHttpActionResult httpResult = await controller.GetAll();
-            Assert.NotNull(httpResult);
-            Assert.IsInstanceOf<NotFoundResult>(httpResult);
-        }
-
-        [Test]
         public async Task GetAllUris_InvokeGetAllUrisFromClientRepository()
         {
             this.ClientRepository.Setup(v => v.GetAllUrisAsync()).ReturnsAsync(new List<string>());
@@ -185,16 +175,6 @@
             Assert.NotNull(httpResult);
             Assert.IsInstanceOf<OkNegotiatedContentResult<IEnumerable<string>>>(httpResult);
             Assert.AreEqual(uris, (httpResult as OkNegotiatedContentResult<IEnumerable<string>>).Content);
-        }
-
-        [Test]
-        public async Task GetAllUris_ReturnNotFound_When_RepositoryReturnNull()
-        {
-            this.ClientRepository.Setup(v => v.GetAllUrisAsync()).ReturnsAsync(null as IEnumerable<string>);
-            var controller = new ClientController(this.ClientRepository.Object);
-            IHttpActionResult httpResult = await controller.GetAllUris();
-            Assert.NotNull(httpResult);
-            Assert.IsInstanceOf<NotFoundResult>(httpResult);
         }
 
         [Test]

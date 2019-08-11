@@ -9,8 +9,8 @@
     <ProjectGuid>{7FCFBE65-56F5-4ACF-8DD8-7C56EC2D5BE9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IdSrv.Account.WebApi.IntegrationTests</RootNamespace>
-    <AssemblyName>IdSrv.Account.WebApi.IntegrationTests</AssemblyName>
+    <RootNamespace>IdSrv.Account.WebApi.Integration.Tests</RootNamespace>
+    <AssemblyName>IdSrv.Account.WebApi.Integration.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

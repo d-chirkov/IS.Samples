@@ -2,11 +2,11 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("IdSrv.Account.WebApi.IntegrationTests")]
+[assembly: AssemblyTitle("IdSrv.Account.WebApi.Integration.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("IdSrv.Account.WebApi.IntegrationTests")]
+[assembly: AssemblyProduct("IdSrv.Account.WebApi.Integration.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
