@@ -215,7 +215,7 @@
 
                             return Task.FromResult(0);
                         },
-                    }
+                    },
                 });
 
             if (config.UseWebForms)

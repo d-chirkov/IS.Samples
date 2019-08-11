@@ -248,6 +248,10 @@
       <Project>{a6eba51e-320b-4c2e-b7f0-a8b7a96f7b1c}</Project>
       <Name>IdSrv.Account.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IdSrv.Account.WebApi.RestClient\IdSrv.Account.WebApi.RestClient.csproj">
+      <Project>{ba9b285f-d72f-42f9-a61b-0c8ee40326ac}</Project>
+      <Name>IdSrv.Account.WebApi.RestClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IdSrv.AspNet.Helpers\IdSrv.AspNet.Helpers.csproj">
       <Project>{0f87ca34-0ada-45a7-b7b6-e0defe198f22}</Project>
       <Name>IdSrv.AspNet.Helpers</Name>

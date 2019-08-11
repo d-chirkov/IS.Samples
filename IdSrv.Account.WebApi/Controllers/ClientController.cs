@@ -2,12 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Net;
     using System.Threading.Tasks;
     using System.Web.Http;
     using IdSrv.Account.Models;
     using IdSrv.Account.WebApi.Infrastructure;
     using IdSrv.Account.WebApi.Infrastructure.Abstractions;
     using IdSrv.Account.WebApi.Infrastructure.Exceptions;
+    using Swashbuckle.Swagger.Annotations;
 
     /// <summary>
     /// Контроллер для управления клиентами identity server-а.
@@ -38,10 +40,10 @@
         /// </returns>
         [HttpGet]
         [Route("GetAll")]
+        [SwaggerResponse(HttpStatusCode.OK, Type = typeof(IEnumerable<IdSrvClientDto>))]
         public async Task<IHttpActionResult> GetAll()
         {
-            IEnumerable<IdSrvClientDto> clients = await this.ClientRepository.GetAllAsync();
-            return clients != null ? this.Ok(clients) : this.NotFound() as IHttpActionResult;
+            return this.Ok(await this.ClientRepository.GetAllAsync());
         }
 
         /// <summary>
@@ -53,10 +55,11 @@
         /// </returns>
         [HttpGet]
         [Route("GetAllUris")]
+        [SwaggerResponse(HttpStatusCode.OK, Type = typeof(IEnumerable<string>))]
+        [SwaggerResponse(HttpStatusCode.NotFound)]
         public async Task<IHttpActionResult> GetAllUris()
         {
-            IEnumerable<string> uris = await this.ClientRepository.GetAllUrisAsync();
-            return uris != null ? this.Ok(uris) : this.NotFound() as IHttpActionResult;
+            return this.Ok(await this.ClientRepository.GetAllUrisAsync());
         }
 
         /// <summary>
@@ -68,6 +71,8 @@
         /// либо NotFound, если такой клиент не найден в репозитории.
         /// </returns>
         [HttpGet]
+        [SwaggerResponse(HttpStatusCode.OK, Type = typeof(IdSrvClientDto))]
+        [SwaggerResponse(HttpStatusCode.NotFound)]
         public async Task<IHttpActionResult> Get(Guid id)
         {
             IdSrvClientDto client = await this.ClientRepository.GetByIdAsync(id);
@@ -84,6 +89,8 @@
         /// </returns>
         [HttpGet]
         [Route("GetByName")]
+        [SwaggerResponse(HttpStatusCode.OK, Type = typeof(IdSrvClientDto))]
+        [SwaggerResponse(HttpStatusCode.NotFound)]
         public async Task<IHttpActionResult> GetByName(string name)
         {
             if (name == null)
@@ -105,6 +112,8 @@
         /// уже существует в репозитории.
         /// </returns>
         [HttpPut]
+        [SwaggerResponse(HttpStatusCode.OK)]
+        [SwaggerResponse(HttpStatusCode.Conflict)]
         public async Task<IHttpActionResult> Create(NewIdSrvClientDto client)
         {
             if (client == null || client.Name == null || client.Secret == null)
@@ -130,6 +139,9 @@
         /// </returns>
         [HttpPost]
         [Route("Update")]
+        [SwaggerResponse(HttpStatusCode.OK)]
+        [SwaggerResponse(HttpStatusCode.NotFound)]
+        [SwaggerResponse(HttpStatusCode.Conflict)]
         public async Task<IHttpActionResult> Update(UpdateIdSrvClientDto client)
         {
             if (client == null || client.Name == null || client.Secret == null)
@@ -155,6 +167,8 @@
         /// </returns>
         [HttpPost]
         [Route("ChangeBlocking")]
+        [SwaggerResponse(HttpStatusCode.OK)]
+        [SwaggerResponse(HttpStatusCode.NotFound)]
         public async Task<IHttpActionResult> ChangeBlocking(IdSrvClientBlockDto block)
         {
             if (block == null)
@@ -178,6 +192,8 @@
         /// NotFound, если клиент с таким идентификатором не найден.
         /// </returns>
         [HttpDelete]
+        [SwaggerResponse(HttpStatusCode.OK)]
+        [SwaggerResponse(HttpStatusCode.NotFound)]
         public async Task<IHttpActionResult> Delete(Guid id)
         {
             RepositoryResponse response = await this.ClientRepository.DeleteAsync(id);

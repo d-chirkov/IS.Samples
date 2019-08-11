@@ -26,7 +26,7 @@ namespace Site1.Mvc5
                 .UseAuthServer(idsrvAddress)
                 .WithClientId("78f36f55-784d-4895-8913-f9a76b807a5c")
                 .WithClientSecret("123")
-                .WithOwnAddress("http://localhost:57161/");
+                .WithOwnAddress("https://localhost:44393/");
 
             IdSrvConnection.IdSrvAddress = idsrvAddress;
             IdSrvConnection.UseAutoLogoutWhenNoAccess = true;
