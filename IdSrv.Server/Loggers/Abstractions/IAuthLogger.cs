@@ -19,9 +19,8 @@
         /// <param name="clientId">Id клиента.</param>
         /// <param name="userName">Логин пользователя.</param>
         /// <param name="clientName">Имя клиента.</param>
-        /// <param name="isBlocked">Является ли пользователь заблокированным.</param>
         /// <returns>Метод является асинхронным, возвращается задача с внутренним типом void.</returns>
-        Task UserSignedInAsync(string userId, string clientId, string userName = null, string clientName = null, bool isBlocked = false);
+        Task UserSignedInAsync(string userId, string clientId, string userName = null, string clientName = null);
 
         /// <summary>
         /// Записать в лог, что пользователь вышёл с одного из сайтов
@@ -45,29 +44,18 @@
         /// <param name="clientId">Id клиента.</param>
         /// <param name="userName">Логин пользователя.</param>
         /// <param name="clientName">Имя клиента.</param>
-        /// <param name="isBlocked">Является ли пользователь заблокированным.</param>
+        /// <param name="isSuccess">Были ли данные успешно переданы запросившему клиенту.</param>
         /// <returns>Метод является асинхронным, возвращается задача с внутренним типом void.</returns>
-        Task ProfileDataAccessedAsync(string userId, string clientId, string userName = null, string clientName = null, bool isBlocked = false);
+        Task ProfileDataAccessedAsync(string userId, string clientId, string userName = null, string clientName = null, bool isSuccess = false);
 
         /// <summary>
         /// Была произведена неудачная попытка входа (неверный пароль пользователя).
         /// </summary>
         /// <param name="userName">Логин пользователя.</param>
         /// <param name="clientId">Id клиента.</param>
+        /// <param name="reason">Причина неуспешного входа.</param>
         /// <param name="clientName">Имя клиента.</param>
         /// <returns>Метод является асинхронным, возвращается задача с внутренним типом void.</returns>
-        Task UnsuccessfulSigningInAsync(string userName, string clientId, string clientName = null);
-
-        /// <summary>
-        /// Используется для windows-аутентификации, когда пользователи
-        /// могут существовать (как пользователи домена, например), но отсутствовать
-        /// в базе identity server. Логируется, что такой пользователь пытался безуспешно
-        /// войти.
-        /// </summary>
-        /// <param name="userName">Логин пользователя.</param>
-        /// <param name="clientId">Id клиента.</param>
-        /// <param name="clientName">Имя клиента.</param>
-        /// /// <returns>Метод является асинхронным, возвращается задача с внутренним типом void.</returns>
-        Task NotRegisteredUserTryToSignInAsync(string userName, string clientId, string clientName = null);
+        Task UnsuccessfulSigningInAsync(string userName, string clientId, string reason = null, string clientName = null);
     }
 }

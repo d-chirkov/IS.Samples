@@ -147,6 +147,8 @@
     <Compile Include="Services\CustomUserService.cs" />
     <Compile Include="Services\CustomClientStore.cs" />
     <Compile Include="Services\ExternalRegistrationUserService.cs" />
+    <Compile Include="Services\LoggedDecorators\LoggedGrantValidatorDecorator.cs" />
+    <Compile Include="Services\LoggedDecorators\LoggedUserServiceDecorator.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

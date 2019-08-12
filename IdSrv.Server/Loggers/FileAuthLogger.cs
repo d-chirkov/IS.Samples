@@ -34,9 +34,11 @@
         private string PathToFile { get; set; }
 
         /// <inheritdoc/>
-        public Task NotRegisteredUserTryToSignInAsync(string userName, string clientId, string clientName = null)
+        public Task ProfileDataAccessedAsync(string userId, string clientId, string userName = null, string clientName = null, bool isSuccess = false)
         {
-            string output = $"{this.GetTimeString()} [ERR] failed attempt to sign in, user not found";
+            string successMessage = isSuccess ? "successfully" : "failed";
+            string output = $"{this.GetTimeString()} [INF] {successMessage} access to user data";
+            if (userId != null) output += $", user-id: {userId}";
             if (userName != null) output += $", user-name: {userName}";
             if (clientId != null) output += $", client-id: {clientId}";
             if (clientName != null) output += $", client-name: {clientName}";
@@ -45,33 +47,22 @@
         }
 
         /// <inheritdoc/>
-        public Task ProfileDataAccessedAsync(string userId, string clientId, string userName = null, string clientName = null, bool isBlocked = false)
-        {
-            string output = $"{this.GetTimeString()} [INF] access to user data";
-            if (userId != null) output += $", user-id: {userId}" + (isBlocked ? " [BLOCKED]" : string.Empty);
-            if (userName != null) output += $", user-name: {userName}";
-            if (clientId != null) output += $", client-id: {clientId}";
-            if (clientName != null) output += $", client-name: {clientName}";
-            File.AppendAllText(this.PathToFile, output + "\r\n");
-            return Task.FromResult(0);
-        }
-
-        /// <inheritdoc/>
-        public Task UnsuccessfulSigningInAsync(string userName, string clientId, string clientName = null)
+        public Task UnsuccessfulSigningInAsync(string userName, string clientId, string reason = null, string clientName = null)
         {
             string output = $"{this.GetTimeString()} [ERR] failed attempt to sign in, invalid credentials";
             if (userName != null) output += $", user-name: {userName}";
             if (clientId != null) output += $", client-id: {clientId}";
             if (clientName != null) output += $", client-name: {clientName}";
+            if (reason != null) output += $", reason: {reason}";
             File.AppendAllText(this.PathToFile, output + "\r\n");
             return Task.FromResult(0);
         }
 
         /// <inheritdoc/>
-        public Task UserSignedInAsync(string userId, string clientId, string userName = null, string clientName = null, bool isBlocked = false)
+        public Task UserSignedInAsync(string userId, string clientId, string userName = null, string clientName = null)
         {
-            string output = $"{this.GetTimeString()} [INF] successufuly signed in";
-            if (userId != null) output += $", user-id: {userId}" + (isBlocked ? " [BLOCKED]" : string.Empty);
+            string output = $"{this.GetTimeString()} [INF] successfully signed in";
+            if (userId != null) output += $", user-id: {userId}";
             if (userName != null) output += $", user-name: {userName}";
             if (clientId != null) output += $", client-id: {clientId}";
             if (clientName != null) output += $", client-name: {clientName}";

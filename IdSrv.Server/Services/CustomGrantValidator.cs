@@ -19,7 +19,6 @@
     using IdentityServer3.Core.Services;
     using IdentityServer3.Core.Validation;
     using IdSrv.Account.Models;
-    using IdSrv.Server.Loggers.Abstractions;
     using IdSrv.Server.Repositories.Abstractions;
 
     /// <summary>
@@ -35,15 +34,12 @@
         /// </summary>
         /// <param name="userRepository">Репозиторий пользователей.</param>
         /// <param name="clientRepository">Репозиторий клиентов.</param>
-        /// <param name="logger">Логгер.</param>
         public CustomGrantValidator(
             IUserRepository userRepository,
-            IClientRepository clientRepository,
-            IAuthLogger logger = null)
+            IClientRepository clientRepository)
         {
             this.UserRepository = userRepository;
             this.ClientRepository = clientRepository;
-            this.Logger = logger;
         }
 
         /// <inheritdoc/>
@@ -52,18 +48,12 @@
         /// <summary>
         /// Получает или задает репозиторий пользователей.
         /// </summary>
-        public IUserRepository UserRepository { get; set; }
+        private IUserRepository UserRepository { get; set; }
 
         /// <summary>
         /// Получает или задает репозиторий клиентов.
         /// </summary>
-        public IClientRepository ClientRepository { get; set; }
-
-        /// <summary>
-        /// Получает или задает логгер, с помощью которого будут логироваться операции входа
-        /// windows-пользователей.
-        /// </summary>
-        private IAuthLogger Logger { get; set; }
+        private IClientRepository ClientRepository { get; set; }
 
         /// <inheritdoc/>
         public async Task<CustomGrantValidationResult> ValidateAsync(ValidatedTokenRequest request)
@@ -89,32 +79,9 @@
             {
                 IsError = !isCredentialValid,
                 Error = authResult.ErrorMessage,
-                ErrorDescription = authResult.ErrorMessage,
+                ErrorDescription = (user != null && user.IsBlocked) ? $"User \"{userName}\" is blocked" : authResult.ErrorMessage,
                 Principal = authResult.User,
             };
-            if (isCredentialValid)
-            {
-                await this.Logger?.UserSignedInAsync(
-                    userId: user?.Id.ToString(),
-                    userName: user?.UserName,
-                    clientId: request.Client?.ClientId,
-                    clientName: request.Client?.ClientName,
-                    isBlocked: user != null ? user.IsBlocked : false);
-            }
-            else if (user == null)
-            {
-                await this.Logger?.NotRegisteredUserTryToSignInAsync(
-                    userName: user?.UserName,
-                    clientId: request.Client?.ClientId,
-                    clientName: request.Client?.ClientName);
-            }
-            else
-            {
-                await this.Logger?.UnsuccessfulSigningInAsync(
-                    userName: userName,
-                    clientId: request.Client?.ClientId,
-                    clientName: request.Client?.ClientName);
-            }
 
             return grantResult;
         }

@@ -28,12 +28,12 @@
         /// <summary>
         /// Получает или задает фабрику подключений к базе данных SqlCe.
         /// </summary>
-        public SqlCeConnectionFactory DatabaseConnectionFactory { get; set; }
+        private SqlCeConnectionFactory DatabaseConnectionFactory { get; set; }
 
         /// <inheritdoc/>
         public async Task<IEnumerable<IdSrvUserDto>> GetAllAsync()
         {
-            using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
+            using (IDbConnection connection = await this.GetConnection())
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
@@ -47,7 +47,7 @@
         /// <inheritdoc/>
         public async Task<IdSrvUserDto> GetByIdAsync(Guid id)
         {
-            using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
+            using (IDbConnection connection = await this.GetConnection())
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
@@ -62,7 +62,7 @@
         /// <inheritdoc/>
         public async Task<IdSrvUserDto> GetByUserNameAsync(string userName)
         {
-            using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
+            using (IDbConnection connection = await this.GetConnection())
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
@@ -82,7 +82,7 @@
                 throw new ArgumentNullException(nameof(userAuth));
             }
 
-            using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
+            using (IDbConnection connection = await this.GetConnection())
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
@@ -116,7 +116,7 @@
                 throw new ArgumentNullException(nameof(password));
             }
 
-            using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
+            using (IDbConnection connection = await this.GetConnection())
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
@@ -142,7 +142,7 @@
                 throw new ArgumentNullException(nameof(block));
             }
 
-            using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
+            using (IDbConnection connection = await this.GetConnection())
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
@@ -162,7 +162,7 @@
                 throw new ArgumentNullException(nameof(user));
             }
 
-            using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
+            using (IDbConnection connection = await this.GetConnection())
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
@@ -188,7 +188,7 @@
         /// <inheritdoc/>
         public async Task<RepositoryResponse> DeleteAsync(Guid id)
         {
-            using (IDbConnection connection = await this.DatabaseConnectionFactory.GetConnectionAsync())
+            using (IDbConnection connection = await this.GetConnection())
             {
                 var compiler = new SqlServerCompiler();
                 var db = new QueryFactory(connection, compiler);
@@ -220,6 +220,15 @@
             SHA512 sha512 = new SHA512Managed();
             byte[] rawPasswordHash = sha512.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password + salt));
             return Convert.ToBase64String(rawPasswordHash);
+        }
+
+        /// <summary>
+        /// Получить новое подключение к БД с помощью фабрики <see cref="DatabaseConnectionFactory"/>.
+        /// </summary>
+        /// <returns>Активное подключение к базе данных.</returns>
+        private async Task<IDbConnection> GetConnection()
+        {
+            return await this.DatabaseConnectionFactory.GetConnectionAsync();
         }
     }
 }

@@ -21,6 +21,7 @@ namespace IdSrv.Server
     using IdSrv.Server.Repositories;
     using IdSrv.Server.Repositories.Abstractions;
     using IdSrv.Server.Services;
+    using IdSrv.Server.Services.LoggedDecorators;
     using Microsoft.Owin.Security.WsFederation;
     using Owin;
     using Serilog;
@@ -108,7 +109,7 @@ namespace IdSrv.Server
 
                     var userRepository = new RestUserRepository(new UserRestClient(this.WebApiURL));
                     var logger = new FileAuthLogger($"{AppDomain.CurrentDomain.BaseDirectory}\\IdSrv.Server.identity.log");
-                    var userService = new CustomUserService(userRepository, logger);
+                    var userService = new LoggedUserServiceDecorator(new CustomUserService(userRepository), logger);
                     factory.UserService = new Registration<IUserService>(resolver => userService);
 
                     // Устанавливаем наш CustomViewService, чтобы после выхода пользователя в сообщении не выводилось
@@ -203,11 +204,14 @@ namespace IdSrv.Server
             factory.Register(new Registration<IAuthLogger>(r => logger));
             factory.Register(new Registration<IUserRepository>(r => userRepository));
             factory.Register(new Registration<IClientRepository>(r => clientRepository));
-            factory.ClientStore = new Registration<IClientStore>(resolver => clientStore);
-            factory.UserService = new Registration<IUserService>(typeof(ExternalRegistrationUserService));
-            factory.CustomGrantValidators.Add(new Registration<ICustomGrantValidator, CustomGrantValidator>());
+            factory.ClientStore = new Registration<IClientStore>(r => clientStore);
+            factory.Register(new Registration<ExternalRegistrationUserService>());
+            factory.UserService = new Registration<IUserService>(r =>
+                new LoggedUserServiceDecorator(r.Resolve<ExternalRegistrationUserService>(), r.Resolve<IAuthLogger>()));
+            factory.Register(new Registration<CustomGrantValidator>());
+            factory.CustomGrantValidators.Add(new Registration<ICustomGrantValidator>(r =>
+                new LoggedGrantValidatorDecorator(r.Resolve<CustomGrantValidator>(), r.Resolve<IAuthLogger>())));
             factory.ViewService = new DefaultViewServiceRegistration<CustomViewService>();
-
             app.Map(
                 "/winidentity",
                 idsrvApp =>
